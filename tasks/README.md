@@ -1,5 +1,13 @@
 # anu3ev.com Project Tasks
 
+Project facts and accepted decisions live outside the backlog:
+
+- [Project documentation](../docs/README.md)
+- [Project brief](../docs/product/project-brief.md)
+- [Content inventory](../docs/product/content-inventory.md)
+- [Decision records](../docs/decisions/README.md)
+- Project workflow skill: anu3ev-project
+
 ## Project summary
 
 anu3ev.com is a bilingual personal website for an experienced Frontend / Product Engineer. Its primary purpose is to demonstrate engineering skills, product thinking, professional experience, and real project outcomes to recruiters and engineering leaders. Secondary purposes are building professional authority through writing and receiving qualified client enquiries.

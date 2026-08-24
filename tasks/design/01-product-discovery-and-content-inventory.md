@@ -1,7 +1,9 @@
 # DES-01: Complete Product Discovery and Content Inventory
 
-**Status:** Planned  
+**Status:** In Progress
 **Depends on:** None
+
+**Working documents:** [Project brief](../../docs/product/project-brief.md), [Content inventory](../../docs/product/content-inventory.md)
 
 ## Objective
 
@@ -23,4 +25,3 @@ Establish the factual product and content baseline before any visual work begins
 - At least one project has enough information to design a complete representative case study.
 - Missing content has an owner and a concrete collection action.
 - Existing URLs that may require preservation are recorded.
-
