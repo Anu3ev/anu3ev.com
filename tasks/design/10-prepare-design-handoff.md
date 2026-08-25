@@ -1,7 +1,9 @@
 # DES-10: Prepare the Design Handoff
 
-**Status:** Planned  
+**Status:** In progress
 **Depends on:** DES-09
+
+**Revision result:** [Implementation handoff](../../docs/design/handoff.md), [design tokens](../../docs/design/tokens.json), component contracts, bilingual routes, the asset inventory, and the completed local UX audit reflect the revision. Final copy and media approval plus Figma synchronization remain.
 
 ## Objective
 

@@ -1,7 +1,9 @@
 # DES-04: Define the Visual Direction and Design Tokens
 
-**Status:** Planned  
+**Status:** Completed locally; remaining Figma synchronization blocked by Starter quota
 **Depends on:** DES-03
+
+**Result:** [Design system](../../docs/design/design-system.md), [design tokens](../../docs/design/tokens.json), and [contrast audit](../../docs/design/accessibility-and-ux-audit.md)
 
 ## Objective
 
@@ -24,4 +26,3 @@ Create the editorial engineering visual identity and the semantic token foundati
 - Normal text reaches 4.5:1 contrast and large text or non-text controls reach 3:1.
 - Components can be built without hardcoded colour, spacing, radius, or shadow values.
 - The visual direction avoids glow-heavy, gradient-heavy, and generic AI-portfolio styling.
-

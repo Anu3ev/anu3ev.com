@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="How moving image data from base64 to Blob URLs, Web Workers, and managed caches improved a browser image editor's history and responsiveness." />
+    <title>Moving Image History from Base64 to Blob URLs | Alexander Anufriev</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="components.css" />
+  </head>
+  <body>
+    <input class="theme-toggle-input" type="checkbox" id="theme-toggle" />
+    <div class="site-shell">
+      <a class="skip-link" href="#main">Skip to content</a>
+      <header class="topbar">
+        <div class="container topbar__inner">
+          <a class="brand-mark" href="index.html" aria-label="Alexander Anufriev, home">anu3ev.com</a>
+          <nav class="desktop-nav" aria-label="Primary navigation">
+            <a class="nav-link" href="work.html">Work</a><a class="nav-link" href="writing.html" aria-current="page">Writing</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="contact.html">Contact</a>
+            <a class="language-link" href="ru-article.html" lang="ru" hreflang="ru">RU</a>
+            <label class="icon-control theme-icon" for="theme-toggle" aria-label="Switch colour theme" title="Switch colour theme"></label>
+          </nav>
+          <details class="mobile-menu">
+            <summary aria-label="Open navigation"></summary>
+            <nav class="mobile-menu__panel" aria-label="Mobile navigation">
+              <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="work.html">Work</a><a class="nav-link" href="writing.html">Writing</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="ru-article.html" lang="ru" hreflang="ru">Русская версия</a>
+              <label class="nav-link" for="theme-toggle">Switch colour theme</label>
+            </nav>
+          </details>
+        </div>
+      </header>
+
+      <main id="main">
+        <header class="page-intro article-intro">
+          <div class="container reading-width">
+            <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="writing.html">Writing</a><span>/</span><span aria-current="page">Base64 to Blob URLs</span></nav>
+            <p class="eyebrow">Browser editor performance</p>
+            <h1>Moving a browser editor’s image history from base64 to Blob URLs</h1>
+            <p class="lede">Large image strings made undo and redo heavier, slowed interaction, and mixed binary data with the editor’s domain state. The fix changed more than the image loader.</p>
+            <p class="meta muted">English and Russian · 5 min read</p>
+          </div>
+        </header>
+
+        <article class="section">
+          <div class="container prose article-prose">
+            <p>Image history looked straightforward when the editor was small. A canvas object could keep its source as base64, and a history snapshot could serialize the whole object. Restoring a previous state did not need another API request.</p>
+
+            <p>That representation became expensive as the editor started handling larger images, templates, copy and paste, AI-assisted image operations, and longer editing sessions. The history model was storing large strings again and again. Work that appeared to be ordinary state management also became image processing on the browser’s main thread.</p>
+
+            <h2>The problem was inside the state model</h2>
+            <p>The first temptation was to treat slow undo, export, or initial loading as separate performance problems. They had the same source: image bytes had become part of the object model.</p>
+
+            <p>That affected several paths at once:</p>
+            <ul>
+              <li>history snapshots contained large image strings;</li>
+              <li>restoring an object could repeat conversion and loading work;</li>
+              <li>export competed with editing on the main thread;</li>
+              <li>templates and local browser storage reached practical limits;</li>
+              <li>cleanup was unclear because image data and editor state had the same lifetime.</li>
+            </ul>
+
+            <p>A loading indicator could hide some waiting. It could not make the representation cheaper.</p>
+
+            <div class="performance-diagram" role="group" aria-label="Change in image history representation">
+              <div><span class="meta">OLD MODEL</span><strong>Image bytes live inside serialized objects</strong><small>History copies the same large representation across snapshots</small></div>
+              <div><span class="meta">NEW MODEL</span><strong>Objects reference managed browser resources</strong><small>History keeps state while Blob URLs and caches handle image data</small></div>
+            </div>
+
+            <h2>Moving image data outside serialized history</h2>
+            <p>Blob URLs gave the canvas a browser-readable image source without putting the full encoded image into every serialized object. History could keep the information required to restore the object while the actual image resource lived in a cache with its own lifecycle.</p>
+
+            <p>This separation also made ownership clearer. Canvas state described the image object. The resource layer loaded and cached image data. Product integration could still attach its CDN URL and domain data without teaching every history path how to upload or fetch files.</p>
+
+            <p>Undo and redo could reuse a cached Blob URL instead of repeating a network or storage request. Initial images were preloaded before they were needed by the editor. The same idea helped template application and state restoration because those paths no longer rebuilt image resources independently.</p>
+
+            <h2>Heavy work moved away from the visible canvas</h2>
+            <p>Changing the stored source was only part of the fix. Raster conversion and large export operations still had enough work to interrupt interaction.</p>
+
+            <p>Web Workers handled suitable background processing. Export used a background canvas clone, so preparing the file did not need to mutate the canvas the user was editing. This mattered for more than responsiveness. Export should not change selection, viewport position, object state, or the next history entry.</p>
+
+            <div class="callout">
+              <p class="kicker">Boundary</p>
+              <p><strong>The confirmed result is qualitative.</strong> The changes kept heavy work off the main thread and improved responsiveness, but I do not have a measured percentage that would support a more precise claim.</p>
+            </div>
+
+            <h2>Object URLs need an explicit lifetime</h2>
+            <p>Blob URLs are not free storage. The browser keeps the underlying resource available until the URL is revoked or the document is unloaded. Revoking too late leaks memory. Revoking too early breaks an object that is still reachable through history, a template, or a pending operation.</p>
+
+            <p>The editor therefore needed clear cleanup points. Replaced resources could be released after no live or historical state referenced them. Destroying an editor instance released its managed Object URLs and listeners. Caches also needed to distinguish a reusable resource from stale data left by a closed editor.</p>
+
+            <p>This was especially important in an administration product where an editor could open in a modal, close, and open again without a full page reload.</p>
+
+            <h2>Storage and mobile browsers exposed the same issue</h2>
+            <p>Large custom templates had previously been kept in localStorage. That approach stopped being reliable as template data grew. In another part of the product, repeated IndexedDB and storage calls made mobile Safari initialization extremely slow for AJAX product flows.</p>
+
+            <p>Those cases reinforced the same boundary: browser storage is useful, but it should not quietly become the runtime model for every image and every state transition. Batch initialization, preloading, and narrower persisted data reduced repeated work without pretending that storage access was free.</p>
+
+            <h2>What needed to be tested</h2>
+            <p>The change crossed import, history, restore, export, template, and destruction paths. A successful image import did not prove the full contract.</p>
+
+            <p>The relevant tests covered questions such as:</p>
+            <ul>
+              <li>Does undo restore the same image without another unnecessary load?</li>
+              <li>Does copying or applying a template preserve domain data and image state?</li>
+              <li>Does export leave the visible editor unchanged?</li>
+              <li>Are cached resources available for the whole history lifetime?</li>
+              <li>Does destroying the editor release resources that are no longer reachable?</li>
+              <li>Do Safari fallbacks preserve the same user-visible result?</li>
+            </ul>
+
+            <p>Jest covered focused state behaviour, while Playwright exercised the browser interactions and lifecycle paths that depended on real canvas and browser APIs.</p>
+
+            <h2>The trade-off</h2>
+            <p>Base64 was easy because the data travelled with the object. Blob URLs required a resource registry, caching rules, cleanup, and a clear distinction between persisted data and runtime resources.</p>
+
+            <p>That extra structure was justified once images were large enough and history was important enough. The editor stopped treating binary data as ordinary application state, and the responsibilities became easier to reason about across import, restore, export, and destruction.</p>
+
+            <p>The implementation details are available in the public editor repository, while the wider production context is described in the case study.</p>
+
+            <div class="actions">
+              <a class="button button--primary" href="case-study.html">Read the editor case</a>
+              <a class="button button--secondary" href="https://github.com/Anu3ev/image-editor">View the repository</a>
+            </div>
+          </div>
+        </article>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer__grid">
+          <div><a class="brand-mark" href="index.html">anu3ev.com</a><p class="muted">Product frontend engineering for complex browser interfaces.</p></div>
+          <nav class="footer__links" aria-label="Footer navigation"><a href="work.html">Work</a><a href="writing.html">Writing</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></nav>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

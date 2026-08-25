@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Technical writing by Alexander Anufriev about browser editors, frontend performance, and product engineering." />
+    <title>Writing | Alexander Anufriev</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="components.css" />
+  </head>
+  <body>
+    <input class="theme-toggle-input" type="checkbox" id="theme-toggle" />
+    <div class="site-shell">
+      <a class="skip-link" href="#main">Skip to content</a>
+      <header class="topbar">
+        <div class="container topbar__inner">
+          <a class="brand-mark" href="index.html" aria-label="Alexander Anufriev, home">anu3ev.com</a>
+          <nav class="desktop-nav" aria-label="Primary navigation">
+            <a class="nav-link" href="work.html">Work</a><a class="nav-link" href="writing.html" aria-current="page">Writing</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="contact.html">Contact</a>
+            <a class="language-link" href="ru-writing.html" lang="ru" hreflang="ru">RU</a>
+            <label class="icon-control theme-icon" for="theme-toggle" aria-label="Switch colour theme" title="Switch colour theme"></label>
+          </nav>
+          <details class="mobile-menu">
+            <summary aria-label="Open navigation"></summary>
+            <nav class="mobile-menu__panel" aria-label="Mobile navigation">
+              <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="work.html">Work</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="ru-writing.html" lang="ru" hreflang="ru">Русская версия</a><label class="nav-link" for="theme-toggle">Switch colour theme</label>
+            </nav>
+          </details>
+        </div>
+      </header>
+
+      <main id="main">
+        <header class="page-intro">
+          <div class="container intro-grid">
+            <div><nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span aria-current="page">Writing</span></nav><p class="eyebrow">Writing</p><h1>Technical notes from product work</h1></div>
+            <p class="lede">I publish a note when there is a concrete problem, decision, and trade-off worth explaining. The first article comes from performance work on the browser image editor.</p>
+          </div>
+        </header>
+
+        <section class="section" aria-labelledby="articles-title">
+          <div class="container">
+            <h2 class="visually-hidden" id="articles-title">Articles</h2>
+            <a class="article-feature article-feature--link" href="article.html">
+              <div>
+                <span class="meta">BROWSER EDITOR PERFORMANCE · 5 MIN READ</span>
+                <h2>Moving a browser editor’s image history from base64 to Blob URLs</h2>
+                <p class="lede">Why storing image strings in canvas objects made history expensive, and how Blob URLs, Web Workers, caching, and cleanup changed the model.</p>
+                <span class="text-link">Read the article →</span>
+              </div>
+              <div class="performance-diagram" role="group" aria-label="Base64 to Blob URL architecture change">
+                <div><span class="meta">BEFORE</span><strong>base64 in serialized state</strong><small>Heavy history snapshots</small></div>
+                <div><span class="meta">AFTER</span><strong>managed Blob URLs</strong><small>Resources outside object state</small></div>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="container related-row">
+            <div><p class="eyebrow">Related work</p><h2>See the editor in its product context</h2><p class="muted">The case study covers architecture, interaction, testing, and production use.</p></div>
+            <a class="button button--secondary" href="case-study.html">Read the case study</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer__grid">
+          <div><a class="brand-mark" href="index.html">anu3ev.com</a><p class="muted">Product frontend engineering for complex browser interfaces.</p></div>
+          <nav class="footer__links" aria-label="Footer navigation"><a href="work.html">Work</a><a href="writing.html">Writing</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></nav>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

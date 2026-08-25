@@ -15,6 +15,11 @@ This directory contains durable project knowledge. It is separate from the task 
 - [Decision index](decisions/README.md) lists durable product, content, design, and technical decisions.
 - Each accepted decision has one numbered Markdown file named NNNN-clear-kebab-case-name.md.
 
+### Design
+
+- [Design package](design/README.md) links the responsive prototype, design system, tokens, accessibility audit, and implementation handoff.
+- [Figma state ledger](design/figma-state.json) records the resumable file IDs and the current Starter-plan synchronization boundary.
+
 ### Work backlog
 
 - [Task index](../tasks/README.md) contains executable work with dependencies and acceptance criteria.

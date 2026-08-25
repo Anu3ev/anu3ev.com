@@ -1,7 +1,9 @@
 # DES-02: Define Information Architecture and User Journeys
 
-**Status:** Planned  
+**Status:** Completed
 **Depends on:** DES-01
+
+**Result:** [Information architecture and user journeys](../../docs/design/information-architecture.md)
 
 ## Objective
 
@@ -23,4 +25,3 @@ Define a clear bilingual site structure and the paths that lead each audience to
 - English and Russian routes have one-to-one equivalents.
 - No page exists only because it is common on portfolio websites.
 - Navigation labels describe user-facing destinations rather than implementation details.
-

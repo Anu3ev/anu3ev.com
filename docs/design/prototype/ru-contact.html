@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Связаться с Александром Ануфриевым по поводу frontend-позиции или инженерной задачи." />
+    <title>Связаться | Александр Ануфриев</title>
+    <link rel="stylesheet" href="styles.css" /><link rel="stylesheet" href="components.css" />
+  </head>
+  <body>
+    <input class="theme-toggle-input" type="checkbox" id="theme-toggle" />
+    <div class="site-shell">
+      <a class="skip-link" href="#main">Перейти к содержимому</a>
+      <header class="topbar"><div class="container topbar__inner">
+        <a class="brand-mark" href="ru.html" aria-label="Александр Ануфриев, главная">anu3ev.com</a>
+        <nav class="desktop-nav" aria-label="Основная навигация"><a class="nav-link" href="ru-work.html">Проекты</a><a class="nav-link" href="ru-writing.html">Статьи</a><a class="nav-link" href="ru-about.html">Обо мне</a><a class="nav-link" href="ru-contact.html" aria-current="page">Связаться</a><a class="language-link" href="contact.html" lang="en" hreflang="en">EN</a><label class="icon-control theme-icon" for="theme-toggle" aria-label="Переключить цветовую тему" title="Переключить цветовую тему"></label></nav>
+        <details class="mobile-menu"><summary aria-label="Открыть навигацию"></summary><nav class="mobile-menu__panel" aria-label="Мобильная навигация"><a class="nav-link" href="ru.html">Главная</a><a class="nav-link" href="ru-work.html">Проекты</a><a class="nav-link" href="ru-writing.html">Статьи</a><a class="nav-link" href="ru-about.html">Обо мне</a><a class="nav-link" href="contact.html" lang="en" hreflang="en">English version</a><label class="nav-link" for="theme-toggle">Переключить тему</label></nav></details>
+      </div></header>
+      <main id="main">
+        <header class="page-intro"><div class="container reading-width"><nav class="breadcrumb" aria-label="Хлебные крошки"><a href="ru.html">Главная</a><span>/</span><span aria-current="page">Связаться</span></nav><p class="eyebrow">Связаться</p><h1>Начнём с причины обращения.</h1><p class="lede">Сейчас мой основной приоритет — продуктовые frontend-позиции. Также готов обсудить конкретную задачу, связанную с редактором или e-commerce.</p></div></header>
+        <section class="section section--compact"><div class="container contact-grid">
+          <aside><p class="eyebrow">Написать напрямую</p><h2>Выберите удобный способ связи</h2><div class="contact-links"><a href="mailto:alexander.s.anufriev@gmail.com"><span>Email</span><strong>alexander.s.anufriev@gmail.com</strong></a><a href="https://www.linkedin.com/in/alexander-s-anufriev/"><span>LinkedIn</span><strong>Alexander Anufriev</strong></a><a href="https://t.me/anu3ev"><span>Telegram</span><strong>@anu3ev</strong></a></div></aside>
+          <div class="tile tile--elevated"><form class="form" action="#" method="post">
+            <div class="field"><label for="reason">Причина обращения</label><select id="reason" name="reason" required><option value="job-opportunity" selected>Вакансия</option><option value="project-consulting">Консультация по проекту</option><option value="other">Другое</option></select></div>
+            <div class="field"><label for="name">Имя</label><input id="name" name="name" type="text" autocomplete="name" required /></div>
+            <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required /><p class="field__hint">Использую его только для ответа на сообщение.</p></div>
+            <div class="field"><label for="company">Компания <span class="muted">(необязательно)</span></label><input id="company" name="company" type="text" autocomplete="organization" /></div>
+            <div class="field"><label for="message">Сообщение</label><textarea id="message" name="message" required></textarea></div>
+            <label class="checkbox"><input name="consent" type="checkbox" required /><span>Я согласен, что эти данные будут использованы для ответа. Подробнее в <a href="ru-privacy.html">заметке о приватности</a>.</span></label>
+            <button class="button button--primary" type="submit">Отправить сообщение</button>
+          </form></div>
+        </div></section>
+      </main>
+      <footer class="footer"><div class="container footer__grid"><div><a class="brand-mark" href="ru.html">anu3ev.com</a><p class="muted">Продуктовая frontend-разработка сложных браузерных интерфейсов.</p></div><nav class="footer__links" aria-label="Навигация в подвале"><a href="ru-work.html">Проекты</a><a href="ru-writing.html">Статьи</a><a href="ru-about.html">Обо мне</a><a href="ru-contact.html">Связаться</a><a href="ru-privacy.html">Приватность</a></nav></div></footer>
+    </div>
+  </body>
+</html>

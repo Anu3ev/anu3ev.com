@@ -1,7 +1,9 @@
 # DES-08: Design Responsive Page Templates
 
-**Status:** Planned  
+**Status:** In review
 **Depends on:** DES-07
+
+**Revision result:** All required templates are available as equivalent English and Russian pages in the [prototype index](../../docs/design/README.md#review-the-result). Repeated responsive and localization validation remains before approval.
 
 ## Objective
 
@@ -22,6 +24,5 @@ Extend the validated system to all required page templates and responsive compos
 - Language switching preserves the equivalent page and does not fall back to Home.
 - Long project and article titles do not break cards or navigation.
 - Article and case-study reading widths remain comfortable.
-- Missing optional media has a designed fallback.
+- Missing optional public media is omitted without a visible placeholder.
 - Search, complex filters, and a separate Services page are not introduced in the first version.
-

@@ -1,0 +1,58 @@
+{
+  "runId": "anu3ev-design-v1",
+  "fileKey": "ZVGtT8KoFQL1ixcZqhzGIm",
+  "fileUrl": "https://www.figma.com/design/ZVGtT8KoFQL1ixcZqhzGIm",
+  "phase": "local-revision-validated",
+  "step": "figma-discovery-blocked-by-starter-call-limit",
+  "entities": {
+    "collections": {
+      "primitives": "VariableCollectionId:2:4",
+      "colorLight": "VariableCollectionId:2:5",
+      "colorDark": "VariableCollectionId:2:6",
+      "spacing": "VariableCollectionId:2:7",
+      "radius": "VariableCollectionId:2:8",
+      "size": "VariableCollectionId:2:9",
+      "motion": "VariableCollectionId:2:10",
+      "typography": "VariableCollectionId:2:11"
+    },
+    "variables": {
+      "primitiveColorCount": 34,
+      "semanticLightCount": 30,
+      "semanticDarkCount": 30,
+      "source": "docs/design/tokens.json"
+    },
+    "styles": {},
+    "pages": {},
+    "components": {},
+    "screens": {}
+  },
+  "pendingValidations": [
+    "figma:phase0-file-and-library-discovery",
+    "figma:dark-border-strong-accessibility-sync",
+    "figma:spacing-radius-size-motion-typography-variables",
+    "figma:text-and-effect-styles",
+    "figma:evidence-components-and-bilingual-screens",
+    "figma:prototype-links-and-final-visual-validation"
+  ],
+  "completedSteps": [
+    "phase0:discovery-and-library-scope",
+    "phase1:collections",
+    "phase1:primitive-colors",
+    "phase1:semantic-light-colors",
+    "phase1:semantic-dark-colors",
+    "local:design-tokens",
+    "local:design-system",
+    "local:responsive-prototype",
+    "local:accessibility-and-ux-audit",
+    "local:verified-bilingual-content-revision",
+    "local:evidence-media-revision",
+    "local:responsive-localization-validation",
+    "local:handoff"
+  ],
+  "constraints": [
+    "The Figma Starter plan supports one variable mode per collection, so Light and Dark semantics use separate aliased collections until the file is upgraded.",
+    "The Figma MCP Starter tool-call quota was reached after color variables were created, so remaining design artifacts are authoritative under docs/design until synchronization resumes.",
+    "A 2026-08-25 discovery retry was blocked on both metadata and library reads; whoami confirmed Alexander Anufriev, a View seat, and the starter plan. No Figma mutation was attempted.",
+    "Figma Color / Dark border/strong still aliases warm/600; change it to warm/500 to match the audited 3.49:1 local token."
+  ]
+}

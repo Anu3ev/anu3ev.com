@@ -14,13 +14,16 @@ Use NNNN-clear-kebab-case-name.md. Keep one decision per file. Later changes rec
 
 ## Index
 
-| ID | Status | Decision |
-| --- | --- | --- |
-| 0001 | Accepted | [Separate tasks, product context, and decisions](0001-separate-tasks-context-and-decisions.md) |
-| 0002 | Accepted | [Prioritize hiring and evidence-led positioning](0002-prioritize-hiring-and-evidence-led-positioning.md) |
-| 0003 | Accepted | [Use English source copy with complete bilingual publication](0003-use-english-source-copy-with-bilingual-publication.md) |
-| 0004 | Accepted | [Create an original design baseline in Alexander's Figma workspace](0004-create-original-design-baseline-in-personal-figma.md) |
-| 0005 | Accepted | [Use a project skill as the workflow router](0005-use-a-project-skill-as-workflow-router.md) |
+| ID   | Status   | Decision                                                                                                                                  |
+| ---- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 0001 | Accepted | [Separate tasks, product context, and decisions](0001-separate-tasks-context-and-decisions.md)                                            |
+| 0002 | Accepted | [Prioritize hiring and evidence-led positioning](0002-prioritize-hiring-and-evidence-led-positioning.md)                                  |
+| 0003 | Accepted | [Use English source copy with complete bilingual publication](0003-use-english-source-copy-with-bilingual-publication.md)                 |
+| 0004 | Accepted | [Create an original design baseline in Alexander's Figma workspace](0004-create-original-design-baseline-in-personal-figma.md)            |
+| 0005 | Accepted | [Use a project skill as the workflow router](0005-use-a-project-skill-as-workflow-router.md)                                              |
+| 0006 | Accepted | [Use the local design package when Figma Starter blocks synchronization](0006-use-local-design-package-when-figma-starter-blocks-sync.md) |
+| 0007 | Accepted | [Launch Writing with one verified bilingual article](0007-launch-writing-with-one-verified-bilingual-article.md)                    |
+| 0008 | Accepted | [Use product evidence and public demo captures](0008-use-product-evidence-and-public-demo-captures.md)                              |
 
 ## Required structure
 

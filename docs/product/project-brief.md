@@ -1,8 +1,8 @@
 # Project Brief
 
-**Status:** Initial discovery
+**Status:** Revised design candidate in review
 
-**Last updated:** 2026-08-24
+**Last updated:** 2026-08-25
 
 ## Product purpose
 
@@ -12,11 +12,11 @@ Qualified client enquiries, professional authority, and technical writing are se
 
 ## Working positioning
 
-The current working position is:
+The current public position used by the prototype is:
 
 > Product Frontend Engineer specializing in Vue, TypeScript, complex product UI, e-commerce SaaS, and browser-based editors.
 
-The exact public headline remains to be approved during information architecture and homepage copy work. Alexander's documented scope supports senior individual-contributor positioning, but the site must not imply formal people management, direct reports, or ownership of an entire engineering organization.
+The homepage headline is `I build browser editors and merchant software with Vue and TypeScript.` Alexander's documented scope supports senior individual-contributor positioning, but the site must not imply formal people management, direct reports, or ownership of an entire engineering organization. Alexander's final copy approval is still required before publication.
 
 ## Audience priority
 
@@ -60,7 +60,7 @@ The phone number from the resume is not part of the planned public website conta
 
 - Start from an original baseline rather than copying reference websites.
 - Review the first baseline critically and iterate from concrete feedback.
-- Use an editorial engineering visual language, mobile-first composition, restrained motion, and reusable tile-based layouts.
+- Use an editorial engineering visual language, mobile-first composition, restrained motion, and reusable evidence-led layouts.
 - Dark mode is the default. A complete light mode is required.
 - Use a muted copper-orange accent on warm neutral surfaces rather than bright red, neon orange, glow-heavy effects, or generic AI portfolio motifs.
 - Use the portrait as supporting evidence of a real person, not as the main visual proof.
@@ -69,9 +69,10 @@ The phone number from the resume is not part of the planned public website conta
 
 - The design file belongs in Alexander's personal Figma workspace.
 - The connected account is Alexander Anufriev, alexander.s.anufriev@gmail.com.
-- The current integration reports a Starter plan with a View seat. Write access must be verified before the first file is created.
-- No Figma file has been created or changed yet.
-- Discovery and information architecture precede token, component, and screen construction.
+- The current integration reports a Starter plan with a View seat. Write access was verified by creating the project file and variable collections.
+- The file is `anu3ev.com - Website & Design System`: https://www.figma.com/design/ZVGtT8KoFQL1ixcZqhzGIm.
+- Primitive and semantic colors exist in Figma. Starter mode and call limits prevented the remaining component and screen synchronization.
+- The complete reviewable design and handoff live under `docs/design`; Figma resumes from `docs/design/figma-state.json`.
 
 ## Known constraints
 
@@ -82,9 +83,10 @@ The phone number from the resume is not part of the planned public website conta
 
 ## Open confirmations
 
-- Approve the final public role headline.
-- Confirm the exact final working date at inSales if it will appear publicly.
-- Select the final portrait variant and its crop.
-- Decide whether the full colleague recommendation or a shorter excerpt appears on the website.
-- Confirm which additional two project case studies follow the Fabric Image Editor representative case.
+- Approve the revised English copy, followed by the Russian adaptation.
+- Approve the selected recommendation excerpts and attribution.
+- Confirm the exact final working date at inSales only if a day-level date will be published; the prototype uses month-level dates.
+- Approve publication of the selected product screenshots and the natural square portrait.
+- Select the contact-form processor, retention period, and hosting infrastructure before finalizing Privacy.
+- Confirm which additional full case study follows the Product Image Editor case.
 - Provide analytics and Search Console access or exports if historical domain data should influence migration decisions.

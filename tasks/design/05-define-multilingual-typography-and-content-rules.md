@@ -1,7 +1,9 @@
 # DES-05: Define Multilingual Typography and Content Rules
 
-**Status:** Planned  
+**Status:** In review
 **Depends on:** DES-04
+
+**Revision result:** Typography and localization rules are defined in the [design system](../../docs/design/design-system.md). Every public template now has an EN/RU pair and an equivalent locale link. Final browser expansion validation and Alexander's bilingual copy approval remain.
 
 ## Objective
 
@@ -23,4 +25,3 @@ Ensure that English and Russian content share one coherent typographic system an
 - Controls remain usable with 30% text expansion.
 - Fixed-height text containers are absent unless the content contract proves them safe.
 - Languages are labelled with text and never represented only by flags.
-

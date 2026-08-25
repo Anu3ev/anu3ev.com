@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Case study: a reusable TypeScript and FabricJS image editor built by Alexander Anufriev for inSales merchant workflows." />
+    <title>Browser Image Editor Case Study | Alexander Anufriev</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="components.css" />
+  </head>
+  <body>
+    <input class="theme-toggle-input" type="checkbox" id="theme-toggle" />
+    <div class="site-shell">
+      <a class="skip-link" href="#main">Skip to content</a>
+      <header class="topbar">
+        <div class="container topbar__inner">
+          <a class="brand-mark" href="index.html" aria-label="Alexander Anufriev, home">anu3ev.com</a>
+          <nav class="desktop-nav" aria-label="Primary navigation">
+            <a class="nav-link" href="work.html" aria-current="page">Work</a>
+            <a class="nav-link" href="writing.html">Writing</a>
+            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="contact.html">Contact</a>
+            <a class="language-link" href="ru-case-study.html" lang="ru" hreflang="ru">RU</a>
+            <label class="icon-control theme-icon" for="theme-toggle" aria-label="Switch colour theme" title="Switch colour theme"></label>
+          </nav>
+          <details class="mobile-menu">
+            <summary aria-label="Open navigation"></summary>
+            <nav class="mobile-menu__panel" aria-label="Mobile navigation">
+              <a class="nav-link" href="index.html">Home</a><a class="nav-link" href="work.html">Work</a><a class="nav-link" href="writing.html">Writing</a><a class="nav-link" href="about.html">About</a><a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="ru-case-study.html" lang="ru" hreflang="ru">Русская версия</a>
+              <label class="nav-link" for="theme-toggle">Switch colour theme</label>
+            </nav>
+          </details>
+        </div>
+      </header>
+
+      <main id="main">
+        <header class="page-intro">
+          <div class="container">
+            <nav class="breadcrumb" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><a href="work.html">Work</a><span>/</span><span aria-current="page">Product Image Editor</span></nav>
+            <div class="case-hero">
+              <div>
+                <p class="eyebrow">Case study · Product Image Editor</p>
+                <h1>A reusable image editor for inSales merchant workflows</h1>
+                <p class="lede">I built a TypeScript and FabricJS editor core, integrated it into the inSales product, and kept its state consistent across editing, history, templates, and browser interactions.</p>
+              </div>
+              <dl class="case-facts">
+                <div class="case-fact"><dt>Role</dt><dd>Frontend Developer in a cross-functional product team</dd></div>
+                <div class="case-fact"><dt>Production scale</dt><dd>Thousands of inSales clients</dd></div>
+                <div class="case-fact"><dt>Stack</dt><dd>TypeScript, FabricJS, Vue, Jest, Playwright</dd></div>
+              </dl>
+            </div>
+            <figure class="evidence-figure evidence-figure--hero">
+              <img src="assets/product-image-editor-production.png" alt="Two production states of the inSales product image editor" width="1921" height="1080" />
+              <figcaption>Production product-image editing at inSales. The source image is shown without reconstructed data or UI.</figcaption>
+            </figure>
+          </div>
+        </header>
+
+        <section class="section" aria-labelledby="context-title">
+          <div class="container case-story">
+            <div class="case-story__rail">
+              <p class="kicker">01 · Context</p>
+              <p class="muted">Merchant administration · browser editing · reusable core</p>
+            </div>
+            <div class="prose">
+              <h2 id="context-title">The product needed more than a canvas with controls</h2>
+              <p>Merchants needed to prepare product images without leaving the administration panel. The editor covered import, replacement, crop, text, shapes, layers, templates, AI-assisted image operations, and export.</p>
+              <p>The harder requirement was consistency. The same object could enter through initial loading, import, copy and paste, a template, or history restoration. Each path had to preserve the same styles, domain data, selection rules, and user-visible history.</p>
+              <div class="callout"><p class="kicker">Verified outcome</p><p><strong>The production editor is used by thousands of inSales clients.</strong> Public package distribution is separate evidence and is not used as a production-user count.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="architecture-title">
+          <div class="container case-story">
+            <div class="case-story__rail"><p class="kicker">02 · Architecture</p><p class="muted">Focused ownership instead of one editor component</p></div>
+            <div>
+              <div class="prose">
+                <h2 id="architecture-title">The editor core owns editing behaviour</h2>
+                <p>I split the library into focused managers for image operations, text, shapes, crop, history, templates, layers, zoom, clipboard behaviour, errors, and interaction blocking. Vue integration remained responsible for product-specific UI and domain data.</p>
+              </div>
+              <div class="architecture-diagram" role="img" aria-label="Host product communicates with editor managers, which coordinate FabricJS canvas state">
+                <div class="architecture-diagram__host"><span>Host product</span><small>Vue UI · API requests · merchant data</small></div>
+                <div class="architecture-diagram__connection" aria-hidden="true">public methods + events</div>
+                <div class="architecture-diagram__managers">
+                  <span>Images</span><span>History</span><span>Text</span><span>Shapes</span><span>Crop</span><span>Templates</span><span>Layers</span><span>Errors</span>
+                </div>
+                <div class="architecture-diagram__connection" aria-hidden="true">shared canvas state</div>
+                <div class="architecture-diagram__canvas">FabricJS canvas and browser runtime</div>
+              </div>
+              <div class="prose">
+                <h3>Public API example</h3>
+                <p>The portfolio uses the real API exposed by the public repository:</p>
+                <pre><code>await editor.imageManager.importImage({
+  source,
+  scale: 'image-contain'
+})
+
+const result = await editor.imageManager.exportCanvasAsImageFile({
+  fileName: 'edited-image.png',
+  contentType: 'image/png'
+})</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="interaction-title">
+          <div class="container">
+            <div class="section-heading">
+              <div><p class="eyebrow">03 · Browser interaction</p><h2 id="interaction-title">The public demo makes the interaction model inspectable</h2></div>
+              <p class="muted">These captures use a generated sample image inside the public demo. They contain no production or personal data.</p>
+            </div>
+            <div class="demo-gallery">
+              <figure class="annotated-screenshot">
+                <div class="annotated-screenshot__media"><img src="assets/demo-crop.png" alt="Crop mode with resize handles and composition grid in the public image editor demo" width="758" height="1034" /></div>
+                <figcaption><span>01</span><strong>Crop</strong><small>Runtime crop state stays separate until the user applies the result.</small></figcaption>
+              </figure>
+              <figure class="annotated-screenshot">
+                <div class="annotated-screenshot__media"><img src="assets/demo-text.png" alt="Text object selected over a sample image in the public editor demo" width="758" height="1034" /></div>
+                <figcaption><span>02</span><strong>Text and layers</strong><small>Selection controls expose lock, ordering, duplicate, and delete actions.</small></figcaption>
+              </figure>
+              <figure class="annotated-screenshot annotated-screenshot--wide">
+                <div class="annotated-screenshot__media"><img src="assets/demo-layers-history.png" alt="Public image editor demo with canvas and history, selection, layer, and crop controls" width="1440" height="1000" /></div>
+                <figcaption><span>03</span><strong>Integration surface</strong><small>The demo exposes history, layers, selection, crop, text, templates, shapes, and backgrounds through the same editor API.</small></figcaption>
+              </figure>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="performance-title">
+          <div class="container case-story">
+            <div class="case-story__rail"><p class="kicker">04 · Performance</p><p class="muted">Image representation changed the state model</p></div>
+            <div>
+              <div class="prose">
+                <h2 id="performance-title">Base64 data made history expensive</h2>
+                <p>Large base64 strings lived inside canvas objects and expanded serialized history. Image conversion and export also kept expensive work on the main thread.</p>
+              </div>
+              <div class="performance-diagram" role="group" aria-label="Performance architecture before and after">
+                <div><span class="meta">BEFORE</span><strong>base64 stored with object state</strong><small>Large history snapshots · repeated conversion · main-thread work</small></div>
+                <div><span class="meta">AFTER</span><strong>Blob URLs, workers, and cached resources</strong><small>Background export · explicit cleanup · fewer repeated storage calls</small></div>
+              </div>
+              <div class="prose">
+                <p>I moved raster conversion and heavy export work toward Blob and Object URLs and Web Workers. Export used a background canvas clone, initial images were preloaded, and Object URLs were cleaned up when the editor was destroyed.</p>
+                <p>The confirmed result is qualitative: the change kept heavy work off the main thread and improved interaction responsiveness. No percentage is claimed because a measured before-and-after value is not available.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="quality-title">
+          <div class="container case-story">
+            <div class="case-story__rail"><p class="kicker">05 · Quality</p><p class="muted">Tests followed the browser paths that failed in practice</p></div>
+            <div class="prose">
+              <h2 id="quality-title">Interaction-heavy behaviour needed browser tests</h2>
+              <p>Jest and Playwright coverage included history, initial state, image import, text inside shapes, live scaling, copy and restore, and crop. QA notes documented changed behaviour and edge cases for release.</p>
+              <blockquote class="quote">
+                <p>“What impressed me most was the infographic editor he built essentially from scratch: a full canvas-based graphic editor with artboards, shapes, text styling, templates, and undo/redo history.”</p>
+                <footer>Dima Sadovskiy · former colleague at inSales</footer>
+              </blockquote>
+              <h2>Inspect the public implementation</h2>
+              <p>The repository and demo show the reusable library and its current public API. They do not prove the number of production users; that production scale comes from verified inSales experience.</p>
+              <div class="actions">
+                <a class="button button--primary" href="https://github.com/Anu3ev/image-editor">View GitHub repository</a>
+                <a class="button button--secondary" href="https://anu3ev.github.io/image-editor/">Open live demo</a>
+                <a class="button button--secondary" href="https://www.npmjs.com/package/@anu3ev/fabric-image-editor">View npm package</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="container related-row">
+            <div><p class="eyebrow">Related reading</p><h2>Moving image history from base64 to Blob URLs</h2><p class="muted">A focused account of the performance and lifecycle work behind the editor.</p></div>
+            <a class="button button--secondary" href="article.html">Read the article</a>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer__grid">
+          <div><a class="brand-mark" href="index.html">anu3ev.com</a><p class="muted">Product frontend engineering for complex browser interfaces.</p></div>
+          <nav class="footer__links" aria-label="Footer navigation"><a href="work.html">Work</a><a href="writing.html">Writing</a><a href="about.html">About</a><a href="contact.html">Contact</a><a href="privacy.html">Privacy</a></nav>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

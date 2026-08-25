@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Alexander Anufriev is a product frontend engineer working with Vue, TypeScript, browser editors, and e-commerce SaaS."
+    />
+    <title>Alexander Anufriev | Product Frontend Engineer</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="components.css" />
+  </head>
+  <body>
+    <input class="theme-toggle-input" type="checkbox" id="theme-toggle" />
+    <div class="site-shell">
+      <a class="skip-link" href="#main">Skip to content</a>
+      <header class="topbar">
+        <div class="container topbar__inner">
+          <a class="brand-mark" href="index.html" aria-label="Alexander Anufriev, home">anu3ev.com</a>
+          <nav class="desktop-nav" aria-label="Primary navigation">
+            <a class="nav-link" href="work.html">Work</a>
+            <a class="nav-link" href="writing.html">Writing</a>
+            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="contact.html">Contact</a>
+            <a class="language-link" href="ru.html" lang="ru" hreflang="ru">RU</a>
+            <label class="icon-control theme-icon" for="theme-toggle" aria-label="Switch colour theme" title="Switch colour theme"></label>
+          </nav>
+          <details class="mobile-menu">
+            <summary aria-label="Open navigation"></summary>
+            <nav class="mobile-menu__panel" aria-label="Mobile navigation">
+              <a class="nav-link" href="work.html">Work</a>
+              <a class="nav-link" href="writing.html">Writing</a>
+              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="ru.html" lang="ru" hreflang="ru">Русская версия</a>
+              <label class="nav-link" for="theme-toggle">Switch colour theme</label>
+            </nav>
+          </details>
+        </div>
+      </header>
+
+      <main id="main">
+        <section class="hero">
+          <div class="container hero__grid">
+            <div class="hero__copy">
+              <p class="eyebrow">Alexander Anufriev · Product Frontend Engineer</p>
+              <h1 class="display">I build browser editors and merchant software with Vue and TypeScript.</h1>
+              <p class="lede">
+                My work includes image editing, analytics, checkout, and content tools where state, browser behaviour, and API contracts need to stay predictable.
+              </p>
+              <div class="actions">
+                <a class="button button--primary" href="case-study.html">Read the editor case</a>
+                <a class="button button--secondary" href="contact.html">Contact me</a>
+              </div>
+            </div>
+            <figure class="hero__portrait">
+              <img src="assets/alexander-anufriev.png" alt="Alexander Anufriev" width="1254" height="1254" />
+              <figcaption class="hero__caption">Batumi, Georgia · UTC+4</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="section section--compact" aria-labelledby="proof-title">
+          <div class="container">
+            <h2 class="visually-hidden" id="proof-title">Verified experience</h2>
+            <dl class="proof-row">
+              <div class="proof-row__item">
+                <dt>Product frontend at inSales</dt>
+                <dd>October 2021 to August 2026</dd>
+              </div>
+              <div class="proof-row__item">
+                <dt>Production image editor</dt>
+                <dd>Used by thousands of clients</dd>
+              </div>
+              <div class="proof-row__item">
+                <dt>Abandoned carts</dt>
+                <dd>Used by more than 1,000 clients</dd>
+              </div>
+              <div class="proof-row__item">
+                <dt>Career path</dt>
+                <dd>Support Engineering to Frontend</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="work-title">
+          <div class="container">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Selected work</p>
+                <h2 id="work-title">Two products, two different kinds of frontend complexity</h2>
+              </div>
+              <p class="muted">
+                The editor centred on browser interaction and reusable state. Abandoned carts combined analytics, navigation, async data, and customer communication.
+              </p>
+            </div>
+
+            <article class="work-feature">
+              <figure class="evidence-figure">
+                <img
+                  src="assets/product-image-editor-production.png"
+                  alt="Two production states of the inSales product image editor"
+                  width="1921"
+                  height="1080"
+                />
+                <figcaption>
+                  Production interface at inSales. The editor handles crop, layers, text, templates, backgrounds, and export.
+                </figcaption>
+              </figure>
+              <div class="work-feature__copy">
+                <p class="kicker">Primary case · TypeScript and FabricJS</p>
+                <h3>Reusable product image editor</h3>
+                <p class="muted">
+                  I built the editor core and integrated it into merchant workflows. The work covered state and history, crop, rich text, templates, export, AI image operations, browser differences, and automated tests.
+                </p>
+                <ul class="tag-list" aria-label="Editor technologies">
+                  <li class="tag">TypeScript</li>
+                  <li class="tag">FabricJS</li>
+                  <li class="tag">Jest</li>
+                  <li class="tag">Playwright</li>
+                </ul>
+                <div class="actions actions--spaced">
+                  <a class="button button--secondary" href="case-study.html">Read the case study</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="work-feature work-feature--reverse">
+              <div class="work-feature__copy">
+                <p class="kicker">Merchant analytics · Vue</p>
+                <h3>Abandoned carts and customer communication</h3>
+                <p class="muted">
+                  I worked from incomplete requirements through frontend architecture, API contracts, QA handoff, feature-flagged release, and production verification.
+                </p>
+                <ol class="case-diagram" aria-label="Abandoned carts workflow">
+                  <li><span>01</span>Review analytics and choose a date range</li>
+                  <li><span>02</span>Search and filter abandoned carts</li>
+                  <li><span>03</span>Open cart details through a direct URL</li>
+                  <li><span>04</span>Review communication history and send a message</li>
+                </ol>
+                <div class="actions actions--spaced">
+                  <a class="button button--secondary" href="work.html#abandoned-carts">See the work summary</a>
+                </div>
+              </div>
+              <figure class="evidence-figure evidence-figure--supporting">
+                <img
+                  src="assets/abandoned-carts-production.png"
+                  alt="Abandoned carts analytics interface in the inSales administration panel"
+                  width="1921"
+                  height="1080"
+                />
+                <figcaption>
+                  Production analytics screen shown with its original empty data. No values were added for the portfolio.
+                </figcaption>
+              </figure>
+            </article>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="experience-title">
+          <div class="container experience-layout">
+            <div>
+              <p class="eyebrow">Experience</p>
+              <h2 id="experience-title">I learned the product in support before I started building it.</h2>
+              <div class="timeline experience-timeline">
+                <article class="timeline__item">
+                  <p class="timeline__date">OCT 2021 TO AUG 2026</p>
+                  <h3>Frontend Developer · inSales</h3>
+                  <p class="muted">Browser editors, abandoned carts, content tools, checkout, performance work, Vue modernisation, and reusable Vuetify components.</p>
+                </article>
+                <article class="timeline__item">
+                  <p class="timeline__date">OCT 2019 TO OCT 2021</p>
+                  <h3>Senior Technical Support Engineer · inSales</h3>
+                  <p class="muted">Storefront HTML, CSS, JavaScript, Liquid templates, browser debugging, and direct work with merchants.</p>
+                </article>
+              </div>
+            </div>
+            <blockquote class="quote quote--large">
+              <p>“He communicates clearly, takes ownership without being asked, and raises the quality bar for everyone around him.”</p>
+              <footer>Dima Sadovskiy · former colleague at inSales</footer>
+            </blockquote>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="writing-title">
+          <div class="container article-feature">
+            <div>
+              <p class="eyebrow">Writing</p>
+              <h2 id="writing-title">Moving a browser editor’s image history from base64 to Blob URLs</h2>
+              <p class="lede">
+                Large base64 strings made history heavier and kept expensive image work on the main thread. This article explains the change to Blob URLs, workers, caching, and explicit cleanup.
+              </p>
+              <a class="button button--secondary" href="article.html">Read the article</a>
+            </div>
+            <div class="performance-diagram" role="group" aria-label="Image history representation change">
+              <div>
+                <span class="meta">BEFORE</span>
+                <strong>base64 inside canvas objects</strong>
+                <small>Large serialized history and repeated main-thread work</small>
+              </div>
+              <div>
+                <span class="meta">AFTER</span>
+                <strong>Blob URLs with managed cleanup</strong>
+                <small>Image data stays outside the serialized object model</small>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="contact-title">
+          <div class="container contact-cta">
+            <div>
+              <p class="eyebrow">Available for international work</p>
+              <h2 id="contact-title">I am open to frontend roles involving complex product UI.</h2>
+              <p class="lede">I am based in Batumi and can work remotely from Georgia through B2B or EOR where appropriate.</p>
+            </div>
+            <div class="actions">
+              <a class="button button--primary" href="contact.html">Send a message</a>
+              <a class="button button--secondary" href="mailto:alexander.s.anufriev@gmail.com">Email directly</a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <div class="container footer__grid">
+          <div>
+            <a class="brand-mark" href="index.html">anu3ev.com</a>
+            <p class="muted">Product frontend engineering for complex browser interfaces.</p>
+          </div>
+          <nav class="footer__links" aria-label="Footer navigation">
+            <a href="work.html">Work</a>
+            <a href="writing.html">Writing</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy</a>
+          </nav>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,8 +1,8 @@
 # Content Inventory
 
-**Status:** Initial inventory
+**Status:** Revised bilingual content package in review; publication approval remains
 
-**Last updated:** 2026-08-24
+**Last updated:** 2026-08-25
 
 ## Source roots
 
@@ -62,12 +62,11 @@ Available visual evidence:
 - Logo generation UI for online store.jpg
 - Alexander_Anufriev_InSales_Selected_Work.pdf and .pptx
 
-Missing or useful additions:
+Remaining useful additions:
 
-- Final case-study narrative in English.
-- Before and after performance measurements where available.
-- Exact number of product surfaces using the editor core.
-- Final screenshot and demo-video selection.
+- Before-and-after performance measurements if a reliable source becomes available.
+- Exact number of product surfaces using the editor core, if it can be verified publicly.
+- An optional demo video after the static evidence is approved.
 
 ### 2. Abandoned Carts
 
@@ -152,7 +151,7 @@ It is written by Dima Sadovskiy, a former inSales colleague. It independently su
 - reliability during difficult Vue 3 migration regressions;
 - clear communication, openness to feedback, thorough reviews, ownership, and attention to quality.
 
-The exact public excerpt and attribution format remain to be approved. The recommendation in Given/Dima Sadovsky.md was written by Alexander for Dima and must not be presented as evidence about Alexander.
+The revised prototype uses two short excerpts with attribution to Dima Sadovskiy. Alexander must approve them before publication. The recommendation in Given/Dima Sadovsky.md was written by Alexander for Dima and must not be presented as evidence about Alexander.
 
 ## Portrait candidates
 
@@ -161,7 +160,7 @@ The strongest current portrait candidates found in the local Фото directory 
 - 1388d858-0fce-45dd-a4f5-00a982532134.png
 - photo_2026-07-30_21-21-06.jpg
 
-They show the same neutral, front-facing portrait and are suitable for an About section or a restrained homepage introduction. The PNG is the stronger production source candidate, subject to final crop, authenticity review, compression, and responsive export. It has not been copied into the repository.
+They show the same neutral, front-facing portrait and are suitable for an About section or a restrained homepage introduction. The PNG was selected and copied to `docs/design/prototype/assets/alexander-anufriev.png`. The design uses its natural square frame without face cropping. Production still requires publication approval, compression, and responsive export.
 
 Other recent wide images in the directory are generated background concepts rather than portraits and are not evidence assets.
 
@@ -183,12 +182,20 @@ Still required:
 - analytics and Search Console access or exports;
 - backlink review from a reliable SEO tool.
 
+## Revised public asset set
+
+- `product-image-editor-production.png`: source slide `04_Product_Image_Editor.png`; production editor evidence.
+- `abandoned-carts-production.png`: original product screen with empty data; no fictional values added.
+- `visual-storefront-editor.png`: secondary visual-editor evidence.
+- `ai-product-content-editor.png`: secondary AI-assisted content workflow evidence.
+- `demo-crop.png`, `demo-text.png`, and `demo-layers-history.png`: captures from the public editor demo using a generated non-personal sample image.
+
+Every public figure in the prototype includes a caption and alt text. The removed 47 KB `image-editor.jpg` is no longer referenced because its compression and reuse made the product harder to evaluate.
+
 ## Content gaps
 
-- Final English homepage copy.
-- Final About narrative.
-- Complete English case-study copy for the representative editor project.
-- Russian translations for every approved item.
-- Two additional case studies selected after the representative case.
-- Initial article topics based on real work notes rather than generic keyword ideas.
-- Privacy text for lead collection.
+- Alexander's final review of the revised English copy and the Russian adaptation.
+- Final approval of recommendation excerpts, portrait, and product screenshots.
+- One additional full case study selected after the representative editor case.
+- Final Privacy wording after the form processor, hosting, and retention policy are selected.
+- Production article status remains `review` until both locale documents and final copy are approved.

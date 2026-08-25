@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Проекты Александра Ануфриева: браузерные редакторы, аналитика для продавцов, e-commerce-сценарии и миграция на Vue 3." />
+    <title>Избранные проекты | Александр Ануфриев</title>
+    <link rel="stylesheet" href="styles.css" /><link rel="stylesheet" href="components.css" />
+  </head>
+  <body>
+    <input class="theme-toggle-input" type="checkbox" id="theme-toggle" />
+    <div class="site-shell">
+      <a class="skip-link" href="#main">Перейти к содержимому</a>
+      <header class="topbar"><div class="container topbar__inner"><a class="brand-mark" href="ru.html" aria-label="Александр Ануфриев, главная">anu3ev.com</a><nav class="desktop-nav" aria-label="Основная навигация"><a class="nav-link" href="ru-work.html" aria-current="page">Проекты</a><a class="nav-link" href="ru-writing.html">Статьи</a><a class="nav-link" href="ru-about.html">Обо мне</a><a class="nav-link" href="ru-contact.html">Связаться</a><a class="language-link" href="work.html" lang="en" hreflang="en">EN</a><label class="icon-control theme-icon" for="theme-toggle" aria-label="Переключить цветовую тему" title="Переключить цветовую тему"></label></nav><details class="mobile-menu"><summary aria-label="Открыть навигацию"></summary><nav class="mobile-menu__panel" aria-label="Мобильная навигация"><a class="nav-link" href="ru.html">Главная</a><a class="nav-link" href="ru-writing.html">Статьи</a><a class="nav-link" href="ru-about.html">Обо мне</a><a class="nav-link" href="ru-contact.html">Связаться</a><a class="nav-link" href="work.html" lang="en" hreflang="en">English version</a><label class="nav-link" for="theme-toggle">Переключить тему</label></nav></details></div></header>
+
+      <main id="main">
+        <header class="page-intro"><div class="container intro-grid"><div><nav class="breadcrumb" aria-label="Хлебные крошки"><a href="ru.html">Главная</a><span>/</span><span aria-current="page">Проекты</span></nav><p class="eyebrow">Избранные проекты · 2021–2026</p><h1>Продуктовая frontend-разработка для продавцов, редакторов и сложных браузерных сценариев</h1></div><p class="lede">Здесь показан мой frontend-вклад внутри кросс-функциональных продуктовых команд. Публичный репозиторий редактора служит отдельным подтверждением и не является источником данных о production-использовании в inSales.</p></div></header>
+
+        <section class="section" aria-labelledby="ru-editor-title"><div class="container work-feature">
+          <figure class="evidence-figure"><img src="assets/product-image-editor-production.png" alt="Production-редактор изображений товаров в inSales" width="1921" height="1080" /><figcaption>Production-сценарии работы с изображениями товаров в inSales.</figcaption></figure>
+          <div class="work-feature__copy"><p class="kicker">01 · Редактор изображений товаров</p><h2 id="ru-editor-title">Переиспользуемое ядро редактора, которым пользуются тысячи клиентов inSales</h2><p class="muted">Я разрабатывал библиотеку на TypeScript и FabricJS и интегрировал её в продуктовые сценарии. Она отвечает за состояние canvas, history, crop, слои, rich text, шаблоны, экспорт, AI-операции с изображениями и API для основного продукта.</p><ul class="evidence-list"><li>Общее ядро для административной панели и редактора темы</li><li>Jest и Playwright для поведения со сложным взаимодействием</li><li>Публичный репозиторий GitHub, npm-пакет и live demo</li></ul><div class="actions actions--spaced"><a class="button button--primary" href="ru-case-study.html">Читать кейс</a><a class="button button--secondary" href="https://anu3ev.github.io/image-editor/">Открыть demo</a></div></div>
+        </div></section>
+
+        <section class="section" id="abandoned-carts" aria-labelledby="ru-carts-title"><div class="container">
+          <div class="section-heading"><div><p class="eyebrow">02 · Брошенные корзины</p><h2 id="ru-carts-title">Аналитика и коммуникация в одном сценарии продавца</h2></div><p class="muted">Продуктом пользуются более 1 000 клиентов. Данных о возвращённой выручке или конверсии нет, поэтому я не привожу такие показатели.</p></div>
+          <div class="evidence-split"><ol class="case-diagram" aria-label="Сценарий продукта Брошенные корзины"><li><span>01</span>Аналитика, графики и выбор периода</li><li><span>02</span>Таблицы, поиск, фильтры и пагинация</li><li><span>03</span>Состав корзины, товары, итог и статус</li><li><span>04</span>История коммуникации и отправка сообщений</li><li><span>05</span>Feature flag, передача в QA и проверка в production</li></ol><figure class="evidence-figure evidence-figure--supporting"><img src="assets/abandoned-carts-production.png" alt="Аналитика брошенных корзин в панели управления inSales" width="1921" height="1080" /><figcaption>На исходном экране нет данных о корзинах. Для портфолио фиктивные значения не добавлялись.</figcaption></figure></div>
+        </div></section>
+
+        <section class="section" aria-labelledby="ru-commerce-title"><div class="container">
+          <div class="section-heading"><div><p class="eyebrow">03 · E-commerce-сценарии</p><h2 id="ru-commerce-title">Контент, checkout, формы и инструменты витрины</h2></div><p class="muted">В нескольких небольших продуктовых областях задача была похожей: превратить бизнес-правила и ограничения старой платформы в предсказуемое поведение браузера.</p></div>
+          <div class="media-pair"><figure class="evidence-figure"><img src="assets/ai-product-content-editor.png" alt="AI-редактор описания товара в панели управления inSales" width="1921" height="1080" /><figcaption>Генерация текста внутри существующего сценария редактирования описания товара.</figcaption></figure><div class="work-feature__copy"><ul class="work-list">
+            <li><strong>AI-описания товаров</strong><span>Генерация, проверка, редактирование, состояния ошибок и согласование backend API внутри TinyMCE.</span></li>
+            <li><strong>Корзина и checkout</strong><span>Опции товаров, дополнительные услуги, заказ в один клик и выбор склада отгрузки.</span></li>
+            <li><strong>Captcha-провайдеры</strong><span>reCAPTCHA v2 и v3, Yandex SmartCaptcha, повторные попытки, мобильная клавиатура, overlay и поведение Safari.</span></li>
+            <li><strong>Редактирование шаблонов в Monaco</strong><span>Редактор кода и preview после того, как WYSIWYG-обработка повреждала HTML и Liquid-шаблоны.</span></li>
+          </ul></div></div>
+        </div></section>
+
+        <section class="section" id="modernisation" aria-labelledby="ru-modernisation-title"><div class="container work-feature work-feature--reverse">
+          <div class="work-feature__copy"><p class="eyebrow">04 · Модернизация и UI-основа</p><h2 id="ru-modernisation-title">Миграция на Vue 3 и переиспользуемые компоненты Vuetify</h2><p class="muted">Я участвовал в production-миграции с Vue 2 на Vue 3. Переписывал инфографические компоненты на <code>script setup</code>, выносил состояние редактора в composables и сохранял поведение в разных продуктовых контекстах.</p><p class="muted">Отдельно я расширял внутренний UI kit на Vuetify переиспользуемыми компонентами и паттернами для административной панели. Это была работа над компонентами, а не владение дизайн-системой всей компании.</p><ul class="tag-list" aria-label="Технологии модернизации"><li class="tag">Vue 2 и Vue 3</li><li class="tag">Composition API</li><li class="tag">script setup</li><li class="tag">Vuetify</li></ul></div>
+          <figure class="evidence-figure"><img src="assets/visual-storefront-editor.png" alt="Визуальный редактор витрины в продукте inSales" width="1921" height="1080" /><figcaption>Визуальный редактор для продавцов внутри более крупного продукта inSales.</figcaption></figure>
+        </div></section>
+
+        <section class="section"><div class="container contact-cta"><div><p class="eyebrow">Контакты</p><h2>Ищете разработчика для сложного продуктового UI?</h2><p class="lede">Пришлите описание позиции и продукта. Я расскажу о наиболее близких задачах и деталях реализации.</p></div><a class="button button--primary" href="ru-contact.html">Связаться</a></div></section>
+      </main>
+
+      <footer class="footer"><div class="container footer__grid"><div><a class="brand-mark" href="ru.html">anu3ev.com</a><p class="muted">Продуктовая frontend-разработка сложных браузерных интерфейсов.</p></div><nav class="footer__links" aria-label="Навигация в подвале"><a href="ru-work.html">Проекты</a><a href="ru-writing.html">Статьи</a><a href="ru-about.html">Обо мне</a><a href="ru-contact.html">Связаться</a><a href="ru-privacy.html">Приватность</a></nav></div></footer>
+    </div>
+  </body>
+</html>
