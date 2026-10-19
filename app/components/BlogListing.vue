@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getPublicationDate } from '~~/shared/publication'
 import { BLOG_PAGE_SIZE, paginate } from '~/utils/pagination'
 
 const props = defineProps<{ page: number }>()
@@ -7,7 +8,7 @@ const { locale, copy, localePath } = useLocale()
 const search = ref(typeof route.query.q === 'string' ? route.query.q.slice(0, 200) : '')
 const category = ref(typeof route.query.topic === 'string' ? route.query.topic : '')
 const { data: posts } = await useAsyncData(() => `blog-${locale.value}`, () => queryCollection('posts')
-  .where('locale', '=', locale.value).where('published', '=', true).where('date', '<=', new Date().toISOString().slice(0, 10))
+  .where('locale', '=', locale.value).where('published', '=', true).where('date', '<=', getPublicationDate())
   .order('date', 'DESC').order('slug', 'ASC')
   .select('slug', 'title', 'description', 'category', 'date', 'readingMinutes', 'cover', 'coverAlt', 'tags').all())
 const categories = computed(() => [...new Set(posts.value?.map(post => post.category))])

@@ -1,57 +1,14 @@
-import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { defineCollection, defineContentConfig } from '@nuxt/content'
+import { postSchema, profileSchema, projectSchema } from './shared/content-schema'
+import { readContentInventory } from './scripts/lib/content'
 
-/** Fields shared by published documents; slugs remain stable across languages. */
-const editorialFields = {
-  locale: z.enum(['en', 'ru']),
-  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
-  published: z.boolean().default(false),
-  cover: z.string(),
-  coverAlt: z.string(),
-  category: z.string()
-}
+/** Exclusion happens before SQLite generation: filtering only UI queries would still ship drafts in the client database. */
+const { excluded } = readContentInventory()
 
 export default defineContentConfig({
   collections: {
-    projects: defineCollection({
-      type: 'page',
-      source: '*/projects/*.md',
-      schema: z.object({
-        ...editorialFields,
-        year: z.string(),
-        role: z.string(),
-        stack: z.array(z.string()),
-        featured: z.boolean().default(false),
-        order: z.number(),
-        repository: z.string().url().optional(),
-        demo: z.string().url().optional()
-      })
-    }),
-    posts: defineCollection({
-      type: 'page',
-      source: '*/posts/*.md',
-      schema: z.object({
-        ...editorialFields,
-        date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
-        readingMinutes: z.number().int().positive(),
-        tags: z.array(z.string())
-      })
-    }),
-    profile: defineCollection({
-      type: 'data',
-      source: 'settings/profile.json',
-      schema: z.object({
-        name: z.string(),
-        email: z.string().email(),
-        github: z.string().url(),
-        linkedin: z.string().url(),
-        telegram: z.string().url(),
-        location: z.string(),
-        available: z.boolean(),
-        headline_en: z.string(),
-        headline_ru: z.string(),
-        bio_en: z.string(),
-        bio_ru: z.string()
-      })
-    })
+    projects: defineCollection({ type: 'page', source: { include: '*/projects/*.md', exclude: excluded }, schema: projectSchema }),
+    posts: defineCollection({ type: 'page', source: { include: '*/posts/*.md', exclude: excluded }, schema: postSchema }),
+    profile: defineCollection({ type: 'data', source: 'settings/profile.json', schema: profileSchema })
   }
 })

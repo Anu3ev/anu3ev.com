@@ -4,14 +4,14 @@ description: TypeScript и FabricJS в основе production-редактор�
 locale: ru
 slug: image-editor
 published: true
-cover: /images/image-editor.webp
-coverAlt: Редактор изображений inSales с рабочей областью, инструментами и интерфейсом для продавца
-category: Браузерный редактор
+cover: /images/editor-history.webp
+coverAlt: Слои и история в публичном демо Fabric-редактора изображений
+category: Open source
 year: 2025–2026
 role: Ядро библиотеки и интеграция с Vue
 stack: [TypeScript, FabricJS, Vue, Playwright]
-featured: true
-order: 1
+featured: false
+order: 3
 repository: https://github.com/Anu3ev/image-editor
 demo: https://anu3ev.github.io/image-editor/
 ---

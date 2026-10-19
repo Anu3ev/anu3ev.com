@@ -4,14 +4,14 @@ description: A TypeScript and FabricJS core behind a production editor. Canvas g
 locale: en
 slug: image-editor
 published: true
-cover: /images/image-editor.webp
-coverAlt: The inSales image editor showing its canvas, tools, and merchant image workflow
-category: Browser editor
+cover: /images/editor-history.webp
+coverAlt: Layers and history in the public Fabric image editor demo
+category: Open source
 year: 2025–2026
 role: Core library and Vue integration
 stack: [TypeScript, FabricJS, Vue, Playwright]
-featured: true
-order: 1
+featured: false
+order: 3
 repository: https://github.com/Anu3ev/image-editor
 demo: https://anu3ev.github.io/image-editor/
 ---
