@@ -4,7 +4,7 @@ description: Две кнопки сохранения могут подтвер�
 locale: ru
 slug: saving-image-and-product
 published: true
-date: '2026-10-16'
+date: '2026-10-20'
 cover: /images/two-saves.svg
 coverAlt: Схема разделяет подготовку изображения в редакторе и подтверждение изменения товара
 category: Продуктовый UX

@@ -4,16 +4,22 @@ import profile from '~~/content/settings/profile.json'
 const { copy, localePath, locale } = useLocale()
 const route = useRoute()
 const mobileMenu = useTemplateRef<HTMLDetailsElement>('mobile-menu')
-const links = computed(() => [
-  { path: '/', label: copy.value.home, icon: 'home' },
-  { path: '/blog', label: copy.value.blog, icon: 'book' },
-  { path: '/work', label: copy.value.work, icon: 'briefcase' },
-  { path: '/contact', label: copy.value.contact, icon: 'mail' }
-] as const)
+const links = computed(
+  () =>
+    [
+      { path: '/', label: copy.value.home, icon: 'home' },
+      { path: '/blog', label: copy.value.blog, icon: 'book' },
+      { path: '/work', label: copy.value.work, icon: 'briefcase' },
+      { path: '/contact', label: copy.value.contact, icon: 'mail' }
+    ] as const
+)
 
-watch(() => route.fullPath, () => {
-  mobileMenu.value?.removeAttribute('open')
-})
+watch(
+  () => route.fullPath,
+  () => {
+    mobileMenu.value?.removeAttribute('open')
+  }
+)
 
 /** Returns focus to the native disclosure trigger when a keyboard user dismisses the menu. */
 function closeMenu() {
@@ -23,18 +29,28 @@ function closeMenu() {
 </script>
 
 <template>
-  <a class="skip-link" href="#main">{{ copy.skip }}</a>
+  <a class="skip-link" href="#main" :title="copy.skip">{{ copy.skip }}</a>
 
   <aside class="site-sidebar">
     <div class="sidebar-top">
-      <NuxtLink :to="localePath('/')" class="wordmark" :title="copy.home" :aria-label="`Alexander Anufriev · ${copy.home}`">a<span>.</span></NuxtLink>
+      <NuxtLink
+        :to="localePath('/')"
+        class="wordmark"
+        :title="copy.home"
+        :aria-label="`a. · ${profile.name} · ${copy.home}`"
+      >a<span>.</span></NuxtLink>
 
       <details ref="mobile-menu" class="mobile-menu" @keydown.esc.prevent="closeMenu">
         <summary :title="copy.menu" :aria-label="copy.menu">
           <AppIcon name="menu" />
         </summary>
         <nav class="mobile-menu-panel" :aria-label="copy.navigation">
-          <NuxtLink v-for="link in links" :key="link.path" :to="localePath(link.path)" :title="link.label"><AppIcon :name="link.icon" /> {{ link.label }}</NuxtLink>
+          <NuxtLink
+            v-for="link in links"
+            :key="link.path"
+            :to="localePath(link.path)"
+            :title="link.label"
+          ><AppIcon :name="link.icon" /> {{ link.label }}</NuxtLink>
         </nav>
       </details>
     </div>

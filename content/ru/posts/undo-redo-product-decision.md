@@ -4,7 +4,7 @@ description: Где провести границу между действие�
 locale: ru
 slug: undo-redo-product-decision
 published: true
-date: '2026-10-18'
+date: '2026-10-20'
 cover: /images/undo-redo.svg
 coverAlt: Схема состояния до действия, одного действия пользователя, результата и возврата через undo
 category: Архитектура

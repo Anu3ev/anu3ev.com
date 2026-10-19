@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#101216"/>
+  <path d="M64 80h1072M64 550h1072" stroke="#2d3139"/>
+  <rect x="960" y="128" width="155" height="360" rx="77" fill="#202c45" stroke="#547bc5" transform="rotate(-25 1037 308)"/>
+  <rect x="1030" y="100" width="80" height="360" rx="40" fill="#547bc5" transform="rotate(-25 1070 280)"/>
+  <text x="70" y="151" font-family="sans-serif" font-size="28" fill="#86adff">anu3ev.com</text>
+  <text x="70" y="280" font-family="sans-serif" font-weight="600" font-size="62" fill="#ecedee">Alexander Anufriev</text>
+  <text x="70" y="354" font-family="sans-serif" font-size="34" fill="#aeb0b5">Product Frontend Engineer</text>
+  <text x="70" y="465" font-family="sans-serif" font-size="27" fill="#86adff">Vue.js · TypeScript · Thoughtful interfaces</text>
+</svg>

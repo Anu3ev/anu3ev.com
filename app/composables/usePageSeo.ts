@@ -1,24 +1,33 @@
-/** Metadata for one indexable page. Reactive values follow Nuxt's reused route components. */
+import { createPageLinks } from '~/utils/seo'
+import { createPageSchemas, serializeJsonLd, type SeoAncestor } from '~~/shared/seo'
+
+/** Reactive metadata follows the current route when Nuxt reuses a page component. */
 interface PageSeo {
   title: MaybeRefOrGetter<string>
   description: MaybeRefOrGetter<string>
   image?: MaybeRefOrGetter<string>
   type?: 'website' | 'article'
   schema?: MaybeRefOrGetter<Record<string, unknown>[]>
+  parent?: MaybeRefOrGetter<SeoAncestor | undefined>
   publishedTime?: MaybeRefOrGetter<string | undefined>
   noindex?: MaybeRefOrGetter<boolean>
 }
 
-/** Owns canonical, alternate languages, social cards and safely serialized structured data. */
+/** Owns canonical, alternate languages, social cards and escaped page/breadcrumb structured data. */
 export function usePageSeo(options: PageSeo) {
   const route = useRoute()
-  const { locale } = useLocale()
+  const { locale, copy, localePath } = useLocale()
   const { siteUrl } = useRuntimeConfig().public
   const origin = siteUrl.replace(/\/$/, '')
-  const canonical = computed(() => `${origin}${route.path === '/' ? '/' : route.path.replace(/\/$/, '')}`)
-  const englishPath = computed(() => route.path.replace(/^\/ru(?=\/|$)/, '') || '/')
+  const pageLinks = computed(() => createPageLinks({ origin, path: route.path, locale: locale.value }))
   const title = computed(() => `${toValue(options.title)} · Alexander Anufriev`)
   const image = computed(() => new URL(toValue(options.image) || '/images/og-default.png', origin).href)
+  const graphs = computed(() => createPageSchemas({
+    home: { name: copy.value.home, url: `${origin}${localePath('/')}` },
+    current: { name: toValue(options.title), url: pageLinks.value.canonical },
+    parent: toValue(options.parent),
+    graphs: toValue(options.schema)
+  }))
 
   useSeoMeta({
     title: () => title.value,
@@ -26,7 +35,7 @@ export function usePageSeo(options: PageSeo) {
     ogTitle: () => title.value,
     ogDescription: () => toValue(options.description),
     ogType: options.type || 'website',
-    ogUrl: () => canonical.value,
+    ogUrl: () => pageLinks.value.canonical,
     ogImage: () => image.value,
     ogImageWidth: 1200,
     ogImageHeight: 630,
@@ -43,19 +52,7 @@ export function usePageSeo(options: PageSeo) {
 
   useHead(() => ({
     htmlAttrs: { lang: locale.value },
-    link: [
-      { rel: 'canonical', href: canonical.value },
-      { rel: 'alternate', hreflang: 'en', href: `${origin}${englishPath.value}` },
-      { rel: 'alternate', hreflang: 'ru', href: `${origin}/ru${englishPath.value === '/' ? '' : englishPath.value}` },
-      { rel: 'alternate', hreflang: 'x-default', href: `${origin}${englishPath.value}` },
-      { rel: 'alternate', type: 'application/rss+xml', title: 'Alexander Anufriev — Blog', href: `${origin}/rss.xml` }
-    ],
-    script: options.schema
-      ? [{
-          key: 'page-schema',
-          type: 'application/ld+json',
-          innerHTML: JSON.stringify(toValue(options.schema)).replace(/</g, '\\u003c')
-        }]
-      : []
+    link: pageLinks.value.links,
+    script: [{ key: 'page-schema', type: 'application/ld+json', innerHTML: serializeJsonLd(graphs.value) }]
   }))
 }

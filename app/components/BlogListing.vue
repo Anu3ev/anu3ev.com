@@ -1,40 +1,60 @@
 <script setup lang="ts">
-import { getPublicationDate } from '~~/shared/publication'
-import { BLOG_PAGE_SIZE, paginate } from '~/utils/pagination'
+import { getPostSummaries } from '~/queries/posts'
+import { paginate } from '~/utils/pagination'
+import { BLOG_PAGE_SIZE } from '~~/shared/blog'
 
 const props = defineProps<{ page: number }>()
 const route = useRoute()
 const { locale, copy, localePath } = useLocale()
+const { siteUrl } = useRuntimeConfig().public
 const search = ref(typeof route.query.q === 'string' ? route.query.q.slice(0, 200) : '')
 const category = ref(typeof route.query.topic === 'string' ? route.query.topic : '')
-const { data: posts } = await useAsyncData(() => `blog-${locale.value}`, () => queryCollection('posts')
-  .where('locale', '=', locale.value).where('published', '=', true).where('date', '<=', getPublicationDate())
-  .order('date', 'DESC').order('slug', 'ASC')
-  .select('slug', 'title', 'description', 'category', 'date', 'readingMinutes', 'cover', 'coverAlt', 'tags').all())
+const { data: posts } = await useAsyncData(
+  () => `blog-${locale.value}`,
+  () => getPostSummaries({ locale: locale.value })
+)
 const categories = computed(() => [...new Set(posts.value?.map(post => post.category))])
-const filteredPosts = computed(() => (posts.value || []).filter((post) => {
-  const matchesCategory = !category.value || post.category === category.value
-  const searchableText = [post.title, post.description, ...post.tags].join(' ').toLocaleLowerCase(locale.value)
-  return matchesCategory && searchableText.includes(search.value.trim().toLocaleLowerCase(locale.value))
-}))
+const filteredPosts = computed(() =>
+  (posts.value || []).filter((post) => {
+    const matchesCategory = !category.value || post.category === category.value
+    const searchableText = [post.title, post.description, ...post.tags]
+      .join(' ')
+      .toLocaleLowerCase(locale.value)
+    return (
+      matchesCategory
+      && searchableText.includes(search.value.trim().toLocaleLowerCase(locale.value))
+    )
+  })
+)
 
 if (props.page > Math.max(1, Math.ceil(filteredPosts.value.length / BLOG_PAGE_SIZE))) {
   throw createError({ statusCode: 404, statusMessage: 'Blog page not found' })
 }
 
 // While an interactive filter navigates back to page one, keep rendering a valid slice.
-const pagination = computed(() => paginate({
-  items: filteredPosts.value,
-  page: Math.min(props.page, Math.max(1, Math.ceil(filteredPosts.value.length / BLOG_PAGE_SIZE)))
-}))
+const pagination = computed(() =>
+  paginate({
+    items: filteredPosts.value,
+    page: Math.min(props.page, Math.max(1, Math.ceil(filteredPosts.value.length / BLOG_PAGE_SIZE)))
+  })
+)
 
 watch([search, category], () => {
-  navigateTo({ path: localePath('/blog'), query: { q: search.value || undefined, topic: category.value || undefined } }, { replace: true })
+  navigateTo(
+    {
+      path: localePath('/blog'),
+      query: { q: search.value || undefined, topic: category.value || undefined }
+    },
+    { replace: true }
+  )
 })
 
 usePageSeo({
-  title: () => props.page > 1 ? `${copy.value.blog} · ${copy.value.page} ${props.page}` : copy.value.blog,
+  title: () =>
+    props.page > 1 ? `${copy.value.blog} · ${copy.value.page} ${props.page}` : copy.value.blog,
   description: () => copy.value.blogIntro,
+  parent: () =>
+    props.page > 1 ? { name: copy.value.blog, url: `${siteUrl}${localePath('/blog')}` } : undefined,
   noindex: () => Boolean(search.value || category.value)
 })
 </script>
@@ -44,7 +64,9 @@ usePageSeo({
     <header class="page-heading">
       <p class="eyebrow">
         {{ copy.recentWriting }}
-      </p><h1>{{ copy.blogTitle }}</h1><p>{{ copy.blogIntro }}</p>
+      </p>
+      <h1>{{ copy.blogTitle }}</h1>
+      <p>{{ copy.blogIntro }}</p>
     </header>
 
     <div class="blog-toolbar">
@@ -94,7 +116,8 @@ usePageSeo({
         :position="(pagination.page - 1) * 10 + index + 1"
       />
       <div v-if="pagination.total === 0" class="empty-state">
-        <h2>{{ copy.noArticles }}</h2><p>{{ copy.noArticlesHint }}</p>
+        <h2>{{ copy.noArticles }}</h2>
+        <p>{{ copy.noArticlesHint }}</p>
       </div>
     </div>
 

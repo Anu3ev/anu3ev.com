@@ -3,7 +3,7 @@ import { messages } from '~/i18n/messages'
 /** Localizes stable routes without a mutable global singleton during static rendering. */
 export function useLocale() {
   const route = useRoute()
-  const locale = computed(() => route.params.lang === 'ru' ? 'ru' : 'en')
+  const locale = computed(() => /^\/ru(?:\/|$)/.test(route.path) ? 'ru' : 'en')
   const copy = computed(() => messages[locale.value])
   const alternatePath = computed(() => locale.value === 'ru'
     ? route.path.replace(/^\/ru(?=\/|$)/, '') || '/'

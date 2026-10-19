@@ -6,7 +6,11 @@ const { copy, localePath, locale } = useLocale()
 
 <template>
   <aside class="profile-sidebar" :aria-label="copy.about">
-    <NuxtLink :to="localePath('/about')" class="profile-mini" :title="copy.about"><span class="small-avatar" aria-hidden="true">aa</span><strong>{{ profile.name }}</strong><span>{{ profile[`headline_${locale}`] }}</span></NuxtLink>
+    <NuxtLink
+      :to="localePath('/about')"
+      class="profile-mini"
+      :title="copy.about"
+    ><span class="small-avatar" aria-hidden="true">aa</span><strong>{{ profile.name }}</strong><span>{{ profile[`headline_${locale}`] }}</span></NuxtLink>
     <p class="sidebar-bio">
       {{ copy.sidebarBio }}
     </p>
@@ -14,11 +18,15 @@ const { copy, localePath, locale } = useLocale()
     <section class="focus-card" aria-labelledby="focus-title">
       <p class="eyebrow">
         {{ copy.currentFocus }}
-      </p><h2 id="focus-title">
+      </p>
+      <h2 id="focus-title">
         {{ copy.focusTitle }}
-      </h2><p>{{ copy.focusDetails }}</p>
+      </h2>
+      <p>{{ copy.focusDetails }}</p>
       <ul class="tags">
-        <li>Vue.js</li><li>TypeScript</li><li>Fabric.js</li>
+        <li>Vue.js</li>
+        <li>TypeScript</li>
+        <li>Fabric.js</li>
       </ul>
     </section>
 
@@ -31,7 +39,8 @@ const { copy, localePath, locale } = useLocale()
     <div class="sidebar-connect">
       <p v-if="profile.available">
         <span class="status-dot" /> {{ copy.available }}
-      </p><NuxtLink :to="localePath('/contact')" :title="copy.letsTalk">{{ copy.letsTalk }} →</NuxtLink>
+      </p>
+      <NuxtLink :to="localePath('/contact')" :title="copy.letsTalk">{{ copy.letsTalk }} →</NuxtLink>
     </div>
   </aside>
 </template>

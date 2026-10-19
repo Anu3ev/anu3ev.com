@@ -8,7 +8,7 @@ export default defineConfig({
     coverage: {
       enabled: true,
       provider: 'v8',
-      include: ['shared/*.ts', 'scripts/lib/content.ts', 'app/utils/pagination.ts'],
+      include: ['shared/*.ts', 'scripts/lib/content.ts', 'scripts/lib/routes.ts', 'app/utils/*.ts'],
       reporter: ['text', 'lcov', 'json', 'json-summary'],
       thresholds: { lines: 85, functions: 90, branches: 80 }
     }

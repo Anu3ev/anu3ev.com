@@ -3,7 +3,8 @@
   try {
     const savedTheme = localStorage.getItem('anu3ev-theme')
     document.documentElement.dataset.theme = savedTheme === 'light' ? 'light' : 'dark'
-  } catch (error) {
+  }
+  catch (error) {
     document.documentElement.dataset.theme = 'dark'
     console.error('Could not read the colour preference', error)
   }

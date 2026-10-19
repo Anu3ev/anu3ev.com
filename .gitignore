@@ -16,3 +16,14 @@ test-results/
 *.log
 public/admin/cms.js
 public/admin/LICENSE.txt
+public/sitemap.xml
+public/robots.txt
+public/rss.xml
+public/ru/rss.xml
+public/site.webmanifest
+public/favicon-48.png
+public/apple-touch-icon.png
+public/icon-192.png
+public/icon-512.png
+public/images/social/
+public/images/responsive/

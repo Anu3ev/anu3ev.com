@@ -25,3 +25,5 @@ pnpm preview
 Админка находится по `/admin/`: [первый вход и редактирование](docs/operations/content.md). Кейсы и статьи редактируются парой English/Русский через GitHub editorial workflow. Черновики исключаются до создания публичной базы.
 
 `pnpm check` проверяет контент, ESLint, TypeScript и unit-тесты. Coverage относится к критичным чистым контрактам, а не всему UI. Решения и последовательность работ: [docs](docs/README.md).
+
+Браузерные проверки: `pnpm exec playwright install chromium`, затем `pnpm test:e2e` (один worker). Тестовая пагинация создаёт отдельную временную сборку и не меняет публикации. `pnpm build` генерирует sitemap, RSS, social cards и responsive WebP. После локальной смены cover при работающем dev: `pnpm assets:prepare`.

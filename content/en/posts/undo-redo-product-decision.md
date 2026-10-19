@@ -4,7 +4,7 @@ description: Where to draw the line between a user action and a history entry, a
 locale: en
 slug: undo-redo-product-decision
 published: true
-date: '2026-10-18'
+date: '2026-10-20'
 cover: /images/undo-redo.svg
 coverAlt: Diagram showing before, one user action, after, and the undo path back to the previous state
 category: Architecture
