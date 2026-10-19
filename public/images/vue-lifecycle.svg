@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" rx="12" fill="#22252b"/><rect x="1" y="1" width="1198" height="628" rx="12" fill="none" stroke="#424854"/>
+  <g font-family="monospace" font-size="34" fill="#cbd4e6"><text x="235" y="250">onMounted</text><text x="235" y="360">onUnmounted</text><text x="740" y="250">create</text><text x="740" y="360">cleanup</text></g>
+  <g stroke="#86adff" stroke-width="3" fill="none"><path d="M565 238h95m-12-12 12 12-12 12M565 348h95m-12-12 12 12-12 12"/></g>
+  <path d="M235 294h730" stroke="#424854"/><text x="600" y="480" text-anchor="middle" font-family="monospace" font-size="17" letter-spacing="3" fill="#aeb0b5">EVERY RESOURCE HAS AN OWNER.</text>
+</svg>

@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | 01-foundation | Ревизия, архитектура, источник контента, этапы и критерии | Завершена |
 | 02-site | Nuxt, текущий MagicPath, адаптивность, локализация, реальные контакты | Завершена |
-| 03-content-and-cms | CMS, схема, кейсы/статьи из Obsidian, картинки, рабочее редактирование | Запланирована |
+| 03-content-and-cms | CMS, схема, кейсы/статьи из Obsidian, картинки, редакционный workflow | Завершена; первый PAT-вход выполняет владелец |
 | 04-quality-and-seo | SEO/RSS/sitemap, пагинация, unit/e2e/axe, review и исправления | Запланирована |
 | 05-release-and-deploy | GitHub CI/Release, Vercel Git integration, публичный URL, DNS и проверка production | Запланирована |
 

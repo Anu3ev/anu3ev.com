@@ -217,7 +217,7 @@ p { line-height: 1.85; }
 .case-facts dt { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
 .case-facts dd { margin: 0; font-size: 13px; }
 .case-facts .tags { margin-top: 0; }
-.case-cover { width: 100%; border-radius: 7px; border: 1px solid var(--line); margin-block: 28px 36px; }
+.case-cover { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 7px; border: 1px solid var(--line); margin-block: 28px 36px; }
 .reading-layout { min-width: 0; }
 .table-of-contents { margin-top: 36px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 12px; }
 .table-of-contents .eyebrow { margin-bottom: 12px; }

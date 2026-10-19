@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import profile from '~~/content/settings/profile.json'
 
-const { copy, localePath } = useLocale()
+const { copy, localePath, locale } = useLocale()
 const route = useRoute()
 const mobileMenu = useTemplateRef<HTMLDetailsElement>('mobile-menu')
 const links = computed(() => [
@@ -58,7 +58,7 @@ function closeMenu() {
         <span class="status-dot" />{{ copy.available }}
       </p>
       <p class="sidebar-role">
-        {{ copy.role }}<br>{{ copy.based }}
+        {{ profile[`headline_${locale}`] }}<br>{{ profile.location }}
       </p>
       <div class="sidebar-social">
         <a :href="profile.github" title="GitHub">GitHub ↗</a><a :href="profile.linkedin" title="LinkedIn">LinkedIn ↗</a>

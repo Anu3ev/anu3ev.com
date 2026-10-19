@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getPublicationDate } from '~~/shared/publication'
 import profile from '~~/content/settings/profile.json'
 
 const route = useRoute()
@@ -6,7 +7,7 @@ const { locale, copy, localePath } = useLocale()
 const { siteUrl } = useRuntimeConfig().public
 const { data: post } = await useAsyncData(() => `post-${locale.value}-${route.params.slug}`, () => queryCollection('posts')
   .where('locale', '=', locale.value).where('slug', '=', String(route.params.slug)).where('published', '=', true)
-  .where('date', '<=', new Date().toISOString().slice(0, 10)).first())
+  .where('date', '<=', getPublicationDate()).first())
 
 if (!post.value) throw createError({ statusCode: 404, statusMessage: 'Article not found' })
 

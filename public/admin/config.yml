@@ -1,0 +1,91 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms@0.248.1/schema/sveltia-cms.json
+backend:
+  name: github
+  repo: Anu3ev/anu3ev.com
+  branch: master
+  auth_methods: [token]
+
+publish_mode: editorial_workflow
+media_folder: public/images/uploads
+public_folder: /images/uploads
+logo:
+  src: /favicon.svg
+  show_in_header: true
+
+i18n:
+  structure: multiple_folders
+  locales: [en, ru]
+  default_locale: en
+  initial_locales: all
+  omit_default_locale_from_preview_path: true
+
+collections:
+  - name: posts
+    label: Статьи
+    label_singular: Статья
+    folder: content/{{locale}}/posts
+    i18n: true
+    create: true
+    slug: '{{fields.slug}}'
+    preview_path: /{{locale}}/blog/{{slug}}
+    summary: '{{title}} · {{date}}'
+    fields:
+      - { name: locale, widget: hidden, default: '{{locale}}', i18n: true }
+      - { name: title, label: Заголовок, widget: string, i18n: true }
+      - { name: slug, label: URL slug, widget: string, i18n: duplicate, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Латиница, цифры и дефисы'], hint: Не меняйте slug уже опубликованной статьи. }
+      - { name: description, label: Описание для карточки и SEO, widget: text, i18n: true }
+      - { name: published, label: Публиковать на сайте, widget: boolean, default: false, i18n: duplicate, hint: Черновики исключаются из публичной сборки. Заполните обе языковые версии перед публикацией. }
+      - { name: date, label: Дата публикации, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false, i18n: duplicate, hint: Часовой пояс сайта — Asia/Tbilisi. Будущая дата появится только после новой сборки в этот день. }
+      - { name: cover, label: Обложка, widget: image, i18n: duplicate_if_empty, hint: Рекомендуется WebP до 200 КБ; 1200 × 630 px. }
+      - { name: coverAlt, label: Что изображено на обложке, widget: string, i18n: true }
+      - { name: category, label: Категория, widget: string, i18n: true }
+      - { name: tags, label: Темы, widget: list, i18n: duplicate }
+      - { name: readingMinutes, label: Минут чтения, widget: number, value_type: int, min: 1, max: 60, default: 5, i18n: duplicate }
+      - { name: body, label: Текст, widget: markdown, i18n: true, hint: Используйте H2/H3. H1 уже создаётся из заголовка. HTML-примеры размещайте внутри блоков кода. }
+
+  - name: projects
+    label: Проекты
+    label_singular: Проект
+    folder: content/{{locale}}/projects
+    i18n: true
+    create: true
+    slug: '{{fields.slug}}'
+    preview_path: /{{locale}}/work/{{slug}}
+    summary: '{{title}} · {{year}}'
+    fields:
+      - { name: locale, widget: hidden, default: '{{locale}}', i18n: true }
+      - { name: title, label: Название кейса, widget: string, i18n: true }
+      - { name: slug, label: URL slug, widget: string, i18n: duplicate, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Латиница, цифры и дефисы'], hint: Не меняйте slug опубликованного проекта. }
+      - { name: description, label: Описание для карточки и SEO, widget: text, i18n: true }
+      - { name: published, label: Публиковать на сайте, widget: boolean, default: false, i18n: duplicate }
+      - { name: cover, label: Изображение, widget: image, i18n: duplicate_if_empty, hint: Рекомендуется WebP до 200 КБ; 1200 × 675 px. }
+      - { name: coverAlt, label: Описание изображения, widget: string, i18n: true }
+      - { name: category, label: Направление, widget: string, i18n: true, default: Product engineering, default_localized: { ru: Продуктовая разработка } }
+      - { name: year, label: Период, widget: string, i18n: duplicate }
+      - { name: role, label: Моя роль, widget: string, i18n: true }
+      - { name: stack, label: Технологии, widget: list, i18n: duplicate }
+      - { name: featured, label: Показывать на главной, widget: boolean, default: false, i18n: duplicate }
+      - { name: order, label: Порядок в списке, widget: number, value_type: int, min: 0, max: 999, default: 10, i18n: duplicate }
+      - { name: repository, label: Публичный репозиторий, widget: string, required: false, i18n: duplicate, hint: Только HTTPS. Не указывайте приватные репозитории работодателя. }
+      - { name: demo, label: Интерактивное демо, widget: string, required: false, i18n: duplicate, hint: Только HTTPS. Демо открывается по ссылке и не загружается в общий layout. }
+      - { name: body, label: Кейс, widget: markdown, i18n: true, hint: Контекст → моя роль → решения → ограничения → результат. Заголовки начинаются с H2. }
+
+  - name: settings
+    label: Настройки сайта
+    publish_mode: simple
+    files:
+      - name: profile
+        label: Профиль и контакты
+        file: content/settings/profile.json
+        fields:
+          - { name: name, label: Имя, widget: string }
+          - { name: email, label: Email, widget: string }
+          - { name: github, label: GitHub URL, widget: string }
+          - { name: linkedin, label: LinkedIn URL, widget: string }
+          - { name: telegram, label: Telegram URL, widget: string }
+          - { name: location, label: Расположение, widget: string }
+          - { name: available, label: Открыт к предложениям, widget: boolean }
+          - { name: headline_en, label: Роль — English, widget: string }
+          - { name: headline_ru, label: Роль — Русский, widget: string }
+          - { name: bio_en, label: О себе — English, widget: text }
+          - { name: bio_ru, label: О себе — Русский, widget: text }

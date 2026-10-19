@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import profile from '~~/content/settings/profile.json'
 
-const { copy, localePath } = useLocale()
+const { copy, localePath, locale } = useLocale()
 </script>
 
 <template>
   <aside class="profile-sidebar" :aria-label="copy.about">
-    <NuxtLink :to="localePath('/about')" class="profile-mini" :title="copy.about"><span class="small-avatar" aria-hidden="true">aa</span><strong>{{ profile.name }}</strong><span>{{ copy.role }}</span></NuxtLink>
+    <NuxtLink :to="localePath('/about')" class="profile-mini" :title="copy.about"><span class="small-avatar" aria-hidden="true">aa</span><strong>{{ profile.name }}</strong><span>{{ profile[`headline_${locale}`] }}</span></NuxtLink>
     <p class="sidebar-bio">
       {{ copy.sidebarBio }}
     </p>

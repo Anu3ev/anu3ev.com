@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getPublicationDate } from '~~/shared/publication'
 import profile from '~~/content/settings/profile.json'
 
 const { locale, copy, localePath } = useLocale()
@@ -7,7 +8,7 @@ const { data: projects } = await useAsyncData(() => `home-projects-${locale.valu
   .where('locale', '=', locale.value).where('published', '=', true).where('featured', '=', true)
   .order('order', 'ASC').select('slug', 'title', 'description', 'category', 'year', 'cover', 'coverAlt', 'stack').limit(1).all())
 const { data: posts } = await useAsyncData(() => `home-posts-${locale.value}`, () => queryCollection('posts')
-  .where('locale', '=', locale.value).where('published', '=', true).where('date', '<=', new Date().toISOString().slice(0, 10))
+  .where('locale', '=', locale.value).where('published', '=', true).where('date', '<=', getPublicationDate())
   .order('date', 'DESC').select('slug', 'title', 'description', 'category', 'date', 'readingMinutes', 'cover', 'coverAlt', 'tags').limit(1).all())
 
 usePageSeo({
@@ -40,7 +41,7 @@ usePageSeo({
           {{ profile[`bio_${locale}`] }}
         </p>
         <p class="profile-location">
-          <span>◎ {{ copy.based }}</span><span>↗ {{ copy.remote }}</span>
+          <span>◎ {{ profile.location }}</span><span>↗ {{ copy.remote }}</span>
         </p>
         <ul class="tags">
           <li>Vue.js</li><li>TypeScript</li><li>{{ copy.editors }}</li><li>E-commerce SaaS</li>
