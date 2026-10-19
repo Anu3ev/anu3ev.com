@@ -1,0 +1,18 @@
+{
+  "entry": ["public/theme.js"],
+  "ignoreDependencies": ["vue-tsc"],
+  "boundaries": {
+    "zones": [
+      { "name": "app", "patterns": ["app/**", "public/theme.js"] },
+      { "name": "shared", "patterns": ["shared/**"] },
+      { "name": "tooling", "patterns": ["scripts/**", "*.config.ts"] },
+      { "name": "tests", "patterns": ["tests/**"] }
+    ],
+    "rules": [
+      { "from": "app", "allow": ["app", "shared"] },
+      { "from": "shared", "allow": ["shared"] },
+      { "from": "tooling", "allow": ["tooling", "shared"] },
+      { "from": "tests", "allow": ["tests", "app", "shared", "tooling"] }
+    ]
+  }
+}
