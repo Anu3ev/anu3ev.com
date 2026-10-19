@@ -1,0 +1,13 @@
+{
+  "name": "Alexander Anufriev",
+  "email": "alexander.s.anufriev@gmail.com",
+  "github": "https://github.com/Anu3ev",
+  "linkedin": "https://www.linkedin.com/in/alexander-s-anufriev/",
+  "telegram": "https://t.me/anu3ev",
+  "location": "Batumi, Georgia · UTC+4",
+  "available": true,
+  "headline_en": "Product Frontend Engineer",
+  "headline_ru": "Продуктовый frontend-разработчик",
+  "bio_en": "I build thoughtful interfaces for complex products.\nVue.js, TypeScript, and five years of turning the details into a better experience.",
+  "bio_ru": "Создаю продуманные интерфейсы для сложных продуктов.\nVue.js, TypeScript и пять лет работы с деталями, из которых складывается удобство."
+}
