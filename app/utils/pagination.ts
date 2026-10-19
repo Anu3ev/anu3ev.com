@@ -1,5 +1,4 @@
-/** Maximum number of articles exposed on a single listing page. */
-export const BLOG_PAGE_SIZE = 10
+import { BLOG_PAGE_SIZE } from '../../shared/blog'
 
 /** Rejects invalid external pagination inputs instead of silently returning duplicate or empty pages. */
 export function paginate<T>({ items, page, pageSize = BLOG_PAGE_SIZE }: { items: readonly T[], page: number, pageSize?: number }) {

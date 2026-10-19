@@ -1,7 +1,11 @@
 import tailwindcss from '@tailwindcss/vite'
+import { readFileSync } from 'node:fs'
+import { readContentInventory } from './scripts/lib/content'
+import { createPublicPaths } from './scripts/lib/routes'
 
 /** Public origin is a build-time setting so static metadata always matches the live host. */
-const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://anu3ev-portfolio.vercel.app'
+const siteUrl = new URL(process.env.NUXT_PUBLIC_SITE_URL || 'https://anu3ev-portfolio.vercel.app').origin
+const initialTheme = readFileSync(new URL('./app/assets/theme-init.js', import.meta.url), 'utf8')
 
 export default defineNuxtConfig({
   modules: ['@nuxt/content', '@nuxt/eslint'],
@@ -9,20 +13,27 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
-      meta: [{ name: 'theme-color', content: '#161513' }],
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
-      script: [{ src: '/theme.js', tagPosition: 'head' }]
+      meta: [{ name: 'theme-color', content: '#101216' }],
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'icon', type: 'image/png', sizes: '48x48', href: '/favicon-48.png' },
+        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/site.webmanifest' }
+      ],
+      script: [{ key: 'initial-theme', innerHTML: initialTheme, tagPosition: 'head' }]
     }
   },
   css: ['~/assets/css/main.css'],
   content: { build: { markdown: { highlight: false } } },
   runtimeConfig: { public: { siteUrl } },
+  experimental: { defaults: { nuxtLink: { prefetchOn: { interaction: true, visibility: false } } } },
   compatibilityDate: '2026-10-01',
   nitro: {
+    compressPublicAssets: true,
     prerender: {
       crawlLinks: true,
       failOnError: true,
-      routes: ['/', '/ru', '/work', '/ru/work', '/blog', '/ru/blog', '/about', '/ru/about', '/contact', '/ru/contact', '/privacy', '/ru/privacy']
+      routes: createPublicPaths(readContentInventory())
     }
   },
   vite: { plugins: [tailwindcss()] },

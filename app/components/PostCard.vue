@@ -3,7 +3,14 @@ import type { PostSummary } from '~/types/content'
 
 const { post } = defineProps<{ post: PostSummary, illustrated?: boolean, position?: number }>()
 const { copy, locale, localePath } = useLocale()
-const dateLabel = computed(() => new Intl.DateTimeFormat(locale.value, { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(post.date)))
+const dateLabel = computed(() =>
+  new Intl.DateTimeFormat(locale.value, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    timeZone: 'UTC'
+  }).format(new Date(post.date))
+)
 </script>
 
 <template>
@@ -26,10 +33,19 @@ const dateLabel = computed(() => new Intl.DateTimeFormat(locale.value, { day: 'n
       loading="lazy"
       decoding="async"
     ></NuxtLink>
-    <h2><NuxtLink :to="localePath(`/blog/${post.slug}`)" :title="`${copy.readArticle}: ${post.title}`">{{ post.title }}</NuxtLink></h2>
+    <h2>
+      <NuxtLink
+        :to="localePath(`/blog/${post.slug}`)"
+        :title="`${copy.readArticle}: ${post.title}`"
+      >{{ post.title }}</NuxtLink>
+    </h2>
     <p>{{ post.description }}</p>
     <div class="post-card-bottom">
-      <span>{{ post.readingMinutes }} {{ copy.minuteRead }}</span><NuxtLink :to="localePath(`/blog/${post.slug}`)" class="text-link" :title="`${copy.readArticle}: ${post.title}`">{{ copy.readArticle }} <AppIcon name="arrow" /></NuxtLink>
+      <span>{{ post.readingMinutes }} {{ copy.minuteRead }}</span><NuxtLink
+        :to="localePath(`/blog/${post.slug}`)"
+        class="text-link"
+        :title="`${copy.readArticle}: ${post.title}`"
+      >{{ copy.readArticle }} <AppIcon name="arrow" /></NuxtLink>
     </div>
   </article>
 </template>

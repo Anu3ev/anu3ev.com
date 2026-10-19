@@ -1,11 +1,20 @@
 <script setup lang="ts">
 const { locale, copy } = useLocale()
 const category = ref('')
-const { data: projects } = await useAsyncData(() => `work-${locale.value}`, () => queryCollection('projects')
-  .where('locale', '=', locale.value).where('published', '=', true).order('order', 'ASC')
-  .select('slug', 'title', 'description', 'category', 'year', 'cover', 'coverAlt', 'stack').all())
+const { data: projects } = await useAsyncData(
+  () => `work-${locale.value}`,
+  () =>
+    queryCollection('projects')
+      .where('locale', '=', locale.value)
+      .where('published', '=', true)
+      .order('order', 'ASC')
+      .select('locale', 'slug', 'title', 'description', 'category', 'year', 'stack')
+      .all()
+)
 const categories = computed(() => [...new Set(projects.value?.map(project => project.category))])
-const visibleProjects = computed(() => projects.value?.filter(project => !category.value || project.category === category.value))
+const visibleProjects = computed(() =>
+  projects.value?.filter(project => !category.value || project.category === category.value)
+)
 
 usePageSeo({ title: () => copy.value.work, description: () => copy.value.workIntro })
 </script>
@@ -16,7 +25,9 @@ usePageSeo({ title: () => copy.value.work, description: () => copy.value.workInt
       <header class="page-heading">
         <p class="eyebrow">
           {{ copy.selectedWork }}
-        </p><h1>{{ copy.workHeading }}</h1><p>{{ copy.workIntro }}</p>
+        </p>
+        <h1>{{ copy.workHeading }}</h1>
+        <p>{{ copy.workIntro }}</p>
       </header>
       <div class="blog-toolbar" role="group" :aria-label="copy.projectStack">
         <button

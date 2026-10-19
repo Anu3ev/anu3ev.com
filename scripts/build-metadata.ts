@@ -1,0 +1,68 @@
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import sharp from 'sharp'
+import { readContentInventory } from './lib/content'
+import { createPublicPaths } from './lib/routes'
+import { socialImagePath } from '../shared/seo'
+
+/** XML text/attributes must remain data even when an editor writes angle brackets or ampersands. */
+function escapeXml(value: string) {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
+}
+
+const { projects, posts, profile } = readContentInventory()
+const siteOrigin = new URL(process.env.NUXT_PUBLIC_SITE_URL || 'https://anu3ev-portfolio.vercel.app')
+if (siteOrigin.protocol !== 'https:') throw new Error('The public canonical origin must use HTTPS')
+if (siteOrigin.pathname !== '/' || siteOrigin.search || siteOrigin.hash) throw new Error('The public site URL must be an origin without path, query or fragment')
+
+const origin = siteOrigin.origin
+const paths = createPublicPaths({ projects, posts })
+const urls = paths.map(path => `<url><loc>${escapeXml(`${origin}${path}`)}</loc></url>`).join('\n')
+writeFileSync('public/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`)
+writeFileSync('public/robots.txt', `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${origin}/sitemap.xml\n`)
+
+rmSync('public/images/social', { recursive: true, force: true })
+
+for (const locale of ['en', 'ru'] as const) {
+  const prefix = locale === 'ru' ? '/ru' : ''
+  const feedPath = `public${prefix}/rss.xml`
+  const articles = posts.filter(post => post.isPublic && post.metadata.locale === locale).sort((first, second) => second.metadata.date.localeCompare(first.metadata.date) || first.metadata.slug.localeCompare(second.metadata.slug))
+  const items = articles.map(({ metadata }) => {
+    const url = `${origin}${prefix}/blog/${metadata.slug}`
+    const date = new Date(`${metadata.date}T00:00:00+04:00`).toUTCString()
+    return `<item>
+      <title>${escapeXml(metadata.title)}</title>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
+      <description>${escapeXml(metadata.description)}</description>
+      <pubDate>${date}</pubDate>
+    </item>`
+  }).join('\n')
+  mkdirSync(dirname(feedPath), { recursive: true })
+  const feedXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>${escapeXml(profile.name)} — Blog</title>
+    <link>${origin}${prefix}/blog</link>
+    <description>${escapeXml(profile[`bio_${locale}`])}</description>
+    <language>${locale}</language>
+    <atom:link href="${origin}${prefix}/rss.xml" rel="self" type="application/rss+xml"/>
+    ${items}
+  </channel>
+</rss>
+`
+  writeFileSync(feedPath, feedXml)
+
+  for (const { metadata } of articles) {
+    const imagePath = join('public', socialImagePath({ locale, slug: metadata.slug }).slice(1))
+    mkdirSync(dirname(imagePath), { recursive: true })
+    await sharp(join('public', metadata.cover.slice(1))).resize(1200, 630, { fit: 'cover' }).png().toFile(imagePath)
+  }
+}
+
+const favicon = readFileSync('public/favicon.svg')
+for (const [size, filename] of [[48, 'favicon-48.png'], [180, 'apple-touch-icon.png'], [192, 'icon-192.png'], [512, 'icon-512.png']] as const) {
+  await sharp(favicon).resize(size, size).png().toFile(`public/${filename}`)
+}
+writeFileSync('public/site.webmanifest', JSON.stringify({ name: profile.name, short_name: 'anu3ev', start_url: '/', display: 'browser', background_color: '#101216', theme_color: '#101216', icons: [{ src: '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 2))
+console.log(`Generated sitemap (${paths.length} pages), EN/RU RSS, social cards, manifest and icons for ${origin}.`)

@@ -1,0 +1,20 @@
+import { expect, test } from '@playwright/test'
+
+test('real generated pagination keeps 10 articles on page one and supports a direct second-page reload', async ({ page, request }) => {
+  await page.goto('http://127.0.0.1:4174/blog')
+  await expect(page.locator('.post-card')).toHaveCount(10)
+  const firstPage = await page.locator('.post-card h2 a').evaluateAll(links => links.map(link => link.getAttribute('href')))
+  await page.getByRole('navigation', { name: 'Blog pagination' }).getByRole('link', { name: 'Page 2', exact: true }).click()
+  await expect(page).toHaveURL(/\/blog\/page\/2\/?$/)
+  await expect(page.locator('.post-card')).toHaveCount(2)
+  const secondPage = await page.locator('.post-card h2 a').evaluateAll(links => links.map(link => link.getAttribute('href')))
+  expect(firstPage.some(path => secondPage.includes(path))).toBe(false)
+  await page.reload()
+  await expect(page.locator('.post-card')).toHaveCount(2)
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://pagination.example.test/blog/page/2')
+  await page.getByRole('link', { name: 'RU', exact: true }).click()
+  await expect(page).toHaveURL(/\/ru\/blog\/page\/2\/?$/)
+  await expect(page.locator('.post-card')).toHaveCount(2)
+  const missing = await request.get('http://127.0.0.1:4174/blog/page/3')
+  expect(missing.status()).toBe(404)
+})

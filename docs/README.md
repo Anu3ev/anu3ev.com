@@ -9,6 +9,7 @@
 - [Nuxt и текущий MagicPath](tasks/02-site/summary.md)
 - [Контент и CMS](tasks/03-content-and-cms/summary.md)
 - [Как редактировать сайт](operations/content.md)
+- [SEO, accessibility и performance](tasks/04-quality-and-seo/summary.md)
 
 У каждой задачи — отдельная папка в `docs/tasks/`, описание результата и `summary.md`. Статус означает реально выполненную работу. Необходимые операционные инструкции появятся в `docs/operations/`.
 

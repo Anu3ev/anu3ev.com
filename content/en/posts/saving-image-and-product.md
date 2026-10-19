@@ -4,7 +4,7 @@ description: Two save buttons can represent different commitments. A lesson from
 locale: en
 slug: saving-image-and-product
 published: true
-date: '2026-10-16'
+date: '2026-10-20'
 cover: /images/two-saves.svg
 coverAlt: Diagram separating image preparation in the editor from confirming the product change
 category: Product UX
