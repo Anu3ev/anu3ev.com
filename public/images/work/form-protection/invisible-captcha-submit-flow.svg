@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" font-family="Inter, sans-serif">
+  <rect width="1200" height="675" fill="#101216"/>
+  <text x="64" y="78" fill="#ecedee" font-size="30" font-weight="600">Form submit with an invisible CAPTCHA check</text>
+  <text x="64" y="112" fill="#a1a3a8" font-size="18">Diagram of the flow shared by Google reCAPTCHA Invisible and Yandex SmartCaptcha.</text>
+
+  <rect x="380" y="150" width="440" height="88" rx="12" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>
+  <text x="600" y="182" text-anchor="middle" fill="#a1a3a8" font-size="15" font-weight="600" letter-spacing="1.5">ONE STORE SETTING</text>
+  <text x="600" y="215" text-anchor="middle" fill="#ecedee" font-size="19">Google reCAPTCHA or Yandex SmartCaptcha</text>
+  <path d="M600 240v48m-10-12 10 12 10-12" fill="none" stroke="#86adff" stroke-width="3"/>
+  <text x="614" y="270" fill="#a1a3a8" font-size="14">used after the page reloads</text>
+
+  <g fill="#181a1f" stroke="#2d3139" stroke-width="2">
+    <rect x="64" y="300" width="184" height="116" rx="12"/>
+    <rect x="286" y="300" width="184" height="116" rx="12"/>
+    <rect x="730" y="300" width="184" height="116" rx="12"/>
+    <rect x="952" y="300" width="184" height="116" rx="12"/>
+  </g>
+  <rect x="508" y="300" width="184" height="116" rx="12" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>
+  <rect x="730" y="300" width="184" height="116" rx="12" fill="#181a1f" stroke="#86adff" stroke-width="2"/>
+
+  <g text-anchor="middle" font-size="14" font-weight="600" fill="#86adff" letter-spacing="1">
+    <text x="156" y="330">01</text><text x="378" y="330">02</text><text x="600" y="330">03</text><text x="822" y="330">04</text><text x="1044" y="330">05</text>
+  </g>
+  <g text-anchor="middle" font-size="19" font-weight="600" fill="#ecedee">
+    <text x="156" y="362">Submit</text><text x="378" y="362">Validate fields</text><text x="600" y="362">Wait for token</text><text x="822" y="362">Bound callback</text><text x="1044" y="362">Server check</text>
+  </g>
+  <g text-anchor="middle" font-size="15" fill="#a1a3a8">
+    <text x="156" y="392">Customer presses Send</text><text x="378" y="392">Existing form rules</text><text x="600" y="392">Provider check runs</text><text x="822" y="392">Resumes this form</text><text x="1044" y="392">Verifies the token</text>
+  </g>
+  <g fill="none" stroke="#86adff" stroke-width="2.5">
+    <path d="M250 358h32m-9-9 9 9-9 9"/>
+    <path d="M472 358h32m-9-9 9 9-9 9"/>
+    <path d="M694 358h32m-9-9 9 9-9 9"/>
+    <path d="M916 358h32m-9-9 9 9-9 9"/>
+  </g>
+
+  <path d="M600 418v52" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M822 418v52" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <g fill="#181a1f" stroke="#2d3139" stroke-width="2">
+    <rect x="286" y="476" width="406" height="104" rx="12"/>
+    <rect x="730" y="476" width="406" height="104" rx="12"/>
+  </g>
+  <g font-size="14" font-weight="600" fill="#a9c4f5" letter-spacing="1.5">
+    <text x="310" y="510">CHALLENGE CLOSED</text>
+    <text x="754" y="510">SEVERAL FORMS ON ONE PAGE</text>
+  </g>
+  <g font-size="17" fill="#ecedee">
+    <text x="310" y="546">Waiting state resets; a retry gets a fresh token</text>
+    <text x="754" y="546">Each result resumes only its own form</text>
+  </g>
+</svg>
