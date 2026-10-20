@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="Inter, sans-serif">
+  <title>Cache decision by product update timestamp instead of a timer</title>
+  <rect width="1200" height="630" fill="#101216"/>
+
+  <rect x="60" y="60" width="380" height="510" rx="20" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+  <text x="96" y="116" fill="#a1a3a8" font-size="24" font-weight="600">Before</text>
+  <text x="96" y="162" fill="#ecedee" font-size="30" font-weight="600">"Is it older than</text>
+  <text x="96" y="200" fill="#ecedee" font-size="30" font-weight="600">two minutes?"</text>
+  <line x1="96" y1="240" x2="404" y2="240" stroke="#2d3139" stroke-width="2"/>
+  <text x="96" y="290" fill="#ecedee" font-size="24">Product changed:</text>
+  <text x="96" y="324" fill="#a1a3a8" font-size="24">stale until it expires</text>
+  <text x="96" y="390" fill="#ecedee" font-size="24">Nothing changed:</text>
+  <text x="96" y="424" fill="#a1a3a8" font-size="24">fetched again anyway</text>
+  <text x="96" y="500" fill="#a9c4f5" font-size="24">After: ~70% fewer</text>
+  <text x="96" y="534" fill="#a9c4f5" font-size="24">product-data requests</text>
+
+  <text x="480" y="104" fill="#86adff" font-size="30" font-weight="600">After: "Has this product changed?"</text>
+  <g font-size="24">
+    <rect x="480" y="130" width="660" height="80" rx="14" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>
+    <text x="508" y="180" fill="#ecedee">Cached, same updated_at</text>
+    <text x="1112" y="180" fill="#86adff" text-anchor="end" font-weight="600">reuse</text>
+
+    <rect x="480" y="222" width="660" height="80" rx="14" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+    <text x="508" y="272" fill="#ecedee">Not in the cache</text>
+    <text x="1112" y="272" fill="#a9c4f5" text-anchor="end">fetch</text>
+
+    <rect x="480" y="314" width="660" height="80" rx="14" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+    <text x="508" y="364" fill="#ecedee">updated_at changed</text>
+    <text x="1112" y="364" fill="#a9c4f5" text-anchor="end">refresh</text>
+
+    <rect x="480" y="406" width="660" height="80" rx="14" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+    <text x="508" y="456" fill="#ecedee">Widget needs missing variants</text>
+    <text x="1112" y="456" fill="#a9c4f5" text-anchor="end">fetch full</text>
+
+    <rect x="480" y="498" width="660" height="80" rx="14" fill="#181a1f" stroke="#2d3139" stroke-width="2" stroke-dasharray="8 6"/>
+    <text x="508" y="548" fill="#ecedee">Old template, no timestamp</text>
+    <text x="1112" y="548" fill="#a1a3a8" text-anchor="end">keep timer</text>
+  </g>
+</svg>

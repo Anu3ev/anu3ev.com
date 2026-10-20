@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Inter, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+      <path d="M0 0 12 6 0 12z" fill="#86adff"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="630" fill="#101216"/>
+
+  <text x="80" y="92" font-size="40" font-weight="700" fill="#ecedee">Which language is under the cursor?</text>
+
+  <!-- One template, several languages -->
+  <rect x="70" y="122" width="690" height="400" rx="16" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+  <text x="100" y="166" font-size="24" fill="#a1a3a8">One storefront template file</text>
+
+  <!-- Row 1: HTML, Liquid inside an attribute, HTML -->
+  <rect x="100" y="190" width="140" height="56" rx="8" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="116" y="227" font-size="24" fill="#ecedee">&lt;a href="</text>
+  <rect x="248" y="190" width="250" height="56" rx="8" fill="#547bc5"/>
+  <text x="264" y="227" font-size="24" fill="#ecedee">{{ product.url }}</text>
+  <rect x="506" y="190" width="60" height="56" rx="8" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="520" y="227" font-size="24" fill="#ecedee">"&gt;</text>
+
+  <!-- Row 2: script opening tag -->
+  <rect x="100" y="266" width="500" height="56" rx="8" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="116" y="303" font-size="24" fill="#ecedee">&lt;script type="application/ld+json"&gt;</text>
+
+  <!-- Row 3: JSON island with the cursor -->
+  <rect x="130" y="342" width="310" height="56" rx="8" fill="#86adff"/>
+  <text x="146" y="379" font-size="24" fill="#101216">{ "name": "Mug" }</text>
+  <rect x="352" y="350" width="3" height="40" fill="#101216"/>
+
+  <!-- Row 4: CSS island -->
+  <rect x="100" y="418" width="110" height="56" rx="8" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="116" y="455" font-size="24" fill="#ecedee">&lt;style&gt;</text>
+  <rect x="218" y="418" width="300" height="56" rx="8" fill="#a9c4f5"/>
+  <text x="234" y="455" font-size="24" fill="#101216">.card { color: red }</text>
+
+  <!-- Ask the model -->
+  <path d="M446 370H786" stroke="#86adff" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <rect x="790" y="262" width="340" height="216" rx="16" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>
+  <text x="816" y="306" font-size="26" font-weight="600" fill="#ecedee">Ask the model</text>
+  <text x="816" y="344" font-size="22" fill="#a1a3a8">getLanguageIdAtPosition</text>
+  <text x="816" y="404" font-size="34" font-weight="700" fill="#86adff">json</text>
+  <text x="816" y="450" font-size="22" fill="#ecedee">JSON suggestions only</text>
+
+  <!-- Legend -->
+  <g font-size="22" fill="#a1a3a8">
+    <rect x="100" y="548" width="26" height="26" rx="5" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+    <text x="136" y="569">HTML</text>
+    <rect x="236" y="548" width="26" height="26" rx="5" fill="#547bc5"/>
+    <text x="272" y="569">Liquid</text>
+    <rect x="382" y="548" width="26" height="26" rx="5" fill="#86adff"/>
+    <text x="418" y="569">JSON</text>
+    <rect x="514" y="548" width="26" height="26" rx="5" fill="#a9c4f5"/>
+    <text x="550" y="569">CSS</text>
+  </g>
+</svg>
