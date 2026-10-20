@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const { copy } = useLocale()
-const isLight = ref(false)
+/** The prepainted browser theme is only known after mount; the toggle waits for that state. */
+const isLight = ref<boolean | null>(null)
 
 onMounted(() => {
   isLight.value = document.documentElement.dataset.theme === 'light'
@@ -27,7 +28,8 @@ function toggleTheme() {
     class="icon-button"
     :title="copy.switchTheme"
     :aria-label="copy.switchTheme"
-    :aria-pressed="isLight"
+    :aria-pressed="isLight ?? false"
+    :disabled="isLight === null"
     @click="toggleTheme"
   >
     <AppIcon name="contrast" />

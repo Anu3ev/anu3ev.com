@@ -49,12 +49,13 @@ usePageSeo({
         <h1>{{ siteContent.portfolio.title }}</h1>
         <p>{{ siteContent.portfolio.intro }}</p>
       </header>
-      <div class="blog-toolbar" role="group" :aria-label="copy.projectStack">
+      <div class="blog-toolbar" role="group" :aria-label="copy.projectStack" :aria-busy="!filtersReady">
         <button
           type="button"
           class="topic-filter"
           :title="copy.allWork"
           :aria-pressed="category === ''"
+          :disabled="!filtersReady"
           @click="category = ''"
         >
           {{ copy.allWork }}
@@ -66,6 +67,7 @@ usePageSeo({
           class="topic-filter"
           :title="topic"
           :aria-pressed="category === topic"
+          :disabled="!filtersReady"
           @click="category = topic"
         >
           {{ topic }}

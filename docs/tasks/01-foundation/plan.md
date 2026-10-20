@@ -12,8 +12,9 @@
 | 06-editable-pages | Редактирование страниц/карьеры, canonical publication, YAML и dependency fixes | Завершена, PR №6 влит, Release 1.0.1 подтверждён |
 | 07-launch-audit | Patch Release, публикация точной CI-сборки, production verification и handoff | Public 1.0.1 проверен; automatic hosting integration требует доступа |
 | 08-github-deployment | Vercel Hobby Git integration, versioned release and guest production verification | Automatic production deployment and Release 1.0.2 verified; admin entry header correction included |
-| 09-manual-qa | Guided manual testing, focus/typing/filter/contents fixes | Local review and all 50 browser checks passed; merge publishes patch 1.0.4 |
+| 09-manual-qa | Guided manual testing, focus/typing/filter/contents and hydration fixes | Patch 1.0.4 published; follow-up 1.0.5 passes all 52 browser checks locally |
 | 10-english-repository | English documentation and repository-facing materials | Next, after manual QA is merged |
 | 11-design-fidelity | Actual MagicPath mobile/tablet/browser layout, UI dimensions and spacing | Queued after English documentation |
+| 12-custom-domain | Connect anu3ev.com through Zomro; verify DNS, HTTPS and canonical redirects | Final task, after the site and design are complete |
 
 Предыдущие планы и HTML-прототип удалены по поручению начать проект заново. Полезные изображения используются как исходные материалы; факты проверяются непосредственно по текущим заметкам Obsidian. После замечания пользователя удалён и оставшийся старый inventory.

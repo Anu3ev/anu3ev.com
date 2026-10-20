@@ -1,0 +1,25 @@
+{
+  "exitCode": 0,
+  "verdict": "warn",
+  "summary": {
+    "dead_code_issues": 0,
+    "dead_code_has_errors": false,
+    "complexity_findings": 0,
+    "max_cyclomatic": null,
+    "duplication_clone_groups": 1
+  },
+  "attribution": {
+    "gate": "new-only",
+    "dead_code_introduced": 0,
+    "dead_code_inherited": 0,
+    "complexity_introduced": 0,
+    "complexity_inherited": 0,
+    "duplication_introduced": 1,
+    "duplication_inherited": 0,
+    "styling_introduced": 8,
+    "styling_inherited": 6,
+    "duplication_demoted": 0,
+    "diff_risk_introduced": 0
+  },
+  "review": "One 51-token/17-line clone is native topic-button markup shared by blog and portfolio. It crossed the detector threshold after adding disabled. It is retained rather than introducing a layout-changing abstraction solely for a metric. Dead code, cycles, boundaries and complexity have no findings. CSS heuristic warnings are retained and reviewed."
+}

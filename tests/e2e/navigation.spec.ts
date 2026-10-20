@@ -26,6 +26,7 @@ test('blog search, reading, back navigation and a cleared query stay consistent'
 
   await page.goto('/blog')
   const search = page.getByRole('searchbox', { name: 'Search articles' })
+  await search.click()
   await search.pressSequentially(article.metadata.title)
   await expect(search).toHaveValue(article.metadata.title)
   await expect(page.locator('.post-card')).toHaveCount(1)

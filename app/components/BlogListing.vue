@@ -80,13 +80,14 @@ usePageSeo({
       <p>{{ siteContent.blog.intro }}</p>
     </header>
 
-    <div class="blog-toolbar">
+    <div class="blog-toolbar" :aria-busy="!filtersReady">
       <div class="topic-filters" role="group" :aria-label="copy.filters">
         <button
           type="button"
           class="topic-filter"
           :title="copy.allTopics"
           :aria-pressed="category === ''"
+          :disabled="!filtersReady"
           @click="category = ''"
         >
           {{ copy.allTopics }}
@@ -98,6 +99,7 @@ usePageSeo({
           class="topic-filter"
           :title="topic"
           :aria-pressed="category === topic"
+          :disabled="!filtersReady"
           @click="category = topic"
         >
           {{ topic }}
@@ -115,6 +117,7 @@ usePageSeo({
           :placeholder="copy.searchPlaceholder"
           autocomplete="off"
           maxlength="200"
+          :disabled="!filtersReady"
         >
       </label>
     </div>

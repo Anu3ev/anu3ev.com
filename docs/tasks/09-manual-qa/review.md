@@ -1,5 +1,7 @@
 # Manual QA and self-review
 
+The initial 1.0.4 review below records 50 tests. The subsequent [production hydration follow-up](hydration.md) adds two delayed-script cases; patch 1.0.5 passes all 52 tests.
+
 ## Findings and fixes
 
 | Finding | Evidence | Fix |
@@ -34,6 +36,6 @@ The separate [scripted crawl](reports/route-crawl.json) checked all 28 published
 
 I reviewed the complete diff against the actual owners and callers: the search method, portfolio query state/SEO, contents renderer and both locale dictionaries. Functions stay small; no new dependency, generic filter abstraction, global state or hidden error suppression was added. The corrected paths were repeated manually after the automated checks. This is a self-review, not an independent review.
 
-`code-writer` received two bounded lessons about complete-field focus and sequential-input tests. The Obsidian source and installed copies were synchronized, both validators passed and the recursive diff was empty.
+`code-writer` received bounded lessons about complete-field focus, sequential-input tests and SSR control readiness. The Obsidian source and installed copies were synchronized, both validators passed and the recursive diff was empty.
 
 The user's design correction remains queued after English repository documentation: compare the actual MagicPath Mobile 402×874, Tablet 1133×744 and Browser 1440×1024 layouts, including the fixed mobile bottom navigation, dimensions and spacing. This task does **not** certify visual fidelity to those frames. Safari, Firefox, native browser zoom, IME and screen-reader testing were not performed. DNS setup and the owner's first authenticated CMS publish remain external setup limitations.
