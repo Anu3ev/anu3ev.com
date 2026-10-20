@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" font-family="Inter, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+      <path d="M0 0 12 6 0 12z" fill="#86adff"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+      <path d="M0 0 12 6 0 12z" fill="#a1a3a8"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="630" fill="#101216"/>
+
+  <text x="80" y="92" font-size="40" font-weight="700" fill="#ecedee">One token, two waiting forms</text>
+
+  <!-- Before: shared event -->
+  <rect x="70" y="122" width="510" height="456" rx="16" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+  <text x="100" y="168" font-size="26" font-weight="600" fill="#a1a3a8">Before: one shared event</text>
+
+  <rect x="100" y="192" width="450" height="88" rx="12" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="124" y="230" font-size="26" font-weight="600" fill="#ecedee">Form A: contact</text>
+  <text x="124" y="262" font-size="22" fill="#a1a3a8">challenge closed, still waiting</text>
+
+  <rect x="100" y="326" width="450" height="64" rx="12" fill="#101216" stroke="#547bc5" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="325" y="366" font-size="24" text-anchor="middle" fill="#a9c4f5">shared "token received" event</text>
+
+  <rect x="100" y="436" width="450" height="88" rx="12" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="124" y="474" font-size="26" font-weight="600" fill="#ecedee">Form B: review</text>
+  <text x="124" y="506" font-size="22" fill="#a1a3a8">check passed</text>
+
+  <path d="M325 434v-38" stroke="#a1a3a8" stroke-width="3" fill="none" marker-end="url(#arrow-muted)"/>
+  <path d="M325 324v-38" stroke="#86adff" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <text x="345" y="312" font-size="22" fill="#86adff">submits A</text>
+  <text x="100" y="560" font-size="22" fill="#a1a3a8">The review never sends</text>
+
+  <!-- After: bound callback -->
+  <rect x="620" y="122" width="510" height="456" rx="16" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>
+  <text x="650" y="168" font-size="26" font-weight="600" fill="#ecedee">After: bound to its form</text>
+
+  <rect x="650" y="192" width="450" height="88" rx="12" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="674" y="230" font-size="26" font-weight="600" fill="#ecedee">Form A: contact</text>
+  <text x="674" y="262" font-size="22" fill="#a1a3a8">cancel releases its waiting state</text>
+
+  <rect x="650" y="306" width="450" height="88" rx="12" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <text x="674" y="344" font-size="26" font-weight="600" fill="#ecedee">Form B: review</text>
+  <text x="674" y="376" font-size="22" fill="#a1a3a8">starts its own check</text>
+
+  <rect x="650" y="436" width="450" height="88" rx="12" fill="#547bc5"/>
+  <text x="674" y="474" font-size="24" font-weight="600" fill="#ecedee">callback(form B, token)</text>
+  <text x="674" y="506" font-size="22" fill="#ecedee">sends form B</text>
+
+  <path d="M875 396v36" stroke="#86adff" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+  <text x="650" y="560" font-size="22" fill="#a9c4f5">Each result goes to the form that asked</text>
+</svg>

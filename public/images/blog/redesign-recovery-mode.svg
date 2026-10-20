@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" font-family="Inter, sans-serif">
+  <title>Old sidebar, redesign with a broken preview, and recovery mode</title>
+  <rect width="1200" height="630" fill="#101216"/>
+  <text x="600" y="84" fill="#ecedee" font-size="30" font-weight="600" text-anchor="middle">When custom code breaks the storefront preview</text>
+
+  <!-- Panel 1: old editor -->
+  <text x="70" y="148" fill="#a1a3a8" font-size="24" font-weight="600">Old editor</text>
+  <rect x="70" y="170" width="330" height="270" rx="18" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+  <rect x="88" y="188" width="110" height="234" rx="10" fill="#547bc5" opacity="0.35"/>
+  <text x="143" y="313" fill="#ecedee" font-size="22" text-anchor="middle">Sidebar</text>
+  <rect x="212" y="188" width="170" height="234" rx="10" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <path d="M262 270 L332 340 M332 270 L262 340" stroke="#a1a3a8" stroke-width="5" stroke-linecap="round"/>
+  <text x="70" y="490" fill="#ecedee" font-size="24">Preview broken,</text>
+  <text x="70" y="524" fill="#a1a3a8" font-size="24">widgets still reachable</text>
+
+  <!-- Panel 2: redesign -->
+  <text x="435" y="148" fill="#a1a3a8" font-size="24" font-weight="600">Redesign</text>
+  <rect x="435" y="170" width="330" height="270" rx="18" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
+  <rect x="453" y="188" width="294" height="34" rx="8" fill="#2d3139"/>
+  <rect x="453" y="236" width="294" height="186" rx="10" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+  <path d="M565 294 L635 364 M635 294 L565 364" stroke="#a1a3a8" stroke-width="5" stroke-linecap="round"/>
+  <text x="435" y="490" fill="#ecedee" font-size="24">Controls live in the preview,</text>
+  <text x="435" y="524" fill="#a1a3a8" font-size="24">so they vanish with it</text>
+
+  <!-- Panel 3: recovery mode -->
+  <text x="800" y="148" fill="#86adff" font-size="24" font-weight="600">Recovery mode</text>
+  <rect x="800" y="170" width="330" height="270" rx="18" fill="#181a1f" stroke="#86adff" stroke-width="2"/>
+  <g font-size="22">
+    <rect x="820" y="192" width="290" height="62" rx="10" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+    <text x="840" y="231" fill="#ecedee">Widget · ID</text>
+    <text x="1092" y="231" fill="#a9c4f5" text-anchor="end">edit</text>
+    <rect x="820" y="270" width="290" height="62" rx="10" fill="#101216" stroke="#547bc5" stroke-width="2"/>
+    <text x="840" y="309" fill="#ecedee">Widget · ID</text>
+    <text x="1092" y="309" fill="#86adff" text-anchor="end">code</text>
+    <rect x="820" y="348" width="290" height="62" rx="10" fill="#101216" stroke="#2d3139" stroke-width="2"/>
+    <text x="840" y="387" fill="#ecedee">Widget · ID</text>
+    <text x="1092" y="387" fill="#a9c4f5" text-anchor="end">delete</text>
+  </g>
+  <text x="800" y="490" fill="#ecedee" font-size="24">Widget list that doesn't</text>
+  <text x="800" y="524" fill="#a1a3a8" font-size="24">depend on the iframe</text>
+</svg>
