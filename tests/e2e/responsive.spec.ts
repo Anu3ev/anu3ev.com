@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 
 /** These are the owner's actual design frames, rather than inferred desktop-to-mobile sizes. */
 const frames = [
@@ -41,31 +41,72 @@ for (const frame of frames) {
 }
 
 for (const frame of frames) {
-  test(`${frame.name} contact link rows keep inner space around the hovered text`, async ({ page }) => {
+  test(`${frame.name} contact link rows span the column with the text inset like the heading`, async ({ page }) => {
     await page.setViewportSize({ width: frame.width, height: frame.height })
     await page.goto('/contact/')
     const row = page.getByRole('navigation', { name: 'Find me elsewhere' }).getByRole('link').first()
     await row.hover()
 
-    // The surface is the row's ::before; its resolved offsets give its painted box next to the text.
     const geometry = await row.evaluate((link) => {
-      const surface = getComputedStyle(link, '::before')
       const rowBox = link.getBoundingClientRect()
-      const textBox = link.querySelector('strong')!.getBoundingClientRect()
-      const mainBox = link.closest('.main-column')!.getBoundingClientRect()
+      const main = link.closest('.main-column')!
+      // The column's own borders frame the rows, so compare with its inner edges.
+      const mainLeft = main.getBoundingClientRect().left + main.clientLeft
       return {
-        background: surface.backgroundColor,
-        surfaceLeft: rowBox.left + Number.parseFloat(surface.left),
-        surfaceRight: rowBox.right - Number.parseFloat(surface.right),
-        textLeft: textBox.left,
-        mainLeft: mainBox.left,
-        mainRight: mainBox.right
+        background: getComputedStyle(link).backgroundColor,
+        rowLeft: rowBox.left,
+        rowRight: rowBox.right,
+        textLeft: link.querySelector('strong')!.getBoundingClientRect().left,
+        headingLeft: document.querySelector('.feed-heading h2')!.getBoundingClientRect().left,
+        mainLeft,
+        mainRight: mainLeft + main.clientWidth
       }
     })
 
     expect(geometry.background).not.toBe('rgba(0, 0, 0, 0)')
-    expect(geometry.textLeft - geometry.surfaceLeft).toBeGreaterThanOrEqual(12)
-    expect(geometry.surfaceLeft).toBeGreaterThan(geometry.mainLeft)
-    expect(geometry.surfaceRight).toBeLessThan(geometry.mainRight)
+    expect(geometry.rowLeft).toBeCloseTo(geometry.mainLeft, 0)
+    expect(geometry.rowRight).toBeCloseTo(geometry.mainRight, 0)
+    expect(geometry.textLeft).toBeCloseTo(geometry.headingLeft, 0)
+    expect(geometry.textLeft - geometry.rowLeft).toBeGreaterThanOrEqual(20)
   })
 }
+
+/** Resolves the active-item token in the browser's own colour format so it compares with computed styles. */
+function readActiveBackground(page: Page) {
+  return page.evaluate(() => {
+    const probe = document.body.appendChild(document.createElement('span'))
+    probe.style.background = 'var(--soft-accent)'
+    const color = getComputedStyle(probe).backgroundColor
+    probe.remove()
+    return color
+  })
+}
+
+test.describe('touch navigation', () => {
+  test.use({ viewport: { width: 402, height: 874 }, isMobile: true, hasTouch: true })
+
+  test('a tapped bottom-navigation item keeps the active highlight under a stuck hover', async ({ page }) => {
+    await page.goto('/contact/')
+    const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
+    const activeBackground = await readActiveBackground(page)
+
+    for (const name of ['Home', 'Blog', 'Portfolio', 'Contacts']) {
+      const link = navigation.getByRole('link', { name, exact: true })
+      await link.tap()
+      await expect(link).toHaveAttribute('aria-current', 'page')
+      // Touch browsers can leave :hover on the tapped element; pointing at it reproduces that state deterministically.
+      await link.hover()
+      await expect(link).toHaveCSS('background-color', activeBackground)
+    }
+  })
+})
+
+test('the current page keeps its navigation highlight while the pointer is over it', async ({ page }) => {
+  await page.goto('/blog/')
+  const link = page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link', { name: 'Blog', exact: true })
+  const activeBackground = await readActiveBackground(page)
+
+  await link.hover()
+  await expect(link).toHaveAttribute('aria-current', 'page')
+  await expect(link).toHaveCSS('background-color', activeBackground)
+})

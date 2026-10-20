@@ -76,17 +76,17 @@ p { line-height: inherit; }
 .eyebrow, .nav-caption { color: var(--muted); font-size: 11px; line-height: 1.6; letter-spacing: .12em; font-weight: 600; text-transform: uppercase; }
 .eyebrow { margin-bottom: 20px; }
 .text-link { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: 12px; }
-.text-link:hover, a:hover > h2, h2 a:hover, h3 a:hover { color: var(--accent); }
+@media (hover: hover) { .text-link:hover, a:hover > h2, h2 a:hover, h3 a:hover { color: var(--accent); } }
 .text-link svg { width: 15px; height: 15px; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
 .button { display: inline-flex; justify-content: center; align-items: center; gap: 16px; min-height: 44px; padding: 10px 14px; border-radius: 6px; border: 1px solid var(--control-line); font-size: 12px; font-weight: 500; transition: background-color .18s; }
-.button:hover { background: var(--surface-raised); }
+@media (hover: hover) { .button:hover { background: var(--surface-raised); } }
 .button svg { width: 16px; height: 16px; }
 .button-primary { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
-.button-primary:hover { filter: brightness(1.1); background: var(--accent); }
+@media (hover: hover) { .button-primary:hover { filter: brightness(1.1); background: var(--accent); } }
 .button-secondary { background: transparent; }
 .icon-button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: transparent; border: 0; border-radius: 5px; color: var(--muted); }
-.icon-button:hover { color: var(--accent); background: var(--surface); }
+@media (hover: hover) { .icon-button:hover { color: var(--accent); background: var(--surface); } }
 .skip-link { position: fixed; z-index: 100; top: 8px; left: 16px; transform: translateY(-160%); padding: 12px 20px; background: var(--accent); color: var(--accent-ink); border-radius: 5px; }
 .skip-link:focus { transform: translateY(0); }
 .site-sidebar { position: sticky; top: 0; display: flex; flex-direction: column; height: 100dvh; min-height: 660px; padding-block: 35px 24px; }
@@ -95,8 +95,9 @@ p { line-height: inherit; }
 .nav-caption { margin: 0 14px 16px; }
 .primary-nav { display: grid; gap: 7px; }
 .primary-nav a { display: flex; align-items: center; gap: 14px; padding: 13px 15px; min-height: 50px; font-size: 16px; color: var(--muted); border-radius: 9px; }
-.primary-nav a:hover { background: var(--surface); color: var(--text); }
-.primary-nav .nav-active, .primary-nav .nav-exact { color: var(--text); background: var(--soft-accent); }
+@media (hover: hover) { .primary-nav a:hover { background: var(--surface); color: var(--text); } }
+/* Specificity matches a:hover so the current page keeps its highlight under a pointer. */
+.primary-nav a.nav-active, .primary-nav a.nav-exact { color: var(--text); background: var(--soft-accent); }
 .primary-nav i { display: none; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-left: auto; }
 .primary-nav .nav-active i, .primary-nav .nav-exact i { display: block; }
 .sidebar-bottom { margin-top: auto; padding: 56px 12px 0; }
@@ -128,7 +129,7 @@ p { line-height: inherit; }
 .focus-card .tags li { font-size: 9px; background: var(--surface-raised); padding: 3px 6px; border: 0; }
 .social-heading { margin: 28px 4px 10px; }
 .profile-social a { display: flex; justify-content: space-between; align-items: center; min-height: 44px; font-size: 12px; padding-inline: 4px; color: var(--muted); }
-.profile-social a:hover { color: var(--accent); }
+@media (hover: hover) { .profile-social a:hover { color: var(--accent); } }
 .profile-social svg { width: 13px; height: 13px; }
 .sidebar-connect { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 28px; font-size: 10px; color: var(--muted); }
 .sidebar-connect p { display: flex; gap: 5px; align-items: center; font-size: 10px; }
@@ -168,7 +169,7 @@ p { line-height: inherit; }
 .card-author > .mini-tag { margin-left: auto; flex-shrink: 0; padding: 3px 8px; }
 .project-image-link { display: block; overflow: hidden; border-radius: 8px; background: #aebed9; border: 1px solid var(--line); padding: 17px 26px; height: 300px; }
 .project-image-link img { width: 100%; height: 100%; object-fit: contain; transition: transform .25s; box-shadow: 0 8px 25px #10121635; }
-.project-card:hover .project-image-link img { transform: scale(1.025); }
+@media (hover: hover) { .project-card:hover .project-image-link img { transform: scale(1.025); } }
 .project-card-body { padding-top: 22px; }
 .project-card h2 { font-size: 21px; font-weight: 550; letter-spacing: -.55px; }
 .project-card p { font-size: 14px; line-height: 1.75; color: var(--muted); margin-top: 10px; }
@@ -176,7 +177,7 @@ p { line-height: inherit; }
 .project-card-bottom .tags { margin-top: 0; }
 .project-card-bottom .text-link { flex-shrink: 0; }
 .feed-more { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); padding: 16px 28px; font-size: 12px; }
-.feed-more:hover { color: var(--accent); background: var(--surface); }
+@media (hover: hover) { .feed-more:hover { color: var(--accent); background: var(--surface); } }
 .feed-more svg { width: 16px; height: 16px; }
 .home-notebook { padding: 34px 28px; }
 .home-notebook h2 { font-size: 20px; font-weight: 450; }
@@ -241,7 +242,7 @@ p { line-height: inherit; }
 .table-of-contents .eyebrow { margin-bottom: 12px; }
 .table-of-contents ol { list-style: none; padding: 0; }
 .table-of-contents a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); }
-.table-of-contents a:hover { color: var(--accent); }
+@media (hover: hover) { .table-of-contents a:hover { color: var(--accent); } }
 .prose { font-size: 14px; overflow-wrap: anywhere; line-height: 1.9; }
 .prose > * + * { margin-top: 22px; }
 .prose h2 { font-size: 23px; padding-top: 12px; margin-top: 34px; }
@@ -290,16 +291,12 @@ p { line-height: inherit; }
 .email-card strong { display: block; font-weight: 400; font-size: 15px; overflow-wrap: anywhere; margin-top: 4px; }
 .email-card strong svg { display: inline-block; width: 13px; height: 13px; }
 .email-note { font-size: 11px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
-.contact-options { padding-inline: 28px; }
-/* Text and dividers keep the reference alignment; the hover/focus surface bleeds into the gutter instead of touching the text. */
-.contact-options a { position: relative; isolation: isolate; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 24px; border-bottom: 1px solid var(--line); }
-.contact-options a::before { content: ''; position: absolute; inset: 0 -14px; z-index: -1; border-radius: 7px; }
+/* Full-width rows like .feed-more: the gutter is the row's own padding, so the hover surface and divider span the column while the text stays aligned with the heading. */
+.contact-options a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 24px 28px; border-bottom: 1px solid var(--line); }
+.contact-options a:focus-visible { outline-offset: -3px; }
 .contact-options strong { display: block; font-size: 17px; font-weight: 500; }
 .contact-options small { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
-.contact-options a:hover { color: var(--accent); }
-.contact-options a:hover::before { background: var(--surface); }
-.contact-options a:focus-visible { outline: none; }
-.contact-options a:focus-visible::before { outline: 3px solid var(--accent); outline-offset: -3px; }
+@media (hover: hover) { .contact-options a:hover { color: var(--accent); background: var(--surface); } }
 .distributed-section { margin: 32px 28px; padding: 26px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
 .distributed-section h2 { font-size: 24px; line-height: 1.4; font-weight: 500; margin-block: 18px 14px; }
 .distributed-section > p:not(.eyebrow) { color: var(--muted); font-size: 14px; line-height: 1.8; }
@@ -381,8 +378,7 @@ p { line-height: inherit; }
   .email-card strong { font-size: 13px; }
   .email-note { font-size: 12px; }
   .email-card strong svg { width: 14px; height: 14px; }
-  .contact-options { padding-inline: 20px; }
-  .contact-options a { min-height: 82px; }
+  .contact-options a { padding-inline: 20px; min-height: 82px; }
   .distributed-section { margin: 28px 20px; padding: 22px; }
   .distributed-section > p:not(.eyebrow) { font-size: 16px; }
   .site-footer { padding-inline: 20px; }
