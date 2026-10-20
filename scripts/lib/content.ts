@@ -30,6 +30,12 @@ function validateDocument({ document, root }: { document: ContentDocument<z.infe
   }
 
   validatePublicImage({ root, image: metadata.cover, source })
+  // Inline screenshots are evidence too: a mistyped path must fail the build, not ship a broken image.
+  for (const match of prose.matchAll(/!\[[^\]]*\]\((?<image>[^)\s]+)[^)]*\)/g)) {
+    const image = match.groups?.image ?? ''
+    if (!/^\/images\/[^?#]+\.(?:webp|png|jpe?g|svg)$/i.test(image)) throw new Error(`${source}: inline images must use a public /images/ path`)
+    validatePublicImage({ root, image, source })
+  }
 }
 
 /** Every editable image must resolve inside the public image directory before static generation. */

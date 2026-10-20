@@ -68,6 +68,17 @@ collections:
       - { name: order, label: Sort order, widget: number, value_type: int, min: 0, max: 999, default: 10, i18n: duplicate }
       - { name: repository, label: Public repository, widget: string, required: false, i18n: duplicate, hint: HTTPS only. Do not include private employer repositories. }
       - { name: demo, label: Interactive demo, widget: string, required: false, i18n: duplicate, hint: HTTPS only. The demo opens separately and is not loaded in the shared layout. }
+      - name: results
+        label: Key results
+        widget: list
+        required: false
+        max: 4
+        i18n: true
+        hint: "Verified numbers only. Say what the number counts and whose result it is."
+        summary: '{{fields.value}} · {{fields.label}}'
+        fields:
+          - { name: value, label: Value, widget: string }
+          - { name: label, label: Description, widget: string }
       - { name: body, label: Case study, widget: markdown, i18n: true, hint: Context → my role → decisions → constraints → outcome. Start headings at H2. }
 
   - name: settings

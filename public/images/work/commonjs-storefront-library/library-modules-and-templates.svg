@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+  <rect width="1200" height="675" fill="#101216"/>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 10 5 0 10z" fill="#86adff"/></marker>
+  </defs>
+  <g font-family="Inter, sans-serif">
+    <text x="60" y="78" fill="#a1a3a8" font-size="18" letter-spacing="2">COMMONJS STOREFRONT LIBRARY</text>
+    <text x="60" y="118" fill="#ecedee" font-size="30" font-weight="600">One library, many templates and custom stores</text>
+
+    <g fill="#181a1f" stroke="#2d3139" stroke-width="2">
+      <rect x="60" y="190" width="250" height="150" rx="14"/>
+      <rect x="60" y="370" width="250" height="150" rx="14"/>
+      <rect x="890" y="190" width="250" height="150" rx="14"/>
+      <rect x="890" y="370" width="250" height="150" rx="14"/>
+    </g>
+    <rect x="370" y="170" width="460" height="370" rx="16" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>
+
+    <text x="85" y="230" fill="#86adff" font-size="15" letter-spacing="2">STANDARD TEMPLATES</text>
+    <text x="85" y="272" fill="#ecedee" font-size="20">Several generations</text>
+    <text x="85" y="302" fill="#a1a3a8" font-size="16">Liquid + data-* attributes</text>
+
+    <text x="85" y="410" fill="#86adff" font-size="15" letter-spacing="2">WIDGETS</text>
+    <text x="85" y="452" fill="#ecedee" font-size="20">Product lists, cards,</text>
+    <text x="85" y="482" fill="#ecedee" font-size="20">carts, forms</text>
+
+    <text x="915" y="230" fill="#86adff" font-size="15" letter-spacing="2">CUSTOM STORE CODE</text>
+    <text x="915" y="272" fill="#ecedee" font-size="20">Calls the public API</text>
+    <text x="915" y="302" fill="#a1a3a8" font-size="16">and listens to events</text>
+
+    <text x="915" y="410" fill="#86adff" font-size="15" letter-spacing="2">DEVELOPER DOCS</text>
+    <text x="915" y="452" fill="#ecedee" font-size="20">Markup, settings,</text>
+    <text x="915" y="482" fill="#ecedee" font-size="20">events, examples</text>
+
+    <text x="395" y="210" fill="#86adff" font-size="15" letter-spacing="2">PUBLIC API</text>
+    <g font-family="monospace" font-size="17" fill="#ecedee">
+      <rect x="395" y="228" width="125" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="412" y="254">Products</text>
+      <rect x="530" y="228" width="90" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="550" y="254">Cart</text>
+      <rect x="630" y="228" width="110" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="645" y="254">EventBus</text>
+      <rect x="395" y="278" width="110" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="410" y="304">ajaxAPI</text>
+    </g>
+    <text x="395" y="360" fill="#86adff" font-size="15" letter-spacing="2">COMPONENTS</text>
+    <g font-family="monospace" font-size="17" fill="#ecedee">
+      <rect x="395" y="378" width="200" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="410" y="404">ui-ajax-products</text>
+      <rect x="605" y="378" width="190" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="620" y="404">ui-ajax-product</text>
+      <rect x="395" y="428" width="180" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="410" y="454">ui-ajax-filter</text>
+      <rect x="585" y="428" width="180" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="600" y="454">ui-accessories</text>
+      <rect x="395" y="478" width="230" height="40" rx="8" fill="#101216" stroke="#2d3139"/><text x="410" y="504">forms + CAPTCHA API</text>
+    </g>
+
+    <g fill="none" stroke="#86adff" stroke-width="2.5">
+      <path d="M312 265h52" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <path d="M312 445h52" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <path d="M836 265h48" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+      <path d="M836 445h48" marker-end="url(#arrow)"/>
+    </g>
+
+    <text x="60" y="600" fill="#a1a3a8" font-size="17">Build: Webpack 5, ES modules, tree shaking, code splitting</text>
+    <text x="60" y="635" fill="#ecedee" font-size="17">Compressed bundle: over 300 KB → 168 KB</text>
+  </g>
+</svg>
