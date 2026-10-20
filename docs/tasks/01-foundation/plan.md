@@ -17,7 +17,8 @@ Each task follows requirements → implementation → checks → self-review →
 | 11-design-fidelity | Actual MagicPath layouts, dimensions and spacing at 402×874, 1133×744 and 1440×1024 | Complete; PR 13 merged after successful 55-test CI |
 | 12-external-links | External web links open in a new tab with the appropriate rel attributes | Complete; PR 14 merged after successful 51-unit/56-browser CI |
 | 13-blog-all-topics | Reproduce and fix missing categories under All topics, including navigation from Home | Complete; 1.0.9 makes category labels searchable, 58 browser checks passed |
-| 14-link-block-spacing | Correct internal spacing of link blocks, including hover/focus on desktop and mobile | Complete; 1.0.10 adds a bleeding hover/focus surface, 61 browser checks passed |
+| 14-link-block-spacing | Correct internal spacing of link blocks, including hover/focus on desktop and mobile | Complete in 1.0.10; row design superseded by task 16 |
+| 16-touch-hover-and-link-rows | Stuck touch hover in the bottom navigation and full-width contact link rows | Complete; 1.0.11, 63 browser checks passed; blog topic report awaiting reproduction details |
 | 15-custom-domain | Connect anu3ev.com through Zomro and verify DNS, HTTPS, metadata and redirects | Next; all site changes are complete |
 
 The former plans, HTML prototype and remaining old inventory were removed at the user's request. Useful images were retained as source material; facts were checked against current Obsidian notes. All new requests remain in order, with domain connection explicitly reserved for the final stage.
