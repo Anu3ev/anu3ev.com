@@ -30,7 +30,8 @@ const categories = computed(() => [...new Set(posts.value?.map(post => post.cate
 const filteredPosts = computed(() =>
   (posts.value || []).filter((post) => {
     const matchesCategory = !category.value || post.category === category.value
-    const searchableText = [post.title, post.description, ...post.tags]
+    // The placeholder promises "title or topic", so the category label is searchable too.
+    const searchableText = [post.title, post.description, post.category, ...post.tags]
       .join(' ')
       .toLocaleLowerCase(locale.value)
     return (

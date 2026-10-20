@@ -18,9 +18,15 @@ function prepareFixture(root: string) {
   writeFixtureArticles(root)
 }
 
+/** Category names stay out of titles, descriptions and tags, so a category search proves the category itself is searchable. */
+const fixtureCategories = {
+  en: ['Vue.js', 'Architecture', 'Product UX'],
+  ru: ['Vue.js', 'Архитектура', 'Продуктовый UX']
+}
+
 /** Synthetic article generation is separate from source/cache isolation, so content growth never changes this test. */
 function writeFixtureArticles(root: string) {
-  for (const locale of ['en', 'ru']) {
+  for (const locale of ['en', 'ru'] as const) {
     const directory = join(root, 'content', locale, 'posts')
     rmSync(directory, { recursive: true, force: true })
     mkdirSync(directory, { recursive: true })
@@ -32,7 +38,7 @@ function writeFixtureArticles(root: string) {
         title: `Pagination fixture ${index}`, description: 'Temporary content for an isolated static generation test; this is never deployed.',
         locale, slug, published: true, date: `2026-10-${String(index).padStart(2, '0')}`,
         cover: '/images/vue-lifecycle.svg', coverAlt: 'Diagram used by an isolated pagination test',
-        category: 'Fixture', readingMinutes: 1, tags: ['Pagination']
+        category: fixtureCategories[locale][index % 3], readingMinutes: 1, tags: ['Pagination']
       }
       const document = `---\n${stringifyYaml(metadata)}---\n\n${body}`
       writeFileSync(join(directory, `${slug}.md`), document)
