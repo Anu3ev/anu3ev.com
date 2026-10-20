@@ -2,9 +2,10 @@ import tailwindcss from '@tailwindcss/vite'
 import { readFileSync } from 'node:fs'
 import { readContentInventory } from './scripts/lib/content'
 import { createPublicPaths } from './scripts/lib/routes'
+import { getSiteOrigin } from './shared/site'
 
 /** Public origin is a build-time setting so static metadata always matches the live host. */
-const siteUrl = new URL(process.env.NUXT_PUBLIC_SITE_URL || 'https://anu3ev-portfolio.vercel.app').origin
+const siteUrl = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)
 const initialTheme = readFileSync(new URL('./app/assets/theme-init.js', import.meta.url), 'utf8')
 
 export default defineNuxtConfig({

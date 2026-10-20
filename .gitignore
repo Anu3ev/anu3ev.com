@@ -18,6 +18,7 @@ public/admin/cms.js
 public/admin/LICENSE.txt
 public/sitemap.xml
 public/robots.txt
+public/version.json
 public/rss.xml
 public/ru/rss.xml
 public/site.webmanifest

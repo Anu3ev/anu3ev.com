@@ -1,9 +1,11 @@
 import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import sharp from 'sharp'
+import { z } from 'zod'
 import { readContentInventory } from './lib/content'
 import { createPublicPaths } from './lib/routes'
 import { socialImagePath } from '../shared/seo'
+import { getSiteOrigin } from '../shared/site'
 
 /** XML text/attributes must remain data even when an editor writes angle brackets or ampersands. */
 function escapeXml(value: string) {
@@ -11,11 +13,10 @@ function escapeXml(value: string) {
 }
 
 const { projects, posts, profile } = readContentInventory()
-const siteOrigin = new URL(process.env.NUXT_PUBLIC_SITE_URL || 'https://anu3ev-portfolio.vercel.app')
-if (siteOrigin.protocol !== 'https:') throw new Error('The public canonical origin must use HTTPS')
-if (siteOrigin.pathname !== '/' || siteOrigin.search || siteOrigin.hash) throw new Error('The public site URL must be an origin without path, query or fragment')
-
-const origin = siteOrigin.origin
+const origin = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)
+const { version } = z.object({ version: z.string().regex(/^\d+\.\d+\.\d+$/) }).parse(JSON.parse(readFileSync('package.json', 'utf8')))
+const commit = z.string().regex(/^[a-f0-9]{40}$/).nullable().parse(process.env.GITHUB_SHA || process.env.VERCEL_GIT_COMMIT_SHA || null)
+writeFileSync('public/version.json', `${JSON.stringify({ version, commit })}\n`)
 const paths = createPublicPaths({ projects, posts })
 const urls = paths.map(path => `<url><loc>${escapeXml(`${origin}${path}`)}</loc></url>`).join('\n')
 writeFileSync('public/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`)
