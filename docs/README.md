@@ -17,6 +17,7 @@
 - [Редактируемые страницы и карьера](tasks/06-editable-pages/summary.md)
 - [Публичный релиз и финальная проверка](tasks/07-launch-audit/summary.md)
 - [Automatic GitHub deployment](tasks/08-github-deployment/summary.md)
+- [Manual browser testing and functional fixes](tasks/09-manual-qa/summary.md)
 
 У каждой задачи — отдельная папка в `docs/tasks/`, описание результата и `summary.md`. Статус означает реально выполненную работу. Необходимые операционные инструкции появятся в `docs/operations/`.
 

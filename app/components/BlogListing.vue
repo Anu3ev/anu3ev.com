@@ -5,10 +5,11 @@ import { BLOG_PAGE_SIZE } from '~~/shared/blog'
 
 const props = defineProps<{ page: number }>()
 const route = useRoute()
+const router = useRouter()
 const { locale, copy, localePath } = useLocale()
 const siteContent = useSiteContent()
 const siteUrl = useSiteOrigin()
-// Static HTML is unfiltered. Apply a direct URL's query after hydration so v-model also updates the native input.
+// Static HTML is unfiltered. Restore the direct URL's query after hydration.
 const filtersReady = ref(false)
 onMounted(() => {
   filtersReady.value = true
@@ -51,15 +52,12 @@ const pagination = computed(() =>
   })
 )
 
-/** The URL owns filter state, so a fast article navigation cannot leave browser history behind the rendered results. */
-function updateFilters({ search, category }: { search: string, category: string }) {
-  return navigateTo(
-    {
-      path: props.page === 1 ? route.path : localePath('/blog'),
-      query: { q: search || undefined, topic: category || undefined }
-    },
-    { replace: true }
-  )
+/** Direct client replacement avoids navigateTo treating overlapping edits as middleware redirects. */
+function updateFilters(nextFilters: { search: string, category: string }) {
+  return router.replace({
+    path: props.page === 1 ? route.path : localePath('/blog'),
+    query: { q: nextFilters.search || undefined, topic: nextFilters.category || undefined }
+  })
 }
 
 usePageSeo({
@@ -106,14 +104,19 @@ usePageSeo({
         </button>
       </div>
 
-      <label class="blog-search"><span class="sr-only">{{ copy.search }}</span><AppIcon name="search" /><input
-        v-model="search"
-        type="search"
-        name="q"
-        :title="copy.search"
-        :placeholder="copy.searchPlaceholder"
-        maxlength="200"
-      ></label>
+      <label class="blog-search">
+        <span class="sr-only">{{ copy.search }}</span>
+        <AppIcon name="search" />
+        <input
+          v-model="search"
+          type="search"
+          name="q"
+          :title="copy.search"
+          :placeholder="copy.searchPlaceholder"
+          autocomplete="off"
+          maxlength="200"
+        >
+      </label>
     </div>
 
     <p class="blog-results-count" role="status">

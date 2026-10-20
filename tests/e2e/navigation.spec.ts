@@ -26,7 +26,8 @@ test('blog search, reading, back navigation and a cleared query stay consistent'
 
   await page.goto('/blog')
   const search = page.getByRole('searchbox', { name: 'Search articles' })
-  await search.fill(article.metadata.title)
+  await search.pressSequentially(article.metadata.title)
+  await expect(search).toHaveValue(article.metadata.title)
   await expect(page.locator('.post-card')).toHaveCount(1)
   await expect(page).toHaveURL(url => url.searchParams.get('q') === article.metadata.title)
   await expect(search).toBeFocused()
@@ -39,6 +40,28 @@ test('blog search, reading, back navigation and a cleared query stay consistent'
   await expect(page.getByRole('heading', { name: 'No articles found.', exact: true })).toBeVisible()
   await search.clear()
   await expect(page.locator('.post-card')).toHaveCount(Math.min(10, inventory.posts.filter(document => document.isPublic && document.metadata.locale === 'en').length))
+})
+
+test('portfolio filters survive reading a case, browser back and a direct reload', async ({ page }) => {
+  test.skip(!project, 'No project is currently published')
+  if (!project) return
+
+  const category = project.metadata.category
+  const matchingProjects = inventory.projects.filter(document => document.isPublic && document.metadata.locale === 'en' && document.metadata.category === category)
+  await page.goto('/work')
+  const categoryButton = page.getByRole('button', { name: category, exact: true })
+  await categoryButton.click()
+  await expect(page.locator('.project-card')).toHaveCount(matchingProjects.length)
+  await page.getByRole('heading', { name: project.metadata.title, exact: true }).getByRole('link').click()
+  await expect(page.locator('main h1')).toHaveText(project.metadata.title)
+  await page.goBack()
+  await expect(categoryButton).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('.project-card')).toHaveCount(matchingProjects.length)
+  await expect(page).toHaveURL(url => url.searchParams.get('topic') === category)
+  await page.reload()
+  await expect(categoryButton).toHaveAttribute('aria-pressed', 'true')
+  await expect(page.locator('.project-card')).toHaveCount(matchingProjects.length)
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
 })
 
 test('a direct filtered blog URL restores its visible input and results after a reload', async ({ page }) => {
