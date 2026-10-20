@@ -4,7 +4,7 @@ Alexander Anufriev's portfolio, built with Nuxt 4, Vue 3, TypeScript, Tailwind C
 
 **Production:** [anu3ev-com.vercel.app](https://anu3ev-com.vercel.app/) · [Content administration](https://anu3ev-com.vercel.app/admin/).
 
-Vercel Hobby is connected to this GitHub repository. Pushes to `master` automatically build and deploy the site, including CMS updates. GitHub Actions validates content, lint, types, 43 unit tests and 52 browser/axe checks, then publishes a versioned release when the package version increases. [Deployment guide](docs/operations/deployment.md).
+Vercel Hobby is connected to this GitHub repository. Pushes to `master` automatically build and deploy the site, including CMS updates. GitHub Actions validates content, lint, types, 43 unit tests and 55 browser/axe checks, then publishes a versioned release when the package version increases. [Deployment guide](docs/operations/deployment.md).
 
 ## Development
 

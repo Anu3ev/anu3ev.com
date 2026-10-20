@@ -43,13 +43,19 @@ usePageSeo({
   <div class="page-shell">
     <div>
       <header class="page-heading">
-        <p class="eyebrow">
-          {{ copy.selectedWork }}
-        </p>
-        <h1>{{ siteContent.portfolio.title }}</h1>
+        <span class="eyebrow">{{ copy.selectedWork }}</span>
+        <h1>
+          {{ siteContent.portfolio.title.replace(/\.$/, '') }}<span v-if="siteContent.portfolio.title.endsWith('.')" class="accent-period">.</span>
+        </h1>
         <p>{{ siteContent.portfolio.intro }}</p>
+        <dl class="portfolio-summary">
+          <div v-for="fact in siteContent.portfolio.summary" :key="fact.label">
+            <dt>{{ fact.value }}</dt>
+            <dd>{{ fact.label }}</dd>
+          </div>
+        </dl>
       </header>
-      <div class="blog-toolbar" role="group" :aria-label="copy.projectStack" :aria-busy="!filtersReady">
+      <div class="portfolio-toolbar" role="group" :aria-label="copy.projectStack" :aria-busy="!filtersReady">
         <button
           type="button"
           class="topic-filter"

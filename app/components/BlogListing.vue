@@ -73,10 +73,10 @@ usePageSeo({
 <template>
   <div>
     <header class="page-heading">
-      <p class="eyebrow">
-        {{ copy.recentWriting }}
-      </p>
-      <h1>{{ siteContent.blog.title }}</h1>
+      <span class="eyebrow">{{ copy.recentWriting }}</span>
+      <h1>
+        {{ siteContent.blog.title.replace(/\.$/, '') }}<span v-if="siteContent.blog.title.endsWith('.')" class="accent-period">.</span>
+      </h1>
       <p>{{ siteContent.blog.intro }}</p>
     </header>
 
@@ -122,9 +122,12 @@ usePageSeo({
       </label>
     </div>
 
-    <p class="blog-results-count" role="status">
-      {{ copy.articlesCount }}: {{ pagination.total }}
-    </p>
+    <div class="feed-heading blog-results-heading">
+      <h2>{{ copy.workbench }}</h2>
+      <p class="blog-results-count" role="status">
+        {{ copy.articlesCount }}: {{ pagination.total }}
+      </p>
+    </div>
 
     <div class="post-grid blog-grid">
       <PostCard

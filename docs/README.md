@@ -19,7 +19,8 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Automatic GitHub deployment](tasks/08-github-deployment/summary.md)
 - [Manual browser testing and functional fixes](tasks/09-manual-qa/summary.md)
 - [English repository and CMS](tasks/10-english-repository/plan.md)
+- [Actual responsive MagicPath layout](tasks/11-design-fidelity/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 
-Requirements come from the current assignment and its MagicPath file. Previous project plans and prototypes were removed. `reference/magicpath` contains screenshots captured after authorization during this rebuild. The supplied responsive frames still require the dedicated design-fidelity pass recorded in the queue.
+Requirements come from the current assignment and its MagicPath file. Previous project plans and prototypes were removed. `reference/magicpath` contains desktop and responsive screenshots captured after authorization during this rebuild. The queue records remaining launch work.

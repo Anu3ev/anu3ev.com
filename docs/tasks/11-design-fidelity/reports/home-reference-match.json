@@ -1,0 +1,335 @@
+{
+  "scope": "Key Home rectangles only; not pixel identity or complete page heights",
+  "comparisons": [
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".shell",
+      "implementation": ".site-layout",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".main",
+      "implementation": ".main-column",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".topbar",
+      "implementation": ".page-topbar",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".cover",
+      "implementation": ".profile-cover",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".profile-body",
+      "implementation": ".profile-body",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0.0
+      }
+    },
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".profile-actions",
+      "implementation": ".profile-actions",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".avatar",
+      "implementation": ".profile-avatar",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 402,
+        "height": 874
+      },
+      "reference": ".bio",
+      "implementation": ".profile-description",
+      "differences": {
+        "x": 0,
+        "y": 0.0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".shell",
+      "implementation": ".site-layout",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".main",
+      "implementation": ".main-column",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".topbar",
+      "implementation": ".page-topbar",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".cover",
+      "implementation": ".profile-cover",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".profile-body",
+      "implementation": ".profile-body",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0.0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".profile-actions",
+      "implementation": ".profile-actions",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".avatar",
+      "implementation": ".profile-avatar",
+      "differences": {
+        "x": 0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1133,
+        "height": 744
+      },
+      "reference": ".bio",
+      "implementation": ".profile-description",
+      "differences": {
+        "x": 0,
+        "y": 0.0,
+        "width": 0,
+        "height": 0.0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".shell",
+      "implementation": ".site-layout",
+      "differences": {
+        "x": 0.0,
+        "y": 0,
+        "width": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".main",
+      "implementation": ".main-column",
+      "differences": {
+        "x": 0.0,
+        "y": 0,
+        "width": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".topbar",
+      "implementation": ".page-topbar",
+      "differences": {
+        "x": 0.0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".cover",
+      "implementation": ".profile-cover",
+      "differences": {
+        "x": 0.0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".profile-body",
+      "implementation": ".profile-body",
+      "differences": {
+        "x": 0.0,
+        "y": 0,
+        "width": 0,
+        "height": 0.0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".profile-actions",
+      "implementation": ".profile-actions",
+      "differences": {
+        "x": 0.0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".avatar",
+      "implementation": ".profile-avatar",
+      "differences": {
+        "x": 0.0,
+        "y": 0,
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1024
+      },
+      "reference": ".bio",
+      "implementation": ".profile-description",
+      "differences": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 0,
+        "height": 0.0
+      }
+    }
+  ]
+}

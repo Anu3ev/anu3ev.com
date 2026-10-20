@@ -40,7 +40,7 @@ Open **Site settings → Page copy and career history**, then English or Russian
 | --- | --- |
 | Home | SEO title, pinned note and profile topics |
 | About | Heading, introduction, biography, tools, career and principles |
-| Portfolio / Blog | Listing headings and introductions |
+| Portfolio / Blog | Listing headings, introductions and Portfolio summary facts |
 | Contacts | Introduction, email note and working arrangements |
 | Right sidebar | Short bio, current focus and technologies |
 | Collaboration / Contact callout | Invitations to collaborate and shared contact copy |

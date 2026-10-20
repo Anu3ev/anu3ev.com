@@ -66,7 +66,17 @@
     },
     "portfolio": {
       "title": "Work with a purpose.",
-      "intro": "Complex editors, useful tools, and the engineering that makes them feel simple."
+      "intro": "Complex editors, useful tools, and the engineering that makes them feel simple.",
+      "summary": [
+        {
+          "value": "5 years",
+          "label": "in production"
+        },
+        {
+          "value": "Vue + TypeScript",
+          "label": "core toolkit"
+        }
+      ]
     },
     "blog": {
       "title": "Thinking out loud.",
@@ -175,7 +185,17 @@
     },
     "portfolio": {
       "title": "Решения реальных задач.",
-      "intro": "От первого вопроса о продукте до деталей, которые делают интерфейс удобным."
+      "intro": "От первого вопроса о продукте до деталей, которые делают интерфейс удобным.",
+      "summary": [
+        {
+          "value": "5 лет",
+          "label": "в продакшене"
+        },
+        {
+          "value": "Vue + TypeScript",
+          "label": "основной стек"
+        }
+      ]
     },
     "blog": {
       "title": "Думаю вслух.",

@@ -14,7 +14,7 @@ const paths = {
   location: 'M12 22s8-7 8-13a8 8 0 1 0-16 0c0 6 8 13 8 13zm3-13a3 3 0 1 1-6 0 3 3 0 0 1 6 0',
   contrast: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18m0 0v18',
   check: 'm5 12 4 4L19 6',
-  book: 'M4 4h6a3 3 0 0 1 2 1 3 3 0 0 1 2-1h6v16h-6a3 3 0 0 0-2 1 3 3 0 0 0-2-1H4zm8 1v16'
+  book: 'M5 3h14v18H5zM8 7h8M8 11h8M8 15h5'
 }
 
 defineProps<{ name: keyof typeof paths }>()

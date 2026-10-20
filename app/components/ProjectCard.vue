@@ -12,7 +12,7 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
     <div class="card-author">
       <span class="tiny-avatar" aria-hidden="true">aa</span>
       <div>
-        <strong>{{ project.category }}</strong><span>{{ project.stack[0] }} · {{ project.year }}</span>
+        <strong>{{ project.category }}</strong><span>{{ project.year }}</span>
       </div>
       <span class="mini-tag">{{ project.stack[0] }}</span>
     </div>
@@ -26,7 +26,7 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
     ><img
       :src="projectImagePath({ locale: project.locale, slug: project.slug, width: 1200 })"
       :srcset="responsiveSources"
-      sizes="(max-width: 760px) calc(100vw - 62px), (max-width: 944px) calc(100vw - 320px), 624px"
+      sizes="(max-width: 760px) calc(100vw - 70px), (max-width: 1072px) calc(100vw - 366px), 608px"
       alt=""
       width="1200"
       height="675"
@@ -35,12 +35,12 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
     ></NuxtLink>
 
     <div class="project-card-body">
-      <h3>
+      <h2>
         <NuxtLink
           :to="localePath(`/work/${project.slug}`)"
           :title="`${copy.viewCase}: ${project.title}`"
         >{{ project.title }}</NuxtLink>
-      </h3>
+      </h2>
       <p>{{ project.description }}</p>
       <div class="project-card-bottom">
         <ul class="tags" :aria-label="copy.projectStack">

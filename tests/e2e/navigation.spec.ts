@@ -84,19 +84,27 @@ test('a direct filtered blog URL restores its visible input and results after a 
   expect(hydrationMessages).toEqual([])
 })
 
-test('the mobile menu supports keyboard open, Escape, focus return and navigation', async ({ page }) => {
+test('mobile bottom navigation supports the keyboard and leaves the final content visible', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 812 })
   await page.goto('/')
-  const menu = page.locator('.mobile-menu summary')
-  await menu.press('Enter')
-  await expect(page.locator('.mobile-menu')).toHaveAttribute('open', '')
-  await menu.press('Escape')
-  await expect(page.locator('.mobile-menu')).not.toHaveAttribute('open')
-  await expect(menu).toBeFocused()
-  await menu.press('Enter')
-  await page.locator('.mobile-menu-panel').getByRole('link', { name: 'Blog', exact: true }).click()
+  const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
+  await expect(navigation.getByRole('link')).toHaveCount(4)
+  await expect(navigation.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute('aria-current', 'page')
+  const blogLink = navigation.getByRole('link', { name: 'Blog', exact: true })
+  await blogLink.focus()
+  await expect(blogLink).toBeFocused()
+  await blogLink.press('Enter')
   await expect(page.locator('main h1')).toHaveText(pages.en.blog.title)
-  await expect(page.locator('.mobile-menu')).not.toHaveAttribute('open')
+  await expect(blogLink).toHaveAttribute('aria-current', 'page')
+  await expect(page.locator('.sidebar-top')).toBeHidden()
+  const privacy = page.locator('footer').getByRole('link', { name: 'Privacy', exact: true })
+  await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight))
+  await privacy.focus()
+  await expect(privacy).toBeFocused()
+  const contentBox = await privacy.boundingBox()
+  const navigationBox = await page.locator('.site-sidebar').boundingBox()
+  if (!contentBox || !navigationBox) throw new Error('Both the focused content and bottom navigation must be visible')
+  expect(contentBox.y + contentBox.height).toBeLessThanOrEqual(navigationBox.y)
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
 })
 
@@ -108,7 +116,11 @@ test('the theme survives a reload and contact destinations are real', async ({ p
   await page.reload()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   await expect(toggle).toHaveAttribute('aria-pressed', 'true')
-  await expect(page.locator('main a[href^="mailto:"]')).toHaveAttribute('href', `mailto:${inventory.profile.email}`)
+  const emailLinks = page.locator('main a[href^="mailto:"]')
+  expect(await emailLinks.count()).toBeGreaterThan(0)
+  for (const link of await emailLinks.all()) {
+    await expect(link).toHaveAttribute('href', `mailto:${inventory.profile.email}`)
+  }
 })
 
 test('unknown and draft URLs return HTTP 404 and the correct locale', async ({ page }) => {
@@ -134,7 +146,7 @@ test('article text and native navigation work without JavaScript', async ({ brow
     await expect(page.locator('main h1')).toHaveText(article.metadata.title)
     await expect(page.locator('.prose h2').first()).toBeVisible()
     await page.getByRole('link', { name: 'Contacts', exact: true }).first().click()
-    await expect(page.locator('main a[href^="mailto:"]')).toHaveAttribute('href', `mailto:${inventory.profile.email}`)
+    await expect(page.locator('main a[href^="mailto:"]').first()).toHaveAttribute('href', `mailto:${inventory.profile.email}`)
   }
   finally {
     await context.close()
