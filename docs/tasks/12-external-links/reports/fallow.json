@@ -1,0 +1,32 @@
+{
+  "kind": "audit",
+  "schema_version": 13,
+  "version": "3.34.1",
+  "verdict": "pass",
+  "summary": {
+    "dead_code_issues": 0,
+    "dead_code_has_errors": false,
+    "complexity_findings": 0,
+    "max_cyclomatic": null,
+    "duplication_clone_groups": 0
+  },
+  "attribution": {
+    "gate": "new-only",
+    "dead_code_introduced": 0,
+    "dead_code_inherited": 0,
+    "complexity_introduced": 0,
+    "complexity_inherited": 0,
+    "duplication_introduced": 0,
+    "duplication_inherited": 0,
+    "styling_introduced": 0,
+    "styling_inherited": 0,
+    "duplication_demoted": 0,
+    "diff_risk_introduced": 0
+  },
+  "gate_outcomes": {
+    "audit-verdict": {
+      "status": "pass",
+      "enforced": true
+    }
+  }
+}

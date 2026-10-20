@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import profile from '~~/content/settings/profile.json'
+
 const { copy, locale } = useLocale()
 const siteContent = useSiteContent()
 const updatedLabel = computed(() => new Intl.DateTimeFormat(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' }).format(new Date(siteContent.value.privacy.updated)))
@@ -20,9 +22,9 @@ usePageSeo({ title: () => copy.value.privacy, description: () => siteContent.val
       <p>{{ siteContent.privacy.storage }}</p>
       <a
         class="text-link"
-        href="mailto:alexander.s.anufriev@gmail.com"
+        :href="`mailto:${profile.email}`"
         :title="copy.emailMe"
-      >alexander.s.anufriev@gmail.com <AppIcon name="arrow" /></a>
+      >{{ profile.email }} <AppIcon name="arrow" /></a>
     </div>
   </div>
 </template>
