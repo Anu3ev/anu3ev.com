@@ -4,7 +4,7 @@ import sharp from 'sharp'
 import { z } from 'zod'
 import { readContentInventory } from './lib/content'
 import { createPublicPaths } from './lib/routes'
-import { socialImagePath } from '../shared/seo'
+import { canonicalPagePath, socialImagePath } from '../shared/seo'
 import { getSiteOrigin } from '../shared/site'
 
 /** XML text/attributes must remain data even when an editor writes angle brackets or ampersands. */
@@ -12,7 +12,7 @@ function escapeXml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 }
 
-const { projects, posts, profile } = readContentInventory()
+const { projects, posts, profile, pages } = readContentInventory()
 const origin = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)
 const { version } = z.object({ version: z.string().regex(/^\d+\.\d+\.\d+$/) }).parse(JSON.parse(readFileSync('package.json', 'utf8')))
 const commit = z.string().regex(/^[a-f0-9]{40}$/).nullable().parse(process.env.GITHUB_SHA || process.env.VERCEL_GIT_COMMIT_SHA || null)
@@ -29,7 +29,7 @@ for (const locale of ['en', 'ru'] as const) {
   const feedPath = `public${prefix}/rss.xml`
   const articles = posts.filter(post => post.isPublic && post.metadata.locale === locale).sort((first, second) => second.metadata.date.localeCompare(first.metadata.date) || first.metadata.slug.localeCompare(second.metadata.slug))
   const items = articles.map(({ metadata }) => {
-    const url = `${origin}${prefix}/blog/${metadata.slug}`
+    const url = `${origin}${canonicalPagePath(`${prefix}/blog/${metadata.slug}`)}`
     const date = new Date(`${metadata.date}T00:00:00+04:00`).toUTCString()
     return `<item>
       <title>${escapeXml(metadata.title)}</title>
@@ -40,11 +40,12 @@ for (const locale of ['en', 'ru'] as const) {
     </item>`
   }).join('\n')
   mkdirSync(dirname(feedPath), { recursive: true })
+  const ownerName = locale === 'ru' ? profile.name_ru : profile.name
   const feedXml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${escapeXml(profile.name)} — Blog</title>
-    <link>${origin}${prefix}/blog</link>
+    <title>${escapeXml(`${ownerName} — ${pages[locale].blog.title}`)}</title>
+    <link>${origin}${canonicalPagePath(`${prefix}/blog`)}</link>
     <description>${escapeXml(profile[`bio_${locale}`])}</description>
     <language>${locale}</language>
     <atom:link href="${origin}${prefix}/rss.xml" rel="self" type="application/rss+xml"/>

@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import profile from '~~/content/settings/profile.json'
+
 const route = useRoute()
 const { locale, copy, localePath } = useLocale()
-const { siteUrl } = useRuntimeConfig().public
+const siteContent = useSiteContent()
+const siteUrl = useSiteOrigin()
 const { data: project } = await useAsyncData(
   () => `project-${locale.value}-${route.params.slug}`,
   () =>
@@ -16,7 +19,7 @@ if (!project.value) throw createError({ statusCode: 404, statusMessage: 'Project
 
 usePageSeo({
   title: () => project.value?.title || copy.value.work,
-  description: () => project.value?.description || copy.value.workIntro,
+  description: () => project.value?.description || siteContent.value.portfolio.intro,
   parent: () => ({ name: copy.value.work, url: `${siteUrl}${localePath('/work')}` }),
   schema: () => {
     const currentProject = project.value
@@ -26,7 +29,7 @@ usePageSeo({
       '@context': 'https://schema.org', '@type': 'CreativeWork',
       'name': currentProject.title, 'description': currentProject.description,
       'url': `${siteUrl}${localePath(`/work/${currentProject.slug}`)}`,
-      'author': { '@type': 'Person', 'name': 'Alexander Anufriev', 'url': siteUrl }
+      'author': { '@type': 'Person', 'name': profile.name, 'url': siteUrl }
     }]
   }
 })

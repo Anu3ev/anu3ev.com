@@ -68,4 +68,4 @@ The first render is only one state of the system. Useful checks include opening 
 
 I prefer a small number of tests around those boundaries to many assertions that a component called its own helper. The failure matters because a user gets stale content, duplicate commands, or a resource that never goes away.
 
-The [Vue product editor case](/work/product-image-editor) describes how these ownership boundaries fit a production workflow.
+The [Vue product editor case](/work/product-image-editor/) describes how these ownership boundaries fit a production workflow.

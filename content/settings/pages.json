@@ -1,0 +1,220 @@
+{
+  "en": {
+    "home": {
+      "seoTitle": "Product Frontend Engineer · Vue & TypeScript",
+      "pinnedTitle": "Good interfaces make the complex feel natural.",
+      "pinnedBody": "Here’s a closer look at the products I’ve worked on, the decisions behind them, and what I’m exploring along the way.",
+      "tags": [
+        "Vue.js",
+        "TypeScript",
+        "Browser editors",
+        "E-commerce SaaS"
+      ]
+    },
+    "about": {
+      "title": "The person behind the pixels.",
+      "intro": "I care about what happens after the happy path.",
+      "body": "I’m Alexander Anufriev, a frontend engineer based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors, code editors, merchant analytics, and the workflows around them.",
+      "story": "Before moving into frontend development, I worked in technical support. Debugging real stores and talking to merchants taught me to start with the problem, understand the constraints, and take responsibility for what reaches production.",
+      "technologies": [
+        "Vue 3",
+        "Nuxt",
+        "TypeScript",
+        "JavaScript",
+        "Pinia",
+        "FabricJS",
+        "Monaco",
+        "TinyMCE",
+        "Tailwind CSS",
+        "Vuetify",
+        "Vite",
+        "Playwright",
+        "Jest",
+        "REST API"
+      ],
+      "experienceTitle": "inSales",
+      "experience": [
+        {
+          "start": "2021-10",
+          "end": "2026-09",
+          "company": "inSales",
+          "role": "Frontend Developer",
+          "description": "Browser editors, merchant analytics, AI-assisted content, checkout, and reusable Vue components. From requirements and API contracts to automated tests and production verification."
+        },
+        {
+          "start": "2019-10",
+          "end": "2021-10",
+          "company": "inSales",
+          "role": "Senior Technical Support Engineer",
+          "description": "Storefront development with HTML, CSS, JavaScript and Liquid. Browser debugging, complex merchant issues, and collaboration with engineering."
+        }
+      ],
+      "principles": [
+        {
+          "title": "Understand the product",
+          "description": "Start with people, workflows, constraints, and a clear definition of done."
+        },
+        {
+          "title": "Make complexity readable",
+          "description": "Give state and behaviour clear owners. Prefer explicit contracts and code the next person can understand."
+        },
+        {
+          "title": "Follow through",
+          "description": "Test the important paths, review the details, ship, and check what actually happens."
+        }
+      ]
+    },
+    "portfolio": {
+      "title": "Work with a purpose.",
+      "intro": "Complex editors, useful tools, and the engineering that makes them feel simple."
+    },
+    "blog": {
+      "title": "Thinking out loud.",
+      "intro": "Practical ideas about Vue, TypeScript, browser editors, and the decisions behind product interfaces."
+    },
+    "contact": {
+      "title": "Good work starts with a conversation.",
+      "intro": "A frontend role, a challenging product, or a good engineering conversation. I’d like to hear about it.",
+      "note": "I work remotely from Georgia (UTC+4), in English and Russian.",
+      "arrangements": [
+        "Remote",
+        "B2B / EOR",
+        "Relocation"
+      ]
+    },
+    "sidebar": {
+      "bio": "Building at the intersection of engineering and experience.",
+      "focusTitle": "Interfaces that do more.",
+      "focusDetails": "Editor architecture.\nPerformance.\nThe small UX details.",
+      "focusTags": [
+        "Vue.js",
+        "TypeScript",
+        "Fabric.js"
+      ]
+    },
+    "collaboration": {
+      "title": "Based in Batumi. Built for distributed teams.",
+      "body": "Available for remote roles through B2B or EOR. Open to employer-sponsored relocation."
+    },
+    "cta": {
+      "title": "Let’s build something thoughtful.",
+      "body": "Have a product challenge or an interesting role? Get in touch."
+    },
+    "privacy": {
+      "title": "A little privacy, by design.",
+      "updated": "2026-10-20",
+      "body": "This site does not use advertising cookies, tracking analytics, or a contact form. Public pages and assets are delivered by ChatGPT Sites through Cloudflare. The hosting provider may process technical request data, including IP addresses and access logs, to serve and protect the site.",
+      "contact": "When you contact me by email, Telegram, or LinkedIn, the service you choose processes that conversation under its own privacy policy. I use your message to respond to your enquiry. You can ask me to delete the correspondence by email.",
+      "storage": "The application saves your colour-theme preference in your browser. The hosting provider may also use technical cookies for bot protection. The administration area is intended for the site owner; Sveltia CMS stores its GitHub access token in that browser’s local storage until sign-out. Do not sign in from a shared device."
+    }
+  },
+  "ru": {
+    "home": {
+      "seoTitle": "Frontend-разработчик · Vue и TypeScript",
+      "pinnedTitle": "Хороший интерфейс делает сложное естественным.",
+      "pinnedBody": "Проекты, над которыми я работал, принятые решения и то, в чём разбираюсь по пути.",
+      "tags": [
+        "Vue.js",
+        "TypeScript",
+        "Браузерные редакторы",
+        "E-commerce SaaS"
+      ]
+    },
+    "about": {
+      "title": "Кто стоит за интерфейсом.",
+      "intro": "Мне важно, что происходит за пределами happy path.",
+      "body": "Я Александр Ануфриев, frontend-разработчик из Грузии. Создаю сложные браузерные интерфейсы на Vue и TypeScript: редакторы изображений и кода, аналитику для магазинов и связанные с ними сценарии.",
+      "story": "До перехода во frontend я работал в технической поддержке. Отладка реальных магазинов и общение с их владельцами научили меня начинать с проблемы, разбираться в ограничениях и отвечать за то, что доходит до production.",
+      "technologies": [
+        "Vue 3",
+        "Nuxt",
+        "TypeScript",
+        "JavaScript",
+        "Pinia",
+        "FabricJS",
+        "Monaco",
+        "TinyMCE",
+        "Tailwind CSS",
+        "Vuetify",
+        "Vite",
+        "Playwright",
+        "Jest",
+        "REST API"
+      ],
+      "experienceTitle": "inSales",
+      "experience": [
+        {
+          "start": "2021-10",
+          "end": "2026-09",
+          "company": "inSales",
+          "role": "Frontend-разработчик",
+          "description": "Браузерные редакторы, аналитика, AI-инструменты, checkout и общие Vue-компоненты. От требований и API-контрактов до тестов и проверки в production."
+        },
+        {
+          "start": "2019-10",
+          "end": "2021-10",
+          "company": "inSales",
+          "role": "Старший инженер технической поддержки",
+          "description": "Витрины на HTML, CSS, JavaScript и Liquid. Отладка в браузере, сложные обращения клиентов и взаимодействие с разработкой."
+        }
+      ],
+      "principles": [
+        {
+          "title": "Разобраться в продукте",
+          "description": "Начинаю с людей, сценариев, ограничений и понятного критерия готовности."
+        },
+        {
+          "title": "Сделать сложное понятным",
+          "description": "У состояния и поведения должны быть явные владельцы, у кода — понятные контракты."
+        },
+        {
+          "title": "Довести до результата",
+          "description": "Проверяю важные сценарии, провожу ревью, выпускаю и смотрю, как решение работает."
+        }
+      ]
+    },
+    "portfolio": {
+      "title": "Решения реальных задач.",
+      "intro": "От первого вопроса о продукте до деталей, которые делают интерфейс удобным."
+    },
+    "blog": {
+      "title": "Думаю вслух.",
+      "intro": "Практика Vue, TypeScript, браузерных редакторов и решений, на которых держатся продуктовые интерфейсы."
+    },
+    "contact": {
+      "title": "Хорошая работа начинается с разговора.",
+      "intro": "Frontend-вакансия, сложный продукт или хороший разговор о разработке. Буду рад познакомиться.",
+      "note": "Работаю удалённо из Грузии (UTC+4). Общаюсь на русском и английском.",
+      "arrangements": [
+        "Remote",
+        "B2B / EOR",
+        "Релокация"
+      ]
+    },
+    "sidebar": {
+      "bio": "На стыке инженерии и пользовательского опыта.",
+      "focusTitle": "Интерфейсы, которые умеют больше.",
+      "focusDetails": "Архитектура редакторов.\nПроизводительность.\nДетали UX.",
+      "focusTags": [
+        "Vue.js",
+        "TypeScript",
+        "Fabric.js"
+      ]
+    },
+    "collaboration": {
+      "title": "Из Батуми — в распределённую команду.",
+      "body": "Рассматриваю удалённую работу через B2B или EOR и релокацию при поддержке работодателя."
+    },
+    "cta": {
+      "title": "Создадим что-то продуманное.",
+      "body": "Есть продуктовая задача или интересная роль? Напишите мне."
+    },
+    "privacy": {
+      "title": "Немного приватности по умолчанию.",
+      "updated": "2026-10-20",
+      "body": "На сайте нет рекламных cookies, отслеживающей аналитики и формы обратной связи. Публичные страницы и изображения доставляются ChatGPT Sites через Cloudflare. Хостинг может обрабатывать технические данные запросов, включая IP-адреса и журналы доступа, для работы и защиты сайта.",
+      "contact": "Если вы пишете мне по почте, в Telegram или LinkedIn, выбранный сервис обрабатывает переписку по своей политике конфиденциальности. Я использую сообщение, чтобы ответить на ваше обращение. Удалить переписку можно попросить по почте.",
+      "storage": "Приложение сохраняет в браузере выбранную цветовую тему. Хостинг также может использовать технические cookies для защиты от ботов. Админка предназначена для владельца сайта: Sveltia CMS сохраняет GitHub-токен в localStorage до выхода. Не входите с общего устройства."
+    }
+  }
+}

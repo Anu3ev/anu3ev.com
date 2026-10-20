@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import profile from '~~/content/settings/profile.json'
 
-const { copy, locale } = useLocale()
-usePageSeo({ title: () => copy.value.contact, description: () => copy.value.contactIntro })
+const { copy } = useLocale()
+const siteContent = useSiteContent()
+const telegramHandle = new URL(profile.telegram).pathname.replace(/^\/+/, '@')
+usePageSeo({ title: () => copy.value.contact, description: () => siteContent.value.contact.intro })
 </script>
 
 <template>
@@ -14,8 +16,8 @@ usePageSeo({ title: () => copy.value.contact, description: () => copy.value.cont
       <p v-if="profile.available" class="availability">
         <span class="status-dot" />{{ copy.available }}
       </p>
-      <h1>{{ copy.contactTitle }}</h1>
-      <p>{{ copy.contactIntro }}</p>
+      <h1>{{ siteContent.contact.title }}</h1>
+      <p>{{ siteContent.contact.intro }}</p>
     </header>
 
     <section class="contact-email-section" aria-labelledby="email-title">
@@ -26,7 +28,7 @@ usePageSeo({ title: () => copy.value.contact, description: () => copy.value.cont
         :href="`mailto:${profile.email}`"
         class="email-card"
         :title="copy.emailMe"
-      ><span class="eyebrow">Email</span><strong>{{ profile.email }} <AppIcon name="arrow" /></strong><span>{{ copy.contactNote }}</span></a>
+      ><span class="eyebrow">Email</span><strong>{{ profile.email }} <AppIcon name="arrow" /></strong><span>{{ siteContent.contact.note }}</span></a>
     </section>
 
     <div class="feed-heading">
@@ -37,7 +39,7 @@ usePageSeo({ title: () => copy.value.contact, description: () => copy.value.cont
       <a
         :href="profile.telegram"
         title="Telegram"
-      ><span><strong>Telegram</strong><small>@anu3ev</small></span><AppIcon name="arrow" /></a><a
+      ><span><strong>Telegram</strong><small>{{ telegramHandle }}</small></span><AppIcon name="arrow" /></a><a
         :href="profile.linkedin"
         title="LinkedIn"
       ><span><strong>LinkedIn</strong><small>{{ copy.experience }}</small></span><AppIcon name="arrow" /></a><a
@@ -51,13 +53,13 @@ usePageSeo({ title: () => copy.value.contact, description: () => copy.value.cont
         {{ copy.collaboration }}
       </p>
       <h2 id="distributed-title">
-        {{ copy.distributedTitle }}
+        {{ siteContent.collaboration.title }}
       </h2>
-      <p>{{ copy.distributedBody }}</p>
+      <p>{{ siteContent.collaboration.body }}</p>
       <ul class="tags">
-        <li>Remote</li>
-        <li>B2B / EOR</li>
-        <li>{{ locale === 'en' ? 'Relocation' : 'Релокация' }}</li>
+        <li v-for="arrangement in siteContent.contact.arrangements" :key="arrangement">
+          {{ arrangement }}
+        </li>
       </ul>
     </section>
   </div>

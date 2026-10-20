@@ -3,7 +3,8 @@ import { getPostSummaries } from '~/queries/posts'
 import profile from '~~/content/settings/profile.json'
 
 const { locale, copy, localePath } = useLocale()
-const { siteUrl } = useRuntimeConfig().public
+const siteContent = useSiteContent()
+const siteUrl = useSiteOrigin()
 const { data: projects } = await useAsyncData(
   () => `home-projects-${locale.value}`,
   () =>
@@ -22,24 +23,22 @@ const { data: posts } = await useAsyncData(
 )
 
 usePageSeo({
-  title: () =>
-    locale.value === 'en'
-      ? 'Product Frontend Engineer · Vue & TypeScript'
-      : 'Frontend-разработчик · Vue и TypeScript',
+  title: () => siteContent.value.home.seoTitle,
   description: () => profile[`bio_${locale.value}`],
   schema: [
     {
       '@context': 'https://schema.org',
       '@type': 'Person',
       'name': profile.name,
+      'alternateName': profile.name_ru,
       'url': siteUrl,
-      'jobTitle': 'Product Frontend Engineer',
+      'jobTitle': profile.headline_en,
       'sameAs': [profile.github, profile.linkedin, profile.telegram]
     },
     {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      'name': 'Alexander Anufriev',
+      'name': profile.name,
       'url': siteUrl,
       'inLanguage': ['en', 'ru']
     }
@@ -67,7 +66,7 @@ usePageSeo({
           >{{ copy.letsTalk }} <AppIcon name="arrow" /></NuxtLink>
         </div>
         <h1 id="home-title">
-          {{ locale === 'en' ? profile.name : copy.portraitAlt
+          {{ locale === 'en' ? profile.name : profile.name_ru
           }}<span class="accent-period">.</span>
         </h1>
         <p class="profile-role">
@@ -80,10 +79,9 @@ usePageSeo({
           <span>◎ {{ profile.location }}</span><span>↗ {{ copy.remote }}</span>
         </p>
         <ul class="tags">
-          <li>Vue.js</li>
-          <li>TypeScript</li>
-          <li>{{ copy.editors }}</li>
-          <li>E-commerce SaaS</li>
+          <li v-for="tag in siteContent.home.tags" :key="tag">
+            {{ tag }}
+          </li>
         </ul>
       </div>
     </section>
@@ -98,9 +96,9 @@ usePageSeo({
         ↳ {{ copy.pinnedNote }}
       </p>
       <h2 id="pinned-note-title">
-        {{ copy.pinnedTitle }}
+        {{ siteContent.home.pinnedTitle }}
       </h2>
-      <p>{{ copy.pinnedBody }}</p>
+      <p>{{ siteContent.home.pinnedBody }}</p>
     </section>
 
     <div class="project-grid">

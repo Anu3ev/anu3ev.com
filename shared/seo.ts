@@ -4,6 +4,13 @@ export interface SeoAncestor {
   url: string
 }
 
+/** Directory exports resolve directly with a trailing slash; canonical URLs must not point at a redirect. */
+export function canonicalPagePath(path: string) {
+  if (!path.startsWith('/') || path.includes('\\')) throw new Error('A page path must be absolute within the site')
+  if (/[?#]/.test(path)) throw new Error('Pass query and fragment separately from the page path')
+  return `${path.replace(/\/+/g, '/').replace(/\/$/, '')}/`
+}
+
 /** Adds breadcrumbs to the page's own graphs, preserving the real home/section/current destinations. */
 export function createPageSchemas({ home, current, parent, graphs = [] }: { home: SeoAncestor, current: SeoAncestor, parent?: SeoAncestor, graphs?: readonly Record<string, unknown>[] }) {
   if (current.url === home.url) return graphs

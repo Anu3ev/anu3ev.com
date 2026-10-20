@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { locale, copy } = useLocale()
+const siteContent = useSiteContent()
 const category = ref('')
 const { data: projects } = await useAsyncData(
   () => `work-${locale.value}`,
@@ -16,7 +17,7 @@ const visibleProjects = computed(() =>
   projects.value?.filter(project => !category.value || project.category === category.value)
 )
 
-usePageSeo({ title: () => copy.value.work, description: () => copy.value.workIntro })
+usePageSeo({ title: () => copy.value.work, description: () => siteContent.value.portfolio.intro })
 </script>
 
 <template>
@@ -26,8 +27,8 @@ usePageSeo({ title: () => copy.value.work, description: () => copy.value.workInt
         <p class="eyebrow">
           {{ copy.selectedWork }}
         </p>
-        <h1>{{ copy.workHeading }}</h1>
-        <p>{{ copy.workIntro }}</p>
+        <h1>{{ siteContent.portfolio.title }}</h1>
+        <p>{{ siteContent.portfolio.intro }}</p>
       </header>
       <div class="blog-toolbar" role="group" :aria-label="copy.projectStack">
         <button

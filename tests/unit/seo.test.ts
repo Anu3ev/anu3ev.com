@@ -1,23 +1,31 @@
 import { describe, expect, it } from 'vitest'
 import { createPageLinks } from '../../app/utils/seo'
 import { createPublicPaths } from '../../scripts/lib/routes'
-import { createPageSchemas, serializeJsonLd, socialImagePath } from '../../shared/seo'
+import { canonicalPagePath, createPageSchemas, serializeJsonLd, socialImagePath } from '../../shared/seo'
 
 const origin = 'https://portfolio.example.test'
 
 describe('canonical routes and structured data', () => {
   it.each([
-    { locale: 'en', path: '/', canonical: '/', english: '/', russian: '/ru', feed: '/rss.xml' },
-    { locale: 'ru', path: '/ru/', canonical: '/ru', english: '/', russian: '/ru', feed: '/ru/rss.xml' },
-    { locale: 'ru', path: '/ru/blog/note/', canonical: '/ru/blog/note', english: '/blog/note', russian: '/ru/blog/note', feed: '/ru/rss.xml' },
-    { locale: 'en', path: '/blog/page/2', canonical: '/blog/page/2', english: '/blog/page/2', russian: '/ru/blog/page/2', feed: '/rss.xml' }
+    { locale: 'en', path: '/', canonical: '/', english: '/', russian: '/ru/', feed: '/rss.xml' },
+    { locale: 'ru', path: '/ru/', canonical: '/ru/', english: '/', russian: '/ru/', feed: '/ru/rss.xml' },
+    { locale: 'ru', path: '/ru/blog/note/', canonical: '/ru/blog/note/', english: '/blog/note/', russian: '/ru/blog/note/', feed: '/ru/rss.xml' },
+    { locale: 'en', path: '/blog/page/2', canonical: '/blog/page/2/', english: '/blog/page/2/', russian: '/ru/blog/page/2/', feed: '/rss.xml' }
   ] as const)('keeps $path canonical and points language alternatives at the equivalent page', ({ locale, path, canonical, english, russian, feed }) => {
-    const result = createPageLinks({ origin, path, locale })
+    const result = createPageLinks({ origin, path, locale, feedTitle: 'Editable author — Blog' })
 
     expect(result.canonical).toBe(`${origin}${canonical}`)
     expect(result.links.find(link => link.hreflang === 'en')?.href).toBe(`${origin}${english}`)
     expect(result.links.find(link => link.hreflang === 'ru')?.href).toBe(`${origin}${russian}`)
     expect(result.links.find(link => link.type === 'application/rss+xml')?.href).toBe(`${origin}${feed}`)
+    expect(result.links.find(link => link.type === 'application/rss+xml')?.title).toBe('Editable author — Blog')
+  })
+
+  it('normalizes page directory paths and keeps non-path input out of canonical URLs', () => {
+    expect(canonicalPagePath('/ru//blog///')).toBe('/ru/blog/')
+    expect(() => canonicalPagePath('https://example.test')).toThrow('absolute within the site')
+    expect(() => canonicalPagePath('/\\example.test')).toThrow('absolute within the site')
+    expect(() => canonicalPagePath('/blog?q=Vue')).toThrow('query and fragment separately')
   })
 
   it('keeps the home graphs and adds a real parent chain to an internal article', () => {
@@ -60,10 +68,10 @@ describe('canonical routes and structured data', () => {
       { isPublic: false, metadata: { locale: 'en', slug: 'hidden-project' } }
     ], posts: [...posts, { isPublic: false, metadata: { locale: 'en', slug: 'draft-note' } }] })
 
-    expect(paths).toContain('/blog/page/2')
-    expect(paths).toContain('/ru/blog/page/2')
+    expect(paths).toContain('/blog/page/2/')
+    expect(paths).toContain('/ru/blog/page/2/')
     expect(paths.some(path => path.includes('draft-note') || path.includes('hidden-project'))).toBe(false)
-    expect(paths).toContain('/work/editor-case')
+    expect(paths).toContain('/work/editor-case/')
     expect(paths).toHaveLength(38)
   })
 

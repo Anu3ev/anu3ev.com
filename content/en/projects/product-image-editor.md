@@ -36,4 +36,4 @@ As the interface grew, I divided its product responsibilities into composables f
 
 AI processing and server-side image preparation can take time. The interface shows the operation in progress, prevents incompatible edits, handles errors, and only applies a result to the current workflow. It also checks unsaved changes before closing the editor.
 
-The production interface is used by thousands of inSales clients. Its reusable engine has a separate [open-source case](/work/image-editor) and [public demo](https://anu3ev.github.io/image-editor/). The commercial Vue interface is a separate product; the public demo does not reproduce all inSales integrations.
+The production interface is used by thousands of inSales clients. Its reusable engine has a separate [open-source case](/work/image-editor/) and [public demo](https://anu3ev.github.io/image-editor/). The commercial Vue interface is a separate product; the public demo does not reproduce all inSales integrations.

@@ -37,7 +37,7 @@ function closeMenu() {
         :to="localePath('/')"
         class="wordmark"
         :title="copy.home"
-        :aria-label="`a. · ${profile.name} · ${copy.home}`"
+        :aria-label="`a. · ${locale === 'ru' ? profile.name_ru : profile.name} · ${copy.home}`"
       >a<span>.</span></NuxtLink>
 
       <details ref="mobile-menu" class="mobile-menu" @keydown.esc.prevent="closeMenu">
@@ -80,7 +80,7 @@ function closeMenu() {
         <a :href="profile.github" title="GitHub">GitHub ↗</a><a :href="profile.linkedin" title="LinkedIn">LinkedIn ↗</a>
       </div>
       <p class="sidebar-sign">
-        {{ copy.builtWithCare }}<br>Alexander Anufriev
+        {{ copy.builtWithCare }}<br>{{ locale === 'ru' ? profile.name_ru : profile.name }}
       </p>
     </div>
   </aside>

@@ -2,7 +2,7 @@
 
 Сайт доступен без входа: **https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site**. [Админка](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/admin/), [редактирование](../../operations/content.md), [публикация и домен](../../operations/deployment.md).
 
-GitHub Actions проверяет PR/master: content schema, ESLint, Nuxt types, unit, SSG, Chromium/axe и настоящую пагинацию. При повышении версии отдельный job с минимальными правами публикует immutable semver tag, Release и тот же проверенный архив. Официальные actions закреплены SHA; Node 24 и pnpm фиксированы; отчёты сохраняются три дня. Версия подготовлена к `1.0.0`; первый Release должен быть подтверждён **после merge**, не объявляется уже существующим.
+GitHub Actions проверяет PR/master: content schema, ESLint, Nuxt types, unit, SSG, Chromium/axe и настоящую пагинацию. При повышении версии отдельный job с минимальными правами публикует immutable semver tag, Release и тот же проверенный архив. Официальные actions закреплены SHA; Node 24 и pnpm фиксированы; отчёты сохраняются три дня. После merge подтверждён [Release v1.0.0](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.0) с архивом 6 250 319 bytes и target `ea514c4c92660b3b810a62b0195fbec8fb8ccd62`; [master run](https://github.com/Anu3ev/anu3ev.com/actions/runs/39347611965) завершился успешно.
 
 Sites identity сохранён в `.openai/hosting.json`, source HEAD проверен, две версии сохранены и опубликованы штатными инструментами. Исходники GitHub остаются private. Token передавался через скрытый stdin/environment; `git add` не выполнялся. Штатный Sites staging заменён из-за прямого запрета пользователя. [Решение](hosting.md).
 

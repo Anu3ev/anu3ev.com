@@ -2,6 +2,7 @@
 import profile from '~~/content/settings/profile.json'
 
 const { copy, localePath, locale } = useLocale()
+const siteContent = useSiteContent()
 </script>
 
 <template>
@@ -10,9 +11,9 @@ const { copy, localePath, locale } = useLocale()
       :to="localePath('/about')"
       class="profile-mini"
       :title="copy.about"
-    ><span class="small-avatar" aria-hidden="true">aa</span><strong>{{ profile.name }}</strong><span>{{ profile[`headline_${locale}`] }}</span></NuxtLink>
+    ><span class="small-avatar" aria-hidden="true">aa</span><strong>{{ locale === 'ru' ? profile.name_ru : profile.name }}</strong><span>{{ profile[`headline_${locale}`] }}</span></NuxtLink>
     <p class="sidebar-bio">
-      {{ copy.sidebarBio }}
+      {{ siteContent.sidebar.bio }}
     </p>
 
     <section class="focus-card" aria-labelledby="focus-title">
@@ -20,13 +21,13 @@ const { copy, localePath, locale } = useLocale()
         {{ copy.currentFocus }}
       </p>
       <h2 id="focus-title">
-        {{ copy.focusTitle }}
+        {{ siteContent.sidebar.focusTitle }}
       </h2>
-      <p>{{ copy.focusDetails }}</p>
+      <p>{{ siteContent.sidebar.focusDetails }}</p>
       <ul class="tags">
-        <li>Vue.js</li>
-        <li>TypeScript</li>
-        <li>Fabric.js</li>
+        <li v-for="tag in siteContent.sidebar.focusTags" :key="tag">
+          {{ tag }}
+        </li>
       </ul>
     </section>
 
