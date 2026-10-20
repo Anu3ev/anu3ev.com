@@ -1,0 +1,51 @@
+{
+  "exit_code": 1,
+  "vulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 1,
+    "high": 2,
+    "critical": 0
+  },
+  "remaining": [
+    {
+      "module": "node-forge",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-86w9-cpqp-85rv",
+      "findings": [
+        {
+          "version": "1.4.0",
+          "paths": [
+            ".>nuxt>@nuxt/nitro-server>nitropack>listhen>node-forge"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "braces",
+      "severity": "high",
+      "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+      "findings": [
+        {
+          "version": "3.0.3",
+          "paths": [
+            ".>@nuxt/content>micromatch>braces"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "sprintf-js",
+      "severity": "moderate",
+      "url": "https://github.com/advisories/GHSA-hp3w-g68c-fv3c",
+      "findings": [
+        {
+          "version": "1.0.3",
+          "paths": [
+            ".>gray-matter>js-yaml>argparse>sprintf-js"
+          ]
+        }
+      ]
+    }
+  ]
+}

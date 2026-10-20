@@ -1,0 +1,28 @@
+{
+  "repository": "Anu3ev/anu3ev.com",
+  "commit": "6541daa29fb14356337f354cb4e75751d19afc3f",
+  "release": "https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.1",
+  "workflow_run": "https://github.com/Anu3ev/anu3ev.com/actions/runs/39355732251",
+  "ci_zip": {
+    "artifact_id": 12235316573,
+    "bytes": 6321602,
+    "sha256": "6201423d8f047aa7889f4c471bc712671694276e31aff861f830413cc18ba47f"
+  },
+  "release_tar": {
+    "bytes": 6320901,
+    "sha256": "e76cbbdc1ed75fbcfbfd6a4b88b3ffd6c0f72c6901c79a0760ed74406f25e84f",
+    "state": "uploaded"
+  },
+  "site": {
+    "project_id": "appgprj_6ad6aec278ec8191a1a7e24b47e9ec53",
+    "saved_version_id": "appgprj_6ad6aec278ec8191a1a7e24b47e9ec53~appgver_446ee90d41a4819187fffb489289bdf0",
+    "version_number": 3,
+    "deployment_id": "appgdep_6ad6cbfdb24c8191810d00c1cf1462b4",
+    "status": "succeeded",
+    "access_mode": "public"
+  },
+  "public_files": 367,
+  "all_public_file_hashes_match_ci_export": true,
+  "only_added_packaging_file": "dist/.openai/hosting.json",
+  "release_publish_rerun": "not executed: automatic approval review rejected a redundant production publish job; tag/asset state and digest verified read-only"
+}

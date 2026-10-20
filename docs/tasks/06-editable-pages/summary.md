@@ -6,6 +6,6 @@
 
 Публичная проверка выявила redirect в canonical URLs: политика пути теперь соответствует реальному host, с `/` в конце страниц. Sitemap/RSS/OG/schema/navigation согласованы; проверяется HTTP 200 без redirect. Frontmatter использует YAML 1.2, принимает обычные date strings/BOM/CRLF и отклоняет executable engines до разбора. Обновлены исправляемые Sharp/compression advisory; оставшиеся 2 high + 1 moderate в build tooling разобраны [отдельно](dependencies.md).
 
-Проверено: lint, types, SSG, **43 unit tests**, полный local browser suite **49 pass**, затем два targeted tests финального поля Privacy; 100% coverage в 12 выбранных чистых модулях, Fallow core findings 0. [Review](review.md) описывает исправления и границы проверки. CI перед merge повторяет полный набор. Patch version — **1.0.1**; фактический Release/publication после merge фиксируется в launch audit.
+Проверено: lint, types, SSG, **43 unit tests**, полный local browser suite **49 pass**, затем два targeted tests финального поля Privacy; 100% coverage в 12 выбранных чистых модулях, Fallow core findings 0. [Review](review.md) описывает исправления и границы проверки. Финальный PR/master CI также прошёл 43 unit + 49 browser tests. [Release/publication 1.0.1](../07-launch-audit/summary.md) подтверждены после merge.
 
 Первый PAT-вход/write CMS выполняет владелец. Отказ Vercel 403 и отсутствие DNS-доступа не обойдены: автоматическая GitHub → hosting integration ещё требует рабочей авторизации. Опубликованный Sites обновляется отдельной операцией.
