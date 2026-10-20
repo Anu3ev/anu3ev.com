@@ -2,7 +2,7 @@
 
 Откройте `/admin/` на опубликованном сайте. Используется Sveltia CMS **0.248.1**, зафиксированная в lockfile. JavaScript админки и его MIT license отдаются с самого сайта; внешний CDN не загружается при входе. CMS пока имеет версию до 1.0 — обновления нужно проверять отдельно, автоматической подмены на `latest` нет.
 
-**Текущий публичный Sites — резервный snapshot.** CMS сохраняет изменения в GitHub, но автоматический GitHub → hosting пока заблокирован правами Vercel; для появления изменений на сайте нужна новая публикация. [Рабочий адрес, релизы и завершение подключения](deployment.md).
+**Production is hosted on Vercel Hobby.** CMS changes saved to `master` automatically build and deploy to [anu3ev-com.vercel.app](https://anu3ev-com.vercel.app/). Articles and projects use the editorial workflow; drafts remain outside the public export. Publication follows a successful build and is not instantaneous. [Deployment guide](deployment.md).
 
 ## Первый вход
 

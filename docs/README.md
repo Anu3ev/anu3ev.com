@@ -2,7 +2,7 @@
 
 Новый сайт Александра Ануфриева. Начало работ: 20 октября 2026, Asia/Tbilisi.
 
-**Текущий результат:** [публичный сайт](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/) и [Release 1.0.1](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.1). [Итог запуска и незавершённые пункты](tasks/07-launch-audit/summary.md). Automatic GitHub → hosting пока блокируется доступом Vercel; это не завершённый CI/CD goal.
+**Production:** [Vercel Hobby](https://anu3ev-com.vercel.app/) with the connected `Anu3ev/anu3ev.com` Git repository. [Current deployment verification](tasks/08-github-deployment/summary.md). The [initial launch audit](tasks/07-launch-audit/summary.md) describes the earlier Sites snapshot and its historical limitations.
 
 - [Архитектура и решения](tasks/01-foundation/architecture.md)
 - [Последовательность задач](tasks/01-foundation/plan.md)
@@ -16,6 +16,7 @@
 - [Как публиковать релиз и подключить домен](operations/deployment.md)
 - [Редактируемые страницы и карьера](tasks/06-editable-pages/summary.md)
 - [Публичный релиз и финальная проверка](tasks/07-launch-audit/summary.md)
+- [Automatic GitHub deployment](tasks/08-github-deployment/summary.md)
 
 У каждой задачи — отдельная папка в `docs/tasks/`, описание результата и `summary.md`. Статус означает реально выполненную работу. Необходимые операционные инструкции появятся в `docs/operations/`.
 
