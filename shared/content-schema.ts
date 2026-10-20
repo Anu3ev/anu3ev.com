@@ -49,6 +49,7 @@ export const profileSchema = z.object({
   linkedin: z.string().url().regex(/^https:\/\//),
   telegram: z.string().url().regex(/^https:\/\//),
   location: z.string().min(3),
+  location_ru: z.string().min(3),
   available: z.boolean(),
   headline_en: z.string().min(5),
   headline_ru: z.string().min(5),

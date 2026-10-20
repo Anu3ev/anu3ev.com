@@ -1,14 +1,28 @@
 {
   "en": {
     "home": {
-      "seoTitle": "Product Frontend Engineer · Vue & TypeScript",
-      "pinnedTitle": "Good interfaces make the complex feel natural.",
-      "pinnedBody": "Here’s a closer look at the products I’ve worked on, the decisions behind them, and what I’m exploring along the way.",
+      "seoTitle": "Senior Frontend Engineer · Vue & TypeScript",
+      "pinnedTitle": "Hard frontend problems, shipped and maintained.",
+      "pinnedBody": "Case studies of the editors, storefront performance work and merchant tools I built at inSales, and the decisions behind them.",
       "tags": [
-        "Vue.js",
-        "TypeScript",
+        "Vue & TypeScript",
+        "Complex product UI",
         "Browser editors",
         "E-commerce SaaS"
+      ],
+      "highlights": [
+        {
+          "value": "3,000+",
+          "label": "active clients use the product image editor I built"
+        },
+        {
+          "value": "~70%",
+          "label": "fewer product requests after I reworked storefront loading"
+        },
+        {
+          "value": "90%+",
+          "label": "of stores work in the visual site editor redesign I implemented"
+        }
       ]
     },
     "about": {
@@ -38,7 +52,7 @@
           "start": "2021-10",
           "end": "2026-09",
           "company": "inSales",
-          "role": "Frontend Developer",
+          "role": "Senior Frontend Engineer",
           "description": "Browser editors, merchant analytics, AI-assisted content, checkout, and reusable Vue components. From requirements and API contracts to automated tests and production verification."
         },
         {
@@ -94,8 +108,8 @@
     },
     "sidebar": {
       "bio": "Building at the intersection of engineering and experience.",
-      "focusTitle": "Interfaces that do more.",
-      "focusDetails": "Editor architecture.\nPerformance.\nThe small UX details.",
+      "focusTitle": "Complex UI, owned end to end.",
+      "focusDetails": "Editor architecture.\nStorefront performance.\nClear contracts with backend.",
       "focusTags": [
         "Vue.js",
         "TypeScript",
@@ -120,14 +134,28 @@
   },
   "ru": {
     "home": {
-      "seoTitle": "Frontend-разработчик · Vue и TypeScript",
-      "pinnedTitle": "Хороший интерфейс прячет сложность.",
-      "pinnedBody": "Здесь проекты, над которыми я работал, решения, которые за ними стоят, и заметки о том, в чём сейчас разбираюсь.",
+      "seoTitle": "Senior frontend-разработчик · Vue и TypeScript",
+      "pinnedTitle": "Сложный фронтенд, доведённый до продакшена.",
+      "pinnedBody": "Разборы редакторов, ускорения витрин и инструментов для продавцов, которые я делал в inSales, и решения, которые за ними стоят.",
       "tags": [
-        "Vue.js",
-        "TypeScript",
+        "Vue и TypeScript",
+        "Сложные интерфейсы",
         "Браузерные редакторы",
         "E-commerce SaaS"
+      ],
+      "highlights": [
+        {
+          "value": "3 000+",
+          "label": "активных клиентов работают в редакторе изображений, который я сделал"
+        },
+        {
+          "value": "≈70%",
+          "label": "меньше запросов за товарами после того, как я переделал загрузку витрины"
+        },
+        {
+          "value": "90%+",
+          "label": "магазинов работают в новом визуальном редакторе сайта, который я делал"
+        }
       ]
     },
     "about": {
@@ -157,7 +185,7 @@
           "start": "2021-10",
           "end": "2026-09",
           "company": "inSales",
-          "role": "Frontend-разработчик",
+          "role": "Senior frontend-разработчик",
           "description": "Браузерные редакторы, аналитика, AI-инструменты, checkout и общие Vue-компоненты. От требований и API-контрактов до тестов и проверки в production."
         },
         {
@@ -213,8 +241,8 @@
     },
     "sidebar": {
       "bio": "Делаю сложные интерфейсы удобными.",
-      "focusTitle": "Сложные интерфейсы в браузере.",
-      "focusDetails": "Редакторы и конструкторы.\nСкорость загрузки.\nУдобство в мелочах.",
+      "focusTitle": "Сложный UI от задачи до поддержки.",
+      "focusDetails": "Редакторы и конструкторы.\nСкорость витрин.\nДоговорённости с бэкендом об API.",
       "focusTags": [
         "Vue.js",
         "TypeScript",

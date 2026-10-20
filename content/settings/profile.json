@@ -6,11 +6,12 @@
   "telegram": "https://t.me/anu3ev",
   "location": "Batumi, Georgia · UTC+4",
   "available": true,
-  "headline_en": "Product Frontend Engineer",
-  "headline_ru": "Продуктовый frontend-разработчик",
-  "bio_en": "I build thoughtful interfaces for complex products.\nVue.js, TypeScript, and five years of turning the details into a better experience.",
-  "bio_ru": "Создаю продуманные интерфейсы для сложных продуктов.\nVue.js, TypeScript и пять лет работы с деталями, из которых складывается удобство.",
+  "headline_en": "Senior Frontend Engineer",
+  "headline_ru": "Senior frontend-разработчик",
+  "bio_en": "I build complex browser tools with Vue and TypeScript: image, text and code editors, merchant workflows, and the shared libraries behind them.\nFor 5 years at inSales, an e-commerce platform with 60,000+ merchants, I took unclear features from first questions to production and kept them running after release.",
+  "bio_ru": "Делаю сложные браузерные инструменты на Vue и TypeScript: редакторы изображений, текста и кода, сценарии для продавцов и общие библиотеки, на которых они работают.\nПять лет писал фронтенд в inSales, платформе для 60 000+ интернет-магазинов: брал задачи с размытыми требованиями, доводил до продакшена и поддерживал после релиза.",
   "name_ru": "Александр Ануфриев",
   "photo": "/images/alexander.webp",
-  "avatar": "/images/alexander-avatar.webp"
+  "avatar": "/images/alexander-avatar.webp",
+  "location_ru": "Батуми, Грузия · UTC+4"
 }

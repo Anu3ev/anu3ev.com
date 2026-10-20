@@ -111,6 +111,8 @@ test('editable settings drive public page content, author metadata, photos and c
     await page.goto(prefix || '/')
     await expect(page.locator('main h1')).toContainText(ownerName)
     await expect(page.locator('#pinned-note-title')).toHaveText(settings.home.pinnedTitle)
+    await expect(page.locator('.profile-highlights li')).toHaveText(settings.home.highlights.map(item => `${item.value} ${item.label}`))
+    await expect(page.locator('.profile-location')).toContainText(locale === 'ru' ? profile.location_ru : profile.location)
     await expect(page).toHaveTitle(`${settings.home.seoTitle} · ${ownerName}`)
     await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', ownerName)
     // Every avatar on the page shows the CMS photo crop and has actually loaded.

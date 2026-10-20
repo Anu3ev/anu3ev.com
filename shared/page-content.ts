@@ -12,17 +12,17 @@ const careerJob = careerPeriod.safeExtend({
   description: paragraph
 })
 
-/** Short editorial facts belong to the portfolio introduction, rather than hardcoded page markup. */
-const portfolioFact = z.strictObject({ value: z.string().min(1).max(60), label: z.string().min(1).max(80) })
+/** Short value + label facts (home proof points, portfolio introduction) are edited content, not hardcoded markup. */
+const editorialFact = z.strictObject({ value: z.string().min(1).max(60), label: z.string().min(1).max(90) })
 
 const localizedPages = z.strictObject({
-  home: z.strictObject({ seoTitle: heading, pinnedTitle: heading, pinnedBody: paragraph, tags }),
+  home: z.strictObject({ seoTitle: heading, pinnedTitle: heading, pinnedBody: paragraph, tags, highlights: z.array(editorialFact).min(1).max(4) }),
   about: z.strictObject({
     title: heading, intro: paragraph, body: paragraph, story: paragraph, technologies: tags,
     experienceTitle: heading, experience: z.array(careerJob).max(20),
     principles: z.array(z.strictObject({ title: heading, description: paragraph })).min(1).max(6)
   }),
-  portfolio: z.strictObject({ title: heading, intro: paragraph, summary: z.array(portfolioFact).min(1).max(4) }),
+  portfolio: z.strictObject({ title: heading, intro: paragraph, summary: z.array(editorialFact).min(1).max(4) }),
   blog: z.strictObject({ title: heading, intro: paragraph }),
   contact: z.strictObject({ title: heading, intro: paragraph, note: paragraph, arrangements: tags }),
   sidebar: z.strictObject({ bio: paragraph, focusTitle: heading, focusDetails: paragraph, focusTags: tags }),

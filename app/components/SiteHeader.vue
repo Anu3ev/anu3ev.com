@@ -47,7 +47,7 @@ const links = computed(
         <span class="status-dot" />{{ copy.available }}
       </p>
       <p class="sidebar-role">
-        {{ profile[`headline_${locale}`] }}<br>{{ profile.location }}
+        {{ profile[`headline_${locale}`] }}<br>{{ locale === 'ru' ? profile.location_ru : profile.location }}
       </p>
       <div class="sidebar-social">
         <a :href="profile.github" title="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>

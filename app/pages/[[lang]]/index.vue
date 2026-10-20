@@ -84,11 +84,16 @@ usePageSeo({
           {{ profile[`bio_${locale}`] }}
         </p>
         <p class="profile-location">
-          <span>◎ {{ profile.location }}</span><span>↗ {{ copy.remote }}</span>
+          <span>◎ {{ locale === 'ru' ? profile.location_ru : profile.location }}</span><span>↗ {{ copy.remote }}</span>
         </p>
         <ul class="tags">
           <li v-for="tag in siteContent.home.tags" :key="tag">
             {{ tag }}
+          </li>
+        </ul>
+        <ul class="profile-highlights">
+          <li v-for="highlight in siteContent.home.highlights" :key="highlight.value">
+            <strong>{{ highlight.value }}</strong> <span>{{ highlight.label }}</span>
           </li>
         </ul>
       </div>
