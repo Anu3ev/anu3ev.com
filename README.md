@@ -2,7 +2,7 @@
 
 Alexander Anufriev's portfolio, built with Nuxt 4, Vue 3, TypeScript, Tailwind CSS and Nuxt Content. Static HTML generation keeps hosting independent of a server database. English is the primary language; Russian is available under `/ru`.
 
-**Production:** [anu3ev-com.vercel.app](https://anu3ev-com.vercel.app/) · [Content administration](https://anu3ev-com.vercel.app/admin/).
+**Production:** [anu3ev.com](https://anu3ev.com/) · [Content administration](https://anu3ev.com/admin/).
 
 Vercel Hobby is connected to this GitHub repository. Pushes to `master` automatically build and deploy the site, including CMS updates. GitHub Actions validates content, lint, types, 51 unit tests and 56 browser/axe checks, then publishes a versioned release when the package version increases. [Deployment guide](docs/operations/deployment.md).
 
