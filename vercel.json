@@ -6,6 +6,14 @@
   "outputDirectory": ".output/public",
   "cleanUrls": true,
   "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "anu3ev-com.vercel.app" }],
+      "destination": "https://anu3ev.com/:path*",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",

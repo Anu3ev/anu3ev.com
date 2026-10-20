@@ -2,7 +2,7 @@
 
 Open `/admin/` on the published site. Sveltia CMS **0.248.1** is pinned in the lockfile. Its JavaScript and MIT license are served from the site, without a login-time CDN request. Sveltia is pre-1.0, so upgrades require review; it is not automatically replaced with `latest`.
 
-**Production uses Vercel Hobby.** Changes reaching `master` automatically build and deploy to [anu3ev-com.vercel.app](https://anu3ev-com.vercel.app/). Articles/projects use an editorial workflow. Drafts stay outside the public export; publication follows a successful build and is not immediate. [Deployment guide](deployment.md).
+**Production uses Vercel Hobby.** Changes reaching `master` automatically build and deploy to [anu3ev.com](https://anu3ev.com/). Articles/projects use an editorial workflow. Drafts stay outside the public export; publication follows a successful build and is not immediate. [Deployment guide](deployment.md).
 
 ## First sign-in
 
