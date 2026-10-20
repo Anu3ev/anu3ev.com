@@ -4,7 +4,7 @@
 
 Production: **https://anu3ev-com.vercel.app/**. [Content administration](https://anu3ev-com.vercel.app/admin/). Vercel Hobby is connected to this GitHub repository. Pushes to `master` build and deploy automatically, including CMS content updates. [Deployment guide](docs/operations/deployment.md).
 
-Versioned releases run through GitHub Actions after content, lint, types, 43 unit tests and 50 browser/axe checks. [GitHub deployment](docs/tasks/08-github-deployment/summary.md) · [manual QA and fixes](docs/tasks/09-manual-qa/summary.md). The [initial launch audit](docs/tasks/07-launch-audit/summary.md) records the earlier 1.0.1 Sites snapshot.
+Versioned releases run through GitHub Actions after content, lint, types, 43 unit tests and 52 browser/axe checks. [GitHub deployment](docs/tasks/08-github-deployment/summary.md) · [manual QA and fixes](docs/tasks/09-manual-qa/summary.md). The [initial launch audit](docs/tasks/07-launch-audit/summary.md) records the earlier 1.0.1 Sites snapshot.
 
 Требуется Node **24.15+ LTS** и pnpm **10.33.2**. Версии зафиксированы в `.node-version` и `package.json`.
 

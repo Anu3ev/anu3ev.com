@@ -15,3 +15,5 @@ Automatic deployment is complete: production and Release 1.0.3 identify commit `
 Record the actual browser actions, findings, fixes and verification limits in `review.md` and `summary.md`. Do not describe scripted geometry/axe checks as a manual visual review.
 
 The subsequent design task must use the actual MagicPath Mobile 402×874, Tablet 1133×744 and Browser 1440×1024 frames. The user identified the fixed mobile bottom navigation and mismatched spacing/sizing. That visual correction follows English documentation; passing the current functional checks is not design acceptance.
+
+After all previous tasks, connect anu3ev.com. The user offered a Zomro browser login for DNS management. Domain work is now an explicit final task, rather than an optional fallback.
