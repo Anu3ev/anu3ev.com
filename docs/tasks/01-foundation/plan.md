@@ -14,8 +14,8 @@ Each task follows requirements → implementation → checks → self-review →
 | 08-github-deployment | Vercel Hobby Git integration and automatic public deployment | Complete; versioned deployments and admin cache headers verified |
 | 09-manual-qa | Manual testing, search focus/typing, filter history, contents and hydration fixes | Complete; 1.0.5 published, 52 local browser checks and 4 focused public checks passed |
 | 10-english-repository | English documentation and repository/CMS interface text | Complete; PR 12 merged after successful CI |
-| 11-design-fidelity | Actual MagicPath layouts, dimensions and spacing at 402×874, 1133×744 and 1440×1024 | In progress; all twelve reference layouts captured |
-| 12-external-links | External web links open in a new tab with the appropriate rel attributes | Queued after design |
+| 11-design-fidelity | Actual MagicPath layouts, dimensions and spacing at 402×874, 1133×744 and 1440×1024 | Complete; PR 13 merged after successful 55-test CI |
+| 12-external-links | External web links open in a new tab with the appropriate rel attributes | In progress; includes the Privacy email found during the link audit |
 | 13-blog-all-topics | Reproduce and fix missing categories under All topics, including navigation from Home | Queued after external links |
 | 14-custom-domain | Connect anu3ev.com through Zomro and verify DNS, HTTPS, metadata and redirects | Required final task, after the site changes are complete |
 

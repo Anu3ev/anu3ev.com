@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getLinkNavigation } from '~/utils/links'
 import profile from '~~/content/settings/profile.json'
 
 const route = useRoute()
@@ -16,6 +17,10 @@ const { data: project } = await useAsyncData(
 )
 
 if (!project.value) throw createError({ statusCode: 404, statusMessage: 'Project not found' })
+
+/** Future same-site playgrounds keep their context; third-party actions receive the complete safe attribute pair. */
+const demoNavigation = computed(() => getLinkNavigation({ href: project.value?.demo, siteUrl }))
+const sourceNavigation = computed(() => getLinkNavigation({ href: project.value?.repository, siteUrl }))
 
 usePageSeo({
   title: () => project.value?.title || copy.value.work,
@@ -77,12 +82,14 @@ usePageSeo({
         <a
           v-if="project.demo"
           :href="project.demo"
+          v-bind="demoNavigation"
           class="button button-primary"
           :title="copy.liveDemo"
         >{{ copy.liveDemo }} <AppIcon name="arrow" /></a>
         <a
           v-if="project.repository"
           :href="project.repository"
+          v-bind="sourceNavigation"
           class="button button-secondary"
           :title="copy.sourceCode"
         >{{ copy.sourceCode }} <AppIcon name="code" /></a>

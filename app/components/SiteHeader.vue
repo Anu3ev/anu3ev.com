@@ -50,7 +50,8 @@ const links = computed(
         {{ profile[`headline_${locale}`] }}<br>{{ profile.location }}
       </p>
       <div class="sidebar-social">
-        <a :href="profile.github" title="GitHub">GitHub ↗</a><a :href="profile.linkedin" title="LinkedIn">LinkedIn ↗</a>
+        <a :href="profile.github" title="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a :href="profile.linkedin" title="LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
       </div>
       <p class="sidebar-sign">
         {{ copy.builtWithCare }}<br>{{ locale === 'ru' ? profile.name_ru : profile.name }}

@@ -1,0 +1,9 @@
+{
+  "method": "MCP browser pointer click on the actual GitHub contact link; no response interception",
+  "parentUrl": "http://127.0.0.1:4173/contact/",
+  "destination": "https://github.com/Anu3ev",
+  "newTabOpened": true,
+  "parentContextPreserved": true,
+  "openerIsNull": true,
+  "createdTabClosedAfterCheck": true
+}

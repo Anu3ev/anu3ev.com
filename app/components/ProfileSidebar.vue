@@ -33,7 +33,9 @@ const siteContent = useSiteContent()
       {{ copy.elsewhere }}
     </p>
     <nav class="profile-social" :aria-label="copy.elsewhere">
-      <a :href="profile.github" title="GitHub">GitHub <AppIcon name="arrow" /></a><a :href="profile.linkedin" title="LinkedIn">LinkedIn <AppIcon name="arrow" /></a><a :href="profile.telegram" title="Telegram">Telegram <AppIcon name="arrow" /></a>
+      <a :href="profile.github" title="GitHub" target="_blank" rel="noopener noreferrer">GitHub <AppIcon name="arrow" /></a>
+      <a :href="profile.linkedin" title="LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn <AppIcon name="arrow" /></a>
+      <a :href="profile.telegram" title="Telegram" target="_blank" rel="noopener noreferrer">Telegram <AppIcon name="arrow" /></a>
     </nav>
     <div class="sidebar-connect">
       <p v-if="profile.available">

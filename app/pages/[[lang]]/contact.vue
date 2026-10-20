@@ -46,12 +46,20 @@ usePageSeo({ title: () => copy.value.contact, description: () => siteContent.val
       <a
         :href="profile.telegram"
         title="Telegram"
-      ><span><strong>Telegram</strong><small>{{ telegramHandle }}</small></span><AppIcon name="arrow" /></a><a
+        target="_blank"
+        rel="noopener noreferrer"
+      ><span><strong>Telegram</strong><small>{{ telegramHandle }}</small></span><AppIcon name="arrow" /></a>
+      <a
         :href="profile.linkedin"
         title="LinkedIn"
-      ><span><strong>LinkedIn</strong><small>{{ copy.experience }}</small></span><AppIcon name="arrow" /></a><a
+        target="_blank"
+        rel="noopener noreferrer"
+      ><span><strong>LinkedIn</strong><small>{{ copy.experience }}</small></span><AppIcon name="arrow" /></a>
+      <a
         :href="profile.github"
         title="GitHub"
+        target="_blank"
+        rel="noopener noreferrer"
       ><span><strong>GitHub</strong><small>{{ copy.openSource }}</small></span><AppIcon name="arrow" /></a>
     </nav>
 
