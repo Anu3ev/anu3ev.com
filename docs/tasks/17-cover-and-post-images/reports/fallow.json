@@ -1,0 +1,25 @@
+{
+  "verdict": "pass",
+  "changed_files_count": 5,
+  "base_ref": "d9ddcf6c4080992e841af96c65834eb79eee2a86",
+  "summary": {
+    "dead_code_issues": 0,
+    "dead_code_has_errors": false,
+    "complexity_findings": 0,
+    "max_cyclomatic": null,
+    "duplication_clone_groups": 1
+  },
+  "attribution": {
+    "gate": "new-only",
+    "dead_code_introduced": 0,
+    "dead_code_inherited": 0,
+    "complexity_introduced": 0,
+    "complexity_inherited": 0,
+    "duplication_introduced": 0,
+    "duplication_inherited": 1,
+    "styling_introduced": 16,
+    "styling_inherited": 2,
+    "duplication_demoted": 0,
+    "diff_risk_introduced": 0
+  }
+}

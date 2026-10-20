@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PostSummary } from '~/types/content'
 
-const { post } = defineProps<{ post: PostSummary, illustrated?: boolean, position?: number }>()
+const { post } = defineProps<{ post: PostSummary, position?: number }>()
 const { copy, locale, localePath } = useLocale()
 const dateLabel = computed(() =>
   new Intl.DateTimeFormat(locale.value, {
@@ -19,7 +19,6 @@ const dateLabel = computed(() =>
       <span class="eyebrow">{{ String(position || 1).padStart(2, '0') }} / {{ post.category }}</span><time :datetime="post.date">{{ dateLabel }}</time>
     </div>
     <NuxtLink
-      v-if="illustrated"
       :to="localePath(`/blog/${post.slug}`)"
       class="post-image-link"
       :title="`${copy.readArticle}: ${post.title}`"

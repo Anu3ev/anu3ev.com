@@ -84,9 +84,11 @@ test('article head metadata agrees with its canonical URL, language pair and ras
 test('the CMS exposes only its configured authentication method', async ({ page }) => {
   const configurationMessages: string[] = []
   page.on('console', (message) => {
-    if (['error', 'warning'].includes(message.type()) && message.location().url.includes('/admin/cms.js')) {
-      configurationMessages.push(message.text())
-    }
+    if (!['error', 'warning'].includes(message.type()) || !message.location().url.includes('/admin/cms.js')) return
+    // The CMS is pinned deliberately; its notice about a newer release is not a configuration problem.
+    if (/A new version \(.+\) is available/.test(message.text())) return
+
+    configurationMessages.push(message.text())
   })
   await page.goto('/admin/')
   await expect(page.getByRole('heading', { name: 'Sveltia CMS', exact: true })).toBeVisible()
