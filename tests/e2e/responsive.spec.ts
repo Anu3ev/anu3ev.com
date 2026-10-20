@@ -32,6 +32,7 @@ for (const frame of frames) {
         expect(sidebar.x + sidebar.width).toBeLessThan(main.x)
         expect(main.width).toBeCloseTo(720, 0)
         await expect(page.locator('.wordmark')).toBeVisible()
+        await expect(page.locator('.wordmark')).toHaveAccessibleName(/^anu3ev\.com · /)
       }
 
       if (frame.profile) await expect(page.locator('.profile-sidebar')).toBeVisible()

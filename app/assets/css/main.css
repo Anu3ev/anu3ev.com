@@ -90,8 +90,14 @@ p { line-height: inherit; }
 .skip-link { position: fixed; z-index: 100; top: 8px; left: 16px; transform: translateY(-160%); padding: 12px 20px; background: var(--accent); color: var(--accent-ink); border-radius: 5px; }
 .skip-link:focus { transform: translateY(0); }
 .site-sidebar { position: sticky; top: 0; display: flex; flex-direction: column; height: 100dvh; min-height: 660px; padding-block: 35px 24px; }
-.wordmark { display: block; width: 50px; font-size: 46px; line-height: 1; letter-spacing: -5px; font-weight: 650; margin: 0 0 53px 12px; }
-.wordmark span, .accent-period { color: var(--accent); }
+/* Mark + domain wordmark keep the previous 46px row so the navigation below does not move. */
+.wordmark { display: inline-flex; align-items: center; gap: 11px; min-height: 46px; margin: 0 0 53px 12px; font-size: 21px; line-height: 1; letter-spacing: -.5px; font-weight: 650; }
+.brand-mark { flex: none; width: 34px; height: 34px; }
+.brand-mark rect { fill: var(--accent); }
+.brand-mark path { fill: none; stroke: var(--accent-ink); stroke-width: 6.5; stroke-linecap: round; stroke-linejoin: round; }
+.brand-mark circle { fill: var(--accent-ink); }
+.wordmark-accent, .accent-period { color: var(--accent); }
+.wordmark-domain { color: var(--muted); font-weight: 500; }
 .nav-caption { margin: 0 14px 16px; }
 .primary-nav { display: grid; gap: 7px; }
 .primary-nav a { display: flex; align-items: center; gap: 14px; padding: 13px 15px; min-height: 50px; font-size: 16px; color: var(--muted); border-radius: 9px; }

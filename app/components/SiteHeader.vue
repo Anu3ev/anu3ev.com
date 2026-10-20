@@ -23,8 +23,8 @@ const links = computed(
         :to="localePath('/')"
         class="wordmark"
         :title="copy.home"
-        :aria-label="`a. · ${locale === 'ru' ? profile.name_ru : profile.name} · ${copy.home}`"
-      >a<span>.</span></NuxtLink>
+        :aria-label="`anu3ev.com · ${locale === 'ru' ? profile.name_ru : profile.name} · ${copy.home}`"
+      ><BrandMark /><span class="wordmark-text">anu<span class="wordmark-accent">3</span>ev<span class="wordmark-domain">.com</span></span></NuxtLink>
     </div>
 
     <p class="nav-caption">
