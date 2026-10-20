@@ -6,6 +6,8 @@ The dashboard confirms the connected repository, master import and project `prj_
 
 Version 1.0.2 sets the repository's canonical default/example to the same host and updates both privacy locales. No focus or other UI changes are included: those are the next task.
 
-Local `pnpm check` passed content, ESLint, TypeScript and all 43 unit tests; coverage applies only to 12 selected pure modules. `pnpm build` succeeded. PR/master CI, automatic publication and the complete production browser result will be recorded after the versioned merge in `summary.md`.
+Local `pnpm check` passed content, ESLint, TypeScript and all 43 unit tests; coverage applies only to 12 selected pure modules. `pnpm build` succeeded. PR/master CI and automatic publication passed. GitHub Release and public version.json both identify commit `fa42abdfce3f70aadfc1b83cef16646c45f2e04e`. The public production suite passed all 49 tests with no failures/skips/flaky results; see `summary.md` and its report.
+
+The HTTP header pass found an actual routing issue: `/admin/` returned default cache headers and no X-Robots-Tag, while `/admin/config.yml` and `/admin/cms.js` correctly returned no-store/noindex. The HTML meta robots tag was already correct. Patch 1.0.3 uses one `/admin(.*)` matcher to cover the entry and its assets. The release archive is unchanged in structure. Validate the correction on the actual provider after publication; a unit test mirroring a routing expression would not prove the hosting behavior.
 
 This is a self-review. The Vercel connector cannot resolve the browser-created project in its old API scope, so authenticated dashboard UI is used; no browser cookies/tokens are extracted. Branch protection and deployment checks are not configured. Vercel and GitHub build the same commit independently. DNS management and the owner's first CMS token sign-in remain external setup steps.
