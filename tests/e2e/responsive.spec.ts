@@ -39,3 +39,33 @@ for (const frame of frames) {
     }
   })
 }
+
+for (const frame of frames) {
+  test(`${frame.name} contact link rows keep inner space around the hovered text`, async ({ page }) => {
+    await page.setViewportSize({ width: frame.width, height: frame.height })
+    await page.goto('/contact/')
+    const row = page.getByRole('navigation', { name: 'Find me elsewhere' }).getByRole('link').first()
+    await row.hover()
+
+    // The surface is the row's ::before; its resolved offsets give its painted box next to the text.
+    const geometry = await row.evaluate((link) => {
+      const surface = getComputedStyle(link, '::before')
+      const rowBox = link.getBoundingClientRect()
+      const textBox = link.querySelector('strong')!.getBoundingClientRect()
+      const mainBox = link.closest('.main-column')!.getBoundingClientRect()
+      return {
+        background: surface.backgroundColor,
+        surfaceLeft: rowBox.left + Number.parseFloat(surface.left),
+        surfaceRight: rowBox.right - Number.parseFloat(surface.right),
+        textLeft: textBox.left,
+        mainLeft: mainBox.left,
+        mainRight: mainBox.right
+      }
+    })
+
+    expect(geometry.background).not.toBe('rgba(0, 0, 0, 0)')
+    expect(geometry.textLeft - geometry.surfaceLeft).toBeGreaterThanOrEqual(12)
+    expect(geometry.surfaceLeft).toBeGreaterThan(geometry.mainLeft)
+    expect(geometry.surfaceRight).toBeLessThan(geometry.mainRight)
+  })
+}
