@@ -13,7 +13,7 @@ const { data: projects } = await useAsyncData(
       .where('published', '=', true)
       .where('featured', '=', true)
       .order('order', 'ASC')
-      .select('locale', 'slug', 'title', 'description', 'category', 'year', 'stack')
+      .select('locale', 'slug', 'title', 'description', 'category', 'year', 'stack', 'results')
       .limit(1)
       .all()
 )
@@ -91,7 +91,7 @@ usePageSeo({
             {{ tag }}
           </li>
         </ul>
-        <ul class="profile-highlights">
+        <ul class="fact-list profile-highlights">
           <li v-for="highlight in siteContent.home.highlights" :key="highlight.value">
             <strong>{{ highlight.value }}</strong> <span>{{ highlight.label }}</span>
           </li>

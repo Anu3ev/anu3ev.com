@@ -27,7 +27,9 @@ export const projectSchema = editorialSchema.extend({
   featured: z.boolean().default(false),
   order: z.number().int().min(0).max(999),
   repository: optionalLink,
-  demo: optionalLink
+  demo: optionalLink,
+  /** Headline numbers in presentation style; each one must come from a verified source, with its base and scope in the label. */
+  results: z.array(z.strictObject({ value: z.string().min(1).max(24), label: z.string().min(3).max(110) })).max(4).default([])
 })
 
 /** Calendar dates and reading time are explicit editorial inputs, checked before publishing. */

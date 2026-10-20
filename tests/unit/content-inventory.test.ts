@@ -109,6 +109,17 @@ describe('public content inventory', () => {
     expect(() => readContentInventory({ root, now })).toThrow('existing public image')
   })
 
+  it('checks inline screenshots in the body like covers', () => {
+    const body = 'A complete article about a real editor workflow. '.repeat(8)
+    writePost({ body: `${body}\n\n![The editor toolbar](/images/cover.svg)` })
+    expect(() => readContentInventory({ root, now })).not.toThrow()
+
+    writePost({ body: `${body}\n\n![A missing screenshot](/images/work/missing.webp)` })
+    expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+    writePost({ body: `${body}\n\n![A remote screenshot](https://example.com/shot.png)` })
+    expect(() => readContentInventory({ root, now })).toThrow('public /images/ path')
+  })
+
   it('rejects a second H1 and executable HTML while allowing fenced examples', () => {
     writePost({ body: '# Extra page title' })
     expect(() => readContentInventory({ root, now })).toThrow('use H2 or lower')

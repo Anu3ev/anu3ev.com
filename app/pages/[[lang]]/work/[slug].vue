@@ -57,6 +57,12 @@ usePageSeo({
         <p>{{ project.description }}</p>
       </header>
 
+      <ul v-if="project.results.length" class="fact-list fact-list-wide case-results">
+        <li v-for="result in project.results" :key="result.value">
+          <strong>{{ result.value }}</strong> <span>{{ result.label }}</span>
+        </li>
+      </ul>
+
       <dl class="case-facts">
         <div>
           <dt>{{ copy.projectRole }}</dt>

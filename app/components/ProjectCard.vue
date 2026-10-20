@@ -50,6 +50,11 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
         >{{ project.title }}</NuxtLink>
       </h2>
       <p>{{ project.description }}</p>
+      <ul v-if="project.results.length" class="card-results">
+        <li v-for="result in project.results.slice(0, 2)" :key="result.value">
+          <strong>{{ result.value }}</strong> {{ result.label }}
+        </li>
+      </ul>
       <div class="project-card-bottom">
         <ul class="tags" :aria-label="copy.projectStack">
           <li v-for="technology in project.stack" :key="technology">
