@@ -31,6 +31,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Profile photo](tasks/20-profile-photo/summary.md)
 - [Brand logo](tasks/21-brand-logo/summary.md)
 - [Home positioning](tasks/22-home-positioning/summary.md)
+- [Portfolio case studies](tasks/23-portfolio-cases/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 

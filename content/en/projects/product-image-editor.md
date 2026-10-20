@@ -17,8 +17,8 @@ results:
     label: active inSales clients use the editor, according to product analytics
   - value: "800+"
     label: AI operations a day in the editor, including background removal and text generation
-  - value: "5–10 → 2–3 min"
-    label: to apply one set of edits to 10 product images, manually vs. with bulk transfer
+  - value: "2–3 min"
+    label: "to apply one set of edits to 10 product images with bulk transfer, instead of 5–10 min by hand"
   - value: "2"
     label: production contexts for one editor component, product images and the visual site editor
 ---
