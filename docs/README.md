@@ -22,6 +22,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Actual responsive MagicPath layout](tasks/11-design-fidelity/summary.md)
 - [External links and navigation context](tasks/12-external-links/summary.md)
 - [All topics and category search](tasks/13-blog-all-topics/summary.md)
+- [Link-block spacing](tasks/14-link-block-spacing/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 

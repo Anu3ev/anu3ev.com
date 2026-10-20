@@ -291,10 +291,15 @@ p { line-height: inherit; }
 .email-card strong svg { display: inline-block; width: 13px; height: 13px; }
 .email-note { font-size: 11px; color: var(--muted); line-height: 1.6; margin-top: 6px; }
 .contact-options { padding-inline: 28px; }
-.contact-options a { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 24px; border-bottom: 1px solid var(--line); }
+/* Text and dividers keep the reference alignment; the hover/focus surface bleeds into the gutter instead of touching the text. */
+.contact-options a { position: relative; isolation: isolate; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 24px; border-bottom: 1px solid var(--line); }
+.contact-options a::before { content: ''; position: absolute; inset: 0 -14px; z-index: -1; border-radius: 7px; }
 .contact-options strong { display: block; font-size: 17px; font-weight: 500; }
 .contact-options small { display: block; color: var(--muted); font-size: 12px; margin-top: 4px; }
-.contact-options a:hover { color: var(--accent); background: var(--surface); }
+.contact-options a:hover { color: var(--accent); }
+.contact-options a:hover::before { background: var(--surface); }
+.contact-options a:focus-visible { outline: none; }
+.contact-options a:focus-visible::before { outline: 3px solid var(--accent); outline-offset: -3px; }
 .distributed-section { margin: 32px 28px; padding: 26px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
 .distributed-section h2 { font-size: 24px; line-height: 1.4; font-weight: 500; margin-block: 18px 14px; }
 .distributed-section > p:not(.eyebrow) { color: var(--muted); font-size: 14px; line-height: 1.8; }
