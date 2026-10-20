@@ -1,19 +1,19 @@
-# Источники опубликованного контента
+# Published content sources
 
-Исходники прочитаны непосредственно из подтверждённого Obsidian `Documents/obsidian_notes`. Старый repository inventory удалён; ниже новый реестр конкретно использованных материалов.
+Read directly from the confirmed Obsidian vault, `Documents/obsidian_notes`. The old repository inventory was removed; this is a new register of material actually used. Exact source filenames remain in their original language.
 
-| Кейс | Текущая заметка в «Поиск работы/Мои проекты» | Публичная граница |
+| Case | Source note under `Поиск работы/Мои проекты` | Public claim boundary |
 | --- | --- | --- |
-| Product image editor | `Vue-интерфейс редактора инфографики inSales.md` | Frontend UI, отдельный backend, две стадии сохранения, два экземпляра редактора |
-| Visual storefront | `Редизайн визуального редактора сайта в inSales.md` | Реализация предоставленного дизайна, on-demand API, technical mode; 60→80% как наблюдаемая метрика, без заявления об изолированной причинности |
-| Image editor library | `Библиотека браузерного редактора изображений.md` | Собственная TypeScript/FabricJS-библиотека, публичные repo/demo, отдельный кейс от коммерческого интерфейса |
-| Abandoned carts | `Брошенные корзины.md` | Frontend ownership, 200+ paid subscribers на момент подтверждения; без выдуманной конверсии или личного revenue uplift |
-| Monaco editor | `Кастомный редактор кода на базе Monaco Editor.md` | Кастомная сборка/языковая модель, вклад коллег, пять интерфейсов; приватный код не публикуется |
+| Product image editor | `Vue-интерфейс редактора инфографики inSales.md` | Frontend UI, separate backend, two save stages and two editor instances |
+| Visual storefront | `Редизайн визуального редактора сайта в inSales.md` | Implementing a supplied design, on-demand API and technical mode; 60→80% is an observed metric without isolated causal attribution |
+| Image editor library | `Библиотека браузерного редактора изображений.md` | Own TypeScript/FabricJS library, public repository/demo, separate from the commercial interface |
+| Abandoned carts | `Брошенные корзины.md` | Frontend ownership and 200+ paid subscribers at confirmation; no invented conversion or personal revenue uplift |
+| Monaco editor | `Кастомный редактор кода на базе Monaco Editor.md` | Custom build/language model, colleagues' contributions and five interfaces; no private code publication |
 
-Monaco-изображение: текущая презентация `Поиск работы/Презентации/Custom Monaco Code Editor/Preview/slide-04.png`, просмотрена перед использованием, оптимизирована до 1200 × 675 WebP. Остальные полезные изображения сохранены из разрешённых исходных материалов и используются как продуктовые свидетельства. Скриншот брошенных корзин сохраняет исходное пустое состояние.
+Monaco image: `Поиск работы/Презентации/Custom Monaco Code Editor/Preview/slide-04.png`, inspected before use and optimized to 1200×675 WebP. Other useful images were retained from authorized source material as project evidence. The abandoned-carts screenshot preserves its original empty state.
 
-Статьи написаны для нового сайта по этим реальным инженерным сценариям: cleanup редактора, семантическая граница undo/redo, два этапа сохранения изображения/товара. Это новые авторские тексты, не копии прежнего prototype/draft. Примеры кода помечены как частичные, зависимости и границы названы.
+The new articles use these actual engineering scenarios: editor cleanup, the semantic boundary of undo/redo and two-stage image/product saving. They are new copy, not previous prototype drafts. Code examples are identified as partial and describe dependencies and limits.
 
-Полные приватные заметки, исходники работодателя, служебные переписки и контактные данные клиентов в сайт не копируются. Публичные показатели npm/downloads не добавлялись.
+Entire private notes, employer source code, internal correspondence and customer contact details are not copied to the site. No npm/download metrics were added.
 
-Биография дополнительно сверена на этапе 04 с актуальным `Поиск работы/Резюме/Резюме на русском 08.2026.md` (внутри обновлён 16.10.2026) и английским CV: frontend inSales — октябрь 2021 — сентябрь 2026; support — октябрь 2019 — октябрь 2021. Август из старого inventory не используется.
+Biography dates were checked in task 04 against `Поиск работы/Резюме/Резюме на русском 08.2026.md` (updated internally on 16 October 2026) and the English CV: frontend at inSales from October 2021 through September 2026; support from October 2019 through October 2021. The old inventory's August end date is not used.

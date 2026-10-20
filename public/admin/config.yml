@@ -21,8 +21,8 @@ i18n:
 
 collections:
   - name: posts
-    label: Статьи
-    label_singular: Статья
+    label: Articles
+    label_singular: Article
     folder: content/{{locale}}/posts
     i18n: true
     create: true
@@ -31,21 +31,21 @@ collections:
     summary: '{{title}} · {{date}}'
     fields:
       - { name: locale, widget: hidden, default: '{{locale}}', i18n: true }
-      - { name: title, label: Заголовок, widget: string, i18n: true }
-      - { name: slug, label: URL slug, widget: string, i18n: duplicate, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Латиница, цифры и дефисы'], hint: Не меняйте slug уже опубликованной статьи. }
-      - { name: description, label: Описание для карточки и SEO, widget: text, i18n: true }
-      - { name: published, label: Публиковать на сайте, widget: boolean, default: false, i18n: duplicate, hint: Черновики исключаются из публичной сборки. Заполните обе языковые версии перед публикацией. }
-      - { name: date, label: Дата публикации, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false, i18n: duplicate, hint: Часовой пояс сайта — Asia/Tbilisi. Будущая дата появится только после новой сборки в этот день. }
-      - { name: cover, label: Обложка, widget: image, i18n: duplicate_if_empty, hint: Рекомендуется WebP до 200 КБ; 1200 × 630 px. }
-      - { name: coverAlt, label: Что изображено на обложке, widget: string, i18n: true }
-      - { name: category, label: Категория, widget: string, i18n: true }
-      - { name: tags, label: Темы, widget: list, i18n: duplicate }
-      - { name: readingMinutes, label: Минут чтения, widget: number, value_type: int, min: 1, max: 60, default: 5, i18n: duplicate }
-      - { name: body, label: Текст, widget: markdown, i18n: true, hint: Используйте H2/H3. H1 уже создаётся из заголовка. HTML-примеры размещайте внутри блоков кода. }
+      - { name: title, label: Title, widget: string, i18n: true }
+      - { name: slug, label: URL slug, widget: string, i18n: duplicate, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Lowercase Latin letters, numbers and hyphens'], hint: Do not change an already published article slug. }
+      - { name: description, label: Card and SEO description, widget: text, i18n: true }
+      - { name: published, label: Publish on the site, widget: boolean, default: false, i18n: duplicate, hint: Drafts are excluded from the public export. Complete both language versions before publishing. }
+      - { name: date, label: Publication date, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false, i18n: duplicate, hint: The site timezone is Asia/Tbilisi. Future-dated articles need a new build on or after that date. }
+      - { name: cover, label: Cover, widget: image, i18n: duplicate_if_empty, hint: Prefer WebP under 200 KB at 1200 × 630 px. }
+      - { name: coverAlt, label: Cover alt text, widget: string, i18n: true }
+      - { name: category, label: Category, widget: string, i18n: true }
+      - { name: tags, label: Tags, widget: list, i18n: duplicate }
+      - { name: readingMinutes, label: Reading time in minutes, widget: number, value_type: int, min: 1, max: 60, default: 5, i18n: duplicate }
+      - { name: body, label: Body, widget: markdown, i18n: true, hint: Use H2/H3. The page creates H1 from the title. Put HTML examples in fenced code blocks. }
 
   - name: projects
-    label: Проекты
-    label_singular: Проект
+    label: Projects
+    label_singular: Project
     folder: content/{{locale}}/projects
     i18n: true
     create: true
@@ -54,150 +54,150 @@ collections:
     summary: '{{title}} · {{year}}'
     fields:
       - { name: locale, widget: hidden, default: '{{locale}}', i18n: true }
-      - { name: title, label: Название кейса, widget: string, i18n: true }
-      - { name: slug, label: URL slug, widget: string, i18n: duplicate, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Латиница, цифры и дефисы'], hint: Не меняйте slug опубликованного проекта. }
-      - { name: description, label: Описание для карточки и SEO, widget: text, i18n: true }
-      - { name: published, label: Публиковать на сайте, widget: boolean, default: false, i18n: duplicate }
-      - { name: cover, label: Изображение, widget: image, i18n: duplicate_if_empty, hint: Рекомендуется WebP до 200 КБ; 1200 × 675 px. }
-      - { name: coverAlt, label: Описание изображения, widget: string, i18n: true }
-      - { name: category, label: Направление, widget: string, i18n: true, default: Product engineering, default_localized: { ru: Продуктовая разработка } }
-      - { name: year, label: Период, widget: string, i18n: duplicate }
-      - { name: role, label: Моя роль, widget: string, i18n: true }
-      - { name: stack, label: Технологии, widget: list, i18n: duplicate }
-      - { name: featured, label: Показывать на главной, widget: boolean, default: false, i18n: duplicate }
-      - { name: order, label: Порядок в списке, widget: number, value_type: int, min: 0, max: 999, default: 10, i18n: duplicate }
-      - { name: repository, label: Публичный репозиторий, widget: string, required: false, i18n: duplicate, hint: Только HTTPS. Не указывайте приватные репозитории работодателя. }
-      - { name: demo, label: Интерактивное демо, widget: string, required: false, i18n: duplicate, hint: Только HTTPS. Демо открывается по ссылке и не загружается в общий layout. }
-      - { name: body, label: Кейс, widget: markdown, i18n: true, hint: Контекст → моя роль → решения → ограничения → результат. Заголовки начинаются с H2. }
+      - { name: title, label: Case title, widget: string, i18n: true }
+      - { name: slug, label: URL slug, widget: string, i18n: duplicate, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Lowercase Latin letters, numbers and hyphens'], hint: Do not change an already published project slug. }
+      - { name: description, label: Card and SEO description, widget: text, i18n: true }
+      - { name: published, label: Publish on the site, widget: boolean, default: false, i18n: duplicate }
+      - { name: cover, label: Image, widget: image, i18n: duplicate_if_empty, hint: Prefer WebP under 200 KB at 1200 × 675 px. }
+      - { name: coverAlt, label: Image alt text, widget: string, i18n: true }
+      - { name: category, label: Category, widget: string, i18n: true, default: Product engineering, default_localized: { ru: Продуктовая разработка } }
+      - { name: year, label: Period, widget: string, i18n: duplicate }
+      - { name: role, label: My role, widget: string, i18n: true }
+      - { name: stack, label: Technologies, widget: list, i18n: duplicate }
+      - { name: featured, label: Feature on Home, widget: boolean, default: false, i18n: duplicate }
+      - { name: order, label: Sort order, widget: number, value_type: int, min: 0, max: 999, default: 10, i18n: duplicate }
+      - { name: repository, label: Public repository, widget: string, required: false, i18n: duplicate, hint: HTTPS only. Do not include private employer repositories. }
+      - { name: demo, label: Interactive demo, widget: string, required: false, i18n: duplicate, hint: HTTPS only. The demo opens separately and is not loaded in the shared layout. }
+      - { name: body, label: Case study, widget: markdown, i18n: true, hint: Context → my role → decisions → constraints → outcome. Start headings at H2. }
 
   - name: settings
-    label: Настройки сайта
+    label: Site settings
     publish_mode: simple
     files:
       - name: profile
-        label: Профиль и контакты
+        label: Profile and contacts
         file: content/settings/profile.json
         fields:
-          - { name: name, label: Имя, widget: string }
-          - { name: name_ru, label: Имя — Русский, widget: string }
-          - { name: photo, label: Фото, widget: image, hint: WebP 600 × 600 px до 200 КБ. }
+          - { name: name, label: Name, widget: string }
+          - { name: name_ru, label: Name — Russian, widget: string }
+          - { name: photo, label: Photo, widget: image, hint: Prefer WebP under 200 KB at 600 × 600 px. }
           - { name: email, label: Email, widget: string }
           - { name: github, label: GitHub URL, widget: string }
           - { name: linkedin, label: LinkedIn URL, widget: string }
           - { name: telegram, label: Telegram URL, widget: string }
-          - { name: location, label: Расположение, widget: string }
-          - { name: available, label: Открыт к предложениям, widget: boolean }
-          - { name: headline_en, label: Роль — English, widget: string }
-          - { name: headline_ru, label: Роль — Русский, widget: string }
-          - { name: bio_en, label: О себе — English, widget: text }
-          - { name: bio_ru, label: О себе — Русский, widget: text }
+          - { name: location, label: Location, widget: string }
+          - { name: available, label: Available for opportunities, widget: boolean }
+          - { name: headline_en, label: Headline — English, widget: string }
+          - { name: headline_ru, label: Headline — Russian, widget: string }
+          - { name: bio_en, label: Bio — English, widget: text }
+          - { name: bio_ru, label: Bio — Russian, widget: text }
 
       - name: pages
-        label: Тексты страниц и опыт работы
+        label: Page copy and career history
         file: content/settings/pages.json
         fields:
           - name: en
             label: English
             widget: object
             collapsed: true
-            hint: Заголовки — 4–120 символов; тексты — 20–1600. Изменения сохраняются в GitHub и проходят проверку перед сборкой.
+            hint: Headings allow 4–120 characters and body text 20–1600. Changes are saved to GitHub and validated before build.
             fields: &page_fields
               - name: home
-                label: Главная
+                label: Home
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: seoTitle, label: Заголовок для поиска, widget: string }
-                  - { name: pinnedTitle, label: Заголовок закреплённой заметки, widget: string }
-                  - { name: pinnedBody, label: Закреплённая заметка, widget: text }
-                  - { name: tags, label: Темы профиля, widget: list }
+                  - { name: seoTitle, label: SEO title, widget: string }
+                  - { name: pinnedTitle, label: Pinned note title, widget: string }
+                  - { name: pinnedBody, label: Pinned note, widget: text }
+                  - { name: tags, label: Profile topics, widget: list }
               - name: about
-                label: Обо мне
+                label: About
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: title, label: Заголовок, widget: string }
-                  - { name: intro, label: Вступление, widget: text }
-                  - { name: body, label: Основной текст, widget: text }
-                  - { name: story, label: Как я пришёл в разработку, widget: text }
-                  - { name: technologies, label: Инструменты, widget: list }
-                  - { name: experienceTitle, label: Заголовок опыта работы, widget: string }
+                  - { name: title, label: Title, widget: string }
+                  - { name: intro, label: Introduction, widget: text }
+                  - { name: body, label: Body, widget: text }
+                  - { name: story, label: How I started in development, widget: text }
+                  - { name: technologies, label: Tools, widget: list }
+                  - { name: experienceTitle, label: Career heading, widget: string }
                   - name: experience
-                    label: Опыт работы
+                    label: Career history
                     widget: list
                     summary: '{{fields.role}} · {{fields.company}}'
                     fields:
-                      - { name: company, label: Компания, widget: string }
-                      - { name: role, label: Роль, widget: string }
-                      - { name: start, label: Начало, widget: string, pattern: ['^[0-9]{4}-(0[1-9]|1[0-2])$', 'Укажите год и месяц YYYY-MM'] }
-                      - { name: end, label: Окончание, widget: string, required: false, default: '', pattern: ['^([0-9]{4}-(0[1-9]|1[0-2]))?$', 'Укажите YYYY-MM или оставьте пустым'], hint: Пустое значение означает текущую работу. }
-                      - { name: description, label: Чем занимался, widget: text }
+                      - { name: company, label: Company, widget: string }
+                      - { name: role, label: Role, widget: string }
+                      - { name: start, label: Start, widget: string, pattern: ['^[0-9]{4}-(0[1-9]|1[0-2])$', 'Enter the year and month as YYYY-MM'] }
+                      - { name: end, label: End, widget: string, required: false, default: '', pattern: ['^([0-9]{4}-(0[1-9]|1[0-2]))?$', 'Enter YYYY-MM or leave blank'], hint: A blank value means a current position. }
+                      - { name: description, label: Responsibilities, widget: text }
                   - name: principles
-                    label: Мой подход
+                    label: Principles
                     widget: list
                     summary: '{{fields.title}}'
                     fields:
-                      - { name: title, label: Заголовок, widget: string }
-                      - { name: description, label: Описание, widget: text }
+                      - { name: title, label: Title, widget: string }
+                      - { name: description, label: Description, widget: text }
               - name: portfolio
-                label: Портфолио
+                label: Portfolio
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: title, label: Заголовок, widget: string }
-                  - { name: intro, label: Вступление, widget: text }
+                  - { name: title, label: Title, widget: string }
+                  - { name: intro, label: Introduction, widget: text }
               - name: blog
-                label: Блог
+                label: Blog
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: title, label: Заголовок, widget: string }
-                  - { name: intro, label: Вступление, widget: text }
+                  - { name: title, label: Title, widget: string }
+                  - { name: intro, label: Introduction, widget: text }
               - name: contact
-                label: Контакты
+                label: Contacts
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: title, label: Заголовок, widget: string }
-                  - { name: intro, label: Вступление, widget: text }
-                  - { name: note, label: Подпись под почтой, widget: text }
-                  - { name: arrangements, label: Форматы работы, widget: list }
+                  - { name: title, label: Title, widget: string }
+                  - { name: intro, label: Introduction, widget: text }
+                  - { name: note, label: Email note, widget: text }
+                  - { name: arrangements, label: Working arrangements, widget: list }
               - name: sidebar
-                label: Правая колонка
+                label: Right sidebar
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: bio, label: Короткое описание, widget: text }
-                  - { name: focusTitle, label: Заголовок текущего фокуса, widget: string }
-                  - { name: focusDetails, label: Текущий фокус, widget: text }
-                  - { name: focusTags, label: Технологии в фокусе, widget: list }
+                  - { name: bio, label: Short bio, widget: text }
+                  - { name: focusTitle, label: Focus heading, widget: string }
+                  - { name: focusDetails, label: Current focus, widget: text }
+                  - { name: focusTags, label: Focus technologies, widget: list }
               - name: collaboration
-                label: Совместная работа
+                label: Collaboration
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: title, label: Заголовок, widget: string }
-                  - { name: body, label: Описание, widget: text }
+                  - { name: title, label: Title, widget: string }
+                  - { name: body, label: Description, widget: text }
               - name: cta
-                label: Приглашение связаться
+                label: Contact callout
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: title, label: Заголовок, widget: string }
-                  - { name: body, label: Описание, widget: text }
+                  - { name: title, label: Title, widget: string }
+                  - { name: body, label: Description, widget: text }
               - name: privacy
-                label: Конфиденциальность
+                label: Privacy
                 widget: object
                 collapsed: true
                 fields:
-                  - { name: title, label: Заголовок, widget: string }
-                  - { name: updated, label: Дата обновления, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
-                  - { name: body, label: Хостинг и данные, widget: text }
-                  - { name: contact, label: Переписка, widget: text }
-                  - { name: storage, label: Хранение в браузере, widget: text }
+                  - { name: title, label: Title, widget: string }
+                  - { name: updated, label: Updated date, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
+                  - { name: body, label: Hosting and data, widget: text }
+                  - { name: contact, label: Correspondence, widget: text }
+                  - { name: storage, label: Browser storage, widget: text }
           - name: ru
-            label: Русский
+            label: Russian
             widget: object
             collapsed: true
-            hint: Заполните русскую версию тех же разделов. Даты работы задаются как YYYY-MM.
+            hint: Complete the Russian version of the same sections. Career dates use YYYY-MM.
             fields: *page_fields

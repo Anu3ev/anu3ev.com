@@ -1,25 +1,21 @@
-# 05 — CI, релизы и публичный сайт
+# 05 — CI, releases and initial public site
 
-Сайт доступен без входа: **https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site**. [Админка](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/admin/), [редактирование](../../operations/content.md), [публикация и домен](../../operations/deployment.md).
+Historical publication: [Sites snapshot](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/). Current production is [Vercel](https://anu3ev-com.vercel.app/), with automatic deployment established in [task 08](../08-github-deployment/summary.md).
 
-GitHub Actions проверяет PR/master: content schema, ESLint, Nuxt types, unit, SSG, Chromium/axe и настоящую пагинацию. При повышении версии отдельный job с минимальными правами публикует immutable semver tag, Release и тот же проверенный архив. Официальные actions закреплены SHA; Node 24 и pnpm фиксированы; отчёты сохраняются три дня. После merge подтверждён [Release v1.0.0](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.0) с архивом 6 250 319 bytes и target `ea514c4c92660b3b810a62b0195fbec8fb8ccd62`; [master run](https://github.com/Anu3ev/anu3ev.com/actions/runs/39347611965) завершился успешно.
+GitHub Actions checks PR/master content, lint, types, unit tests, SSG, Chromium/axe and actual pagination. A higher version creates an immutable semver tag, Release and the exact tested archive with minimal permissions. Official actions are SHA-pinned; Node 24/pnpm are pinned; reports are retained for three days. Confirmed [Release v1.0.0](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.0), archive 6,250,319 bytes, target `ea514c4c92660b3b810a62b0195fbec8fb8ccd62`, and successful [master run](https://github.com/Anu3ev/anu3ev.com/actions/runs/39347611965).
 
-Sites identity сохранён в `.openai/hosting.json`, source HEAD проверен, две версии сохранены и опубликованы штатными инструментами. Исходники GitHub остаются private. Token передавался через скрытый stdin/environment; `git add` не выполнялся. Штатный Sites staging заменён из-за прямого запрета пользователя. [Решение](hosting.md).
+Preserved Sites identity in `.openai/hosting.json`, verified source HEAD and published two saved versions using native tools. GitHub remained private. Hidden stdin/environment carried credentials; no git add was used. [Staging conflict and hosting decision](hosting.md).
 
-Production выявил гонку поиска/истории и пустой native input при прямом query URL. URL стал единственным владельцем фильтров; начальные параметры применяются после гидрации. Добавлен regression reload/noindex/hydration. Privacy обновлена под фактический хостинг и его технические cookies.
+Production exposed search/history races and an empty input on direct query URLs. URL became the single filter owner, with initial parameters applied after hydration; added reload/noindex/hydration regression coverage. Privacy reflected the actual host and technical cookies.
 
-## Проверено
+## Checks at this stage
 
-- `pnpm check` и production SSG: pass, 34 unit tests; 100% покрытия в 11 выделенных чистых модулях, не во всём приложении.
-- [GitHub run исправленной ревизии](https://github.com/Anu3ev/anu3ev.com/actions/runs/39346726243): 34 unit и 48 browser tests pass.
-- Публичная исправленная версия: **48 browser tests pass, 0 skipped**, один worker. Включены оба языка/темы, mobile, HTML без JavaScript, CMS login, все sitemap URLs, настоящий HTTP 404, direct search reload и пагинация.
-- Official actionlint 1.7.12: pass. Fallow: 0 dead code, cycles, boundaries, complexity findings и clones; существующие CSS/conditional skip heuristics рассмотрены отдельно.
-- Public mobile Lighthouse: **93 Performance / 100 Accessibility / 81 Best Practices / 100 SEO**, LCP **2.4 s**, CLS **0.004**, TBT **30 ms**. Best Practices снижен deprecated APIs в добавляемом хостингом Cloudflare challenge script, отсутствующем в исходниках приложения. Локальные замеры этапа 04 не выдаются за production.
+- `pnpm check` and SSG passed; 34 unit tests and 100% coverage in eleven selected pure modules.
+- [Corrected GitHub run](https://github.com/Anu3ev/anu3ev.com/actions/runs/39346726243): 34 unit and 48 browser tests passed.
+- Public corrected version: **48 passed, zero skipped**, one worker, both locales/themes, mobile, no-JS HTML, CMS login, all sitemap URLs, actual 404, direct search reload and pagination.
+- Official actionlint 1.7.12 passed. Fallow core findings were zero; CSS/conditional-skip heuristics were reviewed separately.
+- Public mobile Lighthouse: **93/100/81/100**, LCP **2.4 s**, CLS **0.004**, TBT **30 ms**. The provider's Cloudflare script caused the deprecated-API finding. Local task-04 measurements were not presented as production results.
 
-Первая production-проверка: 46 pass / 1 fail; причина исправлена, затем выполнен полный повторный проход. [Первый run](reports/first-production-browser-run.json), [Lighthouse](reports/lighthouse-production.json), [review](review.md). Все Core Web Vitals здесь лабораторные; полевых INP/CrUX ещё нет.
+The first production run had 46 passed and one failed, followed by a correction and full rerun. [Initial run](reports/first-production-browser-run.json), [Lighthouse](reports/lighthouse-production.json), [review](review.md). Results are laboratory measurements, without field INP/CrUX.
 
-## Что не завершено
-
-**Автоматическая GitHub → hosting публикация блокируется доступом Vercel (403).** Sites обновлён вручную; CMS сохраняет контент в GitHub, но сама по себе пока не обновляет этот публичный snapshot. Готовы `vercel.json` и точная инструкция завершения подключения. Имеющийся Google account не связан с существующим Vercel user; новый дублирующий аккаунт не создавался.
-
-`anu3ev.com` пока остаётся на прежнем DNS Zomro; доступа к правке нет. Первый PAT-вход в CMS выполняет владелец. Независимое code review не проводилось; выполнены самопроверка, исправления и повторные проверки. Эти ограничения не позволяют объявить весь исходный goal полностью завершённым.
+At this historical stage, Vercel 403 blocked automatic hosting updates; Sites was a manually published snapshot. A Google account did not match the existing Vercel user, so no duplicate account was created. The owner later completed authorization and task 08 resolved that limitation. Zomro DNS and the first personal-token CMS write were not changed here. No independent review was performed and the entire original goal was not marked complete.

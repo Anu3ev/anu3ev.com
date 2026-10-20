@@ -1,63 +1,63 @@
-# Редактирование контента
+# Editing content
 
-Откройте `/admin/` на опубликованном сайте. Используется Sveltia CMS **0.248.1**, зафиксированная в lockfile. JavaScript админки и его MIT license отдаются с самого сайта; внешний CDN не загружается при входе. CMS пока имеет версию до 1.0 — обновления нужно проверять отдельно, автоматической подмены на `latest` нет.
+Open `/admin/` on the published site. Sveltia CMS **0.248.1** is pinned in the lockfile. Its JavaScript and MIT license are served from the site, without a login-time CDN request. Sveltia is pre-1.0, so upgrades require review; it is not automatically replaced with `latest`.
 
-**Production is hosted on Vercel Hobby.** CMS changes saved to `master` automatically build and deploy to [anu3ev-com.vercel.app](https://anu3ev-com.vercel.app/). Articles and projects use the editorial workflow; drafts remain outside the public export. Publication follows a successful build and is not instantaneous. [Deployment guide](deployment.md).
+**Production uses Vercel Hobby.** Changes reaching `master` automatically build and deploy to [anu3ev-com.vercel.app](https://anu3ev-com.vercel.app/). Articles/projects use an editorial workflow. Drafts stay outside the public export; publication follows a successful build and is not immediate. [Deployment guide](deployment.md).
 
-## Первый вход
+## First sign-in
 
-1. В GitHub создайте **fine-grained personal access token** только для `Anu3ev/anu3ev.com`.
-2. Разрешения репозитория: **Contents — Read and write**, **Pull requests — Read and write**. Metadata read добавляется GitHub автоматически. PR нужны редакционному workflow.
-3. В админке выберите **Sign In Using Access Token**, вставьте токен в форму входа.
+1. Create a GitHub **fine-grained personal access token** for `Anu3ev/anu3ev.com` only.
+2. Grant repository **Contents — Read and write** and **Pull requests — Read and write**. GitHub adds Metadata read automatically. PR access supports the editorial workflow.
+3. In the CMS, select **Sign In Using Access Token** and enter it in the login form.
 
-Токен остаётся в localStorage этого браузера. Он не попадает в исходники или сборку. Используйте доверенное устройство; после работы на общем устройстве выйдите из CMS. Доступ ограничен серверными разрешениями GitHub. Сайт не содержит общего пароля администратора. OAuth-кнопка выключена: OAuth-сервер для этого варианта не требуется.
+The token remains in this browser's localStorage, not source or generated files. Use a trusted device and sign out on shared devices. GitHub enforces access permissions; there is no shared admin password. OAuth is disabled because this login method does not need an OAuth server.
 
-## Статьи
+## Articles
 
-Коллекция «Статьи» объединяет English и Русский в одной записи. Файлы сохраняются в `content/en/posts/:slug.md` и `content/ru/posts/:slug.md`. CMS заполняет locale автоматически; slug, дата и состояние публикации общие.
+The **Articles** collection combines English and Russian in one entry, saved to `content/en/posts/:slug.md` and `content/ru/posts/:slug.md`. Locale is filled automatically; slug, publication date and published state are shared.
 
-Заполните обе версии title/description/body, alt обложки, категорию, темы и время чтения. Обложка: WebP до 200 КБ, желательно 1200 × 630. Для основного текста используйте H2/H3: H1 создаёт страница. HTML-примеры помещайте в fenced code blocks.
+Complete both versions of title, description, body, cover alt text, category, tags and reading time. Prefer WebP covers under 200 KB at 1200×630. Use H2/H3 in body copy; the page creates H1. Put HTML examples inside fenced code blocks.
 
-Новая запись по умолчанию `published: false`. Сохранение создаёт редакционный PR; после проверки и включения `published` обе языковые версии публикуются вместе. Не меняйте slug уже опубликованной страницы без отдельного редиректа.
+New entries default to `published: false`. Saving creates an editorial PR; after review and enabling publication, both translations publish together. Do not change an existing public slug without a separate redirect.
 
-Будущая дата не является таймером: запись исключается до этой даты по **Asia/Tbilisi** и появится после следующей успешной сборки в нужный день. Без новой сборки статический сайт сам не обновится.
+A future date is not a timer. Entries are excluded until that date in **Asia/Tbilisi**, then appear after the next successful build. A static site cannot publish them without another build.
 
-## Проекты
+## Projects
 
-Коллекция «Проекты»: содержание кейса, направление, роль, период, технологии, обложка и alt, порядок и признак featured. На главной показывается первый опубликованный featured-проект по `order`.
+The **Projects** collection includes case copy, category, role, period, stack, cover/alt, ordering and featured status. Home shows the first published featured project by `order`.
 
-`repository` и `demo` необязательны. Указывайте только реальные публичные HTTPS-адреса. Наличие поля demo не встраивает редактор в страницу: тяжёлые приложения открываются отдельно. Коммерческий Vue-редактор и open-source FabricJS-ядро — разные кейсы.
+Optional `repository` and `demo` fields must contain real public HTTPS URLs. A demo link does not embed a heavy editor in the page. The commercial Vue editor and open-source FabricJS library remain separate cases.
 
-## Профиль
+## Profile
 
-«Настройки сайта → Профиль и контакты»: имя на английском/русском, фото, email, соцсети, расположение, доступность, роль и bio на двух языках. Фото — квадратный WebP 600 × 600 px до 200 КБ. Изображение и обе версии имени используются также в About, подписи автора и метаданных.
+Under **Site settings → Profile and contacts**, edit English/Russian names, photo, email, social links, location, availability, headline and bio. Prefer a square WebP portrait at 600×600 under 200 KB. About, author attribution and metadata use the same profile and photo.
 
-## Тексты страниц и карьера
+## Page copy and career history
 
-Откройте «Настройки сайта → Тексты страниц и опыт работы», затем English или Русский. Разделы свёрнуты по страницам; значения хранятся в `content/settings/pages.json`.
+Open **Site settings → Page copy and career history**, then English or Russian. Collapsed groups correspond to pages; values live in `content/settings/pages.json`.
 
-| Раздел | Что редактируется |
+| Group | Editable content |
 | --- | --- |
-| Главная | SEO title, закреплённая заметка, темы профиля |
-| Обо мне | Заголовок, вступление, биография, инструменты, опыт, подход |
-| Портфолио / Блог | Заголовки и вступления списков |
-| Контакты | Вступление, подпись под почтой, форматы работы |
-| Правая колонка | Короткое описание, текущий фокус и технологии |
-| Совместная работа / CTA | Приглашение к сотрудничеству и общая контактная секция |
-| Конфиденциальность | Дата обновления, сведения о хостинге, переписке и хранении данных |
+| Home | SEO title, pinned note and profile topics |
+| About | Heading, introduction, biography, tools, career and principles |
+| Portfolio / Blog | Listing headings and introductions |
+| Contacts | Introduction, email note and working arrangements |
+| Right sidebar | Short bio, current focus and technologies |
+| Collaboration / Contact callout | Invitations to collaborate and shared contact copy |
+| Privacy | Updated date, hosting, correspondence and browser storage |
 
-В опыте работы добавляйте компанию, роль, описание и месяцы `YYYY-MM`. Пустое окончание означает текущую работу; обратный диапазон отклоняется проверкой. Период на странице формируется автоматически. Новые факты обновляйте в обеих языковых версиях. Заголовки — 4–120 символов, обычные тексты — 20–1600. Эти поля — обычный текст; форматированный длинный материал размещайте в статье или кейсе Markdown.
+Career entries need company, role, description and `YYYY-MM` months. A blank end means a current position; reversed periods fail validation. Dates render automatically. Update factual changes in both locales. Headings allow 4–120 characters, body text 20–1600. These fields are plain text; use Markdown articles/cases for formatted long-form material.
 
-Настройки используют simple workflow и сохраняются коммитом в master; статьи и кейсы — editorial workflow. Контент проверяется перед сборкой, но обязательная branch protection не установлена. Навигационные подписи, макет и программные правила остаются в исходниках и меняются с review.
+Settings use simple commits to master; cases/articles use the editorial workflow. Content is validated before build, but mandatory branch protection is not configured. Navigation labels, layout and program behavior remain reviewed source changes.
 
-Для ручного Markdown используйте обычный YAML frontmatter между строками `---`. Даты `2026-10-20` работают с кавычками и без них; BOM и CRLF поддерживаются. Tagged JavaScript frontmatter запрещён до разбора. Внутренние ссылки на страницы имеют `/` в конце, например `/ru/work/image-editor/`; у файлов изображений и RSS завершающий `/` не добавляется.
+Manual Markdown uses ordinary YAML frontmatter between `---` lines. Quoted/unquoted ISO dates, BOM and CRLF are supported. Executable tagged frontmatter is rejected before parsing. Internal page links end with `/`, for example `/ru/work/image-editor/`; image and RSS file URLs do not.
 
-## Что проверяется до публикации
+## Publication checks
 
-Схемы общие для Nuxt Content и `pnpm check:content`: URL/slug, реальные даты, изображения, полнота текста, отсутствие второго H1, активного HTML и опасных link schemes. Опубликованному документу нужна опубликованная парная версия. Черновики и будущие записи исключаются **до** создания публичной SQLite-базы, а не только из списка на экране.
+Nuxt Content and `pnpm check:content` share schemas for URLs/slugs, real dates, existing images, complete copy, no second H1, active HTML or unsafe link schemes. Every published document needs its published translated counterpart. Drafts/future entries are excluded **before** the public SQLite database is generated, not merely hidden from a listing.
 
-Вручную из GitHub можно редактировать те же Markdown/JSON. Токены и приватные заметки не добавляйте в контент.
+The same Markdown/JSON can be edited directly in GitHub. Do not add tokens or entire private notes to content.
 
-## Проверенный охват
+## Verified scope
 
-Форма входа, native i18n-конфигурация, self-hosted bundle, отсутствие configuration warnings и исключение draft из реальной базы/сборки проверены. Запись через личный GitHub PAT не выполнялась: токен владельца не запрашивался и не извлекался. Первый вход владелец выполняет своим токеном.
+The login form, native i18n configuration, self-hosted bundle, absence of configuration warnings and draft exclusion from the actual database/export were verified. An authenticated write using the owner's personal GitHub token was not performed; no token was requested or extracted. The owner performs that first sign-in.

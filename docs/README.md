@@ -1,24 +1,25 @@
-# anu3ev.com — документация
+# anu3ev.com documentation
 
-Новый сайт Александра Ануфриева. Начало работ: 20 октября 2026, Asia/Tbilisi.
+Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilisi. English is the primary language of the site, repository and administration interface; Russian website content remains supported.
 
-**Production:** [Vercel Hobby](https://anu3ev-com.vercel.app/) with the connected `Anu3ev/anu3ev.com` Git repository. [Current deployment verification](tasks/08-github-deployment/summary.md). The [initial launch audit](tasks/07-launch-audit/summary.md) describes the earlier Sites snapshot and its historical limitations.
+**Production:** [Vercel Hobby](https://anu3ev-com.vercel.app/), connected to `Anu3ev/anu3ev.com`. [Automatic deployment verification](tasks/08-github-deployment/summary.md). The [initial launch audit](tasks/07-launch-audit/summary.md) describes the earlier Sites snapshot and its historical limitations.
 
-- [Архитектура и решения](tasks/01-foundation/architecture.md)
-- [Последовательность задач](tasks/01-foundation/plan.md)
-- [Требования и проверки](tasks/01-foundation/acceptance.md)
-- [Сводка первого этапа](tasks/01-foundation/summary.md)
-- [Nuxt и текущий MagicPath](tasks/02-site/summary.md)
-- [Контент и CMS](tasks/03-content-and-cms/summary.md)
-- [Как редактировать сайт](operations/content.md)
-- [SEO, accessibility и performance](tasks/04-quality-and-seo/summary.md)
-- [CI, релизы и публичная публикация](tasks/05-release-and-deploy/summary.md)
-- [Как публиковать релиз и подключить домен](operations/deployment.md)
-- [Редактируемые страницы и карьера](tasks/06-editable-pages/summary.md)
-- [Публичный релиз и финальная проверка](tasks/07-launch-audit/summary.md)
+- [Architecture and decisions](tasks/01-foundation/architecture.md)
+- [Sequential task queue](tasks/01-foundation/plan.md)
+- [Acceptance criteria](tasks/01-foundation/acceptance.md)
+- [Foundation](tasks/01-foundation/summary.md)
+- [Nuxt and MagicPath](tasks/02-site/summary.md)
+- [Content and CMS](tasks/03-content-and-cms/summary.md)
+- [Editing the site](operations/content.md)
+- [SEO, accessibility and performance](tasks/04-quality-and-seo/summary.md)
+- [CI, releases and initial publication](tasks/05-release-and-deploy/summary.md)
+- [Deployment and custom domain operations](operations/deployment.md)
+- [Editable pages and career history](tasks/06-editable-pages/summary.md)
+- [Initial public release audit](tasks/07-launch-audit/summary.md)
 - [Automatic GitHub deployment](tasks/08-github-deployment/summary.md)
 - [Manual browser testing and functional fixes](tasks/09-manual-qa/summary.md)
+- [English repository and CMS](tasks/10-english-repository/plan.md)
 
-У каждой задачи — отдельная папка в `docs/tasks/`, описание результата и `summary.md`. Статус означает реально выполненную работу. Необходимые операционные инструкции появятся в `docs/operations/`.
+Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 
-Требования берутся из текущего задания и указанного MagicPath. Документация и планы прежнего проекта удалены. В `reference/magicpath` — новые снимки макетов, сделанные в этой задаче после авторизации.
+Requirements come from the current assignment and its MagicPath file. Previous project plans and prototypes were removed. `reference/magicpath` contains screenshots captured after authorization during this rebuild. The supplied responsive frames still require the dedicated design-fidelity pass recorded in the queue.

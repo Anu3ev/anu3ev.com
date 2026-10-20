@@ -1,12 +1,14 @@
 # anu3ev.com
 
-Портфолио Александра Ануфриева на Nuxt 4, Vue 3, TypeScript, Tailwind CSS и Nuxt Content. Сайт собирается в статический HTML; серверная база данных для хостинга не нужна.
+Alexander Anufriev's portfolio, built with Nuxt 4, Vue 3, TypeScript, Tailwind CSS and Nuxt Content. Static HTML generation keeps hosting independent of a server database. English is the primary language; Russian is available under `/ru`.
 
-Production: **https://anu3ev-com.vercel.app/**. [Content administration](https://anu3ev-com.vercel.app/admin/). Vercel Hobby is connected to this GitHub repository. Pushes to `master` build and deploy automatically, including CMS content updates. [Deployment guide](docs/operations/deployment.md).
+**Production:** [anu3ev-com.vercel.app](https://anu3ev-com.vercel.app/) · [Content administration](https://anu3ev-com.vercel.app/admin/).
 
-Versioned releases run through GitHub Actions after content, lint, types, 43 unit tests and 52 browser/axe checks. [GitHub deployment](docs/tasks/08-github-deployment/summary.md) · [manual QA and fixes](docs/tasks/09-manual-qa/summary.md). The [initial launch audit](docs/tasks/07-launch-audit/summary.md) records the earlier 1.0.1 Sites snapshot.
+Vercel Hobby is connected to this GitHub repository. Pushes to `master` automatically build and deploy the site, including CMS updates. GitHub Actions validates content, lint, types, 43 unit tests and 52 browser/axe checks, then publishes a versioned release when the package version increases. [Deployment guide](docs/operations/deployment.md).
 
-Требуется Node **24.15+ LTS** и pnpm **10.33.2**. Версии зафиксированы в `.node-version` и `package.json`.
+## Development
+
+Use Node **24.15+ LTS** and pnpm **10.33.2**, pinned in `.node-version` and `package.json`.
 
 ```sh
 corepack enable
@@ -14,20 +16,18 @@ pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Проверки и сборка:
-
 ```sh
-pnpm lint
-pnpm typecheck
-pnpm test
+pnpm check
 pnpm build
 pnpm preview
 ```
 
-Готовый сайт находится в `.output/public`. Публичные маршруты имеют английскую версию без префикса и русскую с `/ru`. Контент — в `content/en`, `content/ru`, настройки автора — в `content/settings/profile.json`.
+`pnpm check` runs content validation, ESLint, TypeScript and unit tests. Coverage targets critical pure contracts rather than the entire UI. The static export is written to `.output/public`.
 
-Админка находится по `/admin/`: [первый вход и редактирование](docs/operations/content.md). Кейсы и статьи редактируются парой English/Русский через GitHub editorial workflow. Черновики исключаются до создания публичной базы.
+Install Chromium with `pnpm exec playwright install chromium`, then run `pnpm test:e2e`. Browser tests use one worker and build an isolated pagination fixture without changing published content. `pnpm build` generates sitemap, RSS, social cards and responsive WebP images. After changing a cover during a running development session, run `pnpm assets:prepare`.
 
-`pnpm check` проверяет контент, ESLint, TypeScript и unit-тесты. Coverage относится к критичным чистым контрактам, а не всему UI. Решения и последовательность работ: [docs](docs/README.md).
+## Content and documentation
 
-Браузерные проверки: `pnpm exec playwright install chromium`, затем `pnpm test:e2e` (один worker). Тестовая пагинация создаёт отдельную временную сборку и не меняет публикации. `pnpm build` генерирует sitemap, RSS, social cards и responsive WebP. После локальной смены cover при работающем dev: `pnpm assets:prepare`.
+Articles and cases live in `content/en` and `content/ru`. Author settings are in `content/settings/profile.json`; editable page copy and career history are in `content/settings/pages.json`. Sveltia CMS at `/admin/` supports paired translations and GitHub's editorial workflow. Drafts are excluded before the public database is generated. [Sign-in and editing guide](docs/operations/content.md).
+
+[Architecture and task queue](docs/README.md) · [Automatic deployment verification](docs/tasks/08-github-deployment/summary.md) · [Manual QA and fixes](docs/tasks/09-manual-qa/summary.md). The [initial launch audit](docs/tasks/07-launch-audit/summary.md) records the historical 1.0.1 Sites snapshot. Design corrections and remaining launch tasks are tracked in the queue; the custom domain is the final step.

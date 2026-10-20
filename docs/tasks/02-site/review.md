@@ -1,19 +1,17 @@
-# Самопроверка
+# Self-review
 
-Проверены требования, реальные маршруты, схема контента и соседние компоненты. Отдельно прочитаны все новые владельцы поведения: locale composable, SEO composable, theme control, blog filtering/pagination, case loading и error page.
+Reviewed the requirements, real routes, content schema and neighboring components, including locale/SEO composables, the theme control, blog filtering/pagination, case loading and the error page.
 
-Исправлено по первому проходу:
+Corrections from the first pass:
 
-1. Vue Router 4 конфликтовал с Nuxt 4.6 и Volar route plugin → выровнен с зависимостью Nuxt до 5.4. Типовая проверка теперь без diagnostics.
-2. Fragment-root в pages/layout нарушал контракт Nuxt → у страниц и layout один внешний контейнер.
-3. Debug-инструментация Nuxt создавала одинаковые console.time labels при параллельном prerender → явно отключён debug. Production build без этих предупреждений.
-4. Слишком сложная template-пагинация и условный TOC → отдельные содержательные BlogPagination и ContentToc. Повторный Fallow не находит complexity findings.
-5. В JSON-LD статьи множество optional chains → один guard и локальный текущий документ; не добавлен cast.
-6. Автоматические heading links Markdown создавали лишние controls без title → ProseH2/H3 сохраняют семантический heading/id, переходы принадлежат оглавлению.
-7. Флаг доступности профиля учитывается в hero. Кнопки не показывают фиктивную отправку сообщений.
+1. Vue Router 4 conflicted with Nuxt 4.6 and the Volar route plugin. Aligned it with Nuxt's 5.4 dependency; type checking then had no diagnostics.
+2. Fragment roots violated Nuxt's page/layout contract; each now has one outer container.
+3. Nuxt debug instrumentation duplicated console.time labels during parallel prerendering. Explicitly disabled debug; production builds no longer emitted those warnings.
+4. Extracted cohesive BlogPagination and ContentToc components from complex templates. Repeated Fallow analysis found no complexity findings.
+5. Replaced repeated optional chaining in article JSON-LD with one document guard, without a cast.
+6. Markdown's automatic heading links created extra controls without titles. ProseH2/H3 retain heading semantics and IDs; the table of contents owns navigation.
+7. Hero availability respects profile settings; contact actions do not simulate message submission.
 
-После авторизации заново проверены исходные предпосылки: текущий MagicPath задаёт три колонки и синюю палитру. Предварительная раскладка полностью заменена. Сверены реальные размеры колонок, типографика, Home cover, порядок ленты и общий стиль всех четырёх экранов. По замечанию пользователя удалён последний старый inventory и перепроверены все ссылки на прежние требования.
+After authorization, the current MagicPath desktop previews replaced the preliminary layout. Checked columns, typography, Home cover, feed order and the four screens' shared style. Removed the final old inventory after the user's correction and rechecked references to previous requirements. Actual mobile fidelity was not established at this stage; task 11 addresses the later supplied responsive references.
 
-Открыто: CMS/доступ к реальной записи, полное наполнение, sitemap/RSS, полноценные e2e/axe и production. Они не объявлены завершёнными этим этапом.
-
-Это самопроверка автора, а не независимое ревью.
+Still open at this historical stage: CMS write access, complete content, sitemap/RSS, full e2e/axe and production. Those were not claimed complete here. This was author self-review, not independent review.

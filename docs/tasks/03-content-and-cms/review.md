@@ -1,18 +1,16 @@
-# Самопроверка контента и CMS
+# Content and CMS self-review
 
-Проверены источники, модель данных, реальные Nuxt-запросы и способ редактирования. Схемы вынесены в `shared/content-schema.ts`, чтобы CMS-изменения проходили тот же build-time контракт, который использует Nuxt Content.
+Checked source evidence, data models, actual Nuxt queries and editing behavior. Shared schemas in `shared/content-schema.ts` give CMS changes the same build-time contract used by Nuxt Content.
 
-Исправления по review:
+Corrections:
 
-1. Фильтра `published` в UI недостаточно: static Nuxt Content отдаёт браузеру SQL-dump. Добавлено исключение draft/future **в source collections до parsing/database**. Реальная база после сборки содержит 6 опубликованных article translations, 10 project translations и 0 draft rows; в публичной сборке отсутствует marker/slug draft-example.
-2. UTC build runner мог задержать публикацию статьи на несколько часов относительно владельца. Общий `getPublicationDate` использует Asia/Tbilisi; проверена граница календарного дня.
-3. Отдельные EN/RU коллекции заставляли бы сохранять перевод двумя коммитами. Выбран native i18n Sveltia с `content/{{locale}}`, общим slug/publication flag и hidden locale. Переводы редактируются как одна запись.
-4. Нет настроенного OAuth-сервера → оставлен только действующий token login. Неактивная OAuth-кнопка убрана. Неподдерживаемый старый `locale` option найден реальным browser validation и удалён; configuration warnings теперь 0.
-5. CMS bundle копируется из зафиксированной npm-зависимости и отдаётся с сайта вместе с лицензией; CDN при авторизации не нужен. `import.meta.resolve` делает реальную asset dependency видимой инструментам.
-6. Прежний preview server отдавал собственную 404 вместо страницы приложения. Заменён на http-server с custom `404.html` и настоящим HTTP 404. Проверено на прямом запросе черновика.
-7. Защищены locale/filename mismatch, неполный published body, unsafe Markdown, путь изображения и парность переводов. У этих внешних границ есть содержательные unit-тесты; их фактическое v8 coverage используется в Fallow.
-8. Gray-matter и Zod классифицированы как зависимости контентного модуля Nuxt. Неиспользуемый YAML package удалён. Публичная статическая сборка не требует runtime npm-install.
+1. A UI `published` filter was insufficient because static Nuxt Content exposes its SQL dump. Exclude draft/future sources before parsing/database creation. The real built database contained 6 published article translations, 10 project translations and no draft rows; draft-example marker/slug were absent from the public export.
+2. A UTC runner could delay publication relative to the owner. Shared `getPublicationDate` uses Asia/Tbilisi; calendar-day boundaries are tested.
+3. Separate EN/RU collections would require two commits for a translation pair. Native Sveltia i18n uses `content/{{locale}}`, shared slug/publication flag and a hidden locale field, edited as one record.
+4. Without an OAuth server, retain only working token login. Removed the inactive OAuth action and an unsupported legacy locale option found by browser validation. Configuration warnings became zero.
+5. Copy the pinned CMS bundle and license from npm to the site. Login does not require an executable CDN request; `import.meta.resolve` exposes the real asset dependency to analysis tools.
+6. Replaced the previous preview server with http-server so the app's custom `404.html` is returned with actual HTTP 404, verified on a direct draft request.
+7. Validate locale/filename agreement, complete published bodies, safe Markdown, image paths and translation pairs at external boundaries. Meaningful unit tests and actual V8 coverage support these contracts.
+8. Gray-matter and Zod belong to the content module dependencies. An unused YAML package was removed at this stage; a deliberate YAML 1.2 parser was added later in task 06. The public static export needs no runtime npm install.
 
-Технические допущения: PAT хранится в браузере по контракту Sveltia; редактор до версии 1.0 требует проверяемых обновлений. Запись в GitHub через CMS без личного PAT владельца не проверялась и не объявляется выполненной. Тексты и метрики сверены с конкретными исходниками; full private notes и приватные репозитории не публикуются.
-
-Это самопроверка автора. Независимого проверяющего не привлекали.
+The supported PAT login stores its token in the browser; pre-1.0 CMS upgrades require review. No authenticated GitHub write with the owner's personal token was performed or claimed. Copy/metrics were checked against concrete sources; entire private notes and private repositories were not published. This was author self-review, without an independent reviewer.

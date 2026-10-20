@@ -1,11 +1,11 @@
-# 06 — контент страниц управляется из CMS
+# 06 — Page copy managed through CMS
 
-Теперь через админку редактируются не только кейсы, статьи и краткий профиль, но и Home, About, карьера, инструменты, подход, вступления Portfolio/Blog, Contacts, правая колонка, CTA и Privacy. Имя на двух языках, фото, авторские подписи и метаданные используют профиль. [Инструкция](../../operations/content.md).
+The CMS now edits Home, About, career history, tools, principles, Portfolio/Blog introductions, Contacts, sidebar, shared callout and Privacy, in addition to cases/articles/profile. Both names, portrait, author attribution and metadata use the profile. [Editing guide](../../operations/content.md).
 
-В `content/settings/pages.json` — проверенные EN/RU данные, в i18n — короткие UI labels. Месяцы карьеры проверяются до сборки, окончание можно оставить пустым для текущей работы. Фото должно существовать внутри public images. Удалены дублирующая Content collection и неиспользуемые labels.
+`content/settings/pages.json` owns validated EN/RU data; i18n holds short UI labels. Career months are validated before build and may have an empty end for a current position. Portraits must exist under public images. Removed the duplicate Content collection and unused labels.
 
-Публичная проверка выявила redirect в canonical URLs: политика пути теперь соответствует реальному host, с `/` в конце страниц. Sitemap/RSS/OG/schema/navigation согласованы; проверяется HTTP 200 без redirect. Frontmatter использует YAML 1.2, принимает обычные date strings/BOM/CRLF и отклоняет executable engines до разбора. Обновлены исправляемые Sharp/compression advisory; оставшиеся 2 high + 1 moderate в build tooling разобраны [отдельно](dependencies.md).
+Public checks exposed redirecting canonical URLs; directory URLs now agree across sitemap/RSS/OG/schema/navigation and are tested for direct HTTP 200. YAML 1.2 frontmatter accepts ordinary date strings/BOM/CRLF and rejects executable engines before parsing. Patched available Sharp/compression advisories; [two high and one moderate tooling advisories remain](dependencies.md).
 
-Проверено: lint, types, SSG, **43 unit tests**, полный local browser suite **49 pass**, затем два targeted tests финального поля Privacy; 100% coverage в 12 выбранных чистых модулях, Fallow core findings 0. [Review](review.md) описывает исправления и границы проверки. Финальный PR/master CI также прошёл 43 unit + 49 browser tests. [Release/publication 1.0.1](../07-launch-audit/summary.md) подтверждены после merge.
+Lint, types, SSG, **43 unit tests**, a full local **49-test browser run**, and two final targeted Privacy checks passed. Coverage is 100% in twelve selected pure modules; Fallow core findings were zero. Final PR/master CI also passed 43 unit and 49 browser checks. [Review](review.md) records limits; [Release/publication 1.0.1](../07-launch-audit/summary.md) was verified after merge.
 
-Первый PAT-вход/write CMS выполняет владелец. Отказ Vercel 403 и отсутствие DNS-доступа не обойдены: автоматическая GitHub → hosting integration ещё требует рабочей авторизации. Опубликованный Sites обновляется отдельной операцией.
+The owner performs the first personal-token CMS write. Vercel authorization was still unresolved at this historical stage and Sites required explicit publication; task 08 subsequently established automatic deployment. Domain connection remains the final launch task.

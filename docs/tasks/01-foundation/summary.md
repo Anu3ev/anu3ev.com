@@ -1,11 +1,11 @@
-# 01 — основа проекта
+# 01 — Foundation
 
-Прочитаны инструкции, code-writer и применимые references. Источник Obsidian найден в `Documents/obsidian_notes`. Обе копии общих инструкций и полный каталог скилла совпадают; обе quick_validate: pass.
+Read the instructions, code-writer and applicable references. The Obsidian source was located in `Documents/obsidian_notes`. Global instructions and the complete skill directory matched their installed copies; both skill validations passed.
 
-Git baseline: `master`, commit `ee282bf`, index и working tree без пользовательских изменений. Подтверждён приватный GitHub-репозиторий с admin/push и доступ к Vercel team. Изучены GitHub workflows соседнего image-editor.
+Git baseline: `master`, commit `ee282bf`, with a clean index and working tree. Confirmed the private GitHub repository with admin/push access, the existing Vercel team and the neighboring image-editor release workflow.
 
-Удалены старые task-планы, ADR и статический прототип, которые заменяет новая реализация. Полезный factual inventory сохранён; изображения временно сохранены вне репозитория до оптимизации и переноса в public.
+Removed the old task plans, ADRs and static prototype. Useful images were temporarily retained outside the repository for optimization. A factual inventory was initially kept, then removed after the user's correction; subsequent content uses current source notes directly.
 
-Зафиксированы архитектура Nuxt SSG, Git-based CMS, модель публикации, SEO, доступность, будущие playground и последовательность пяти задач. Ограничение MagicPath и конкретный конфликт assertion-счётчика описаны в архитектуре.
+Recorded the Nuxt SSG architecture, Git-based CMS, publication model, SEO, accessibility, future playground boundaries and the initial five-task sequence. The MagicPath access limitation and the specific conflict with the assertion-count rule are documented in the architecture.
 
-Проверки: Fallow baseline pass при отсутствии JS/TS entry points; это ограниченная проверка исходного документационного репозитория. Проверка структуры Markdown и `git diff --check`: pass. Выполнена самопроверка решений по исходным требованиям, исправлены статусы и уточнены ограничения CMS и макета. Независимое ревью на этом этапе не проводилось.
+Checks at this stage: Fallow baseline passed without JS/TS entry points, which does not measure the future application; Markdown structure and `git diff --check` passed. Self-review corrected statuses and clarified CMS/design limitations. No independent review was performed.

@@ -8,4 +8,6 @@ I repeated the corrected pointer/keyboard flows in English/Russian and both them
 
 [Findings, screenshots and exact scope](review.md) · [browser results](reports/browser.json) · [route crawl](reports/route-crawl.json) · [plan](plan.md).
 
-The next tasks, in the user's requested order, are English repository documentation, design corrections against the actual MagicPath mobile/tablet/browser frames, and finally connecting anu3ev.com through Zomro. The current mobile menu's functionality was tested; it is not accepted as matching the supplied bottom-navigation design. Production publication is handled by the existing Git integration after merge.
+Patch 1.0.5 was merged in PR 11 at `08ad78e954b3e83cab2e0ef1238a560edd137613` and automatically published to Vercel. Four focused public checks passed: both delayed-JavaScript scenarios, sequential search/reading/Back, and portfolio filtering/Back/reload. This does not claim another complete public 52-test run.
+
+The next tasks, in the user's requested order, are English repository documentation, actual MagicPath design corrections, external links, the reported All topics bug, and finally connecting anu3ev.com through Zomro. The initial mobile menu was functionally tested; it is not accepted as matching the supplied bottom-navigation design.
