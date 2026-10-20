@@ -29,6 +29,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Article preview image size](tasks/18-post-preview-images/summary.md)
 - [Russian interface copy review](tasks/19-ui-copy-review/summary.md)
 - [Profile photo](tasks/20-profile-photo/summary.md)
+- [Brand logo](tasks/21-brand-logo/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 
