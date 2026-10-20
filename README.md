@@ -2,6 +2,8 @@
 
 Портфолио Александра Ануфриева на Nuxt 4, Vue 3, TypeScript, Tailwind CSS и Nuxt Content. Сайт собирается в статический HTML; серверная база данных для хостинга не нужна.
 
+Публичный сайт: **https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site**. [Админка](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/admin/). Сейчас это опубликованный Sites snapshot; автоматическая GitHub → hosting integration ожидает рабочих прав Vercel. [Точный статус и публикация](docs/operations/deployment.md).
+
 Требуется Node **24.15+ LTS** и pnpm **10.33.2**. Версии зафиксированы в `.node-version` и `package.json`.
 
 ```sh
