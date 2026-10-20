@@ -94,6 +94,7 @@ export function readContentInventory({ root = process.cwd(), now = new Date() } 
   const profileInput: unknown = JSON.parse(readFileSync(join(root, 'content/settings/profile.json'), 'utf8'))
   const profile = profileSchema.parse(profileInput)
   validatePublicImage({ root, image: profile.photo, source: 'settings/profile.json' })
+  validatePublicImage({ root, image: profile.avatar, source: 'settings/profile.json' })
   const pagesInput: unknown = JSON.parse(readFileSync(join(root, 'content/settings/pages.json'), 'utf8'))
   const pages = sitePagesSchema.parse(pagesInput)
   const excluded = [...projects, ...posts].filter(document => !document.isPublic).map(document => document.source)

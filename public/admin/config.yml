@@ -81,6 +81,7 @@ collections:
           - { name: name, label: Name, widget: string }
           - { name: name_ru, label: Name — Russian, widget: string }
           - { name: photo, label: Photo, widget: image, hint: Prefer WebP under 200 KB at 600 × 600 px. }
+          - { name: avatar, label: Avatar, widget: image, hint: "Square face crop, WebP at 256 × 256 px. Shown at 44–86 px." }
           - { name: email, label: Email, widget: string }
           - { name: github, label: GitHub URL, widget: string }
           - { name: linkedin, label: LinkedIn URL, widget: string }

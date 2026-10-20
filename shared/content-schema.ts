@@ -42,6 +42,8 @@ export const profileSchema = z.object({
   name: z.string().min(3),
   name_ru: z.string().min(3),
   photo: publicImage,
+  /** Square crop shown at 44–86 px; the larger portrait stays in `photo`. */
+  avatar: publicImage,
   email: z.string().email(),
   github: z.string().url().regex(/^https:\/\//),
   linkedin: z.string().url().regex(/^https:\/\//),

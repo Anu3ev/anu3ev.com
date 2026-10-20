@@ -113,6 +113,18 @@ test('editable settings drive public page content, author metadata, photos and c
     await expect(page.locator('#pinned-note-title')).toHaveText(settings.home.pinnedTitle)
     await expect(page).toHaveTitle(`${settings.home.seoTitle} · ${ownerName}`)
     await expect(page.locator('meta[property="og:site_name"]')).toHaveAttribute('content', ownerName)
+    // Every avatar on the page shows the CMS photo crop and has actually loaded.
+    const avatars = page.locator('.profile-avatar img, .small-avatar img, .tiny-avatar img')
+    await expect(avatars.first()).toBeVisible()
+    for (const avatar of await avatars.all()) {
+      await expect(avatar).toHaveAttribute('src', profile.avatar)
+      await expect.poll(() => avatar.evaluate(image => image instanceof HTMLImageElement ? image.naturalWidth : 0)).toBeGreaterThan(0)
+    }
+    const homeGraphs: unknown = JSON.parse(await page.locator('script[type="application/ld+json"]').textContent() || '[]')
+    expect(homeGraphs).toEqual(expect.arrayContaining([
+      expect.objectContaining({ '@type': 'Person', 'image': expect.stringMatching(/^https:\/\/.+\/images\/[^/]+$/) })
+    ]))
+    expect(JSON.stringify(homeGraphs)).toContain(profile.photo)
 
     await page.goto(`${prefix}/about`)
     await expect(page.locator('main h1')).toHaveText(settings.about.title)

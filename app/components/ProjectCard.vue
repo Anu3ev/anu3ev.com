@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { ProjectSummary } from '~/types/content'
+import profile from '~~/content/settings/profile.json'
 import { PROJECT_IMAGE_WIDTHS, projectImagePath } from '~~/shared/images'
 
 const { project } = defineProps<{ project: ProjectSummary, featured?: boolean }>()
@@ -10,7 +11,14 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
 <template>
   <article class="project-card" :class="{ 'project-card-featured': featured }">
     <div class="card-author">
-      <span class="tiny-avatar" aria-hidden="true">aa</span>
+      <span class="tiny-avatar" aria-hidden="true"><img
+        :src="profile.avatar"
+        alt=""
+        width="34"
+        height="34"
+        loading="lazy"
+        decoding="async"
+      ></span>
       <div>
         <strong>{{ project.category }}</strong><span>{{ project.year }}</span>
       </div>
