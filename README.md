@@ -4,6 +4,8 @@
 
 Публичный сайт: **https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site**. [Админка](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/admin/). Сейчас это опубликованный Sites snapshot; автоматическая GitHub → hosting integration ожидает рабочих прав Vercel. [Точный статус и публикация](docs/operations/deployment.md).
 
+Опубликован [v1.0.1](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.1) — точная CI-сборка. Проверено: 43 unit tests и 49 production browser/axe tests. [Результаты, screenshots и границы проверки](docs/tasks/07-launch-audit/summary.md).
+
 Требуется Node **24.15+ LTS** и pnpm **10.33.2**. Версии зафиксированы в `.node-version` и `package.json`.
 
 ```sh

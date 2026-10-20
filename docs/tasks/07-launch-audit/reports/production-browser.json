@@ -1,0 +1,17 @@
+{
+  "url": "https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site",
+  "version": "1.0.1",
+  "commit": "6541daa29fb14356337f354cb4e75751d19afc3f",
+  "stats": {
+    "startTime": "2026-10-20T02:10:28.794Z",
+    "duration": 93052.091,
+    "expected": 49,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "workers": 1,
+  "access": "fresh guest browser, no owner bypass headers",
+  "sitemap_checks": "all 28 page URLs return HTTP 200 with maxRedirects: 0",
+  "cms_write_tested": false
+}

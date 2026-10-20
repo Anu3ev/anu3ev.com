@@ -2,6 +2,8 @@
 
 Рабочий публичный адрес: **https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site**. Админка: [/admin/](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/admin/).
 
+Текущая публикация — [v1.0.1](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.1), commit `6541daa29fb14356337f354cb4e75751d19afc3f`, точный проверенный CI export. [Отчёт запуска](../tasks/07-launch-audit/summary.md).
+
 ## Что автоматизировано
 
 На PR и push в `master` GitHub Actions устанавливает зависимости по lockfile и проверяет схему контента, ESLint, TypeScript, unit, статическую генерацию, browser/axe и пагинацию. В browser suite один worker. Отчёты и проверенный архив хранятся в Actions три дня.
@@ -31,6 +33,10 @@ Git integration затем публикует каждый push `master`, вкл
 ## Sites: воспроизводимая резервная публикация
 
 Identity хранится в `.openai/hosting.json`; новый Site повторно не создаётся. Нужны инструменты Sites и короткоживущий source credential для этого ID. Сначала выполняются `pnpm check`, `pnpm build`, browser checks; исходники коммитятся и пушатся в GitHub. Та же ревизия отправляется на source remote Sites, её remote HEAD сверяется. Штатный `package-site.mjs` создаёт архив `.output/public` + manifest, `save_site_version` сохраняет его с точным commit SHA, `deploy_site_version` публикует сохранённую версию.
+
+Для релиза предпочтителен готовый GitHub CI artifact: проверить SHA256 ZIP из GitHub metadata, SHA256 внутреннего tar.gz из Release asset и `version.json`; проверить paths/symlinks перед извлечением. Затем упаковать эти же файлы и сравнить hashes; повторно `pnpm build` не запускать. Signed download references краткоживущие: получать непосредственно перед скачиванием, передавать скрытым stdin, не сохранять URL-токен. После истечения получить новый reference штатным download tool. Доступные Actions artifacts хранятся три дня; Release archive остаётся в Release.
+
+При диагностике некоторые Python-urllib requests могут получить Cloudflare 1010. Это browser-signature фильтр платформы; свежие Chrome и обычный Playwright API request проверены без login/bypass. Не выдавайте owner-authenticated check за public verification. После любого переноса хостинга повторите гостевой browser check.
 
 У source helper есть `git add --all`, поэтому в этой задаче вместо его staging использован отдельный Git index и обычный Git push; [обоснование](../tasks/05-release-and-deploy/hosting.md). Token передаётся через скрытый stdin и environment, не сохраняется в workflow. Публичный audience установлен по прямому поручению пользователя. Для сохранения ancestry GitHub PR с этой публикацией вливается merge commit, а не squash.
 
