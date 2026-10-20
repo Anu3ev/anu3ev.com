@@ -8,9 +8,9 @@
   "trailingSlash": true,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "anu3ev-com.vercel.app" }],
-      "destination": "https://anu3ev.com/:path*",
+      "destination": "https://anu3ev.com/$1",
       "permanent": true
     }
   ],

@@ -8,4 +8,5 @@ Version **1.0.13** makes `https://anu3ev.com` the site's canonical address.
 
 **Code and docs.** `DEFAULT_SITE_ORIGIN`, `.env.example`, README and the operations guides use the new domain.
 
-Validation: `pnpm check` (content, ESLint, types, **51 unit tests**), `pnpm build`, **66 browser/axe checks** ([report](reports/browser.json)). The export has no `anu3ev-com.vercel.app` reference; canonical, Open Graph, the 28-URL sitemap, robots and both RSS feeds use `https://anu3ev.com`. Production checks of the redirects and metadata follow the deploy and are recorded below.
+Validation: `pnpm check` (content, ESLint, types, **51 unit tests**), `pnpm build`, **66 browser/axe checks** ([report](reports/browser.json)). The export has no `anu3ev-com.vercel.app` reference; canonical, Open Graph, the 28-URL sitemap, robots and both RSS feeds use `https://anu3ev.com`. 
+**Production (1.0.13, commit `b9d54e4`).** Home canonical, `og:url` and hreflang, all 28 sitemap URLs, both RSS feeds and robots use `https://anu3ev.com`; `www.anu3ev.com/work/` returns 308 to `https://anu3ev.com/work/`. The first `vercel.app` rule (`/:path*`) redirected `/version.json` but not `/` or trailing-slash pages, so **1.0.14** uses `/(.*)` → `https://anu3ev.com/$1`.
