@@ -17,9 +17,7 @@ const siteContent = useSiteContent()
     </p>
 
     <section class="focus-card" aria-labelledby="focus-title">
-      <p class="eyebrow">
-        {{ copy.currentFocus }}
-      </p>
+      <span class="eyebrow">{{ copy.currentFocus }}</span>
       <h2 id="focus-title">
         {{ siteContent.sidebar.focusTitle }}
       </h2>

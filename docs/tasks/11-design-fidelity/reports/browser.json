@@ -1,0 +1,14 @@
+{
+  "version": "1.0.7",
+  "command": "pnpm test:e2e",
+  "browser": "Chromium",
+  "workers": 1,
+  "stats": {
+    "startTime": "2026-10-20T10:50:13.769Z",
+    "duration": 67272.28700000001,
+    "expected": 55,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

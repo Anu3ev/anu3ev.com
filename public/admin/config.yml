@@ -146,6 +146,15 @@ collections:
                 fields:
                   - { name: title, label: Title, widget: string }
                   - { name: intro, label: Introduction, widget: text }
+                  - name: summary
+                    label: Introductory facts
+                    widget: list
+                    min: 1
+                    max: 4
+                    summary: '{{fields.value}} · {{fields.label}}'
+                    fields:
+                      - { name: value, label: Value, widget: string }
+                      - { name: label, label: Description, widget: string }
               - name: blog
                 label: Blog
                 widget: object

@@ -12,6 +12,9 @@ const careerJob = careerPeriod.safeExtend({
   description: paragraph
 })
 
+/** Short editorial facts belong to the portfolio introduction, rather than hardcoded page markup. */
+const portfolioFact = z.strictObject({ value: z.string().min(1).max(60), label: z.string().min(1).max(80) })
+
 const localizedPages = z.strictObject({
   home: z.strictObject({ seoTitle: heading, pinnedTitle: heading, pinnedBody: paragraph, tags }),
   about: z.strictObject({
@@ -19,7 +22,7 @@ const localizedPages = z.strictObject({
     experienceTitle: heading, experience: z.array(careerJob).max(20),
     principles: z.array(z.strictObject({ title: heading, description: paragraph })).min(1).max(6)
   }),
-  portfolio: z.strictObject({ title: heading, intro: paragraph }),
+  portfolio: z.strictObject({ title: heading, intro: paragraph, summary: z.array(portfolioFact).min(1).max(4) }),
   blog: z.strictObject({ title: heading, intro: paragraph }),
   contact: z.strictObject({ title: heading, intro: paragraph, note: paragraph, arrangements: tags }),
   sidebar: z.strictObject({ bio: paragraph, focusTitle: heading, focusDetails: paragraph, focusTags: tags }),

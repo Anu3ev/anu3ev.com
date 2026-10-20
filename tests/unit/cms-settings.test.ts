@@ -29,6 +29,11 @@ describe('CMS settings contract', () => {
       const experience = group.parse(about.fields.find(field => z.object({ name: z.string() }).parse(field).name === 'experience'))
       expect(experience.widget).toBe('list')
       expect(fieldNames.parse(experience.fields).map(field => field.name).sort()).toEqual(['company', 'description', 'end', 'role', 'start'])
+      const portfolio = group.parse(groups.find(section => section.name === 'portfolio'))
+      expect(fieldNames.parse(portfolio.fields).map(field => field.name).sort()).toEqual(Object.keys(pages[locale.name].portfolio).sort())
+      const summary = group.parse(portfolio.fields.find(field => z.object({ name: z.string() }).parse(field).name === 'summary'))
+      expect(summary.widget).toBe('list')
+      expect(fieldNames.parse(summary.fields).map(field => field.name).sort()).toEqual(['label', 'value'])
     }
   })
 })

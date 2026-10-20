@@ -9,31 +9,38 @@ usePageSeo({ title: () => copy.value.contact, description: () => siteContent.val
 
 <template>
   <div>
-    <header class="page-heading">
-      <p class="eyebrow">
-        {{ copy.contact }}
-      </p>
+    <header class="page-heading contact-page-heading">
+      <span class="eyebrow">{{ copy.contact }}</span>
       <p v-if="profile.available" class="availability">
         <span class="status-dot" />{{ copy.available }}
       </p>
-      <h1>{{ siteContent.contact.title }}</h1>
+      <h1>
+        {{ siteContent.contact.title.replace(/\.$/, '') }}<span v-if="siteContent.contact.title.endsWith('.')" class="accent-period">.</span>
+      </h1>
       <p>{{ siteContent.contact.intro }}</p>
+      <a :href="`mailto:${profile.email}`" class="button button-primary" :title="copy.emailMe">
+        {{ copy.emailMe }} <AppIcon name="arrow" />
+      </a>
     </header>
 
-    <section class="contact-email-section" aria-labelledby="email-title">
-      <p id="email-title" class="eyebrow">
-        {{ copy.emailMe }}
-      </p>
+    <section class="contact-email-section" :aria-label="copy.emailMe">
       <a
         :href="`mailto:${profile.email}`"
         class="email-card"
         :title="copy.emailMe"
-      ><span class="eyebrow">Email</span><strong>{{ profile.email }} <AppIcon name="arrow" /></strong><span>{{ siteContent.contact.note }}</span></a>
+      >
+        <span class="email-icon"><AppIcon name="mail" /></span>
+        <span class="email-copy">
+          <span class="eyebrow">Email</span>
+          <strong>{{ profile.email }} <AppIcon name="arrow" /></strong>
+          <span class="email-note">{{ siteContent.contact.note }}</span>
+        </span>
+      </a>
     </section>
 
     <div class="feed-heading">
       <h2>{{ copy.elsewhere }}</h2>
-      <span>{{ copy.contact }}</span>
+      <span>{{ copy.directLinks }}</span>
     </div>
     <nav class="contact-options" :aria-label="copy.elsewhere">
       <a

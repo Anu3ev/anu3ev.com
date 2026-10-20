@@ -92,9 +92,7 @@ usePageSeo({
     </div>
 
     <section class="pinned-note" aria-labelledby="pinned-note-title">
-      <p class="eyebrow">
-        ↳ {{ copy.pinnedNote }}
-      </p>
+      <span class="eyebrow">↳ {{ copy.pinnedNote }}</span>
       <h2 id="pinned-note-title">
         {{ siteContent.home.pinnedTitle }}
       </h2>

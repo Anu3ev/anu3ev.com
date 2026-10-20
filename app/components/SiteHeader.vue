@@ -3,7 +3,6 @@ import profile from '~~/content/settings/profile.json'
 
 const { copy, localePath, locale } = useLocale()
 const route = useRoute()
-const mobileMenu = useTemplateRef<HTMLDetailsElement>('mobile-menu')
 const links = computed(
   () =>
     [
@@ -13,19 +12,6 @@ const links = computed(
       { path: '/contact', label: copy.value.contact, icon: 'mail' }
     ] as const
 )
-
-watch(
-  () => route.fullPath,
-  () => {
-    mobileMenu.value?.removeAttribute('open')
-  }
-)
-
-/** Returns focus to the native disclosure trigger when a keyboard user dismisses the menu. */
-function closeMenu() {
-  mobileMenu.value?.removeAttribute('open')
-  mobileMenu.value?.querySelector('summary')?.focus()
-}
 </script>
 
 <template>
@@ -39,31 +25,18 @@ function closeMenu() {
         :title="copy.home"
         :aria-label="`a. · ${locale === 'ru' ? profile.name_ru : profile.name} · ${copy.home}`"
       >a<span>.</span></NuxtLink>
-
-      <details ref="mobile-menu" class="mobile-menu" @keydown.esc.prevent="closeMenu">
-        <summary :title="copy.menu" :aria-label="copy.menu">
-          <AppIcon name="menu" />
-        </summary>
-        <nav class="mobile-menu-panel" :aria-label="copy.navigation">
-          <NuxtLink
-            v-for="link in links"
-            :key="link.path"
-            :to="localePath(link.path)"
-            :title="link.label"
-          ><AppIcon :name="link.icon" /> {{ link.label }}</NuxtLink>
-        </nav>
-      </details>
     </div>
 
     <p class="nav-caption">
       {{ copy.personalSpace }}
     </p>
-    <nav class="desktop-nav" :aria-label="copy.navigation">
+    <nav class="primary-nav" :aria-label="copy.navigation">
       <NuxtLink
         v-for="link in links"
         :key="link.path"
         :to="localePath(link.path)"
         :title="link.label"
+        :class="{ 'nav-active': link.path !== '/' && route.path.startsWith(localePath(link.path)) }"
         active-class="nav-active"
         exact-active-class="nav-exact"
       ><AppIcon :name="link.icon" /><span>{{ link.label }}</span><i aria-hidden="true" /></NuxtLink>
