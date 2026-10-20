@@ -1,0 +1,9 @@
+{
+  "source_commit": "4c004ca6c846eebf3aceccb6367e8ee284efd273",
+  "tests": 47,
+  "passed": 46,
+  "failed": 1,
+  "skipped": 0,
+  "failure": "Fast search -> article -> back could precede the asynchronous query-string update; browser history then restored an empty query. Fixed by one URL owner and post-hydration direct-query initialization.",
+  "followup": "A direct filtered URL reload regression test was added; the next suite contains 48 tests."
+}
