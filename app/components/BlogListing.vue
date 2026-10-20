@@ -7,8 +7,19 @@ const props = defineProps<{ page: number }>()
 const route = useRoute()
 const { locale, copy, localePath } = useLocale()
 const { siteUrl } = useRuntimeConfig().public
-const search = ref(typeof route.query.q === 'string' ? route.query.q.slice(0, 200) : '')
-const category = ref(typeof route.query.topic === 'string' ? route.query.topic : '')
+// Static HTML is unfiltered. Apply a direct URL's query after hydration so v-model also updates the native input.
+const filtersReady = ref(false)
+onMounted(() => {
+  filtersReady.value = true
+})
+const search = computed<string>({
+  get: () => filtersReady.value && typeof route.query.q === 'string' ? route.query.q.slice(0, 200) : '',
+  set: value => updateFilters({ search: value.slice(0, 200), category: category.value })
+})
+const category = computed<string>({
+  get: () => filtersReady.value && typeof route.query.topic === 'string' ? route.query.topic : '',
+  set: value => updateFilters({ search: search.value, category: value })
+})
 const { data: posts } = await useAsyncData(
   () => `blog-${locale.value}`,
   () => getPostSummaries({ locale: locale.value })
@@ -39,15 +50,16 @@ const pagination = computed(() =>
   })
 )
 
-watch([search, category], () => {
-  navigateTo(
+/** The URL owns filter state, so a fast article navigation cannot leave browser history behind the rendered results. */
+function updateFilters({ search, category }: { search: string, category: string }) {
+  return navigateTo(
     {
-      path: localePath('/blog'),
-      query: { q: search.value || undefined, topic: category.value || undefined }
+      path: props.page === 1 ? route.path : localePath('/blog'),
+      query: { q: search || undefined, topic: category || undefined }
     },
     { replace: true }
   )
-})
+}
 
 usePageSeo({
   title: () =>

@@ -27,6 +27,7 @@ test('blog search, reading, back navigation and a cleared query stay consistent'
   const search = page.getByRole('searchbox', { name: 'Search articles' })
   await search.fill(article.metadata.title)
   await expect(page.locator('.post-card')).toHaveCount(1)
+  await expect(page).toHaveURL(url => url.searchParams.get('q') === article.metadata.title)
   await expect(search).toBeFocused()
   await page.getByRole('heading', { name: article.metadata.title, exact: true }).getByRole('link').click()
   await expect(page.locator('main h1')).toHaveText(article.metadata.title)
@@ -37,6 +38,25 @@ test('blog search, reading, back navigation and a cleared query stay consistent'
   await expect(page.getByRole('heading', { name: 'No articles found.', exact: true })).toBeVisible()
   await search.clear()
   await expect(page.locator('.post-card')).toHaveCount(Math.min(10, inventory.posts.filter(document => document.isPublic && document.metadata.locale === 'en').length))
+})
+
+test('a direct filtered blog URL restores its visible input and results after a reload', async ({ page }) => {
+  test.skip(!article, 'No article is currently published')
+  if (!article) return
+
+  const hydrationMessages: string[] = []
+  page.on('console', (message) => {
+    if (/hydration/i.test(message.text())) hydrationMessages.push(message.text())
+  })
+  await page.goto(`/blog?q=${encodeURIComponent(article.metadata.title)}`)
+  const search = page.getByRole('searchbox', { name: 'Search articles' })
+  await expect(search).toHaveValue(article.metadata.title)
+  await expect(page.locator('.post-card')).toHaveCount(1)
+  await page.reload()
+  await expect(search).toHaveValue(article.metadata.title)
+  await expect(page.locator('.post-card')).toHaveCount(1)
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, follow')
+  expect(hydrationMessages).toEqual([])
 })
 
 test('the mobile menu supports keyboard open, Escape, focus return and navigation', async ({ page }) => {
