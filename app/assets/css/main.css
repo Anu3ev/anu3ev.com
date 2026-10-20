@@ -218,8 +218,9 @@ p { line-height: inherit; }
 .post-card-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 22px; }
 .post-card-top .eyebrow { margin: 0; }
 .post-card-top time { color: var(--muted); font-size: 10px; }
-.post-image-link { display: block; background: var(--surface-raised); border: 1px solid var(--line); border-radius: 7px; overflow: hidden; margin-bottom: 22px; aspect-ratio: 3.6; }
-.post-image-link img { width: 100%; height: 100%; object-fit: cover; object-position: center 60%; }
+/* Previews show the same 1200×630 frame as the article cover, so the picture is never cropped differently on the card. */
+.post-image-link { display: block; background: var(--surface-raised); border-radius: 7px; overflow: hidden; margin-bottom: 22px; aspect-ratio: 1200 / 630; }
+.post-image-link img { width: 100%; height: 100%; object-fit: cover; }
 .post-card h2 { font-size: 25px; line-height: 1.35; font-weight: 550; letter-spacing: -.65px; }
 .post-card > p { color: var(--muted); font-size: 14px; line-height: 1.8; margin-top: 12px; }
 .post-card-bottom { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 22px; }
@@ -365,7 +366,6 @@ p { line-height: inherit; }
   .contact-callout p { font-size: 16px; }
   .post-card h2 { font-size: 25px; }
   .post-card > p { font-size: 16px; }
-  .post-image-link { aspect-ratio: 2.2; }
   .blog-results-heading { flex-wrap: wrap; }
   .post-card-top { gap: 10px; }
   .post-card-top time { font-size: 10px; }
