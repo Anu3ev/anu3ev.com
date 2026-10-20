@@ -142,3 +142,21 @@ test('the current page keeps its navigation highlight while the pointer is over 
   await expect(link).toHaveAttribute('aria-current', 'page')
   await expect(link).toHaveCSS('background-color', activeBackground)
 })
+
+for (const frame of frames) {
+  test(`${frame.name} article previews show the cover at the article page size`, async ({ page }) => {
+    await page.setViewportSize({ width: frame.width, height: frame.height })
+    await page.goto('/blog/')
+    const card = page.locator('.post-card').first()
+    const preview = await card.locator('.post-image-link img').boundingBox()
+    const href = await card.locator('h2 a').getAttribute('href')
+    if (!preview || !href) throw new Error('The first article card must show a cover and link to its article')
+
+    await page.goto(href)
+    const cover = await page.locator('.article-cover').boundingBox()
+    if (!cover) throw new Error('The article page must show its cover')
+
+    expect(Math.abs(preview.width - cover.width)).toBeLessThanOrEqual(1)
+    expect(Math.abs(preview.height - cover.height)).toBeLessThanOrEqual(1)
+  })
+}
