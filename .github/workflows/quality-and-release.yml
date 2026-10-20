@@ -92,6 +92,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          archive_name="anu3ev-portfolio-$RELEASE_TAG.tar.gz"
+          mv release/portfolio.tar.gz "release/$archive_name"
           existing_refs=$(gh api "repos/$GH_REPO/git/matching-refs/tags/$RELEASE_TAG" --jq '.[].ref')
           if printf '%s\n' "$existing_refs" | grep -Fxq "refs/tags/$RELEASE_TAG"; then
             existing_sha=$(gh api "repos/$GH_REPO/commits/$RELEASE_TAG" --jq '.sha')
@@ -100,10 +102,14 @@ jobs:
               exit 1
             fi
             if gh release view "$RELEASE_TAG" --json tagName >/dev/null 2>&1; then
-              echo "Release $RELEASE_TAG already exists for this commit."
+              archive_count=$(gh api "repos/$GH_REPO/releases/tags/$RELEASE_TAG" --jq ".assets | map(select(.name == \"$archive_name\" and .state == \"uploaded\" and .size > 0)) | length")
+              if [ "$archive_count" = 1 ]; then
+                echo "Release $RELEASE_TAG and its archive already exist for this commit."
+                exit 0
+              fi
+              gh release upload "$RELEASE_TAG" "release/$archive_name"
               exit 0
             fi
           fi
-          mv release/portfolio.tar.gz "release/anu3ev-portfolio-$RELEASE_TAG.tar.gz"
-          gh release create "$RELEASE_TAG" "release/anu3ev-portfolio-$RELEASE_TAG.tar.gz" \
+          gh release create "$RELEASE_TAG" "release/$archive_name" \
             --target "$GITHUB_SHA" --title "$RELEASE_TAG" --generate-notes

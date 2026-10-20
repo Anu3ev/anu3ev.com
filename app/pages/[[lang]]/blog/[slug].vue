@@ -5,7 +5,9 @@ import profile from '~~/content/settings/profile.json'
 
 const route = useRoute()
 const { locale, copy, localePath } = useLocale()
-const { siteUrl } = useRuntimeConfig().public
+const siteContent = useSiteContent()
+const authorName = computed(() => locale.value === 'ru' ? profile.name_ru : profile.name)
+const siteUrl = useSiteOrigin()
 const { data: post } = await useAsyncData(
   () => `post-${locale.value}-${route.params.slug}`,
   () =>
@@ -19,18 +21,19 @@ const { data: post } = await useAsyncData(
 
 if (!post.value) throw createError({ statusCode: 404, statusMessage: 'Article not found' })
 
-const dateLabel = computed(() =>
-  new Intl.DateTimeFormat(locale.value, {
+const dateLabel = computed(() => {
+  if (!post.value) return ''
+  return new Intl.DateTimeFormat(locale.value, {
     day: 'numeric',
     month: 'long',
     year: 'numeric',
     timeZone: 'UTC'
-  }).format(new Date(post.value?.date || '2026-10-20'))
-)
+  }).format(new Date(post.value.date))
+})
 
 usePageSeo({
   title: () => post.value?.title || copy.value.blog,
-  description: () => post.value?.description || copy.value.blogIntro,
+  description: () => post.value?.description || siteContent.value.blog.intro,
   type: 'article',
   image: () =>
     post.value
@@ -78,7 +81,7 @@ usePageSeo({
           {{ post.description }}
         </p>
         <div class="article-meta">
-          <span>{{ profile.name }}</span><time :datetime="post.date">{{ dateLabel }}</time><span>{{ post.readingMinutes }} {{ copy.minuteRead }}</span>
+          <span>{{ authorName }}</span><time :datetime="post.date">{{ dateLabel }}</time><span>{{ post.readingMinutes }} {{ copy.minuteRead }}</span>
         </div>
       </header>
 
@@ -100,16 +103,16 @@ usePageSeo({
         </ul>
         <div class="author-line">
           <img
-            src="/images/alexander.webp"
-            :alt="copy.portraitAlt"
+            :src="profile.photo"
+            :alt="authorName"
             width="48"
             height="48"
             loading="lazy"
           >
           <div>
-            <NuxtLink :to="localePath('/about')" :title="copy.about">{{ profile.name }}</NuxtLink>
+            <NuxtLink :to="localePath('/about')" :title="copy.about">{{ authorName }}</NuxtLink>
             <p class="text-muted">
-              {{ copy.role }} · Vue & TypeScript
+              {{ profile[`headline_${locale}`] }}
             </p>
           </div>
         </div>

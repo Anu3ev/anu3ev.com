@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { copy, localePath } = useLocale()
+const siteContent = useSiteContent()
 </script>
 
 <template>
@@ -9,10 +10,10 @@ const { copy, localePath } = useLocale()
         {{ copy.letsTalk }}
       </p>
       <h2 id="contact-callout-title">
-        {{ copy.ctaTitle }}
+        {{ siteContent.cta.title }}
       </h2>
       <p class="text-muted">
-        {{ copy.ctaBody }}
+        {{ siteContent.cta.body }}
       </p>
     </div>
 

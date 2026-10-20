@@ -42,4 +42,4 @@ The operation needs the identity and session of its target. Before applying a de
 
 For an important action, I want to verify the visible result, undo it, and redo it. Grouped objects, crop cancellation, and restored text styles deserve particular attention because they cross subsystem boundaries.
 
-The [open-source editor case](/work/image-editor) describes the shared lifecycle behind those paths. The point is a history that follows the user’s decisions, rather than exposing the event stream inside the canvas library.
+The [open-source editor case](/work/image-editor/) describes the shared lifecycle behind those paths. The point is a history that follows the user’s decisions, rather than exposing the event stream inside the canvas library.

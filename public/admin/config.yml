@@ -27,7 +27,7 @@ collections:
     i18n: true
     create: true
     slug: '{{fields.slug}}'
-    preview_path: /{{locale}}/blog/{{slug}}
+    preview_path: /{{locale}}/blog/{{slug}}/
     summary: '{{title}} · {{date}}'
     fields:
       - { name: locale, widget: hidden, default: '{{locale}}', i18n: true }
@@ -50,7 +50,7 @@ collections:
     i18n: true
     create: true
     slug: '{{fields.slug}}'
-    preview_path: /{{locale}}/work/{{slug}}
+    preview_path: /{{locale}}/work/{{slug}}/
     summary: '{{title}} · {{year}}'
     fields:
       - { name: locale, widget: hidden, default: '{{locale}}', i18n: true }
@@ -79,6 +79,8 @@ collections:
         file: content/settings/profile.json
         fields:
           - { name: name, label: Имя, widget: string }
+          - { name: name_ru, label: Имя — Русский, widget: string }
+          - { name: photo, label: Фото, widget: image, hint: WebP 600 × 600 px до 200 КБ. }
           - { name: email, label: Email, widget: string }
           - { name: github, label: GitHub URL, widget: string }
           - { name: linkedin, label: LinkedIn URL, widget: string }
@@ -89,3 +91,113 @@ collections:
           - { name: headline_ru, label: Роль — Русский, widget: string }
           - { name: bio_en, label: О себе — English, widget: text }
           - { name: bio_ru, label: О себе — Русский, widget: text }
+
+      - name: pages
+        label: Тексты страниц и опыт работы
+        file: content/settings/pages.json
+        fields:
+          - name: en
+            label: English
+            widget: object
+            collapsed: true
+            hint: Заголовки — 4–120 символов; тексты — 20–1600. Изменения сохраняются в GitHub и проходят проверку перед сборкой.
+            fields: &page_fields
+              - name: home
+                label: Главная
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: seoTitle, label: Заголовок для поиска, widget: string }
+                  - { name: pinnedTitle, label: Заголовок закреплённой заметки, widget: string }
+                  - { name: pinnedBody, label: Закреплённая заметка, widget: text }
+                  - { name: tags, label: Темы профиля, widget: list }
+              - name: about
+                label: Обо мне
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: intro, label: Вступление, widget: text }
+                  - { name: body, label: Основной текст, widget: text }
+                  - { name: story, label: Как я пришёл в разработку, widget: text }
+                  - { name: technologies, label: Инструменты, widget: list }
+                  - { name: experienceTitle, label: Заголовок опыта работы, widget: string }
+                  - name: experience
+                    label: Опыт работы
+                    widget: list
+                    summary: '{{fields.role}} · {{fields.company}}'
+                    fields:
+                      - { name: company, label: Компания, widget: string }
+                      - { name: role, label: Роль, widget: string }
+                      - { name: start, label: Начало, widget: string, pattern: ['^[0-9]{4}-(0[1-9]|1[0-2])$', 'Укажите год и месяц YYYY-MM'] }
+                      - { name: end, label: Окончание, widget: string, required: false, default: '', pattern: ['^([0-9]{4}-(0[1-9]|1[0-2]))?$', 'Укажите YYYY-MM или оставьте пустым'], hint: Пустое значение означает текущую работу. }
+                      - { name: description, label: Чем занимался, widget: text }
+                  - name: principles
+                    label: Мой подход
+                    widget: list
+                    summary: '{{fields.title}}'
+                    fields:
+                      - { name: title, label: Заголовок, widget: string }
+                      - { name: description, label: Описание, widget: text }
+              - name: portfolio
+                label: Портфолио
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: intro, label: Вступление, widget: text }
+              - name: blog
+                label: Блог
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: intro, label: Вступление, widget: text }
+              - name: contact
+                label: Контакты
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: intro, label: Вступление, widget: text }
+                  - { name: note, label: Подпись под почтой, widget: text }
+                  - { name: arrangements, label: Форматы работы, widget: list }
+              - name: sidebar
+                label: Правая колонка
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: bio, label: Короткое описание, widget: text }
+                  - { name: focusTitle, label: Заголовок текущего фокуса, widget: string }
+                  - { name: focusDetails, label: Текущий фокус, widget: text }
+                  - { name: focusTags, label: Технологии в фокусе, widget: list }
+              - name: collaboration
+                label: Совместная работа
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: body, label: Описание, widget: text }
+              - name: cta
+                label: Приглашение связаться
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: body, label: Описание, widget: text }
+              - name: privacy
+                label: Конфиденциальность
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: title, label: Заголовок, widget: string }
+                  - { name: updated, label: Дата обновления, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
+                  - { name: body, label: Хостинг и данные, widget: text }
+                  - { name: contact, label: Переписка, widget: text }
+                  - { name: storage, label: Хранение в браузере, widget: text }
+          - name: ru
+            label: Русский
+            widget: object
+            collapsed: true
+            hint: Заполните русскую версию тех же разделов. Даты работы задаются как YYYY-MM.
+            fields: *page_fields

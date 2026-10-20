@@ -44,4 +44,4 @@ The happy path is important, but it cannot prove the draft boundary. A useful sc
 
 The published image and its editable project should still agree. That observable behaviour is a better test than asserting that two helper methods were called.
 
-The [product image editor case](/work/product-image-editor) covers the larger workflow. This distinction is useful anywhere a nested tool prepares a change that a parent form commits later.
+The [product image editor case](/work/product-image-editor/) covers the larger workflow. This distinction is useful anywhere a nested tool prepares a change that a parent form commits later.

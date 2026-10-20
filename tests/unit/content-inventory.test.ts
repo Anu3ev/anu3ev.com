@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import matter from 'gray-matter'
 import { readContentInventory } from '../../scripts/lib/content'
+import { profileSchema } from '../../shared/content-schema'
 
 /** Each spec owns one temporary repository; every scenario starts with fresh files. */
 const root = mkdtempSync(join(tmpdir(), 'anu3ev-content-'))
@@ -14,6 +15,8 @@ beforeEach(() => {
   mkdirSync(join(root, 'content/settings'), { recursive: true })
   mkdirSync(join(root, 'public/images'), { recursive: true })
   copyFileSync('content/settings/profile.json', join(root, 'content/settings/profile.json'))
+  copyFileSync('content/settings/pages.json', join(root, 'content/settings/pages.json'))
+  copyFileSync('public/images/alexander.webp', join(root, 'public/images/alexander.webp'))
   copyFileSync('public/images/vue-lifecycle.svg', join(root, 'public/images/cover.svg'))
 })
 
@@ -30,6 +33,35 @@ function writePost({ locale = 'en', published = false, date = '2026-10-20', cove
 }
 
 describe('public content inventory', () => {
+  it('accepts unquoted YAML 1.2 date strings, UTF-8 BOM and Windows line endings', () => {
+    writePost()
+    const path = join(root, 'content/en/posts/working-note.md')
+    const source = readFileSync(path, 'utf8').replace(/^date:.*$/m, 'date: 2026-10-20')
+    writeFileSync(path, `\uFEFF${source.replace(/\n/g, '\r\n')}`)
+    expect(readContentInventory({ root, now }).posts[0]?.metadata.date).toBe('2026-10-20')
+  })
+
+  it('rejects executable frontmatter before selecting a parser engine', () => {
+    writePost()
+    const path = join(root, 'content/en/posts/working-note.md')
+    writeFileSync(path, '---javascript\n(() => { throw new Error("Executable frontmatter ran") })()\n---\nA body that must never reach an executable parser.')
+    expect(() => readContentInventory({ root, now })).toThrow('only ordinary YAML frontmatter')
+  })
+
+  it('validates the profile photo at the same public-image boundary as case covers', () => {
+    const path = join(root, 'content/settings/profile.json')
+    const profile = profileSchema.parse(JSON.parse(readFileSync(path, 'utf8')))
+    writeFileSync(path, JSON.stringify({ ...profile, photo: '/images/../private.svg' }))
+    expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+    writeFileSync(path, JSON.stringify({ ...profile, photo: '/images/missing.webp' }))
+    expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+  })
+
+  it('rejects incomplete static-page settings before publishing', () => {
+    writeFileSync(join(root, 'content/settings/pages.json'), JSON.stringify({ en: {} }))
+    expect(() => readContentInventory({ root, now })).toThrow()
+  })
+
   it('loads paired project cases through their distinct metadata contract', () => {
     for (const locale of ['en', 'ru']) {
       const directory = join(root, 'content', locale, 'projects')

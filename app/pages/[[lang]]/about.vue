@@ -1,29 +1,15 @@
 <script setup lang="ts">
-const { copy } = useLocale()
-/** Verified tools from the project notes, kept as a compact supporting list. */
-const technologies = [
-  'Vue 3',
-  'Nuxt',
-  'TypeScript',
-  'JavaScript',
-  'Pinia',
-  'FabricJS',
-  'Monaco',
-  'TinyMCE',
-  'Tailwind CSS',
-  'Vuetify',
-  'Vite',
-  'Playwright',
-  'Jest',
-  'REST API'
-]
-const principles = computed(() => [
-  { title: copy.value.approachOne, description: copy.value.approachOneBody },
-  { title: copy.value.approachTwo, description: copy.value.approachTwoBody },
-  { title: copy.value.approachThree, description: copy.value.approachThreeBody }
-])
+import profile from '~~/content/settings/profile.json'
+import { formatExperiencePeriod } from '~~/shared/page-content'
 
-usePageSeo({ title: () => copy.value.about, description: () => copy.value.aboutBody })
+const { copy, locale } = useLocale()
+const siteContent = useSiteContent()
+const experience = computed(() => siteContent.value.about.experience.map(job => ({
+  ...job,
+  period: formatExperiencePeriod({ start: job.start, end: job.end, presentLabel: copy.value.present })
+})))
+
+usePageSeo({ title: () => copy.value.about, description: () => siteContent.value.about.body })
 </script>
 
 <template>
@@ -33,16 +19,16 @@ usePageSeo({ title: () => copy.value.about, description: () => copy.value.aboutB
         <p class="eyebrow">
           {{ copy.about }}
         </p>
-        <h1>{{ copy.aboutTitle }}</h1>
-        <p>{{ copy.aboutIntro }}</p>
+        <h1>{{ siteContent.about.title }}</h1>
+        <p>{{ siteContent.about.intro }}</p>
       </header>
 
       <div class="about-grid">
         <figure>
           <img
             class="about-photo"
-            src="/images/alexander.webp"
-            :alt="copy.portraitAlt"
+            :src="profile.photo"
+            :alt="locale === 'ru' ? profile.name_ru : profile.name"
             width="600"
             height="600"
             fetchpriority="high"
@@ -50,16 +36,16 @@ usePageSeo({ title: () => copy.value.about, description: () => copy.value.aboutB
         </figure>
         <div>
           <p class="large-copy">
-            {{ copy.aboutBody }}
+            {{ siteContent.about.body }}
           </p>
           <p class="text-muted">
-            {{ copy.aboutStory }}
+            {{ siteContent.about.story }}
           </p>
           <h2 class="mt-8 text-2xl">
             {{ copy.toolkit }}
           </h2>
           <ul class="tags">
-            <li v-for="technology in technologies" :key="technology">
+            <li v-for="technology in siteContent.about.technologies" :key="technology">
               {{ technology }}
             </li>
           </ul>
@@ -71,21 +57,14 @@ usePageSeo({ title: () => copy.value.about, description: () => copy.value.aboutB
           {{ copy.experience }}
         </p>
         <h2 id="experience-title">
-          inSales
+          {{ siteContent.about.experienceTitle }}
         </h2>
         <div class="timeline">
-          <article class="timeline-item">
-            <time datetime="2021-10">10.2021 — 09.2026</time>
+          <article v-for="job in experience" :key="`${job.company}:${job.start}:${job.role}`" class="timeline-item">
+            <time :datetime="job.start">{{ job.period }}</time>
             <div>
-              <h3>{{ copy.frontendJob }}</h3>
-              <p>{{ copy.frontendDescription }}</p>
-            </div>
-          </article>
-          <article class="timeline-item">
-            <time datetime="2019-10">10.2019 — 10.2021</time>
-            <div>
-              <h3>{{ copy.supportJob }}</h3>
-              <p>{{ copy.supportDescription }}</p>
+              <h3>{{ job.role }} · {{ job.company }}</h3>
+              <p>{{ job.description }}</p>
             </div>
           </article>
         </div>
@@ -100,7 +79,7 @@ usePageSeo({ title: () => copy.value.about, description: () => copy.value.aboutB
         </h2>
         <div class="approach-grid">
           <article
-            v-for="(principle, index) in principles"
+            v-for="(principle, index) in siteContent.about.principles"
             :key="principle.title"
             class="approach-card"
           >

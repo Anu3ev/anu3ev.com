@@ -1,5 +1,6 @@
 import { createPageLinks } from '~/utils/seo'
 import { createPageSchemas, serializeJsonLd, type SeoAncestor } from '~~/shared/seo'
+import profile from '~~/content/settings/profile.json'
 
 /** Reactive metadata follows the current route when Nuxt reuses a page component. */
 interface PageSeo {
@@ -17,10 +18,11 @@ interface PageSeo {
 export function usePageSeo(options: PageSeo) {
   const route = useRoute()
   const { locale, copy, localePath } = useLocale()
-  const { siteUrl } = useRuntimeConfig().public
-  const origin = siteUrl.replace(/\/$/, '')
-  const pageLinks = computed(() => createPageLinks({ origin, path: route.path, locale: locale.value }))
-  const title = computed(() => `${toValue(options.title)} · Alexander Anufriev`)
+  const siteContent = useSiteContent()
+  const origin = useSiteOrigin()
+  const ownerName = computed(() => locale.value === 'ru' ? profile.name_ru : profile.name)
+  const pageLinks = computed(() => createPageLinks({ origin, path: route.path, locale: locale.value, feedTitle: `${ownerName.value} — ${siteContent.value.blog.title}` }))
+  const title = computed(() => `${toValue(options.title)} · ${ownerName.value}`)
   const image = computed(() => new URL(toValue(options.image) || '/images/og-default.png', origin).href)
   const graphs = computed(() => createPageSchemas({
     home: { name: copy.value.home, url: `${origin}${localePath('/')}` },
@@ -41,7 +43,7 @@ export function usePageSeo(options: PageSeo) {
     ogImageHeight: 630,
     ogImageAlt: () => toValue(options.title),
     ogLocale: () => locale.value === 'ru' ? 'ru_RU' : 'en_US',
-    ogSiteName: 'Alexander Anufriev',
+    ogSiteName: () => ownerName.value,
     twitterCard: 'summary_large_image',
     twitterTitle: () => title.value,
     twitterDescription: () => toValue(options.description),

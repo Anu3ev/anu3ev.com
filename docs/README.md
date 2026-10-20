@@ -12,6 +12,7 @@
 - [SEO, accessibility и performance](tasks/04-quality-and-seo/summary.md)
 - [CI, релизы и публичная публикация](tasks/05-release-and-deploy/summary.md)
 - [Как публиковать релиз и подключить домен](operations/deployment.md)
+- [Редактируемые страницы и карьера](tasks/06-editable-pages/summary.md)
 
 У каждой задачи — отдельная папка в `docs/tasks/`, описание результата и `summary.md`. Статус означает реально выполненную работу. Необходимые операционные инструкции появятся в `docs/operations/`.
 

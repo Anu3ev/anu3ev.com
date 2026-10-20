@@ -5,7 +5,7 @@
   "buildCommand": "pnpm check && pnpm build",
   "outputDirectory": ".output/public",
   "cleanUrls": true,
-  "trailingSlash": false,
+  "trailingSlash": true,
   "headers": [
     {
       "source": "/(.*)",

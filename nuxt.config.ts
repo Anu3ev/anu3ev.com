@@ -3,6 +3,7 @@ import { readFileSync } from 'node:fs'
 import { readContentInventory } from './scripts/lib/content'
 import { createPublicPaths } from './scripts/lib/routes'
 import { getSiteOrigin } from './shared/site'
+import { getPublicationDate } from './shared/publication'
 
 /** Public origin is a build-time setting so static metadata always matches the live host. */
 const siteUrl = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)
@@ -26,7 +27,7 @@ export default defineNuxtConfig({
   },
   css: ['~/assets/css/main.css'],
   content: { build: { markdown: { highlight: false } } },
-  runtimeConfig: { public: { siteUrl } },
+  runtimeConfig: { public: { siteUrl, buildYear: getPublicationDate().slice(0, 4) } },
   experimental: { defaults: { nuxtLink: { prefetchOn: { interaction: true, visibility: false } } } },
   compatibilityDate: '2026-10-01',
   nitro: {

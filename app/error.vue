@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
+import profile from '~~/content/settings/profile.json'
 
 const { error } = defineProps<{ error: NuxtError }>()
 const { copy, localePath, locale } = useLocale()
-useSeoMeta({ title: '404 · Alexander Anufriev', robots: 'noindex, follow' })
+useSeoMeta({ title: () => `${error.statusCode} · ${locale.value === 'ru' ? profile.name_ru : profile.name}`, robots: 'noindex, follow' })
 useHead(() => ({ htmlAttrs: { lang: locale.value } }))
 </script>
 

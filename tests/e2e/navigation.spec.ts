@@ -1,5 +1,6 @@
 import { expect, test } from '@playwright/test'
 import { readContentInventory } from '../../scripts/lib/content'
+import pages from '../../content/settings/pages.json' with { type: 'json' }
 
 const inventory = readContentInventory()
 const project = inventory.projects.find(document => document.isPublic && document.metadata.locale === 'en')
@@ -70,7 +71,7 @@ test('the mobile menu supports keyboard open, Escape, focus return and navigatio
   await expect(menu).toBeFocused()
   await menu.press('Enter')
   await page.locator('.mobile-menu-panel').getByRole('link', { name: 'Blog', exact: true }).click()
-  await expect(page.locator('main h1')).toHaveText('Thinking out loud.')
+  await expect(page.locator('main h1')).toHaveText(pages.en.blog.title)
   await expect(page.locator('.mobile-menu')).not.toHaveAttribute('open')
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
 })

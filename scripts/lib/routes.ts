@@ -1,4 +1,5 @@
 import { BLOG_PAGE_SIZE } from '../../shared/blog'
+import { canonicalPagePath } from '../../shared/seo'
 
 /** Only the routing fields are needed from a validated content document. */
 interface RoutableDocument {
@@ -23,5 +24,5 @@ export function createPublicPaths({ projects, posts }: { projects: readonly Rout
     paths.push(...Array.from({ length: additionalPages }, (_, index) => `${prefix}/blog/page/${index + 2}`))
   }
 
-  return paths.sort()
+  return paths.map(canonicalPagePath).sort()
 }

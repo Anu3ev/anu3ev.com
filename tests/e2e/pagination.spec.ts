@@ -1,17 +1,22 @@
 import { expect, test } from '@playwright/test'
 
-test('real generated pagination keeps 10 articles on page one and supports a direct second-page reload', async ({ page, request }) => {
+test('real generated pagination keeps 10 articles and preserves search through a direct second-page reload', async ({ page, request }) => {
   await page.goto('http://127.0.0.1:4174/blog')
   await expect(page.locator('.post-card')).toHaveCount(10)
   const firstPage = await page.locator('.post-card h2 a').evaluateAll(links => links.map(link => link.getAttribute('href')))
+  const search = page.getByRole('searchbox', { name: 'Search articles' })
+  await search.fill('Pagination fixture')
+  await expect(page).toHaveURL(url => url.searchParams.get('q') === 'Pagination fixture')
   await page.getByRole('navigation', { name: 'Blog pagination' }).getByRole('link', { name: 'Page 2', exact: true }).click()
-  await expect(page).toHaveURL(/\/blog\/page\/2\/?$/)
+  await expect(page).toHaveURL(url => /\/blog\/page\/2\/?$/.test(url.pathname) && url.searchParams.get('q') === 'Pagination fixture')
   await expect(page.locator('.post-card')).toHaveCount(2)
   const secondPage = await page.locator('.post-card h2 a').evaluateAll(links => links.map(link => link.getAttribute('href')))
   expect(firstPage.some(path => secondPage.includes(path))).toBe(false)
   await page.reload()
+  await expect(search).toHaveValue('Pagination fixture')
   await expect(page.locator('.post-card')).toHaveCount(2)
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://pagination.example.test/blog/page/2')
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://pagination.example.test/blog/page/2/')
+  expect(await page.locator('script[type="application/ld+json"]').textContent()).not.toContain('https://pagination.example.test//')
   await page.getByRole('link', { name: 'RU', exact: true }).click()
   await expect(page).toHaveURL(/\/ru\/blog\/page\/2\/?$/)
   await expect(page.locator('.post-card')).toHaveCount(2)

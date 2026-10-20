@@ -6,7 +6,8 @@ import { BLOG_PAGE_SIZE } from '~~/shared/blog'
 const props = defineProps<{ page: number }>()
 const route = useRoute()
 const { locale, copy, localePath } = useLocale()
-const { siteUrl } = useRuntimeConfig().public
+const siteContent = useSiteContent()
+const siteUrl = useSiteOrigin()
 // Static HTML is unfiltered. Apply a direct URL's query after hydration so v-model also updates the native input.
 const filtersReady = ref(false)
 onMounted(() => {
@@ -64,7 +65,7 @@ function updateFilters({ search, category }: { search: string, category: string 
 usePageSeo({
   title: () =>
     props.page > 1 ? `${copy.value.blog} · ${copy.value.page} ${props.page}` : copy.value.blog,
-  description: () => copy.value.blogIntro,
+  description: () => siteContent.value.blog.intro,
   parent: () =>
     props.page > 1 ? { name: copy.value.blog, url: `${siteUrl}${localePath('/blog')}` } : undefined,
   noindex: () => Boolean(search.value || category.value)
@@ -77,8 +78,8 @@ usePageSeo({
       <p class="eyebrow">
         {{ copy.recentWriting }}
       </p>
-      <h1>{{ copy.blogTitle }}</h1>
-      <p>{{ copy.blogIntro }}</p>
+      <h1>{{ siteContent.blog.title }}</h1>
+      <p>{{ siteContent.blog.intro }}</p>
     </header>
 
     <div class="blog-toolbar">
@@ -116,7 +117,7 @@ usePageSeo({
     </div>
 
     <p class="blog-results-count" role="status">
-      {{ pagination.total }} {{ copy.articlesCount }}
+      {{ copy.articlesCount }}: {{ pagination.total }}
     </p>
 
     <div class="post-grid blog-grid">

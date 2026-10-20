@@ -2,7 +2,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writ
 import { execFileSync, spawn } from 'node:child_process'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
-import matter from 'gray-matter'
+import { stringify as stringifyYaml } from 'yaml'
 
 /** Only application inputs are copied; Git, secrets, browser profiles and the user's working tree stay outside the fixture. */
 function prepareFixture(root: string) {
@@ -28,12 +28,13 @@ function writeFixtureArticles(root: string) {
     for (let index = 1; index <= 12; index += 1) {
       const slug = `pagination-check-${String(index).padStart(2, '0')}`
       const body = `## Pagination fixture\n\n${'A temporary article used only to verify generated pagination. '.repeat(8)}`
-      const document = matter.stringify(body, {
+      const metadata = {
         title: `Pagination fixture ${index}`, description: 'Temporary content for an isolated static generation test; this is never deployed.',
         locale, slug, published: true, date: `2026-10-${String(index).padStart(2, '0')}`,
         cover: '/images/vue-lifecycle.svg', coverAlt: 'Diagram used by an isolated pagination test',
         category: 'Fixture', readingMinutes: 1, tags: ['Pagination']
-      })
+      }
+      const document = `---\n${stringifyYaml(metadata)}---\n\n${body}`
       writeFileSync(join(directory, `${slug}.md`), document)
     }
   }
@@ -44,7 +45,7 @@ const root = mkdtempSync(join(tmpdir(), 'anu3ev-pagination-'))
 
 try {
   prepareFixture(root)
-  execFileSync('pnpm', ['build'], { cwd: root, stdio: 'inherit', env: { ...process.env, NUXT_PUBLIC_SITE_URL: 'https://pagination.example.test' } })
+  execFileSync('pnpm', ['build'], { cwd: root, stdio: 'inherit', env: { ...process.env, NUXT_PUBLIC_SITE_URL: 'https://pagination.example.test/' } })
   const server = spawn(process.execPath, [join(process.cwd(), 'node_modules/http-server/bin/http-server'), join(root, '.output/public'), '--port', '4174', '--address', '127.0.0.1', '-c-1'], { stdio: 'inherit' })
 
   server.once('exit', (code) => {

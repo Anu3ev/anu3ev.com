@@ -26,6 +26,8 @@
 
 Git integration затем публикует каждый push `master`, включая CMS edits; релизная версия и deploy относятся к одному commit. Проверки Vercel build включают content/lint/types/unit. Browser/axe выполняются в GitHub; перед merge нужно дождаться их завершения. Этот порядок не заявляется как уже активный.
 
+Страницы используют directory URL с `/` в конце; `vercel.json` задаёт `trailingSlash: true`. Sitemap/canonical должны отвечать 200 **без redirect**. При смене провайдера обновите соответствующие тексты Privacy через CMS. `useSiteOrigin()` нормализует runtime env override, а `canonicalPagePath()` задаёт общую политику пути.
+
 ## Sites: воспроизводимая резервная публикация
 
 Identity хранится в `.openai/hosting.json`; новый Site повторно не создаётся. Нужны инструменты Sites и короткоживущий source credential для этого ID. Сначала выполняются `pnpm check`, `pnpm build`, browser checks; исходники коммитятся и пушатся в GitHub. Та же ревизия отправляется на source remote Sites, её remote HEAD сверяется. Штатный `package-site.mjs` создаёт архив `.output/public` + manifest, `save_site_version` сохраняет его с точным commit SHA, `deploy_site_version` публикует сохранённую версию.

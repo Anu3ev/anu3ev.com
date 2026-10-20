@@ -5,6 +5,7 @@ const slugSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).refine(slug =>
 
 /** External project links must remain ordinary HTTPS navigation destinations. */
 const optionalLink = z.union([z.string().url().regex(/^https:\/\//), z.literal('')]).optional()
+const publicImage = z.string().regex(/^\/images\/[^?#]+\.(?:webp|png|jpe?g|svg)$/i)
 
 /** Shared content boundary for both Nuxt's collections and the command-line publishing checks. */
 const editorialSchema = z.object({
@@ -13,7 +14,7 @@ const editorialSchema = z.object({
   locale: z.enum(['en', 'ru']),
   slug: slugSchema,
   published: z.boolean().default(false),
-  cover: z.string().regex(/^\/images\/[^?#]+\.(?:webp|png|jpe?g|svg)$/i),
+  cover: publicImage,
   coverAlt: z.string().min(8).max(220),
   category: z.string().min(2).max(60)
 })
@@ -39,6 +40,8 @@ export const postSchema = editorialSchema.extend({
 /** Public profile fields edited through the CMS; no credentials belong in this document. */
 export const profileSchema = z.object({
   name: z.string().min(3),
+  name_ru: z.string().min(3),
+  photo: publicImage,
   email: z.string().email(),
   github: z.string().url().regex(/^https:\/\//),
   linkedin: z.string().url().regex(/^https:\/\//),
