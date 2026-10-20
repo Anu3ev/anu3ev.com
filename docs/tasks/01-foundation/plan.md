@@ -25,5 +25,6 @@ Each task follows requirements → implementation → checks → self-review →
 | 19-ui-copy-review | Russian interface copy rewritten phrase by phrase with the anti-cringe checklist | Complete |
 | 20-profile-photo | Real photo instead of the text avatar, editable avatar field | Complete; 69 browser checks passed |
 | 21-brand-logo | "3." mark and anu3ev.com wordmark, favicon, app icons and default social card | Complete; 69 browser checks passed |
+| 22-home-positioning | Home headline, bio, proof points and tags from the ABCD plan and verified CV metrics | Complete; 69 browser checks passed |
 
 The former plans, HTML prototype and remaining old inventory were removed at the user's request. Useful images were retained as source material; facts were checked against current Obsidian notes. All new requests remain in order, with domain connection explicitly reserved for the final stage.

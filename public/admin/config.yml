@@ -87,6 +87,7 @@ collections:
           - { name: linkedin, label: LinkedIn URL, widget: string }
           - { name: telegram, label: Telegram URL, widget: string }
           - { name: location, label: Location, widget: string }
+          - { name: location_ru, label: Location — Russian, widget: string }
           - { name: available, label: Available for opportunities, widget: boolean }
           - { name: headline_en, label: Headline — English, widget: string }
           - { name: headline_ru, label: Headline — Russian, widget: string }
@@ -112,6 +113,15 @@ collections:
                   - { name: pinnedTitle, label: Pinned note title, widget: string }
                   - { name: pinnedBody, label: Pinned note, widget: text }
                   - { name: tags, label: Profile topics, widget: list }
+                  - name: highlights
+                    label: Proof points
+                    widget: list
+                    min: 1
+                    max: 4
+                    summary: '{{fields.value}} · {{fields.label}}'
+                    fields:
+                      - { name: value, label: Value, widget: string }
+                      - { name: label, label: Description, widget: string }
               - name: about
                 label: About
                 widget: object
