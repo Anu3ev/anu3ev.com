@@ -17,6 +17,7 @@ beforeEach(() => {
   copyFileSync('content/settings/profile.json', join(root, 'content/settings/profile.json'))
   copyFileSync('content/settings/pages.json', join(root, 'content/settings/pages.json'))
   copyFileSync('public/images/alexander.webp', join(root, 'public/images/alexander.webp'))
+  copyFileSync('public/images/alexander-avatar.webp', join(root, 'public/images/alexander-avatar.webp'))
   copyFileSync('public/images/vue-lifecycle.svg', join(root, 'public/images/cover.svg'))
 })
 
@@ -48,12 +49,14 @@ describe('public content inventory', () => {
     expect(() => readContentInventory({ root, now })).toThrow('only ordinary YAML frontmatter')
   })
 
-  it('validates the profile photo at the same public-image boundary as case covers', () => {
+  it('validates the profile photo and avatar at the same public-image boundary as case covers', () => {
     const path = join(root, 'content/settings/profile.json')
     const profile = profileSchema.parse(JSON.parse(readFileSync(path, 'utf8')))
     writeFileSync(path, JSON.stringify({ ...profile, photo: '/images/../private.svg' }))
     expect(() => readContentInventory({ root, now })).toThrow('existing public image')
     writeFileSync(path, JSON.stringify({ ...profile, photo: '/images/missing.webp' }))
+    expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+    writeFileSync(path, JSON.stringify({ ...profile, avatar: '/images/missing-avatar.webp' }))
     expect(() => readContentInventory({ root, now })).toThrow('existing public image')
   })
 

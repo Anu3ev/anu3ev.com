@@ -11,5 +11,6 @@
   "bio_en": "I build thoughtful interfaces for complex products.\nVue.js, TypeScript, and five years of turning the details into a better experience.",
   "bio_ru": "Создаю продуманные интерфейсы для сложных продуктов.\nVue.js, TypeScript и пять лет работы с деталями, из которых складывается удобство.",
   "name_ru": "Александр Ануфриев",
-  "photo": "/images/alexander.webp"
+  "photo": "/images/alexander.webp",
+  "avatar": "/images/alexander-avatar.webp"
 }

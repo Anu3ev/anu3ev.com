@@ -147,6 +147,9 @@ p { line-height: inherit; }
 .profile-actions { display: flex; align-items: center; justify-content: space-between; position: relative; margin-top: -34px; margin-bottom: 18px; }
 .profile-avatar { position: relative; display: flex; justify-content: center; align-items: center; width: 86px; height: 86px; border: 6px solid var(--canvas); border-radius: 24px; background: var(--cover-light); color: #202c45; font-size: 32px; font-weight: 600; letter-spacing: -4px; }
 .profile-avatar i { position: absolute; width: 12px; height: 12px; border: 4px solid var(--canvas); background: var(--accent); border-radius: 50%; bottom: -1px; right: -1px; }
+/* Photo avatars fill their frame; the home avatar rounds the image inside its 6px ring so the status dot stays unclipped. */
+.small-avatar img, .tiny-avatar img, .profile-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+.profile-avatar img { border-radius: 18px; }
 /* The avatar overlaps the cover; the button keeps a clear gap below the cover's edge. */
 .profile-actions .button { margin-top: 48px; gap: 12px; border-radius: 7px; background: var(--canvas); }
 .profile-body h1 { font-size: 32px; line-height: 1.2; letter-spacing: -1.3px; font-weight: 600; }
@@ -337,6 +340,7 @@ p { line-height: inherit; }
   .profile-description { white-space: normal; font-size: 16px; }
   .profile-location { font-size: 11px; gap: 13px; }
   .profile-avatar { width: 78px; height: 78px; border-radius: 22px; }
+  .profile-avatar img { border-radius: 16px; }
   .profile-actions { margin-bottom: 16px; }
   .tags li { font-size: 10px; }
   .container { padding-inline: 20px; }

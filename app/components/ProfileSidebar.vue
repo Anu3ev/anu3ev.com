@@ -11,7 +11,14 @@ const siteContent = useSiteContent()
       :to="localePath('/about')"
       class="profile-mini"
       :title="copy.about"
-    ><span class="small-avatar" aria-hidden="true">aa</span><strong>{{ locale === 'ru' ? profile.name_ru : profile.name }}</strong><span>{{ profile[`headline_${locale}`] }}</span></NuxtLink>
+    ><span class="small-avatar" aria-hidden="true"><img
+      :src="profile.avatar"
+      alt=""
+      width="44"
+      height="44"
+      loading="lazy"
+      decoding="async"
+    ></span><strong>{{ locale === 'ru' ? profile.name_ru : profile.name }}</strong><span>{{ profile[`headline_${locale}`] }}</span></NuxtLink>
     <p class="sidebar-bio">
       {{ siteContent.sidebar.bio }}
     </p>

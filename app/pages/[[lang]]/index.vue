@@ -33,6 +33,7 @@ usePageSeo({
       'alternateName': profile.name_ru,
       'url': siteUrl,
       'jobTitle': profile.headline_en,
+      'image': `${siteUrl}${profile.photo}`,
       'sameAs': [profile.github, profile.linkedin, profile.telegram]
     },
     {
@@ -59,7 +60,14 @@ usePageSeo({
 
       <div class="profile-body">
         <div class="profile-actions">
-          <span class="profile-avatar" aria-hidden="true">aa<i /></span><NuxtLink
+          <span class="profile-avatar" aria-hidden="true"><img
+            :src="profile.avatar"
+            alt=""
+            width="86"
+            height="86"
+            loading="eager"
+            decoding="async"
+          ><i /></span><NuxtLink
             :to="localePath('/contact')"
             class="button button-secondary"
             :title="copy.letsTalk"
