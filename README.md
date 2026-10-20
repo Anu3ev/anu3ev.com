@@ -2,9 +2,9 @@
 
 Портфолио Александра Ануфриева на Nuxt 4, Vue 3, TypeScript, Tailwind CSS и Nuxt Content. Сайт собирается в статический HTML; серверная база данных для хостинга не нужна.
 
-Публичный сайт: **https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site**. [Админка](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/admin/). Сейчас это опубликованный Sites snapshot; автоматическая GitHub → hosting integration ожидает рабочих прав Vercel. [Точный статус и публикация](docs/operations/deployment.md).
+Production: **https://anu3ev-com.vercel.app/**. [Content administration](https://anu3ev-com.vercel.app/admin/). Vercel Hobby is connected to this GitHub repository. Pushes to `master` build and deploy automatically, including CMS content updates. [Deployment guide](docs/operations/deployment.md).
 
-Опубликован [v1.0.1](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.1) — точная CI-сборка. Проверено: 43 unit tests и 49 production browser/axe tests. [Результаты, screenshots и границы проверки](docs/tasks/07-launch-audit/summary.md).
+Versioned releases run through GitHub Actions after content, lint, types, 43 unit tests and 49 browser/axe checks. [GitHub deployment and verification](docs/tasks/08-github-deployment/summary.md). The [initial launch audit](docs/tasks/07-launch-audit/summary.md) records the earlier 1.0.1 Sites snapshot.
 
 Требуется Node **24.15+ LTS** и pnpm **10.33.2**. Версии зафиксированы в `.node-version` и `package.json`.
 

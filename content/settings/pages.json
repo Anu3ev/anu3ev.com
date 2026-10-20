@@ -103,7 +103,7 @@
     "privacy": {
       "title": "A little privacy, by design.",
       "updated": "2026-10-20",
-      "body": "This site does not use advertising cookies, tracking analytics, or a contact form. Public pages and assets are delivered by ChatGPT Sites through Cloudflare. The hosting provider may process technical request data, including IP addresses and access logs, to serve and protect the site.",
+      "body": "This site does not use advertising cookies, tracking analytics, or a contact form. Public pages and assets are delivered by Vercel. The hosting provider may process technical request data, including IP addresses and access logs, to serve and protect the site.",
       "contact": "When you contact me by email, Telegram, or LinkedIn, the service you choose processes that conversation under its own privacy policy. I use your message to respond to your enquiry. You can ask me to delete the correspondence by email.",
       "storage": "The application saves your colour-theme preference in your browser. The hosting provider may also use technical cookies for bot protection. The administration area is intended for the site owner; Sveltia CMS stores its GitHub access token in that browser’s local storage until sign-out. Do not sign in from a shared device."
     }
@@ -212,7 +212,7 @@
     "privacy": {
       "title": "Немного приватности по умолчанию.",
       "updated": "2026-10-20",
-      "body": "На сайте нет рекламных cookies, отслеживающей аналитики и формы обратной связи. Публичные страницы и изображения доставляются ChatGPT Sites через Cloudflare. Хостинг может обрабатывать технические данные запросов, включая IP-адреса и журналы доступа, для работы и защиты сайта.",
+      "body": "На сайте нет рекламных cookies, отслеживающей аналитики и формы обратной связи. Публичные страницы и изображения доставляются Vercel. Хостинг может обрабатывать технические данные запросов, включая IP-адреса и журналы доступа, для работы и защиты сайта.",
       "contact": "Если вы пишете мне по почте, в Telegram или LinkedIn, выбранный сервис обрабатывает переписку по своей политике конфиденциальности. Я использую сообщение, чтобы ответить на ваше обращение. Удалить переписку можно попросить по почте.",
       "storage": "Приложение сохраняет в браузере выбранную цветовую тему. Хостинг также может использовать технические cookies для защиты от ботов. Админка предназначена для владельца сайта: Sveltia CMS сохраняет GitHub-токен в localStorage до выхода. Не входите с общего устройства."
     }

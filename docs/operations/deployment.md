@@ -1,51 +1,41 @@
-# Публикация, релизы и домен
+# Deployment, releases and domain
 
-Рабочий публичный адрес: **https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site**. Админка: [/admin/](https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/admin/).
+Production: **https://anu3ev-com.vercel.app/**. CMS: [/admin/](https://anu3ev-com.vercel.app/admin/).
 
-Текущая публикация — [v1.0.1](https://github.com/Anu3ev/anu3ev.com/releases/tag/v1.0.1), commit `6541daa29fb14356337f354cb4e75751d19afc3f`, точный проверенный CI export. [Отчёт запуска](../tasks/07-launch-audit/summary.md).
+Hosting uses the existing **Vercel Hobby** workspace, `anu3ev's projects`. Project: `anu3ev-com`, ID `prj_8EbuZYY6ZGiQe6FqepSdnzpHujEB`. Connected repository: `Anu3ev/anu3ev.com`; production branch: `master`. No paid trial, database, deploy hook or personal deployment token is required.
 
-## Что автоматизировано
+## Automatic publication
 
-На PR и push в `master` GitHub Actions устанавливает зависимости по lockfile и проверяет схему контента, ESLint, TypeScript, unit, статическую генерацию, browser/axe и пагинацию. В browser suite один worker. Отчёты и проверенный архив хранятся в Actions три дня.
+Vercel builds each Git push. Merging a PR into `master` updates production automatically. CMS content changes also deploy after reaching `master`, without a version bump. Drafts remain outside the public export.
 
-Когда `package.json.version` увеличивается, после успешных проверок создаются `vX.Y.Z`, GitHub Release и архив `anu3ev-portfolio-vX.Y.Z.tar.gz`. Обычные изменения контента с той же версией не создают новый Release. Тег не переносится на другой commit. Повторный run той же версии/commit допустим. У сайта нет npm-пакета.
+`vercel.json` defines the frozen pnpm install, `pnpm check && pnpm build`, `.output/public`, trailing slashes and security/cache headers. Node is **24.x**, with package requirement **24.15+**. The public production/preview variable `NUXT_PUBLIC_SITE_URL` is `https://anu3ev-com.vercel.app`. Local builds and GitHub release archives use the same default in `shared/site.ts`.
 
-Релиз: измените `package.json.version` на возрастающую стабильную `major.minor.patch`, откройте PR, дождитесь зелёного quality job и влейте в `master`. Прямые изменения `master` также проверяются, но branch protection не настроен: connector не имеет Administration permission. Не считайте проверки техническим запретом на merge.
+The Vercel build validates content, ESLint, TypeScript and unit contracts before generating HTML. GitHub also runs browser/axe checks and the real pagination fixture. Wait for green PR checks before merging. Branch protection and Vercel deployment checks are **not configured**; the workflow is not claimed to enforce a merge gate.
 
-## Что пока требует доступа владельца
+The initial import deployed master `3020b2779bf6aafe051fb8938295b078452971e0` with version 1.0.1. [Subsequent automatic deployment verification](../tasks/08-github-deployment/summary.md).
 
-**GitHub Release сейчас не обновляет Sites автоматически.** Sites — опубликованный резервный snapshot. CMS сохраняет Markdown и профиль в GitHub; появление этих изменений на этом адресе требует новой публикации. Это оставшаяся часть задачи, а не готовая CI/CD-интеграция.
+## Versioned releases
 
-Для штатного GitHub → hosting выбран существующий бесплатный Vercel Hobby. API подключения возвращает `403` при создании проекта, собственных credentials CLI нет. В Chrome открыт вход. Имеющаяся Google-сессия проверена: она не привязана к существующему Vercel user; дубликат аккаунта не создавался.
+Increase `package.json.version` to a higher stable `major.minor.patch`, open a PR, wait for checks and merge. After the master quality job succeeds, the same workflow creates `vX.Y.Z`, a GitHub Release and `anu3ev-portfolio-vX.Y.Z.tar.gz` from its exact tested export. An unchanged version deploys without another Release. Tags cannot move to another commit.
 
-После входа в **существующий** Vercel account:
+Vercel and GitHub build the same commit independently. Deployment can finish before the Release job. This is Git-push deployment paired with versioned releases, not another workflow triggered by a `GITHUB_TOKEN`-created Release. Compare the Release commit with public `/version.json`; byte-for-byte equivalence of the independent builds is not assumed.
 
-1. Import Git Repository → `Anu3ev/anu3ev.com`; разрешите GitHub App доступ только к этому репозиторию, если он не виден.
-2. Выберите существующий Hobby workspace. Не включайте Pro trial, paid storage или integrations.
-3. Node.js **24.x**. `vercel.json` уже задаёт `pnpm install --frozen-lockfile`, `pnpm check && pnpm build`, `.output/public`, static clean URLs и headers.
-4. Установите публичную build-time переменную `NUXT_PUBLIC_SITE_URL` в фактический постоянный HTTPS-адрес нового проекта. Выполните production deployment из `master`.
-5. Проверьте публичный вход без Vercel login, `/ru`, кейс, `/admin/`, `/sitemap.xml`, `/robots.txt`, `/rss.xml`, `/version.json` и неизвестный URL с HTTP 404. У private previews защита может оставаться включённой.
+## Verification and recovery
 
-Git integration затем публикует каждый push `master`, включая CMS edits; релизная версия и deploy относятся к одному commit. Проверки Vercel build включают content/lint/types/unit. Browser/axe выполняются в GitHub; перед merge нужно дождаться их завершения. Этот порядок не заявляется как уже активный.
+Use a fresh guest browser to check `/`, `/ru/`, a case, an article, `/admin/`, sitemap, robots, both RSS feeds and `/version.json`. Unknown paths must return HTTP 404. Sitemap/canonical URLs must return 200 without redirects. `version.json` records the version and `VERCEL_GIT_COMMIT_SHA` or `GITHUB_SHA`; a local build without either records `null`.
 
-Страницы используют directory URL с `/` в конце; `vercel.json` задаёт `trailingSlash: true`. Sitemap/canonical должны отвечать 200 **без redirect**. При смене провайдера обновите соответствующие тексты Privacy через CMS. `useSiteOrigin()` нормализует runtime env override, а `canonicalPagePath()` задаёт общую политику пути.
+Check Vercel Deployments and GitHub Actions for failures. Correct the source through a PR; do not rerun a successful production publish job merely for diagnostics. Restore previous content with a reviewed revert PR so the Git integration publishes it. Dashboard rollbacks can alter automatic domain assignment; consult Vercel's instructions before using them.
 
-## Sites: воспроизводимая резервная публикация
+Preview deployments retain default protection. The production alias is public: an owner login or bypass does not prove public access. Run `BASE_URL=https://anu3ev-com.vercel.app pnpm test:e2e` for production verification after installing Chromium. The suite also builds its isolated local pagination fixture.
 
-Identity хранится в `.openai/hosting.json`; новый Site повторно не создаётся. Нужны инструменты Sites и короткоживущий source credential для этого ID. Сначала выполняются `pnpm check`, `pnpm build`, browser checks; исходники коммитятся и пушатся в GitHub. Та же ревизия отправляется на source remote Sites, её remote HEAD сверяется. Штатный `package-site.mjs` создаёт архив `.output/public` + manifest, `save_site_version` сохраняет его с точным commit SHA, `deploy_site_version` публикует сохранённую версию.
+## Optional custom domain
 
-Для релиза предпочтителен готовый GitHub CI artifact: проверить SHA256 ZIP из GitHub metadata, SHA256 внутреннего tar.gz из Release asset и `version.json`; проверить paths/symlinks перед извлечением. Затем упаковать эти же файлы и сравнить hashes; повторно `pnpm build` не запускать. Signed download references краткоживущие: получать непосредственно перед скачиванием, передавать скрытым stdin, не сохранять URL-токен. После истечения получить новый reference штатным download tool. Доступные Actions artifacts хранятся три дня; Release archive остаётся в Release.
+`anu3ev.com` is not connected. Existing DNS: A `45.147.197.150`, Zomro nameservers. DNS management credentials are unavailable. The Vercel HTTPS address works independently.
 
-При диагностике некоторые Python-urllib requests могут получить Cloudflare 1010. Это browser-signature фильтр платформы; свежие Chrome и обычный Playwright API request проверены без login/bypass. Не выдавайте owner-authenticated check за public verification. После любого переноса хостинга повторите гостевой browser check.
+When DNS access is available, add the domain in this project and use **the DNS records issued for this project**. Wait for ownership verification and working HTTPS. Then set `NUXT_PUBLIC_SITE_URL=https://anu3ev.com`, update the repository default/example, and merge a versioned PR. Canonical, hreflang, Open Graph, JSON-LD, sitemap and RSS share one validated origin. Redirect the old host only after the new one works.
 
-У source helper есть `git add --all`, поэтому в этой задаче вместо его staging использован отдельный Git index и обычный Git push; [обоснование](../tasks/05-release-and-deploy/hosting.md). Token передаётся через скрытый stdin и environment, не сохраняется в workflow. Публичный audience установлен по прямому поручению пользователя. Для сохранения ancestry GitHub PR с этой публикацией вливается merge commit, а не squash.
+## Historical Sites snapshot
 
-Для переноса на другой статический хост достаточно contents архива. Пути ожидают root deployment; GitHub Pages project subpath потребует отдельной настройки base URL или собственного домена.
+`https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/` is a historical 1.0.1 snapshot, not the current production host or an automatic deployment target. Its identity remains in `.openai/hosting.json`; do not create a duplicate Site. The earlier [publication procedure](../tasks/05-release-and-deploy/hosting.md) and [archive provenance](../tasks/07-launch-audit/reports/provenance.json) remain available for recovery.
 
-## anu3ev.com
-
-Домен пока не подключён. Фактический DNS: A `45.147.197.150`, nameservers Zomro. Доступа для правки DNS нет. Действующий HTTPS-адрес выше работает независимо от домена.
-
-После выбора постоянного хостинга добавьте домен в его dashboard и внесите **выданные этим проектом** DNS records у текущего DNS-провайдера. Сначала дождитесь проверки ownership и HTTPS. Затем измените `NUXT_PUBLIC_SITE_URL=https://anu3ev.com` и пересоберите сайт. Canonical, alternate, sitemap, RSS, OG и JSON-LD берут origin из одного `getSiteOrigin()`; он отклоняет HTTP, credentials, query, hash и base path. Redirect старого host на основной включается после проверки нового.
-
-Не используйте IP/CNAME другого хостинга из старой документации. `version.json` показывает версию; CI-сборка также включает commit SHA. При локальном build без CI commit равен `null`.
+References: [Vercel for GitHub](https://vercel.com/docs/git/vercel-for-github), [environments](https://vercel.com/docs/deployments/environments).
