@@ -3,6 +3,7 @@ import { expect, test } from '@playwright/test'
 test('real generated pagination keeps 10 articles and preserves search through a direct second-page reload', async ({ page, request }) => {
   await page.goto('http://127.0.0.1:4174/blog')
   await expect(page.locator('.post-card')).toHaveCount(10)
+  await expect(page.locator('.post-card .post-image-link img')).toHaveCount(10)
   const firstPage = await page.locator('.post-card h2 a').evaluateAll(links => links.map(link => link.getAttribute('href')))
   const search = page.getByRole('searchbox', { name: 'Search articles' })
   await search.fill('Pagination fixture')

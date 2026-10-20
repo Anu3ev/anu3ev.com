@@ -41,6 +41,38 @@ for (const frame of frames) {
 }
 
 for (const frame of frames) {
+  test(`${frame.name} home cover keeps its text clear of the shapes and the button below the cover`, async ({ page }) => {
+    await page.setViewportSize({ width: frame.width, height: frame.height })
+    await page.goto('/')
+
+    const layout = await page.locator('.profile-cover').evaluate((cover) => {
+      const shapes = [...cover.querySelectorAll('.cover-shapes i')]
+      // Hit-testing follows the rotation; the 13px margin covers the shapes' painted ring.
+      const coveredPoints = (text: Element) => {
+        const box = text.getBoundingClientRect()
+        let count = 0
+        for (let x = box.left - 13; x <= box.right + 13; x += 4) {
+          for (let y = box.top - 13; y <= box.bottom + 13; y += 4) {
+            if (document.elementsFromPoint(x, y).some(element => shapes.includes(element))) count += 1
+          }
+        }
+        return count
+      }
+      return {
+        labelCovered: coveredPoints(cover.querySelector('span')!),
+        codeCovered: coveredPoints(cover.querySelector('code')!),
+        coverBottom: cover.getBoundingClientRect().bottom,
+        buttonTop: document.querySelector('.profile-actions .button')!.getBoundingClientRect().top
+      }
+    })
+
+    expect(layout.labelCovered).toBe(0)
+    expect(layout.codeCovered).toBe(0)
+    expect(layout.buttonTop - layout.coverBottom).toBeGreaterThanOrEqual(8)
+  })
+}
+
+for (const frame of frames) {
   test(`${frame.name} contact link rows span the column with the text inset like the heading`, async ({ page }) => {
     await page.setViewportSize({ width: frame.width, height: frame.height })
     await page.goto('/contact/')

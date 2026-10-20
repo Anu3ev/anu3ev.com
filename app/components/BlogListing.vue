@@ -135,7 +135,6 @@ usePageSeo({
         v-for="(post, index) in pagination.items"
         :key="post.slug"
         :post="post"
-        :illustrated="index === 0"
         :position="(pagination.page - 1) * 10 + index + 1"
       />
       <div v-if="pagination.total === 0" class="empty-state">
