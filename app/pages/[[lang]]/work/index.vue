@@ -1,7 +1,12 @@
 <script setup lang="ts">
 const { locale, copy } = useLocale()
+const route = useRoute()
+const router = useRouter()
 const siteContent = useSiteContent()
-const category = ref('')
+const filtersReady = ref(false)
+onMounted(() => {
+  filtersReady.value = true
+})
 const { data: projects } = await useAsyncData(
   () => `work-${locale.value}`,
   () =>
@@ -13,11 +18,25 @@ const { data: projects } = await useAsyncData(
       .all()
 )
 const categories = computed(() => [...new Set(projects.value?.map(project => project.category))])
+/** A shareable category restores browser history; unknown or pre-hydration values show all work. */
+const category = computed<string>({
+  get: () => {
+    const topic = route.query.topic
+    if (!filtersReady.value || typeof topic !== 'string' || !categories.value.includes(topic)) return ''
+
+    return topic
+  },
+  set: value => router.replace({ path: route.path, query: { topic: value || undefined } })
+})
 const visibleProjects = computed(() =>
   projects.value?.filter(project => !category.value || project.category === category.value)
 )
 
-usePageSeo({ title: () => copy.value.work, description: () => siteContent.value.portfolio.intro })
+usePageSeo({
+  title: () => copy.value.work,
+  description: () => siteContent.value.portfolio.intro,
+  noindex: () => Boolean(category.value)
+})
 </script>
 
 <template>

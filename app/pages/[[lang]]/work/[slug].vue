@@ -98,9 +98,9 @@ usePageSeo({
       >
 
       <div class="reading-layout">
-        <ContentRenderer :value="project" class="prose" />
+        <ContentToc :links="project.body.toc?.links" :title="copy.onThisPage" />
 
-        <ContentToc :links="project.body.toc?.links" :title="project.title" />
+        <ContentRenderer :value="project" class="prose" />
       </div>
     </div>
 
