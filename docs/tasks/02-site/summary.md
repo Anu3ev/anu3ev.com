@@ -1,24 +1,20 @@
-# 02 — Nuxt и макет MagicPath
+# 02 — Nuxt and the MagicPath layout
 
-Создано новое приложение Nuxt 4.6.2, Vue 3.5.44, Vue Router 5.4.0, TypeScript и Tailwind 4. Используется Node 24.15 LTS, локальный Inter и статическая генерация.
+Created a new Nuxt 4.6.2 application with Vue 3.5.44, Vue Router 5.4.0, TypeScript, Tailwind 4, Node 24.15 LTS, local Inter fonts and static generation.
 
-После авторизации пользователя прочитаны все четыре экрана текущего MagicPath. Реализованы левое меню, центральная лента, правый профиль, Home cover, закреплённая заметка, список проектов, блог, Contacts. Portfolio/Contacts используют синюю палитру Home/Blog. [Снимки и ревизии](../../reference/magicpath/README.md).
+After the owner signed in, inspected all four MagicPath desktop previews. Implemented left navigation, central feed, right profile, Home cover, pinned note, projects, Blog and Contacts. Portfolio/Contacts inherit the Home/Blog blue palette. [Captures and revisions](../../reference/magicpath/README.md).
 
-Дополнительно работают страницы кейса/статьи, About, Privacy и 404, русский язык, светлая тема, сохранение темы, native mobile disclosure с Escape/focus и закрытием после навигации. Реальные ссылки используются вместо прототипных navigation buttons. В портфолио работают фильтры. Начальный полный кейс редактора изображений написан по текущей заметке Obsidian.
+Added case/article pages, About, Privacy, 404, Russian localization, light theme and persistent theme preference. The initial mobile disclosure supported Escape, focus return and navigation closure; it was functional but later identified as inconsistent with the actual bottom-navigation design. Task 11 replaces that assumption. Native links replace prototype navigation buttons; portfolio filtering works. The initial complete image-editor case was written from the current Obsidian source.
 
-По замечанию пользователя удалён и оставшийся прежний inventory. Старые планы, HTML-прототип, Figma и прежняя палитра не являются требованиями нового приложения. Новая документация относится к текущему заданию.
+Removed the remaining old inventory after the user's correction. Former plans, prototype, Figma work and palette are not requirements for this rebuild.
 
-## Проверки
+## Checks at this stage
 
-- `pnpm lint`: pass, 0 warnings.
-- `pnpm typecheck`: pass, без diagnostics.
-- `pnpm test`: pass, 8 тестов пагинации: 0/1/10/11/20/21 статей, отсутствие повторов, invalid page/pageSize.
-- `pnpm build`: pass, 33 prerender entries вместе с payload/техническими страницами; compiler warnings отсутствуют.
-- Реальный браузер: Home → Portfolio → Markdown-кейс → эквивалентный русский кейс → тема → контактный mailto: pass.
-- Мобильный браузер: Enter открывает меню, переход закрывает его, RU сохраняет раздел, 320 px без overflow, прямой URL русского кейса открывает HTML: pass.
-- Console errors/warnings в проверенном сценарии: 0.
-- Fallow после исправлений: **warn**, 0 complexity/unused files/unused exports/cycles/boundary violations/duplicates, 4 devDependency notices для следующих задач. Они не скрыты; окончательный аудит следует после CMS и browser suite.
+- `pnpm lint`: pass, 0 warnings; `pnpm typecheck`: pass, no diagnostics.
+- `pnpm test`: 8 pagination tests passed, including 0/1/10/11/20/21 articles, duplicates and invalid page/pageSize.
+- `pnpm build`: pass, 33 prerender entries including payload/technical routes, no compiler warnings.
+- Browser: Home → Portfolio → Markdown case → equivalent Russian case → theme → contact email passed.
+- Mobile keyboard disclosure, navigation closure, locale preservation, 320 px reflow and direct Russian case HTML passed. Console errors/warnings in that scenario: 0.
+- Fallow after corrections: warn; no complexity, unused files/exports, cycles, boundaries or duplication findings. Four development-dependency notices remained for later tasks.
 
-Установка имеет upstream notices о deprecated/peer зависимостях Nuxt Content/kit; это не называется «нулём предупреждений установки». Новые runtime/compiler diagnostics не подавлялись.
-
-Выполнены два прохода самопроверки и исправления. Независимое ревью не проводилось. Наполнение и CMS — этап 03, полный SEO/axe/e2e — 04, CI/release/production — 05.
+Inherited installation deprecation/peer notices in Nuxt Content/kit were not described as zero installation warnings. Runtime/compiler diagnostics were not suppressed. Two self-review passes were performed; no independent review. Content/CMS followed in task 03, SEO/axe/e2e in 04 and CI/release/publication in 05.

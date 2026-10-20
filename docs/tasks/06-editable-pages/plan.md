@@ -1,11 +1,11 @@
-# 06 — редактируемые страницы
+# 06 — Editable pages
 
-После запуска сайта повторный проход по исходному требованию администрирования выявил пробел: кейсы, статьи и профиль редактируются в CMS, но длинные тексты About, Home, Contacts, Privacy и карьера ещё находятся в Vue/i18n. Переносим редакционные данные в один `content/settings/pages.json` с EN/RU, сохраняя навигацию и короткие UI labels в i18n. Уровни ответственности: JSON — контент, Zod — проверка перед build, Vue — отображение, Sveltia — поля редактора.
+The administration review found a gap: cases, articles and profile were editable, but long About/Home/Contacts/Privacy copy and career history still lived in Vue/i18n. Move editorial data to bilingual `content/settings/pages.json`, keeping navigation and short UI labels in i18n. Ownership: JSON content, Zod pre-build validation, Vue presentation and Sveltia editor fields.
 
-Отдельные группы в CMS: Home, About/карьера/инструменты/подход, Portfolio, Blog, Contacts, правая колонка, общая CTA и Privacy. Обе локали используют одну схему и одну декларацию виджетов. Модели даты позволяют завершённый или текущий период и отклоняют обратный диапазон. Имя на русском и фото также должны управляться профилем.
+CMS groups cover Home, About/career/tools/principles, Portfolio, Blog, Contacts, sidebar, shared callout and Privacy. Both locales share schemas/widgets. Career dates support completed/current positions and reject reversed periods. The profile also owns Russian name and photo.
 
-Перед реализацией: сверены текущее требование, существующая CMS, правила readability/state/types/tests, фактические строки и источники периода inSales. Новые факты не добавляются: перемещается уже проверенный контент. Внешний ввод валидируется до SSG; клиент не получает Markdown draft или серверные credentials. Существующий provider access blocker не обходится и не объявляется решённым.
+Before implementation, checked the requirement, existing CMS, readability/state/types/testing rules, actual copy and career sources. No new facts are added. Validate external inputs before SSG; public output contains no drafts or server credentials. At this stage the provider access limitation remained unresolved; it was later fixed in task 08.
 
-Проверки: schema/period unit boundaries; ESLint/types/SSG; полный browser/axe в GitHub; configuration и публичный повторный прогон после обновления Sites. После review и исправлений — отдельный PR/merge и patch release `1.0.1`.
+Checks: schema/period boundaries, lint/types/SSG, full GitHub browser/axe suite and CMS configuration/public snapshot after publication. Review/corrections precede a separate PR/merge and patch release 1.0.1.
 
-Проверка уже опубликованного host без follow redirects показала `307 /blog → /blog/` при прежнем canonical `/blog`. Выбираем единую политику directory URL с `/` для страниц: metadata, sitemap, RSS, schema, навигация и будущий Vercel. Query/hash передаются Router отдельно. Origin нормализуется и после Nuxt runtime env override; fixture проверяет исходную переменную с завершающим `/`, чтобы не получить двойные слеши в JSON-LD.
+A no-redirect probe found `307 /blog → /blog/` while canonical still used `/blog`. Use one directory-URL policy across metadata, sitemap, RSS, schema, navigation and Vercel. Pass query/hash separately to Router. Normalize origin after runtime overrides; the fixture deliberately supplies a trailing slash to expose duplicate slashes in JSON-LD.

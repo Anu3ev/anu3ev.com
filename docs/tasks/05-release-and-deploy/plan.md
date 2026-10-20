@@ -1,9 +1,11 @@
-# 05 — GitHub CI и versioned release
+# 05 — GitHub CI and versioned releases
 
-Сначала проверяем pipeline в отдельном PR, затем делаем первый production release при фактической публикации. Существующий `image-editor` прочитан как аналог: смена `package.json.version` запускает тег и Release. Пакет сайта в npm не публикуется.
+Historical task plan. The initial Vercel authorization failure was subsequently resolved in task 08.
 
-CI проверяет content schema, ESLint, Nuxt types, unit, SSG, Chromium/axe и настоящую пагинацию; browser workers — 1. Release job получает ровно проверенный архив, а не пересобирает исходники. Внешние actions закреплены commit SHA официальных репозиториев, Node — из `.node-version`, pnpm — из `packageManager`. По умолчанию права read-only; только release job получает Contents write.
+Validate the pipeline in a separate PR before the first production release. The neighboring image-editor workflow supplies the version-bump → tag/Release model. Do not publish this site as an npm package.
 
-Статус hosting: API Vercel после проверки допустимости передачи нового публичного портфолио вернул 403 на создание проекта в существующем Hobby team. CLI и его собственные credentials отсутствуют. GitHub Pages пока не включён; официальный configure-pages требует administration permission при первом включении, которого нет у GitHub connector. Visibility приватного репозитория не меняется. Нужен доступ к поддерживаемому хостингу; отдельная задача публикации фиксирует реальный результат и выбранный fallback.
+CI checks content schemas, ESLint, Nuxt types, unit tests, SSG, Chromium/axe and real pagination, with one browser worker. The release job consumes the exact tested archive instead of rebuilding. Official actions are pinned to commit SHAs, Node comes from `.node-version`, pnpm from `packageManager`. Permissions default to read-only; only the release job gets Contents write.
 
-Контроль перед публикацией: 131 tracked file, нет `.env` кроме публичного `.env.example`, private-key files, token markers, исходников других проектов и хранилища Obsidian. Статический export не содержит symlinks. Эти проверки не выдаются за полноценный secret scanner или независимый security audit.
+At this stage Vercel returned 403 and had no local CLI credentials. GitHub Pages was not enabled because initial configure-pages requires administration permission unavailable to the connector. Repository visibility stayed private; the separate hosting task recorded a supported public fallback.
+
+Pre-publication inspection covered 131 tracked files: no environment file beyond public `.env.example`, private keys, token markers, other project source or entire Obsidian vault. The static export had no symlinks. These checks were not represented as a complete secret scanner or independent security audit.

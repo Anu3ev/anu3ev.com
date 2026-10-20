@@ -1,20 +1,22 @@
-# Последовательность задач
+# Sequential task queue
 
-Каждая задача проходит: требования → реализация → проверки → самопроверка → исправления → повторный проход → summary → отдельная ветка/коммит → push → merge → следующая задача. Рабочий Git index пользователя не используется для staging; начальный index чистый. `git add` не выполняется.
+Each task follows requirements → implementation → checks → self-review → corrections → another review → summary → separate branch/commit → push → merge → next task. The user's Git index is preserved; commits use a temporary index. `git add` is not used.
 
-| Задача | Результат | Статус |
+| Task | Deliverable | Status |
 | --- | --- | --- |
-| 01-foundation | Ревизия, архитектура, источник контента, этапы и критерии | Завершена |
-| 02-site | Nuxt, текущий MagicPath, адаптивность, локализация, реальные контакты | Завершена |
-| 03-content-and-cms | CMS, схема, кейсы/статьи из Obsidian, картинки, редакционный workflow | Завершена; первый PAT-вход выполняет владелец |
-| 04-quality-and-seo | SEO/RSS/sitemap, пагинация, unit/e2e/axe, review и исправления | Завершена |
-| 05-release-and-deploy | GitHub CI/Release, публичный Sites, DNS и проверка production | CI и public snapshot проверены; Vercel Git integration блокируется доступом |
-| 06-editable-pages | Редактирование страниц/карьеры, canonical publication, YAML и dependency fixes | Завершена, PR №6 влит, Release 1.0.1 подтверждён |
-| 07-launch-audit | Patch Release, публикация точной CI-сборки, production verification и handoff | Public 1.0.1 проверен; automatic hosting integration требует доступа |
-| 08-github-deployment | Vercel Hobby Git integration, versioned release and guest production verification | Automatic production deployment and Release 1.0.2 verified; admin entry header correction included |
-| 09-manual-qa | Guided manual testing, focus/typing/filter/contents and hydration fixes | Patch 1.0.4 published; follow-up 1.0.5 passes all 52 browser checks locally |
-| 10-english-repository | English documentation and repository-facing materials | Next, after manual QA is merged |
-| 11-design-fidelity | Actual MagicPath mobile/tablet/browser layout, UI dimensions and spacing | Queued after English documentation |
-| 12-custom-domain | Connect anu3ev.com through Zomro; verify DNS, HTTPS and canonical redirects | Final task, after the site and design are complete |
+| 01-foundation | Repository audit, architecture, content sources and acceptance criteria | Complete |
+| 02-site | Nuxt, MagicPath desktop structure, localization and real contacts | Complete initial implementation; responsive fidelity is revisited in task 11 |
+| 03-content-and-cms | CMS, schemas, sourced cases/articles, images and editorial workflow | Complete; the owner performs the first personal-token sign-in |
+| 04-quality-and-seo | SEO/RSS/sitemap, pagination, unit/e2e/axe and corrections | Complete |
+| 05-release-and-deploy | GitHub CI/Release and public Sites snapshot | Complete historical snapshot; the original hosting access limitation was resolved in task 08 |
+| 06-editable-pages | Editable page copy/career, canonical URLs, YAML and dependency fixes | Complete; PR 6 merged and Release 1.0.1 verified |
+| 07-launch-audit | Exact CI archive publication and guest production verification | Complete for the historical 1.0.1 snapshot |
+| 08-github-deployment | Vercel Hobby Git integration and automatic public deployment | Complete; versioned deployments and admin cache headers verified |
+| 09-manual-qa | Manual testing, search focus/typing, filter history, contents and hydration fixes | Complete; 1.0.5 published, 52 local browser checks and 4 focused public checks passed |
+| 10-english-repository | English documentation and repository/CMS interface text | In progress |
+| 11-design-fidelity | Actual MagicPath layouts, dimensions and spacing at 402×874, 1133×744 and 1440×1024 | Next after task 10; mobile requires bottom navigation |
+| 12-external-links | External web links open in a new tab with the appropriate rel attributes | Queued after design |
+| 13-blog-all-topics | Reproduce and fix missing categories under All topics, including navigation from Home | Queued after external links |
+| 14-custom-domain | Connect anu3ev.com through Zomro and verify DNS, HTTPS, metadata and redirects | Required final task, after the site changes are complete |
 
-Предыдущие планы и HTML-прототип удалены по поручению начать проект заново. Полезные изображения используются как исходные материалы; факты проверяются непосредственно по текущим заметкам Obsidian. После замечания пользователя удалён и оставшийся старый inventory.
+The former plans, HTML prototype and remaining old inventory were removed at the user's request. Useful images were retained as source material; facts were checked against current Obsidian notes. All new requests remain in order, with domain connection explicitly reserved for the final stage.

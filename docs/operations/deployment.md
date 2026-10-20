@@ -28,9 +28,9 @@ Check Vercel Deployments and GitHub Actions for failures. Correct the source thr
 
 Preview deployments retain default protection. The production alias is public: an owner login or bypass does not prove public access. Run `BASE_URL=https://anu3ev-com.vercel.app pnpm test:e2e` for production verification after installing Chromium. The suite also builds its isolated local pagination fixture.
 
-## Optional custom domain
+## Final custom domain task
 
-`anu3ev.com` is not connected. Existing DNS: A `45.147.197.150`, Zomro nameservers. DNS management credentials are unavailable. The Vercel HTTPS address works independently.
+The user requires `anu3ev.com` after the remaining site changes are complete. It is not connected yet. The last DNS observation was A `45.147.197.150` with Zomro nameservers. The owner offered browser sign-in to Zomro for this final stage. Until then, the Vercel HTTPS address is production.
 
 When DNS access is available, add the domain in this project and use **the DNS records issued for this project**. Wait for ownership verification and working HTTPS. Then set `NUXT_PUBLIC_SITE_URL=https://anu3ev.com`, update the repository default/example, and merge a versioned PR. Canonical, hreflang, Open Graph, JSON-LD, sitemap and RSS share one validated origin. Redirect the old host only after the new one works.
 
