@@ -22,5 +22,6 @@ Each task follows requirements → implementation → checks → self-review →
 | 17-cover-and-post-images | Cover text clear of shapes, Let's talk below the cover, cover image on every article preview | Complete; 1.0.12, 66 browser checks passed |
 | 15-custom-domain | Connect anu3ev.com through Zomro and verify DNS, HTTPS, metadata and redirects | Complete; 1.0.13 on Vercel DNS, www and vercel.app redirect permanently |
 | 18-post-preview-images | Article preview images at the same size as the article cover | Complete; 69 browser checks passed |
+| 19-ui-copy-review | Russian interface copy rewritten phrase by phrase with the anti-cringe checklist | Complete |
 
 The former plans, HTML prototype and remaining old inventory were removed at the user's request. Useful images were retained as source material; facts were checked against current Obsidian notes. All new requests remain in order, with domain connection explicitly reserved for the final stage.

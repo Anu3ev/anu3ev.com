@@ -129,7 +129,7 @@ test('unknown and draft URLs return HTTP 404 and the correct locale', async ({ p
   await expect(page.locator('main h1')).toHaveText('This page wandered off.')
   const russian = await page.goto('/ru/nonexistent-page')
   expect(russian?.status()).toBe(404)
-  await expect(page.locator('main h1')).toHaveText('Эта страница потерялась.')
+  await expect(page.locator('main h1')).toHaveText('Страница не найдена.')
   await expect(page.locator('html')).toHaveAttribute('lang', 'ru')
 })
 
