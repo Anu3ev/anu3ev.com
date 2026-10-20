@@ -4,6 +4,8 @@
 
 На чистом гостевом браузере сайт и version endpoint ответили 200 без login или owner bypass headers. Первоначальный Python urllib probe получил Cloudflare 403/1010; это подтверждённая browser-signature блокировка провайдера, а не private audience. Обычные Chrome и Playwright API request дали 200. Настройки защиты платформы не отключались. [Cloudflare 1010](https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-1xxx-errors/error-1010/), [Browser Integrity Check](https://developers.cloudflare.com/waf/tools/browser-integrity-check/).
 
+Отдельный web-fetch инструмент не смог открыть этот адрес. Его результат не подменяется browser-проверкой и не доказывает недоступность для Google; фактическая поисковая индексация/Search Console не проверены. Подтверждены публичный браузерный доступ и техническая SEO-разметка.
+
 Полный production suite: **49 passed, 0 skipped, 0 flaky**, один worker. Sitemap проверен по всем 28 URLs с `maxRedirects: 0`; metadata, локали, две темы, reflow, keyboard/menu/focus, SSR без JavaScript, поиск/Назад/reload, CMS configuration и дата Privacy согласованы. Отдельная локальная настоящая SSG fixture подтверждает 10 + 2 статьи, второй URL/reload, поиск и RU switch; fake articles не публиковались.
 
 Desktop и RU mobile screenshots просмотрены: три колонки и палитра актуального Home/Blog сохранены, на 375 px горизонтального overflow нет. [Desktop](home-public-desktop.jpg), [mobile](home-public-ru-mobile.jpg).
