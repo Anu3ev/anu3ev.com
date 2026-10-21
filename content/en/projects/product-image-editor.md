@@ -78,6 +78,6 @@ The editor started tied to the product media entity. To reuse it in the visual s
 - Applying one set of edits to 10 images took 5–10 minutes by hand and takes 2–3 minutes with bulk transfer, which shipped in July 2026.
 - Since September 2026 the same component also edits images in the visual site editor, so one editor serves two production workflows.
 
-## Constraints
+## Where to try it
 
-The editor is desktop-only by design: it was tested in Chrome, Firefox and Safari on Windows and macOS, and the entry button is hidden on mobile. The product has no public link; the [open-source engine](/work/image-editor/) has a live demo.
+The editor is desktop-only by design: it was tested in Chrome, Firefox and Safari on Windows and macOS, and the entry button is hidden on mobile. Anyone can try it: create an inSales account, add a product, upload an image and open the editor from the product card on a desktop browser. The [open-source engine](/work/image-editor/) behind it also has a live demo.
