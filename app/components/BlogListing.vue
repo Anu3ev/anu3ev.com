@@ -144,8 +144,6 @@ usePageSeo({
     </div>
 
     <BlogPagination :page="pagination.page" :page-count="pagination.pageCount" />
-
-    <div class="h-20" />
   </div>
 
   <ContactCallout />
