@@ -7,7 +7,7 @@ published: true
 cover: /images/work/abandoned-carts/cart-details-drawer.webp
 coverAlt: 'Дровер «Детали корзины» в админке inSales: три товара, сумма корзины, кнопка оформления заказа и пустая история коммуникаций'
 category: Инструменты для продавцов
-year: 2024–2025
+year: Октябрь 2024 – апрель 2025
 role: "Единственный frontend-разработчик: требования, контракты API, разработка, релиз"
 stack: [Vue, JavaScript, Vue Router, UI kit на базе Vuetify, ApexCharts, Monaco Editor, REST API]
 featured: false

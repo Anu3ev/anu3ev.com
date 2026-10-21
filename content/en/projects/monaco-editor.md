@@ -7,7 +7,7 @@ published: true
 cover: /images/work/monaco-editor/widget-code-liquid-autocomplete.webp
 coverAlt: Widget code editor with six file tabs showing a Liquid "for" tag suggestion inside HTML markup
 category: Browser editors
-year: 2022–2025
+year: Jul 2022 – Nov 2025
 role: "Led development: language tooling, browser API, packaging, integrations"
 stack: [Monaco Editor, JavaScript, Vue, Webpack, Web Workers, Rails Engine, GitLab CI]
 featured: false

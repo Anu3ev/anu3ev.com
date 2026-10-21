@@ -7,7 +7,7 @@ published: true
 cover: /images/work/product-options/product-page-gift-box-and-card.webp
 coverAlt: "Карточка букета в демо-магазине: выбраны размер Classic, подарочная коробка и открытка, цена пересчитана до 48 долларов"
 category: Платформа витрин
-year: "2025"
+year: Январь – апрель 2025
 role: "Frontend-разработчик: компонент ui-accessories, цены, API корзины, документация"
 stack: [JavaScript, HTML, CSS, AJAX, Liquid, CommonJS cart API]
 featured: false

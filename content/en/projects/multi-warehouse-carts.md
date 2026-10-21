@@ -7,7 +7,7 @@ published: true
 cover: /images/work/multi-warehouse-carts/grouped-cart-update.svg
 coverAlt: Diagram of buyer changes for two warehouses queued in the cart library and sent as one request grouped by warehouse
 category: Storefront platform
-year: "2023"
+year: Aug 2023 – Nov 2023
 role: Owner of the storefront implementation and API coordination
 stack: [JavaScript, CommonJS storefront library, REST API, Liquid]
 featured: false
