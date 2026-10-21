@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createPageLinks } from '../../app/utils/seo'
 import { createPublicPaths } from '../../scripts/lib/routes'
-import { canonicalPagePath, createPageSchemas, serializeJsonLd, socialImagePath } from '../../shared/seo'
+import { canonicalPagePath, createCredentialSchemas, createPageSchemas, serializeJsonLd, socialImagePath } from '../../shared/seo'
 
 const origin = 'https://portfolio.example.test'
 
@@ -81,5 +81,29 @@ describe('canonical routes and structured data', () => {
     expect(paths.some(path => path.includes('/page/'))).toBe(false)
     expect(socialImagePath({ locale: 'en', slug: 'editor-note' })).toBe('/images/social/en/editor-note.png')
     expect(socialImagePath({ locale: 'ru', slug: 'editor-note' })).toBe('/images/social/ru/editor-note.png')
+  })
+
+  it('describes certificates as credentials and leaves out links an issuer does not provide', () => {
+    const [course, lessons, copy] = createCredentialSchemas({
+      origin,
+      certificates: [
+        { name: 'Learning TypeScript', issuer: 'LinkedIn Learning', issued: '2025-04', category: 'course', url: 'https://example.test/cert', credentialId: 'abc' },
+        { name: '200 hours of English lessons', issuer: 'Preply', issued: '2026-09', category: 'lessons', url: '', credentialId: '' },
+        { name: 'Vue course', issuer: 'Vue School', issued: '2026-10', category: 'course', url: '/images/certificates/vue.webp' }
+      ]
+    })
+
+    expect(course).toEqual({
+      '@type': 'EducationalOccupationalCredential',
+      'name': 'Learning TypeScript',
+      'credentialCategory': 'Certificate of completion',
+      'recognizedBy': { '@type': 'Organization', 'name': 'LinkedIn Learning' },
+      'dateCreated': '2025-04',
+      'url': 'https://example.test/cert',
+      'identifier': 'abc'
+    })
+    expect(lessons).not.toHaveProperty('url')
+    expect(lessons).not.toHaveProperty('identifier')
+    expect(copy?.url).toBe(`${origin}/images/certificates/vue.webp`)
   })
 })

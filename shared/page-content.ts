@@ -35,12 +35,15 @@ const localizedPages = z.strictObject({
 export const sitePagesSchema = z.strictObject({ en: localizedPages, ru: localizedPages })
 export type SitePages = z.input<typeof sitePagesSchema>
 
+/** Shows a `YYYY-MM` month as `MM.YYYY`, the site's one date style for career periods and certificates. */
+export function formatMonth(value: string) {
+  return month.parse(value).replace(/^(\d{4})-(\d{2})$/, '$2.$1')
+}
+
 /** Month-only career dates have no timezone conversion; an empty end represents an ongoing role. */
 export function formatExperiencePeriod({ start, end, presentLabel }: { start: string, end?: string, presentLabel: string }) {
   const period = careerPeriod.parse({ start, end })
   if (!presentLabel.trim()) throw new Error('A present-period label is required')
-  const monthParts = /^(\d{4})-(\d{2})$/
-  const from = period.start.replace(monthParts, '$2.$1')
-  const to = period.end ? period.end.replace(monthParts, '$2.$1') : presentLabel
-  return `${from} — ${to}`
+  const to = period.end ? formatMonth(period.end) : presentLabel
+  return `${formatMonth(period.start)} — ${to}`
 }

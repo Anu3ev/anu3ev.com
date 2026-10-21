@@ -1,0 +1,81 @@
+{
+  "certificates": [
+    {
+      "name": "The Vue.js Master Class 2024 Edition",
+      "issuer": "Vue School",
+      "issued": "2026-10",
+      "category": "course",
+      "skills": ["Vue.js", "TypeScript", "Pinia", "Supabase", "Vue Router", "Vite", "Tailwind CSS", "SQL", "REST APIs"],
+      "credentialId": "c086375f-1f1d-4fc1-86e2-da86c05253ae",
+      "url": "/images/certificates/vue-master-class-2024-full.webp",
+      "featured": true,
+      "image": "/images/certificates/vue-master-class-2024.webp",
+      "imageAlt_en": "Vue School certificate of completion for The Vue.js Master Class 2024 Edition, issued to Alexander Anufriev",
+      "imageAlt_ru": "Сертификат Vue School об окончании курса The Vue.js Master Class 2024 Edition на имя Александра Ануфриева",
+      "summary_en": "A course project: a project management app on Vue 3 with Pinia, Vue Router, TypeScript and Supabase.",
+      "summary_ru": "Учебный проект: приложение для управления проектами на Vue 3, Pinia, Vue Router, TypeScript и Supabase."
+    },
+    {
+      "name": "EF SET English Certificate",
+      "issuer": "EF SET",
+      "issued": "2026-10",
+      "category": "test",
+      "skills": ["English"],
+      "url": "https://cert.efset.org/en/kmzghR",
+      "featured": true,
+      "image": "/images/certificates/ef-set-english.webp",
+      "imageAlt_en": "EF SET English Certificate for Alexander Anufriev: 60/100, B2 Upper Intermediate, awarded on 19 October 2026",
+      "imageAlt_ru": "Сертификат EF SET на имя Александра Ануфриева: 60 из 100, уровень B2 Upper Intermediate, выдан 19 октября 2026 года",
+      "summary_en": "60/100, B2 Upper Intermediate. Reading, listening and writing scored at C1 level (61–\u206062), speaking 56.",
+      "summary_ru": "60 из 100, уровень B2. Чтение, аудирование и письмо\u00a0— на уровне C1 (61–\u206062\u00a0балла), говорение\u00a0— 56."
+    },
+    {
+      "name": "200 hours of English lessons",
+      "issuer": "Preply",
+      "issued": "2026-09",
+      "category": "lessons",
+      "skills": ["Communication", "English", "Business English"],
+      "featured": false
+    },
+    {
+      "name": "TypeScript: Object-Oriented Programming",
+      "issuer": "LinkedIn Learning",
+      "issued": "2025-05",
+      "category": "course",
+      "skills": ["TypeScript"],
+      "credentialId": "b37ec4fd20c245bd56da38318ce341ac507949c36c58a6b5ca384ab98a4d7a2b",
+      "url": "https://www.linkedin.com/learning/certificates/b37ec4fd20c245bd56da38318ce341ac507949c36c58a6b5ca384ab98a4d7a2b/",
+      "featured": false
+    },
+    {
+      "name": "Advanced TypeScript Concepts",
+      "issuer": "LinkedIn Learning",
+      "issued": "2025-05",
+      "category": "course",
+      "skills": ["TypeScript", "Front-End Development"],
+      "credentialId": "e38633d8cebde1572f96c39b1611370a272e613e190b731af1d781d6ff99993e",
+      "url": "https://www.linkedin.com/learning/certificates/e38633d8cebde1572f96c39b1611370a272e613e190b731af1d781d6ff99993e/",
+      "featured": false
+    },
+    {
+      "name": "TypeScript for JavaScript Developers",
+      "issuer": "LinkedIn Learning",
+      "issued": "2025-04",
+      "category": "course",
+      "skills": ["TypeScript", "JavaScript", "Front-End Development"],
+      "credentialId": "cd95b1c6681a08c4f71b1c8189cac78a19a0a354440c95f7d1ff21f416b19a0a",
+      "url": "https://www.linkedin.com/learning/certificates/cd95b1c6681a08c4f71b1c8189cac78a19a0a354440c95f7d1ff21f416b19a0a/",
+      "featured": false
+    },
+    {
+      "name": "Learning TypeScript",
+      "issuer": "LinkedIn Learning",
+      "issued": "2025-04",
+      "category": "course",
+      "skills": ["TypeScript"],
+      "credentialId": "4d3e14e351154ac469c0003606df64e71c29d3ad43ef012cd86131a8c56c49dd",
+      "url": "https://www.linkedin.com/learning/certificates/4d3e14e351154ac469c0003606df64e71c29d3ad43ef012cd86131a8c56c49dd/",
+      "featured": false
+    }
+  ]
+}

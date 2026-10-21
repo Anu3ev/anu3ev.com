@@ -5,10 +5,6 @@ import { PROJECT_IMAGE_WIDTHS, projectImagePath } from '~~/shared/images'
 
 const { project } = defineProps<{ project: ProjectSummary, featured?: boolean }>()
 const { copy, localePath, locale } = useLocale()
-/** A card names the leading skills, like LinkedIn; the case page lists all of them. */
-const CARD_SKILL_COUNT = 3
-const cardSkills = computed(() => project.stack.slice(0, CARD_SKILL_COUNT))
-const hiddenSkillCount = computed(() => project.stack.length - cardSkills.value.length)
 const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${projectImagePath({ locale: project.locale, slug: project.slug, width })} ${width}w`).join(', '))
 </script>
 
@@ -60,14 +56,7 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
         </li>
       </ul>
       <div class="project-card-bottom">
-        <ul class="tags" :aria-label="copy.projectStack">
-          <li v-for="technology in cardSkills" :key="technology">
-            {{ technology }}
-          </li>
-          <li v-if="hiddenSkillCount" class="tags-more">
-            {{ copy.moreSkills.replace('{count}', String(hiddenSkillCount)) }}
-          </li>
-        </ul>
+        <SkillTags :skills="project.stack" :label="copy.projectStack" />
         <NuxtLink
           :to="localePath(`/work/${project.slug}`)"
           class="text-link"

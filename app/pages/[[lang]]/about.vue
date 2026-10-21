@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import profile from '~~/content/settings/profile.json'
 import { formatExperiencePeriod } from '~~/shared/page-content'
+import { createCredentialSchemas } from '~~/shared/seo'
 
 const { copy, locale } = useLocale()
 const siteContent = useSiteContent()
@@ -9,7 +10,21 @@ const experience = computed(() => siteContent.value.about.experience.map(job => 
   period: formatExperiencePeriod({ start: job.start, end: job.end, presentLabel: copy.value.present })
 })))
 
-usePageSeo({ title: () => copy.value.about, description: () => siteContent.value.about.body })
+const siteUrl = useSiteOrigin()
+const { certificates } = useCertificates()
+
+usePageSeo({
+  title: () => copy.value.about,
+  description: () => siteContent.value.about.body,
+  schema: [{
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': `${siteUrl}/#person`,
+    'name': profile.name,
+    'url': siteUrl,
+    'hasCredential': createCredentialSchemas({ certificates, origin: siteUrl })
+  }]
+})
 </script>
 
 <template>
@@ -69,6 +84,8 @@ usePageSeo({ title: () => copy.value.about, description: () => siteContent.value
           </article>
         </div>
       </section>
+
+      <CertificatesSection />
 
       <section class="page-content" aria-labelledby="approach-title">
         <p class="eyebrow">

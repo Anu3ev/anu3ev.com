@@ -106,6 +106,31 @@ collections:
           - { name: bio_en, label: Bio — English, widget: text }
           - { name: bio_ru, label: Bio — Russian, widget: text }
 
+      - name: certificates
+        label: Certificates
+        file: content/settings/certificates.json
+        fields:
+          - name: certificates
+            label: Certificates
+            label_singular: Certificate
+            widget: list
+            summary: "{{fields.name}} — {{fields.issuer}}"
+            hint: Display order on the About page. Featured certificates are cards and need an image, alt text and both summaries; the others form a short list.
+            fields:
+              - { name: name, label: Name as on the certificate, widget: string }
+              - { name: issuer, label: Issuer, widget: string }
+              - { name: issued, label: Issued (YYYY-MM), widget: string, pattern: ['^\d{4}-(0[1-9]|1[0-2])$', 'Use YYYY-MM, for example 2026-10'] }
+              - { name: category, label: Type, widget: select, options: [{ label: Course, value: course }, { label: Language test, value: test }, { label: Lessons, value: lessons }] }
+              - { name: skills, label: Skills, widget: list, hint: Same order as on LinkedIn; cards show the first three. }
+              - { name: credentialId, label: Credential ID, widget: string, required: false }
+              - { name: url, label: Credential link, widget: string, required: false, hint: The issuer's public page or file. Leave empty if there is none. }
+              - { name: featured, label: Show as a card, widget: boolean, default: false }
+              - { name: image, label: Preview image, widget: image, required: false, hint: "WebP, 800 × 600 px (4:3). Required for a card." }
+              - { name: imageAlt_en, label: Image description — English, widget: string, required: false }
+              - { name: imageAlt_ru, label: Image description — Russian, widget: string, required: false }
+              - { name: summary_en, label: Summary — English, widget: text, required: false, hint: One sentence on what the certificate shows. Required for a card. }
+              - { name: summary_ru, label: Summary — Russian, widget: text, required: false }
+
       - name: pages
         label: Page copy and career history
         file: content/settings/pages.json

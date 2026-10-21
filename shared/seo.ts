@@ -34,3 +34,26 @@ export function serializeJsonLd(graphs: readonly Record<string, unknown>[]) {
 export function socialImagePath({ locale, slug }: { locale: 'en' | 'ru', slug: string }) {
   return `/images/social/${locale}/${slug}.png`
 }
+
+/** The certificate facts structured data needs; optional links stay out of the graph when empty. */
+interface CredentialSource {
+  name: string
+  issuer: string
+  issued: string
+  category: 'course' | 'test' | 'lessons'
+  url?: string
+  credentialId?: string
+}
+
+/** Describes the owner's certificates as schema.org credentials; a self-hosted copy's path becomes an absolute URL on `origin`. */
+export function createCredentialSchemas({ certificates, origin }: { certificates: readonly CredentialSource[], origin: string }) {
+  return certificates.map(certificate => ({
+    '@type': 'EducationalOccupationalCredential',
+    'name': certificate.name,
+    'credentialCategory': certificate.category === 'test' ? 'Language test certificate' : 'Certificate of completion',
+    'recognizedBy': { '@type': 'Organization', 'name': certificate.issuer },
+    'dateCreated': certificate.issued,
+    ...(certificate.url ? { url: new URL(certificate.url, origin).href } : {}),
+    ...(certificate.credentialId ? { identifier: certificate.credentialId } : {})
+  }))
+}

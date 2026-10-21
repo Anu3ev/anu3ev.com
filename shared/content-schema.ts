@@ -61,3 +61,38 @@ export const profileSchema = z.object({
   bio_en: z.string().min(20),
   bio_ru: z.string().min(20)
 })
+
+/** Issue month without a day: certificates and LinkedIn record only the month. */
+const issueMonth = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/)
+const optionalText = z.string().max(220).optional().default('')
+
+/**
+ * One certificate as the owner lists it on LinkedIn. Names stay in the issuer's wording in both languages.
+ * A featured certificate is shown as a card, so it must bring its preview, alt text and summaries.
+ */
+const certificateSchema = z.strictObject({
+  name: z.string().min(3).max(120),
+  issuer: z.string().min(2).max(60),
+  issued: issueMonth,
+  category: z.enum(['course', 'test', 'lessons']),
+  /** Skills in the owner's LinkedIn order; cards show the first three. */
+  skills: z.array(z.string().min(1).max(40)).min(1).max(20),
+  credentialId: z.string().max(100).optional().default(''),
+  /**
+   * Where a reader can see the certificate: the issuer's verification page, or a full-size copy under
+   * /images/ when the issuer has no public page. Empty when neither exists.
+   */
+  url: z.union([optionalLink, publicImage]).optional().default(''),
+  featured: z.boolean(),
+  image: z.union([publicImage, z.literal('')]).optional().default(''),
+  imageAlt_en: optionalText,
+  imageAlt_ru: optionalText,
+  summary_en: optionalText,
+  summary_ru: optionalText
+}).refine(
+  certificate => !certificate.featured || [certificate.image, certificate.imageAlt_en, certificate.imageAlt_ru, certificate.summary_en, certificate.summary_ru].every(Boolean),
+  'A featured certificate needs an image, alt text and a summary in both languages'
+)
+
+/** Certificates edited through the CMS, in display order. */
+export const certificatesSchema = z.strictObject({ certificates: z.array(certificateSchema).max(30) })
