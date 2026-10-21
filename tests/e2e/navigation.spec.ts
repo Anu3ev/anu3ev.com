@@ -110,12 +110,13 @@ test('mobile bottom navigation supports the keyboard and leaves the final conten
 
 test('the theme survives a reload and contact destinations are real', async ({ page }) => {
   await page.goto('/contact')
-  const toggle = page.getByRole('button', { name: 'Switch colour theme', exact: true })
+  const toggle = page.getByRole('switch', { name: 'Dark theme', exact: true })
+  await expect(toggle).toBeChecked()
   await toggle.click()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
   await page.reload()
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
-  await expect(toggle).toHaveAttribute('aria-pressed', 'true')
+  await expect(toggle).not.toBeChecked()
   const emailLinks = page.locator('main a[href^="mailto:"]')
   expect(await emailLinks.count()).toBeGreaterThan(0)
   for (const link of await emailLinks.all()) {
