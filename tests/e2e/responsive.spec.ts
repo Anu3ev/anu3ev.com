@@ -8,12 +8,12 @@ const frames = [
 ] as const
 
 for (const frame of frames) {
-  test(`${frame.name} reference frame keeps navigation and the four page layouts consistent`, async ({ page }) => {
+  test(`${frame.name} reference frame keeps navigation and the five page layouts consistent`, async ({ page }) => {
     await page.setViewportSize({ width: frame.width, height: frame.height })
 
-    for (const path of ['/', '/blog/', '/work/', '/contact/']) {
+    for (const path of ['/', '/about/', '/blog/', '/work/', '/contact/']) {
       await page.goto(path)
-      await expect(page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link')).toHaveCount(4)
+      await expect(page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link')).toHaveCount(5)
       const sidebar = await page.locator('.site-sidebar').boundingBox()
       const main = await page.locator('.main-column').boundingBox()
       const topbar = await page.locator('.page-topbar').boundingBox()
@@ -128,7 +128,7 @@ test.describe('touch navigation', () => {
     const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
     const activeBackground = await readActiveBackground(page)
 
-    for (const name of ['Home', 'Blog', 'Portfolio', 'Contacts']) {
+    for (const name of ['Home', 'About', 'Blog', 'Portfolio', 'Contacts']) {
       const link = navigation.getByRole('link', { name, exact: true })
       await link.tap()
       await expect(link).toHaveAttribute('aria-current', 'page')

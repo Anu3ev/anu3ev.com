@@ -7,6 +7,7 @@ const links = computed(
   () =>
     [
       { path: '/', label: copy.value.home, icon: 'home' },
+      { path: '/about', label: copy.value.about, icon: 'person' },
       { path: '/blog', label: copy.value.blog, icon: 'book' },
       { path: '/work', label: copy.value.work, icon: 'briefcase' },
       { path: '/contact', label: copy.value.contact, icon: 'mail' }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 /** Small inline SVG icons keep navigation independent of an icon font or network request. */
 const paths = {
+  person: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M4 21a8 8 0 0 1 16 0',
   home: 'M3 10l9-7 9 7v10H3zM9 20v-7h6v7',
   briefcase: 'M3 7h18v14H3zM8 7V3h8v4M3 12h18',
   arrow: 'M7 17 17 7M7 7h10v10',
