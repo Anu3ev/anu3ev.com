@@ -15,6 +15,8 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
+      // `cover` lets the fixed mobile navigation reach the screen edge; its padding adds the safe-area inset itself.
+      viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
       meta: [{ name: 'theme-color', content: '#101216' }],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
