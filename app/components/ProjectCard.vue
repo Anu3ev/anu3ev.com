@@ -4,7 +4,7 @@ import profile from '~~/content/settings/profile.json'
 import { PROJECT_IMAGE_WIDTHS, projectImagePath } from '~~/shared/images'
 
 const { project } = defineProps<{ project: ProjectSummary, featured?: boolean }>()
-const { copy, localePath } = useLocale()
+const { copy, localePath, locale } = useLocale()
 const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${projectImagePath({ locale: project.locale, slug: project.slug, width })} ${width}w`).join(', '))
 </script>
 
@@ -20,9 +20,9 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
         decoding="async"
       ></span>
       <div>
-        <strong>{{ project.category }}</strong><span>{{ project.year }}</span>
+        <strong>{{ locale === 'ru' ? profile.name_ru : profile.name }}</strong><span>{{ project.context }} · {{ project.year }}</span>
       </div>
-      <span class="mini-tag">{{ project.stack[0] }}</span>
+      <span class="mini-tag">{{ project.category }}</span>
     </div>
 
     <NuxtLink

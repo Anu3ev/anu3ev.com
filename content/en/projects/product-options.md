@@ -8,6 +8,7 @@ cover: /images/work/product-options/product-page-gift-box-and-card.webp
 coverAlt: Demo-store product page for a bouquet with Classic size, gift box and greeting card selected and the price updated to 48 dollars
 category: Storefront platform
 year: Jan 2025 – Apr 2025
+context: inSales
 role: "Frontend developer: ui-accessories component, pricing, cart API, developer docs"
 stack: [JavaScript, HTML, CSS, AJAX, Liquid, CommonJS cart API]
 featured: false

@@ -8,6 +8,7 @@ cover: /images/work/monaco-editor/widget-code-liquid-autocomplete.webp
 coverAlt: Редактор кода виджета с шестью вкладками файлов и подсказкой Liquid-тега for внутри HTML-разметки
 category: Браузерные редакторы
 year: Июль 2022 – ноябрь 2025
+context: inSales
 role: "Вёл разработку: языковая поддержка, браузерный API, сборка, интеграции"
 stack: [Monaco Editor, JavaScript, Vue, Webpack, Web Workers, Rails Engine, GitLab CI]
 featured: false

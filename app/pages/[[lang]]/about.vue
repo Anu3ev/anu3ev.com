@@ -41,7 +41,7 @@ usePageSeo({ title: () => copy.value.about, description: () => siteContent.value
           <p class="text-muted">
             {{ siteContent.about.story }}
           </p>
-          <h2 class="mt-8 text-2xl">
+          <h2 class="about-toolkit-title">
             {{ copy.toolkit }}
           </h2>
           <ul class="tags">

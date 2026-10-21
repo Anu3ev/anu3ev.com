@@ -8,6 +8,7 @@ cover: /images/work/storefront-product-loading/cache-validation-flow.svg
 coverAlt: Схема проверки кеша. Liquid передаёт дату изменения товара, библиотека сверяет её с IndexedDB и запрашивает только изменившиеся товары
 category: Платформа витрин
 year: Декабрь 2024 – май 2025
+context: inSales
 role: "Мейнтейнер библиотеки: AJAX-компоненты, клиентский кеш, выкатка и документация"
 stack: [JavaScript, IndexedDB, Liquid, AJAX, REST API, EventBus]
 featured: false

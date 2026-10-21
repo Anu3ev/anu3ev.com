@@ -8,6 +8,7 @@ cover: /images/work/image-editor/demo-sample-composition.webp
 coverAlt: The public image editor demo with a sample composition, a selected heading and its object data in the Canvas State panel
 category: Open source
 year: Mar 2025 – present
+context: Open source
 role: Sole author and maintainer, from architecture and public API to tests and releases
 stack: [TypeScript, FabricJS, Web Workers, Jest, Playwright, GitHub Actions, npm]
 featured: false

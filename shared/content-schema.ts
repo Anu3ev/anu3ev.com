@@ -22,6 +22,8 @@ const editorialSchema = z.object({
 /** A case describes ownership and evidence; an external demo never loads inside the global layout. */
 export const projectSchema = editorialSchema.extend({
   year: z.string().min(4).max(40),
+  /** Where the work was done, shown next to the period on cards: an employer or "Open source". */
+  context: z.string().min(2).max(40),
   role: z.string().min(5).max(120),
   stack: z.array(z.string().min(1)).min(1).max(12),
   featured: z.boolean().default(false),

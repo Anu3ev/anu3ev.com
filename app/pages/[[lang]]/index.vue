@@ -13,7 +13,7 @@ const { data: projects } = await useAsyncData(
       .where('published', '=', true)
       .where('featured', '=', true)
       .order('order', 'ASC')
-      .select('locale', 'slug', 'title', 'description', 'category', 'year', 'stack', 'results')
+      .select('locale', 'slug', 'title', 'description', 'category', 'year', 'context', 'stack', 'results')
       .limit(1)
       .all()
 )

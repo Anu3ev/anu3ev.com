@@ -8,6 +8,7 @@ cover: /images/work/form-protection/invisible-captcha-submit-flow.svg
 coverAlt: Diagram of a form submit that validates fields, waits for a CAPTCHA token and resumes only the form that requested it
 category: Storefront platform
 year: Oct 2023 – Jul 2026
+context: inSales
 role: Frontend owner of the integration, shared CAPTCHA code and release
 stack: [JavaScript, Vue, CommonJS storefront library, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
 featured: false

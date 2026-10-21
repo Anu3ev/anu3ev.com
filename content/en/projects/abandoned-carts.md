@@ -8,6 +8,7 @@ cover: /images/work/abandoned-carts/cart-details-drawer.webp
 coverAlt: Cart details drawer in the inSales admin listing three products, the cart total, a Place an order button and an empty communication history
 category: Merchant tools
 year: Oct 2024 – Apr 2025
+context: inSales
 role: "Sole frontend developer: requirements, API contracts, implementation, release"
 stack: [Vue, JavaScript, Vue Router, Vuetify-based UI kit, ApexCharts, Monaco Editor, REST API]
 featured: false

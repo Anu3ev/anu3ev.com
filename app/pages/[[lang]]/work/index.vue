@@ -14,7 +14,7 @@ const { data: projects } = await useAsyncData(
       .where('locale', '=', locale.value)
       .where('published', '=', true)
       .order('order', 'ASC')
-      .select('locale', 'slug', 'title', 'description', 'category', 'year', 'stack', 'results')
+      .select('locale', 'slug', 'title', 'description', 'category', 'year', 'context', 'stack', 'results')
       .all()
 )
 const categories = computed(() => [...new Set(projects.value?.map(project => project.category))])

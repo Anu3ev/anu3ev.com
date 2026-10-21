@@ -61,7 +61,8 @@ collections:
       - { name: cover, label: Image, widget: image, i18n: duplicate_if_empty, hint: Prefer WebP under 200 KB at 1200 × 675 px. }
       - { name: coverAlt, label: Image alt text, widget: string, i18n: true }
       - { name: category, label: Category, widget: string, i18n: true, default: Product engineering, default_localized: { ru: Продуктовая разработка } }
-      - { name: year, label: Period, widget: string, i18n: duplicate }
+      - { name: year, label: Period, widget: string, i18n: true }
+      - { name: context, label: Context, widget: string, i18n: duplicate, default: inSales, hint: Employer or Open source; shown next to the period on cards. }
       - { name: role, label: My role, widget: string, i18n: true }
       - { name: stack, label: Technologies, widget: list, i18n: duplicate }
       - { name: featured, label: Feature on Home, widget: boolean, default: false, i18n: duplicate }
