@@ -42,7 +42,7 @@ for (const frame of frames) {
 }
 
 for (const frame of frames) {
-  test(`${frame.name} home cover keeps its text clear of the shapes and the button below the cover`, async ({ page }) => {
+  test(`${frame.name} home cover keeps its text clear of the shapes and the button on the avatar's line`, async ({ page }) => {
     await page.setViewportSize({ width: frame.width, height: frame.height })
     await page.goto('/')
 
@@ -63,13 +63,18 @@ for (const frame of frames) {
         labelCovered: coveredPoints(cover.querySelector('span')!),
         codeCovered: coveredPoints(cover.querySelector('code')!),
         coverBottom: cover.getBoundingClientRect().bottom,
-        buttonTop: document.querySelector('.profile-actions .button')!.getBoundingClientRect().top
+        button: document.querySelector('.profile-actions .button')!.getBoundingClientRect().toJSON() as DOMRect,
+        avatar: document.querySelector('.profile-avatar')!.getBoundingClientRect().toJSON() as DOMRect
       }
     })
 
     expect(layout.labelCovered).toBe(0)
     expect(layout.codeCovered).toBe(0)
-    expect(layout.buttonTop - layout.coverBottom).toBeGreaterThanOrEqual(8)
+    // Owner's design: the button and the avatar form one row that straddles the cover edge.
+    const centre = (box: DOMRect) => box.top + box.height / 2
+    expect(Math.abs(centre(layout.button) - centre(layout.avatar))).toBeLessThanOrEqual(1)
+    expect(layout.button.top).toBeLessThan(layout.coverBottom)
+    expect(layout.button.bottom).toBeGreaterThan(layout.coverBottom)
   })
 }
 

@@ -8,6 +8,7 @@ cover: /images/work/product-image-editor/user-template-created.webp
 coverAlt: Редактор изображений inSales с открытой панелью «Мои шаблоны» и инфографикой с кроссовками на холсте сразу после создания шаблона
 category: Браузерные редакторы
 year: Март 2025 – сентябрь 2026
+context: inSales
 role: Отвечал за frontend продукта, интеграцию редактора и API-контракты
 stack: [Vue 3, Composition API, FabricJS, REST API, Mixpanel, Unsplash API]
 featured: true

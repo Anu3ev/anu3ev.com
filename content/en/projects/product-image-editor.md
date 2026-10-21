@@ -8,6 +8,7 @@ cover: /images/work/product-image-editor/user-template-created.webp
 coverAlt: The inSales image editor with the My templates panel open and a sneaker infographic on the canvas after a user template was created
 category: Browser editors
 year: Mar 2025 – Sep 2026
+context: inSales
 role: Frontend owner of the product UI, editor integration and API contracts
 stack: [Vue 3, Composition API, FabricJS, REST API, Mixpanel, Unsplash API]
 featured: true

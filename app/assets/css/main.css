@@ -156,8 +156,8 @@ p { line-height: inherit; }
 /* Photo avatars fill their frame; the home avatar rounds the image inside its 6px ring so the status dot stays unclipped. */
 .small-avatar img, .tiny-avatar img, .profile-avatar img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
 .profile-avatar img { border-radius: 18px; }
-/* The avatar overlaps the cover; the button keeps a clear gap below the cover's edge. */
-.profile-actions .button { margin-top: 48px; gap: 12px; border-radius: 7px; background: var(--canvas); }
+/* The button shares the avatar's centre line, so both straddle the cover edge as one row. */
+.profile-actions .button { margin-top: 0; gap: 12px; border-radius: 7px; background: var(--canvas); }
 .profile-body h1 { font-size: 32px; line-height: 1.2; letter-spacing: -1.3px; font-weight: 600; }
 .profile-role { color: var(--muted); font-size: 15px; margin-top: 8px; }
 .profile-description { white-space: pre-line; font-size: 15px; line-height: 1.75; color: #d1d2d4; margin-top: 20px; }
@@ -192,7 +192,7 @@ p { line-height: inherit; }
 .project-card-body { padding-top: 22px; }
 .project-card h2 { font-size: 21px; font-weight: 550; letter-spacing: -.55px; }
 .project-card p { font-size: 14px; line-height: 1.75; color: var(--muted); margin-top: 10px; }
-.project-card-bottom { display: flex; justify-content: space-between; align-items: end; gap: 14px; margin-top: 20px; }
+.project-card-bottom { display: flex; justify-content: space-between; align-items: center; gap: 14px; margin-top: 20px; }
 .project-card-bottom .tags { margin-top: 0; }
 .project-card-bottom .text-link { flex-shrink: 0; }
 .feed-more { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); padding: 16px 28px; font-size: 12px; }
@@ -258,10 +258,13 @@ p { line-height: inherit; }
 .case-facts .tags { margin-top: 0; }
 .case-cover { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 7px; border: 1px solid var(--line); margin-block: 28px 36px; }
 .reading-layout { min-width: 0; }
-.table-of-contents { margin-bottom: 32px; padding: 20px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; font-size: 12px; }
-.table-of-contents .eyebrow { margin-bottom: 12px; }
-.table-of-contents ol { list-style: none; padding: 0; }
-.table-of-contents a { display: inline-flex; align-items: center; min-height: 44px; color: var(--muted); }
+.table-of-contents { margin-bottom: 32px; padding: 16px 20px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }
+.table-of-contents .eyebrow { margin-bottom: 6px; }
+/* A compact numbered outline: rows stay at least 32 px tall (WCAG 2.2 target size) and read top to bottom in two columns where there is room. */
+.table-of-contents ol { list-style: none; padding: 0; counter-reset: toc; column-count: 2; column-gap: 28px; }
+.table-of-contents li { counter-increment: toc; break-inside: avoid; }
+.table-of-contents a { display: flex; align-items: baseline; gap: 10px; min-height: 32px; padding-block: 6px; color: var(--muted); line-height: 1.4; }
+.table-of-contents a::before { content: counter(toc, decimal-leading-zero); flex: none; color: var(--accent); font: 11px ui-monospace, monospace; }
 @media (hover: hover) { .table-of-contents a:hover { color: var(--accent); } }
 .prose { font-size: 14px; overflow-wrap: anywhere; line-height: 1.9; }
 .prose > * + * { margin-top: 22px; }
@@ -291,6 +294,7 @@ p { line-height: inherit; }
 .about-photo { border-radius: 9px; width: 100%; }
 .about-grid p { font-size: 13px; }
 .about-grid p + p { margin-top: 18px; }
+.about-toolkit-title { margin-top: 32px; font-size: 24px; line-height: 1.3; }
 .timeline { margin-top: 24px; }
 .timeline-item { border-top: 1px solid var(--line); padding-block: 24px; }
 .timeline-item time { color: var(--subtle); font-size: 11px; display: block; margin-bottom: 12px; }
@@ -335,6 +339,7 @@ p { line-height: inherit; }
 }
 
 @media (max-width: 760px) {
+  .table-of-contents ol { column-count: 1; }
   html { scroll-padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
   .site-layout { display: block; max-width: 620px; padding: 0; }
   .site-sidebar { position: fixed; z-index: 30; inset: auto 0 0; height: auto; min-height: 76px; padding: 8px 12px calc(12px + env(safe-area-inset-bottom)); border-top: 1px solid var(--control-line); background: var(--navigation-surface); backdrop-filter: blur(12px); }
@@ -356,8 +361,8 @@ p { line-height: inherit; }
   .profile-avatar { width: 78px; height: 78px; border-radius: 22px; }
   .profile-avatar img { border-radius: 16px; }
   .fact-list { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .fact-list li { flex-direction: row; align-items: baseline; gap: 12px; padding: 12px 14px; }
-  .fact-list strong { flex: none; min-width: 64px; font-size: 20px; }
+  .fact-list li { flex-direction: row; align-items: center; gap: 12px; padding: 12px 14px; }
+  .fact-list strong { flex: none; min-width: 84px; font-size: 20px; }
   .profile-actions { margin-bottom: 16px; }
   .tags li { font-size: 10px; }
   .container { padding-inline: 20px; }
@@ -397,7 +402,7 @@ p { line-height: inherit; }
   .about-grid figure { max-width: 220px; }
   .contact-email-section { padding: 0 20px 28px; }
   .email-card { padding: 18px 14px; gap: 10px; }
-  .email-icon { width: 30px; height: 34px; }
+  .email-icon { width: 34px; height: 34px; }
   .email-card strong { font-size: 13px; }
   .email-note { font-size: 12px; }
   .email-card strong svg { width: 14px; height: 14px; }

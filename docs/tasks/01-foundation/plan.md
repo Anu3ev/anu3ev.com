@@ -28,5 +28,6 @@ Each task follows requirements → implementation → checks → self-review →
 | 22-home-positioning | Home headline, bio, proof points and tags from the ABCD plan and verified CV metrics | Complete; 69 browser checks passed |
 | 23-portfolio-cases | Ten bilingual case studies with verified key results, raw screenshots or honest diagrams | Complete; 69 browser checks passed |
 | 24-blog-articles | Five bilingual technical articles from five projects | Complete; 1.1.0 releases tasks 18–24 |
+| 27-mobile-polish | Owner phone review: card header, proof tiles, Let's talk row, email icon, compact outline | Complete; 69 browser checks passed |
 
 The former plans, HTML prototype and remaining old inventory were removed at the user's request. Useful images were retained as source material; facts were checked against current Obsidian notes. All new requests remain in order, with domain connection explicitly reserved for the final stage.

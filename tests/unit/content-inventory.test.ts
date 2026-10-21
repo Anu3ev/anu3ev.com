@@ -72,7 +72,7 @@ describe('public content inventory', () => {
       writeFileSync(join(directory, 'editor-case.md'), matter.stringify('A complete case about a reusable editor. '.repeat(8), {
         title: 'A reusable browser editor', description: 'A case about an editor engine and the product workflow around it.',
         locale, slug: 'editor-case', published: true, cover: '/images/cover.svg', coverAlt: 'A diagram about the editor engine',
-        category: 'Open source', year: '2026', role: 'Core library author', stack: ['TypeScript'], featured: true, order: 1
+        category: 'Open source', year: '2026', context: 'Open source', role: 'Core library author', stack: ['TypeScript'], featured: true, order: 1
       }))
     }
 
