@@ -7,7 +7,7 @@ published: true
 cover: /images/work/visual-storefront/floating-widget-settings.webp
 coverAlt: 'Новый визуальный редактор inSales: плавающая панель настроек промо-слайдера поверх предпросмотра магазина во всю ширину'
 category: Браузерные редакторы
-year: Около 8 недель
+year: Май–август 2024
 role: "Единственный frontend-разработчик: редизайн, контракт данных, технический режим"
 stack: [Vue, JavaScript, REST API, iframe]
 featured: false

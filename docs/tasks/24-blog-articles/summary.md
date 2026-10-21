@@ -15,7 +15,7 @@ The three placeholder posts, all about the image editor, are replaced by five lo
 **Open questions for the owner**
 1. Is there a measured time after the Vue 3 fix?
 2. Which Liquid variable is behind `data-product-updated-at`? The article shows `product.updated_at`.
-3. Are you comfortable describing the August 2025 CAPTCHA rollback publicly?
+3. ~~CAPTCHA rollback in public~~: confirmed by the owner on 2026-10-21; the story stays.
 4. May the article name the Monaco `window` API functions?
 5. How was the 60% → 80% first-session success measured (period, sample)?
 

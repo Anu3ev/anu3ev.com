@@ -27,11 +27,6 @@ The portfolio now has 10 case studies in English and Russian, sourced from the o
 
 **Claims deliberately left out:** the withdrawn Monaco 64%→82% and "3 days"; the invented abandoned-cart conversion examples; the CAPTCHA "+3%" and "v2→v3"; attaching 3,000+ or 800+ to the library; any single feature at 60,000 merchants; "server-side caching". The library case also no longer says that coding agents wrote the October 2026 code.
 
-**Open questions for the owner**
-1. Visual site editor: no source gives the calendar year, so the period reads "About 8 weeks". Which year was it?
-2. Image editor in the site editor: is the release date 31 August or 1 September 2026? The text says "since September 2026".
-3. Multi-warehouse carts: did the grouped update request reach production in the form described?
-4. Storefront cases: please confirm the periods (CommonJS 2021–2026, loading 2024–2025, options 2025), and whether "every inSales storefront" is accurate.
-5. Abandoned carts: the Hited store is named, following the public inSales case. Keep or anonymise?
+**Owner answers (2026-10-21).** The visual site editor redesign ran May–August 2024; the grouped multi-warehouse update shipped to production as described; the Hited store stays named, following the public inSales case. Still open: the exact release date of the image editor in the site editor (the text says "since September 2026") and confirmation of the storefront case periods.
 
 **Checks.** `pnpm check` (content, ESLint, types, 52 unit tests), `pnpm build` and 69/69 browser/axe checks pass. The portfolio list and three case pages were checked in screenshots (EN/RU, 1440/402): no failed requests, and the results strip and card highlights render. One result value that wrapped badly ("5–10 → 2–3 min") was rewritten as "2–3 min" with the baseline in the label.

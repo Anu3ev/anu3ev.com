@@ -54,7 +54,7 @@ I connected warehouse-cart updates to the product controls, so the product page 
 
 - The feature was in production by November 2023. I started work in August 2023.
 - Wholesale buyers could set quantities per warehouse, and the cart showed each warehouse with its own quantities and subtotal.
-- I designed the grouped update so changes for several warehouses go to the server in one request, closing the lost-selection case found in testing.
+- The grouped update shipped: changes for several warehouses go to the server in one request, which closed the lost-selection case I found in testing.
 - Stores with a single warehouse kept the ordinary cart without changes to their code.
 
 I don't have a usage or revenue figure for this feature. For context on why merchants sell partner stock: in a [case study published by inSales](https://www.insales.ru/blogs/cases/hited), one merchant with a 45,000-SKU catalogue reported that partner warehouses accounted for 21% of its online sales in 2024. That is the merchant's own figure, not a result of my work.
