@@ -7,7 +7,7 @@ published: true
 cover: /images/work/commonjs-storefront-library/library-modules-and-templates.svg
 coverAlt: "Схема библиотеки CommonJS: публичный API и компоненты, связанные со стандартными шаблонами, виджетами, кодом магазинов и документацией"
 category: Платформа витрин
-year: 2021–2026
+year: Октябрь 2021 – сентябрь 2026
 role: "Мейнтейнер библиотеки: рефакторинг, сборка, компоненты, публичный API, документация"
 stack: [JavaScript, Webpack 5, ES modules, Lodash, IndexedDB, Liquid, AJAX]
 featured: false

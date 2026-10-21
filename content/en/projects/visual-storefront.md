@@ -7,7 +7,7 @@ published: true
 cover: /images/work/visual-storefront/floating-widget-settings.webp
 coverAlt: Redesigned inSales visual editor with a floating settings panel for the selected promo slider over a full-width storefront preview
 category: Browser editors
-year: May–August 2024
+year: May 2024 – Aug 2024
 role: "Sole frontend developer: redesign implementation, data contract, recovery mode"
 stack: [Vue, JavaScript, REST API, iframe]
 featured: false

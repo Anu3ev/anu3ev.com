@@ -7,7 +7,7 @@ published: true
 cover: /images/work/commonjs-storefront-library/library-modules-and-templates.svg
 coverAlt: Diagram of the CommonJS library with its public API and components, connected to standard templates, widgets, custom store code and developer docs
 category: Storefront platform
-year: 2021–2026
+year: Oct 2021 – Sep 2026
 role: "Library maintainer: refactoring, build, components, public API, docs"
 stack: [JavaScript, Webpack 5, ES modules, Lodash, IndexedDB, Liquid, AJAX]
 featured: false

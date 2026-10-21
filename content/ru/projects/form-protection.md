@@ -7,7 +7,7 @@ published: true
 cover: /images/work/form-protection/invisible-captcha-submit-flow.svg
 coverAlt: "Схема отправки формы: проверка полей, ожидание токена капчи и продолжение отправки только той формы, которая его запросила"
 category: Платформа витрин
-year: 2023–2026
+year: Октябрь 2023 – июль 2026
 role: Отвечал за frontend-интеграцию, общий код капчи и выпуск
 stack: [JavaScript, Vue, CommonJS-библиотека витрин, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
 featured: false

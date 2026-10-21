@@ -7,7 +7,7 @@ published: true
 cover: /images/work/multi-warehouse-carts/grouped-cart-update.svg
 coverAlt: "Схема: изменения покупателя по двум складам собираются в очередь библиотеки корзины и уходят одним запросом с группировкой по складам"
 category: Платформа витрин
-year: "2023"
+year: Август – ноябрь 2023
 role: Отвечал за реализацию на витрине и согласование API
 stack: [JavaScript, CommonJS-библиотека витрин, REST API, Liquid]
 featured: false

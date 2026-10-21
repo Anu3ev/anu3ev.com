@@ -7,7 +7,7 @@ published: true
 cover: /images/work/storefront-product-loading/cache-validation-flow.svg
 coverAlt: Diagram of the cache check. Liquid passes each product's update time, the library compares it with IndexedDB and requests only changed products
 category: Storefront platform
-year: 2024–2025
+year: Dec 2024 – May 2025
 role: "Library maintainer: AJAX components, client-side cache, rollout and docs"
 stack: [JavaScript, IndexedDB, Liquid, AJAX, REST API, EventBus]
 featured: false
