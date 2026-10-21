@@ -25,7 +25,8 @@ export const projectSchema = editorialSchema.extend({
   /** Where the work was done, shown next to the period on cards: an employer or "Open source". */
   context: z.string().min(2).max(40),
   role: z.string().min(5).max(120),
-  stack: z.array(z.string().min(1)).min(1).max(12),
+  /** Skills in the owner's LinkedIn order; LinkedIn allows 20 per project and cards show the first three. */
+  stack: z.array(z.string().min(1)).min(1).max(20),
   featured: z.boolean().default(false),
   order: z.number().int().min(0).max(999),
   repository: optionalLink,

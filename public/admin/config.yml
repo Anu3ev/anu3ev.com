@@ -64,7 +64,7 @@ collections:
       - { name: year, label: Period, widget: string, i18n: true }
       - { name: context, label: Context, widget: string, i18n: duplicate, default: inSales, hint: Employer or Open source; shown next to the period on cards. }
       - { name: role, label: My role, widget: string, i18n: true }
-      - { name: stack, label: Technologies, widget: list, i18n: duplicate }
+      - { name: stack, label: Skills, hint: 'Same order as the LinkedIn project; cards show the first three.', widget: list, i18n: duplicate }
       - { name: featured, label: Feature on Home, widget: boolean, default: false, i18n: duplicate }
       - { name: order, label: Sort order, widget: number, value_type: int, min: 0, max: 999, default: 10, i18n: duplicate }
       - { name: repository, label: Public repository, widget: string, required: false, i18n: duplicate, hint: HTTPS only. Do not include private employer repositories. }

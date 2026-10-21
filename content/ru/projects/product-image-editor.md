@@ -10,7 +10,7 @@ category: Браузерные редакторы
 year: Март 2025 – сентябрь 2026
 context: inSales
 role: Отвечал за frontend продукта, интеграцию редактора и API-контракты
-stack: [Vue 3, Composition API, FabricJS, REST API, Mixpanel, Unsplash API]
+stack: [Vue 3, TypeScript, Complex UI, FabricJS, Composition API, E-Commerce Development, Frontend Architecture, SCSS, Web Application Development, API Integration, AI-Powered Image Editing, Front-End Development]
 featured: true
 order: 1
 results:

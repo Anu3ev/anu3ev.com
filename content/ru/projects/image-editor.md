@@ -10,7 +10,7 @@ category: Open source
 year: Март 2025 – сейчас
 context: Open source
 role: Единственный автор и мейнтейнер — от архитектуры и публичного API до тестов и релизов
-stack: [TypeScript, FabricJS, Web Workers, Jest, Playwright, GitHub Actions, npm]
+stack: [JavaScript, Vite, Technical Documentation, Playwright, TypeScript, FabricJS, Problem Solving, E2E, Web Workers, Web Performance, State Management, Front-End Development, AI-Assisted Software Development, Jest, npm, Frontend Architecture, End-to-end Testing, CI/CD, Git, HTML Canvas]
 featured: false
 order: 3
 repository: https://github.com/Anu3ev/image-editor
