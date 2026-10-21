@@ -42,6 +42,7 @@ usePageSeo({
 
 <template>
   <div class="page-shell">
+    <ReadingProgress v-if="project" content-selector=".reading-layout" />
     <div v-if="project" class="container page-content">
       <NuxtLink
         :to="localePath('/work')"
