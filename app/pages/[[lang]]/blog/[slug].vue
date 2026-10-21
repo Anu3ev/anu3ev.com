@@ -65,6 +65,7 @@ usePageSeo({
 
 <template>
   <div class="page-shell">
+    <ReadingProgress v-if="post" content-selector=".article-body" />
     <article v-if="post" class="container page-content">
       <NuxtLink
         :to="localePath('/blog')"

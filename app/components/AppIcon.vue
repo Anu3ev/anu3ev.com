@@ -33,6 +33,7 @@ defineProps<{ name: keyof typeof paths }>()
     stroke-width="1.6"
     stroke-linecap="round"
     stroke-linejoin="round"
+    :data-icon="name"
     aria-hidden="true"
     focusable="false"
   >

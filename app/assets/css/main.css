@@ -93,11 +93,18 @@ p { line-height: inherit; }
 @media (hover: hover) { .text-link:hover, a:hover > h2, h2 a:hover, h3 a:hover { color: var(--accent); } }
 .text-link svg { width: 15px; height: 15px; }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
-.button { display: inline-flex; justify-content: center; align-items: center; gap: var(--space-4); min-height: 44px; padding: var(--space-2) var(--space-4); border-radius: 6px; border: 1px solid var(--control-line); font-size: 12px; font-weight: 500; transition: background-color .18s; }
-@media (hover: hover) { .button:hover { background: var(--surface-raised); } }
-.button svg { width: 16px; height: 16px; }
+.button { display: inline-flex; justify-content: center; align-items: center; gap: var(--space-4); min-height: 44px; padding: var(--space-2) var(--space-4); border-radius: 6px; border: 1px solid var(--control-line); font-size: 12px; font-weight: 500; transition: background-color .18s, border-color .18s, box-shadow .2s, filter .18s; }
+/* Buttons answer the pointer: the arrow leans toward where the link goes, the primary button glows in its accent. */
+@media (hover: hover) {
+  .button:hover { background: var(--surface-raised); border-color: var(--accent); }
+  .button:hover svg[data-icon='arrow'] { transform: translate(2px, -2px); }
+  .button:hover svg[data-icon='right'] { transform: translateX(3px); }
+  .profile-actions .button:hover { color: var(--accent); }
+}
+.button:active { transform: translateY(1px); }
+.button svg { width: 16px; height: 16px; transition: transform .2s; }
 .button-primary { color: var(--accent-ink); background: var(--accent); border-color: var(--accent); }
-@media (hover: hover) { .button-primary:hover { filter: brightness(1.1); background: var(--accent); } }
+@media (hover: hover) { .button-primary:hover { filter: brightness(1.08); background: var(--accent); box-shadow: 0 6px 20px -6px var(--accent); } }
 .button-secondary { background: transparent; }
 .icon-button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: transparent; border: 0; border-radius: 5px; color: var(--muted); }
 @media (hover: hover) { .icon-button:hover { color: var(--accent); background: var(--surface); } }
@@ -109,6 +116,9 @@ p { line-height: inherit; }
 :root:not([data-theme='light']) .theme-switch svg:last-child, :root[data-theme='light'] .theme-switch svg:first-child { color: var(--accent-ink); }
 @media (hover: hover) { .theme-switch:hover { border-color: var(--accent); } }
 .theme-switch:disabled { cursor: wait; }
+/* Reading progress for cases and articles: a hairline across the top of the screen, above the topbar. */
+.reading-progress { position: fixed; z-index: 40; inset: env(safe-area-inset-top, 0px) 0 auto; height: 3px; pointer-events: none; }
+.reading-progress span { display: block; height: 100%; background: var(--accent); transform-origin: left; }
 .skip-link { position: fixed; z-index: 100; top: 8px; left: 16px; transform: translateY(-160%); padding: var(--space-3) var(--space-5); background: var(--accent); color: var(--accent-ink); border-radius: 5px; }
 .skip-link:focus { transform: translateY(0); }
 /* Sidebar geometry (35 px top, the 53 px wordmark margin) lines the navigation up with the 78 px topbar; it is alignment, not content spacing. */
