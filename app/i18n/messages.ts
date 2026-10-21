@@ -1,7 +1,7 @@
 /** Interface labels for the two published languages; editorial copy lives in content/settings/pages.json. */
 export const messages = {
   en: {
-    personalSpace: 'Personal space', homeSectionTitle: 'A little about me', notebookTitle: 'Notes from the workbench',
+    personalSpace: 'Personal space', homeSectionTitle: 'A little about me', aboutSectionTitle: 'Experience and approach', notebookTitle: 'Notes from the workbench',
     startConversation: 'Start a conversation', builtWithCare: 'Built with care.',
     currentFocus: 'Current focus',
     tagline: 'Thoughtful interfaces. Solid engineering.', crafting: 'Crafting the interactive web', pinnedNote: 'Pinned note',
@@ -32,7 +32,7 @@ export const messages = {
     services: 'What I bring', openSource: 'Open-source editor core'
   },
   ru: {
-    personalSpace: 'Разделы', homeSectionTitle: 'Немного обо мне', notebookTitle: 'Заметки о разработке',
+    personalSpace: 'Разделы', homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
     startConversation: 'Как со мной связаться', builtWithCare: 'Сайт собрал',
     currentFocus: 'Чем занимаюсь',
     tagline: 'Удобные интерфейсы и надёжный код.', crafting: 'Фронтенд для сложных продуктов', pinnedNote: 'Закреплённая заметка',

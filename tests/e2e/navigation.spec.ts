@@ -88,7 +88,7 @@ test('mobile bottom navigation supports the keyboard and leaves the final conten
   await page.setViewportSize({ width: 320, height: 812 })
   await page.goto('/')
   const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
-  await expect(navigation.getByRole('link')).toHaveCount(4)
+  await expect(navigation.getByRole('link')).toHaveCount(5)
   await expect(navigation.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute('aria-current', 'page')
   const blogLink = navigation.getByRole('link', { name: 'Blog', exact: true })
   await blogLink.focus()

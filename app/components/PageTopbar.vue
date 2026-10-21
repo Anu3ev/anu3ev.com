@@ -3,9 +3,10 @@ const route = useRoute()
 const { copy, locale, alternatePath } = useLocale()
 const section = computed(() => {
   const sections: Record<string, { title: string, number: string }> = {
-    blog: { title: copy.value.notebookTitle, number: '02' },
-    work: { title: copy.value.selectedWork, number: '03' },
-    contact: { title: copy.value.startConversation, number: '04' }
+    about: { title: copy.value.aboutSectionTitle, number: '02' },
+    blog: { title: copy.value.notebookTitle, number: '03' },
+    work: { title: copy.value.selectedWork, number: '04' },
+    contact: { title: copy.value.startConversation, number: '05' }
   }
   const segment = route.path.replace(/^\/ru(?=\/|$)/, '').split('/')[1] || ''
 
@@ -17,7 +18,7 @@ const section = computed(() => {
   <header class="page-topbar">
     <span>{{ section.title }}</span>
     <div class="topbar-controls">
-      <span class="page-number" aria-hidden="true">{{ section.number }} / 04</span>
+      <span class="page-number" aria-hidden="true">{{ section.number }} / 05</span>
       <NuxtLink
         :to="alternatePath"
         class="language-link"
