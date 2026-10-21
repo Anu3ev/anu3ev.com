@@ -4,7 +4,7 @@ import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import matter from 'gray-matter'
 import { readContentInventory } from '../../scripts/lib/content'
-import { profileSchema } from '../../shared/content-schema'
+import { certificatesSchema, profileSchema } from '../../shared/content-schema'
 
 /** Each spec owns one temporary repository; every scenario starts with fresh files. */
 const root = mkdtempSync(join(tmpdir(), 'anu3ev-content-'))
@@ -16,6 +16,9 @@ beforeEach(() => {
   mkdirSync(join(root, 'public/images'), { recursive: true })
   copyFileSync('content/settings/profile.json', join(root, 'content/settings/profile.json'))
   copyFileSync('content/settings/pages.json', join(root, 'content/settings/pages.json'))
+  copyFileSync('content/settings/certificates.json', join(root, 'content/settings/certificates.json'))
+  mkdirSync(join(root, 'public/images/certificates'), { recursive: true })
+  for (const image of ['vue-master-class-2024.webp', 'vue-master-class-2024-full.webp', 'ef-set-english.webp']) copyFileSync(`public/images/certificates/${image}`, join(root, 'public/images/certificates', image))
   copyFileSync('public/images/alexander.webp', join(root, 'public/images/alexander.webp'))
   copyFileSync('public/images/alexander-avatar.webp', join(root, 'public/images/alexander-avatar.webp'))
   copyFileSync('public/images/vue-lifecycle.svg', join(root, 'public/images/cover.svg'))
@@ -58,6 +61,19 @@ describe('public content inventory', () => {
     expect(() => readContentInventory({ root, now })).toThrow('existing public image')
     writeFileSync(path, JSON.stringify({ ...profile, avatar: '/images/missing-avatar.webp' }))
     expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+  })
+
+  it('accepts the published certificates and rejects a card without its preview', () => {
+    const path = join(root, 'content/settings/certificates.json')
+    const { certificates } = certificatesSchema.parse(JSON.parse(readFileSync(path, 'utf8')))
+    expect(readContentInventory({ root, now }).certificates).toHaveLength(certificates.length)
+
+    writeFileSync(path, JSON.stringify({ certificates: [{ ...certificates[0], image: '/images/certificates/missing.webp' }] }))
+    expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+    writeFileSync(path, JSON.stringify({ certificates: [{ ...certificates[0], url: '/images/certificates/missing-copy.webp' }] }))
+    expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+    writeFileSync(path, JSON.stringify({ certificates: [{ ...certificates[0], image: '', summary_ru: '' }] }))
+    expect(() => readContentInventory({ root, now })).toThrow('featured certificate needs an image')
   })
 
   it('rejects incomplete static-page settings before publishing', () => {

@@ -351,6 +351,33 @@ p { line-height: inherit; }
 .approach-number { color: var(--accent); font-size: 11px; display: block; margin-bottom: var(--space-4); }
 .approach-card h3 { font-size: 18px; }
 .approach-card p { color: var(--muted); font-size: 13px; margin-top: var(--space-3); }
+/* Certificates: substantial ones as cards with the document itself, shorter ones as a compact list with their own links. */
+.certificate-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-top: var(--block-gap); padding: 0; list-style: none; }
+.certificate-card { display: flex; flex-direction: column; height: 100%; overflow: hidden; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
+/* Certificates are white paper in both themes; the frame keeps that paper behind a slightly narrower document. */
+.certificate-preview { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #ffffff; border-bottom: 1px solid var(--line); }
+.certificate-body { display: flex; flex: 1; flex-direction: column; align-items: start; gap: var(--space-2); padding: var(--card-padding); }
+.certificate-meta { color: var(--subtle); font-size: 11px; }
+.certificate-card h3 { font-size: 18px; line-height: 1.35; }
+.certificate-issuer { color: var(--accent-label); font-size: 13px; }
+:root[data-theme='light'] .certificate-issuer { color: var(--accent); }
+.certificate-summary { color: var(--muted); font-size: 13px; line-height: 1.7; }
+.certificate-card .tags { margin-top: var(--space-1); }
+/* The link closes every card on the same line, however long the summary above it is. */
+.certificate-link { margin-top: auto; }
+.certificates-subtitle { margin-top: var(--space-8); font-size: 16px; line-height: 1.5; }
+.certificate-list { margin-top: var(--space-3); padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.certificate-list li { border-bottom: 1px solid var(--line); }
+/* The row's hover surface reaches past the text by its own padding, so the text stays aligned with the heading. */
+.certificate-row { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 64px; margin-inline: calc(-1 * var(--space-3)); padding: var(--space-3); border-radius: 6px; }
+.certificate-row svg { width: 16px; height: 16px; flex: none; color: var(--muted); transition: transform .2s; }
+@media (hover: hover) {
+  a.certificate-row:hover { background: var(--surface); color: var(--accent); }
+  a.certificate-row:hover svg { color: var(--accent); transform: translate(2px, -2px); }
+}
+.certificate-list-text { display: flex; flex-direction: column; gap: var(--space-1); min-width: 0; }
+.certificate-list strong { font-size: 14px; font-weight: 550; }
+.certificate-list-text span { color: var(--muted); font-size: 12px; }
 .contact-page-heading h1 { font-size: 40px; max-width: 15ch; }
 .contact-page-heading .button { margin-top: var(--block-gap); min-height: 46px; font-size: 13px; }
 .contact-email-section { padding: 0 var(--gutter) var(--section-space); }
@@ -439,6 +466,7 @@ p { line-height: inherit; }
   .topic-filter { font-size: 10px; padding-inline: var(--space-2); }
   .prose { font-size: 14px; }
   .about-grid { grid-template-columns: minmax(0, 1fr); }
+  .certificate-grid { grid-template-columns: minmax(0, 1fr); }
   .about-grid figure { max-width: 220px; }
   .email-card { padding: var(--space-4); }
   .email-icon { width: 34px; height: 34px; }

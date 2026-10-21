@@ -3,7 +3,7 @@ import { basename, join, resolve, sep } from 'node:path'
 import matter from 'gray-matter'
 import { parse as parseYaml } from 'yaml'
 import type { z } from 'zod'
-import { postSchema, profileSchema, projectSchema } from '../../shared/content-schema'
+import { certificatesSchema, postSchema, profileSchema, projectSchema } from '../../shared/content-schema'
 import { getPublicationDate } from '../../shared/publication'
 import { sitePagesSchema } from '../../shared/page-content'
 
@@ -103,6 +103,19 @@ export function readContentInventory({ root = process.cwd(), now = new Date() } 
   validatePublicImage({ root, image: profile.avatar, source: 'settings/profile.json' })
   const pagesInput: unknown = JSON.parse(readFileSync(join(root, 'content/settings/pages.json'), 'utf8'))
   const pages = sitePagesSchema.parse(pagesInput)
+  const certificates = readCertificates(root)
   const excluded = [...projects, ...posts].filter(document => !document.isPublic).map(document => document.source)
-  return { projects, posts, profile, pages, excluded }
+  return { projects, posts, profile, pages, certificates, excluded }
+}
+
+/** Certificates are public evidence: every preview must be an existing public image, like a case cover. */
+function readCertificates(root: string) {
+  const input: unknown = JSON.parse(readFileSync(join(root, 'content/settings/certificates.json'), 'utf8'))
+  const { certificates } = certificatesSchema.parse(input)
+  for (const certificate of certificates) {
+    if (certificate.image) validatePublicImage({ root, image: certificate.image, source: 'settings/certificates.json' })
+    if (certificate.url.startsWith('/')) validatePublicImage({ root, image: certificate.url, source: 'settings/certificates.json' })
+  }
+
+  return certificates
 }

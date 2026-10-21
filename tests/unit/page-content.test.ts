@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import pages from '../../content/settings/pages.json'
-import { formatExperiencePeriod, sitePagesSchema } from '../../shared/page-content'
+import { formatExperiencePeriod, formatMonth, sitePagesSchema } from '../../shared/page-content'
 
 describe('editable page content', () => {
   it('requires complete English and Russian settings and rejects unknown sections', () => {
@@ -13,6 +13,12 @@ describe('editable page content', () => {
     expect(formatExperiencePeriod({ start: '2021-10', end: '2026-09', presentLabel: 'Present' })).toBe('10.2021 — 09.2026')
     expect(formatExperiencePeriod({ start: '2026-10', end: '', presentLabel: 'Сейчас' })).toBe('10.2026 — Сейчас')
     expect(formatExperiencePeriod({ start: '2026-10', presentLabel: 'Present' })).toBe('10.2026 — Present')
+  })
+
+  it('shows a single month in the same style as career periods', () => {
+    expect(formatMonth('2026-10')).toBe('10.2026')
+    expect(formatMonth('2025-04')).toBe('04.2025')
+    expect(() => formatMonth('2026-1')).toThrow()
   })
 
   it('rejects impossible months, reversed periods and a missing ongoing-role label', () => {

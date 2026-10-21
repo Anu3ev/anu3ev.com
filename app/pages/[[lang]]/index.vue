@@ -29,6 +29,7 @@ usePageSeo({
     {
       '@context': 'https://schema.org',
       '@type': 'Person',
+      '@id': `${siteUrl}/#person`,
       'name': profile.name,
       'alternateName': profile.name_ru,
       'url': siteUrl,

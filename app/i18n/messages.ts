@@ -29,7 +29,10 @@ export const messages = {
     notFound: 'This page wandered off.', notFoundBody: 'The address may have changed, or the page doesn’t exist. Let’s get you somewhere useful.',
     returnHome: 'Back to home', updated: 'Last updated',
     articlesCount: 'Articles found', filters: 'Filter articles',
-    services: 'What I bring', openSource: 'Open-source editor core'
+    services: 'What I bring', openSource: 'Open-source editor core',
+    certificates: 'Certificates', certificatesTitle: 'Courses and tests', otherCertificates: 'Other certificates',
+    certificateCourse: 'Course', certificateTest: 'Language test', certificateLessons: 'Lessons',
+    viewCertificate: 'View certificate', opensInNewTab: 'opens in a new tab'
   },
   ru: {
     personalSpace: 'Разделы', homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
@@ -60,6 +63,9 @@ export const messages = {
     notFound: 'Страница не найдена.', notFoundBody: 'Возможно, адрес изменился или такой страницы нет.',
     returnHome: 'На главную', updated: 'Обновлено',
     articlesCount: 'Найдено статей', filters: 'Фильтр статей',
-    services: 'Чем могу помочь', openSource: 'Open-source ядро редактора'
+    services: 'Чем могу помочь', openSource: 'Open-source ядро редактора',
+    certificates: 'Сертификаты', certificatesTitle: 'Курсы и тесты', otherCertificates: 'Другие сертификаты',
+    certificateCourse: 'Курс', certificateTest: 'Языковой тест', certificateLessons: 'Занятия',
+    viewCertificate: 'Открыть сертификат', opensInNewTab: 'откроется в новой вкладке'
   }
 } as const
