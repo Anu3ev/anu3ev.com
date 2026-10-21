@@ -95,6 +95,8 @@ usePageSeo({
       >
 
       <div class="article-body">
+        <ContentToc :links="post.body.toc?.links" :title="copy.onThisPage" />
+
         <ContentRenderer :value="post" class="prose" />
         <ul class="tags" :aria-label="copy.filters">
           <li v-for="tag in post.tags" :key="tag">

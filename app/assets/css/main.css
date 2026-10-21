@@ -87,6 +87,14 @@ p { line-height: inherit; }
 .button-secondary { background: transparent; }
 .icon-button { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: transparent; border: 0; border-radius: 5px; color: var(--muted); }
 @media (hover: hover) { .icon-button:hover { color: var(--accent); background: var(--surface); } }
+/* Sun and moon slider: the thumb sits under the active icon. The theme lives on <html>, so the thumb position follows it even before hydration. */
+.theme-switch { position: relative; display: inline-flex; flex: none; width: 64px; height: 32px; margin-left: 6px; padding: 3px; border: 1px solid var(--control-line); border-radius: 16px; background: var(--surface); color: var(--subtle); }
+.theme-switch::before { content: ''; position: absolute; top: 3px; left: 3px; width: 28px; height: 24px; border-radius: 12px; background: var(--accent); transform: translateX(28px); transition: transform .2s; }
+:root[data-theme='light'] .theme-switch::before { transform: none; }
+.theme-switch svg { position: relative; flex: 1; width: 16px; height: 16px; transition: color .2s; }
+:root:not([data-theme='light']) .theme-switch svg:last-child, :root[data-theme='light'] .theme-switch svg:first-child { color: var(--accent-ink); }
+@media (hover: hover) { .theme-switch:hover { border-color: var(--accent); } }
+.theme-switch:disabled { cursor: wait; }
 .skip-link { position: fixed; z-index: 100; top: 8px; left: 16px; transform: translateY(-160%); padding: 12px 20px; background: var(--accent); color: var(--accent-ink); border-radius: 5px; }
 .skip-link:focus { transform: translateY(0); }
 .site-sidebar { position: sticky; top: 0; display: flex; flex-direction: column; height: 100dvh; min-height: 660px; padding-block: 35px 24px; }
@@ -264,7 +272,9 @@ p { line-height: inherit; }
 .case-cover { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 7px; border: 1px solid var(--line); margin-block: 28px 36px; }
 .reading-layout { min-width: 0; }
 .table-of-contents { margin-bottom: 32px; padding: 16px 20px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }
-.table-of-contents .eyebrow { margin-bottom: 6px; }
+.table-of-contents summary { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; list-style: none; cursor: default; }
+.table-of-contents summary::-webkit-details-marker { display: none; }
+.toc-count { display: none; }
 /* A compact numbered outline: rows stay at least 32 px tall (WCAG 2.2 target size) and read top to bottom in two columns where there is room. */
 .table-of-contents ol { list-style: none; padding: 0; counter-reset: toc; column-count: 2; column-gap: 28px; }
 .table-of-contents li { counter-increment: toc; break-inside: avoid; }
@@ -346,6 +356,14 @@ p { line-height: inherit; }
 
 @media (max-width: 760px) {
   .table-of-contents ol { column-count: 1; }
+  /* Phones get the outline as one tappable row; the list opens under it. */
+  .table-of-contents { padding-block: 0; }
+  .table-of-contents summary { min-height: 48px; margin: 0; cursor: pointer; }
+  .table-of-contents[open] summary { border-bottom: 1px solid var(--line); }
+  .table-of-contents[open] nav { padding-block: 6px 10px; }
+  .toc-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; padding-inline: 6px; border-radius: 10px; background: var(--soft-accent); color: var(--accent-label); font-size: 10px; letter-spacing: 0; }
+  .table-of-contents summary::after { content: ''; flex: none; width: 8px; height: 8px; margin: 0 4px 0 auto; border: solid var(--accent); border-width: 0 1.5px 1.5px 0; transform: translateY(-2px) rotate(45deg); transition: transform .2s; }
+  .table-of-contents[open] summary::after { transform: translateY(2px) rotate(-135deg); }
   html { scroll-padding-bottom: calc(100px + env(safe-area-inset-bottom)); }
   .site-layout { display: block; max-width: 620px; padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left); }
   .site-sidebar { position: fixed; z-index: 30; inset: auto 0 0; height: auto; min-height: 76px; padding: 8px calc(12px + env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left)); border-top: 1px solid var(--control-line); background: var(--navigation-surface); backdrop-filter: blur(12px); }
@@ -418,6 +436,14 @@ p { line-height: inherit; }
   /* One left-aligned column: name, tagline, then the privacy link with its full touch height. */
   .site-footer { flex-direction: column; align-items: start; gap: 2px; padding: 20px 20px 8px; }
   .site-footer a { order: 1; }
+}
+
+
+/* With scripting the phone outline paints collapsed before hydration closes it, so the article does not jump; without scripting it stays open. */
+@media (max-width: 760px) and (scripting: enabled) {
+  .table-of-contents:not([data-hydrated]) nav { display: none; }
+  .table-of-contents:not([data-hydrated]) summary { border-bottom: 0; }
+  .table-of-contents:not([data-hydrated]) summary::after { transform: translateY(-2px) rotate(45deg); }
 }
 
 @media (max-width: 380px) {

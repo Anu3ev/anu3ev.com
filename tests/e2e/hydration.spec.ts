@@ -21,7 +21,7 @@ for (const toolbar of toolbars) {
       await expect(initial).toBeVisible()
       await expect(initial).toBeDisabled()
       await expect(page.locator('.topic-filter:enabled')).toHaveCount(0)
-      const themeToggle = page.getByRole('button', { name: 'Switch colour theme', exact: true })
+      const themeToggle = page.getByRole('switch', { name: 'Dark theme', exact: true })
       await expect(themeToggle).toBeDisabled()
 
       if (toolbar.path === '/blog/') {

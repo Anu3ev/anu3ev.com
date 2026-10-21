@@ -23,15 +23,18 @@ function toggleTheme() {
 </script>
 
 <template>
+  <!-- Both states stay visible; the filled half marks the current theme. -->
   <button
     type="button"
-    class="icon-button"
-    :title="copy.switchTheme"
-    :aria-label="copy.switchTheme"
-    :aria-pressed="isLight ?? false"
+    role="switch"
+    class="theme-switch"
+    :title="copy.darkTheme"
+    :aria-label="copy.darkTheme"
+    :aria-checked="isLight === null ? undefined : !isLight"
     :disabled="isLight === null"
     @click="toggleTheme"
   >
-    <AppIcon name="contrast" />
+    <AppIcon name="sun" />
+    <AppIcon name="moon" />
   </button>
 </template>
