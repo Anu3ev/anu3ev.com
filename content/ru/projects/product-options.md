@@ -10,7 +10,7 @@ category: Платформа витрин
 year: Январь – апрель 2025
 context: inSales
 role: "Frontend-разработчик: компонент ui-accessories, цены, API корзины, документация"
-stack: [JavaScript, HTML, CSS, AJAX, Liquid, CommonJS cart API]
+stack: [JavaScript, API Development, Front-End Development, E-Commerce, Technical Documentation, HTML5, CSS, AJAX, Debugging]
 featured: false
 order: 9
 ---

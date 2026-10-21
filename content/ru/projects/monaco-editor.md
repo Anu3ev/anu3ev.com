@@ -10,7 +10,7 @@ category: Браузерные редакторы
 year: Июль 2022 – ноябрь 2025
 context: inSales
 role: "Вёл разработку: языковая поддержка, браузерный API, сборка, интеграции"
-stack: [Monaco Editor, JavaScript, Vue, Webpack, Web Workers, Rails Engine, GitLab CI]
+stack: [TypeScript, JavaScript, Monaco Editor, Front-End Architecture, Vue.js, Webpack, Liquid, API Integration, CI/CD, Gitlab, Ruby on Rails, SCSS, HTML, Developer Tools, Software Maintenance, Syntax Highlighting, Autocomplete]
 featured: false
 order: 7
 results:

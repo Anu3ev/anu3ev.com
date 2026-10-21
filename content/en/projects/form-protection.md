@@ -10,7 +10,7 @@ category: Storefront platform
 year: Oct 2023 – Jul 2026
 context: inSales
 role: Frontend owner of the integration, shared CAPTCHA code and release
-stack: [JavaScript, Vue, CommonJS storefront library, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
+stack: [JavaScript, Vue, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
 featured: false
 order: 10
 results:

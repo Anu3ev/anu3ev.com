@@ -10,7 +10,7 @@ category: Платформа витрин
 year: Август – ноябрь 2023
 context: inSales
 role: Отвечал за реализацию на витрине и согласование API
-stack: [JavaScript, CommonJS-библиотека витрин, REST API, Liquid]
+stack: [JavaScript, API Development, AJAX, State Management, E-Commerce, Debugging, Front-End Development, API Integration, Requirements Analysis]
 featured: false
 order: 8
 ---

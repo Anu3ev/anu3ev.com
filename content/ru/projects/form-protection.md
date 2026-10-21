@@ -10,7 +10,7 @@ category: Платформа витрин
 year: Октябрь 2023 – июль 2026
 context: inSales
 role: Отвечал за frontend-интеграцию, общий код капчи и выпуск
-stack: [JavaScript, Vue, CommonJS-библиотека витрин, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
+stack: [JavaScript, Vue, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
 featured: false
 order: 10
 results:

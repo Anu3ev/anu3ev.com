@@ -10,7 +10,7 @@ category: Storefront platform
 year: Oct 2021 – Sep 2026
 context: inSales
 role: "Library maintainer: refactoring, build, components, public API, docs"
-stack: [JavaScript, Webpack 5, ES modules, Lodash, IndexedDB, Liquid, AJAX]
+stack: [JavaScript, Web Performance, Code Refactoring, Webpack, AJAX, IndexedDB, Web Caching, Technical Documentation, Debugging, E-Commerce]
 featured: false
 order: 6
 results:

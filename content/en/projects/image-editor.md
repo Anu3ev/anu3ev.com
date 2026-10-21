@@ -10,7 +10,7 @@ category: Open source
 year: Mar 2025 – present
 context: Open source
 role: Sole author and maintainer, from architecture and public API to tests and releases
-stack: [TypeScript, FabricJS, Web Workers, Jest, Playwright, GitHub Actions, npm]
+stack: [JavaScript, Vite, Technical Documentation, Playwright, TypeScript, FabricJS, Problem Solving, E2E, Web Workers, Web Performance, State Management, Front-End Development, AI-Assisted Software Development, Jest, npm, Frontend Architecture, End-to-end Testing, CI/CD, Git, HTML Canvas]
 featured: false
 order: 3
 repository: https://github.com/Anu3ev/image-editor
