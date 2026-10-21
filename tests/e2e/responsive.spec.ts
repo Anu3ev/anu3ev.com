@@ -190,3 +190,20 @@ for (const frame of frames) {
     expect(Math.abs(preview.height - cover.height)).toBeLessThanOrEqual(1)
   })
 }
+
+test('the theme switch centres both icons in its track', async ({ page }) => {
+  await page.goto('/')
+  const track = await page.getByRole('switch').boundingBox()
+  const icons = await page.getByRole('switch').locator('svg').evaluateAll(nodes => nodes.map((node) => {
+    const box = node.getBoundingClientRect()
+    return box.top + box.height / 2
+  }))
+  if (!track) throw new Error('The topbar must show the theme switch')
+  for (const centre of icons) expect(Math.abs(centre - (track.y + track.height / 2))).toBeLessThanOrEqual(1)
+})
+
+test('a card list keeps exactly one divider before the next band', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('.project-grid + .feed-more')).toHaveCSS('border-top-width', '1px')
+  await expect(page.locator('.project-grid > :last-child')).toHaveCSS('border-bottom-width', '0px')
+})
