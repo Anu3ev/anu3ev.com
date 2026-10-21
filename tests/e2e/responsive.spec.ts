@@ -137,6 +137,30 @@ test.describe('touch navigation', () => {
       await expect(link).toHaveCSS('background-color', activeBackground)
     }
   })
+
+  test('the search field is large enough that iOS does not zoom in on focus', async ({ page }) => {
+    await page.goto('/blog/')
+    await expect(page.getByRole('searchbox').first()).toHaveCSS('font-size', '16px')
+  })
+
+  test('the topbar counter, language link and theme switch share one centre line', async ({ page }) => {
+    await page.goto('/')
+    const controls = page.locator('.topbar-controls')
+    const centres = await Promise.all(['.page-number', '.language-link', 'button'].map(async (selector) => {
+      const box = await controls.locator(selector).boundingBox()
+      if (!box) throw new Error(`The topbar must show ${selector}`)
+      return box.y + box.height / 2
+    }))
+    for (const centre of centres) expect(Math.abs(centre - centres[0]!)).toBeLessThanOrEqual(1)
+  })
+
+  test('an article ends with the author card instead of an empty band', async ({ page }) => {
+    await page.goto('/blog/vue-3-proxy-deep-comparison/')
+    const author = await page.locator('.author-line').boundingBox()
+    const callout = await page.locator('.contact-callout').boundingBox()
+    if (!author || !callout) throw new Error('The article must show its author and the contact callout')
+    expect(callout.y - (author.y + author.height)).toBeLessThanOrEqual(56)
+  })
 })
 
 test('the current page keeps its navigation highlight while the pointer is over it', async ({ page }) => {

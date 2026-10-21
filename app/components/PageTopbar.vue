@@ -17,7 +17,7 @@ const section = computed(() => {
   <header class="page-topbar">
     <span>{{ section.title }}</span>
     <div class="topbar-controls">
-      <span class="page-number" aria-hidden="true">AA / {{ section.number }}</span>
+      <span class="page-number" aria-hidden="true">{{ section.number }} / 04</span>
       <NuxtLink
         :to="alternatePath"
         class="language-link"

@@ -34,6 +34,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Portfolio case studies](tasks/23-portfolio-cases/summary.md)
 - [Blog articles](tasks/24-blog-articles/summary.md)
 - [Mobile and card polish](tasks/27-mobile-polish/summary.md)
+- [Third phone review: small fixes](tasks/28-phone-review-3/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 
