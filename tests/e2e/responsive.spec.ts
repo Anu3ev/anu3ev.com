@@ -61,7 +61,6 @@ for (const frame of frames) {
       }
       return {
         labelCovered: coveredPoints(cover.querySelector('span')!),
-        codeCovered: coveredPoints(cover.querySelector('code')!),
         coverBottom: cover.getBoundingClientRect().bottom,
         button: document.querySelector('.profile-actions .button')!.getBoundingClientRect().toJSON() as DOMRect,
         avatar: document.querySelector('.profile-avatar')!.getBoundingClientRect().toJSON() as DOMRect
@@ -69,7 +68,6 @@ for (const frame of frames) {
     })
 
     expect(layout.labelCovered).toBe(0)
-    expect(layout.codeCovered).toBe(0)
     // Owner's design: the button and the avatar form one row that straddles the cover edge.
     const centre = (box: DOMRect) => box.top + box.height / 2
     expect(Math.abs(centre(layout.button) - centre(layout.avatar))).toBeLessThanOrEqual(1)
@@ -143,10 +141,10 @@ test.describe('touch navigation', () => {
     await expect(page.getByRole('searchbox').first()).toHaveCSS('font-size', '16px')
   })
 
-  test('the topbar counter, language link and theme switch share one centre line', async ({ page }) => {
+  test('the topbar language link and theme switch share one centre line', async ({ page }) => {
     await page.goto('/')
     const controls = page.locator('.topbar-controls')
-    const centres = await Promise.all(['.page-number', '.language-link', 'button'].map(async (selector) => {
+    const centres = await Promise.all(['.language-link', 'button'].map(async (selector) => {
       const box = await controls.locator(selector).boundingBox()
       if (!box) throw new Error(`The topbar must show ${selector}`)
       return box.y + box.height / 2

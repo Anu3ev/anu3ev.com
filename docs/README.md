@@ -46,6 +46,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Direct demo and code links](tasks/37-editor-demo-links/summary.md)
 - [Book a call](tasks/38-book-a-call/summary.md)
 - [Plain copy instead of slogans](tasks/39-plain-copy/summary.md)
+- [Drop the decorations](tasks/40-drop-decorations/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 
