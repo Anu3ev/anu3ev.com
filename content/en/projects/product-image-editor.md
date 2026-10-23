@@ -10,7 +10,7 @@ category: Browser editors
 year: Mar 2025 – Sep 2026
 context: inSales
 role: Frontend owner of the product UI, editor integration and API contracts
-stack: [Vue 3, TypeScript, Complex UI, FabricJS, Composition API, E-Commerce Development, Frontend Architecture, SCSS, Web Application Development, API Integration, AI-Powered Image Editing, Front-End Development]
+stack: [Vue 3, TypeScript, FabricJS, Complex UI, Composition API, E-Commerce Development, Frontend Architecture, SCSS, Web Application Development, API Integration, AI-Powered Image Editing, Front-End Development]
 featured: true
 order: 1
 results:

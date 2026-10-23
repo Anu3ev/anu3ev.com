@@ -10,7 +10,7 @@ category: Платформа витрин
 year: Октябрь 2021 – сентябрь 2026
 context: inSales
 role: "Мейнтейнер библиотеки: рефакторинг, сборка, компоненты, публичный API, документация"
-stack: [JavaScript, Web Performance, Code Refactoring, Webpack, AJAX, IndexedDB, Web Caching, Technical Documentation, Debugging, E-Commerce]
+stack: [JavaScript, Web Performance, Webpack, Code Refactoring, AJAX, IndexedDB, Web Caching, Technical Documentation, Debugging, E-Commerce]
 featured: false
 order: 6
 results:

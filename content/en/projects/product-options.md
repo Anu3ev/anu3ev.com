@@ -10,7 +10,7 @@ category: Storefront platform
 year: Jan 2025 – Apr 2025
 context: inSales
 role: "Frontend developer: ui-accessories component, pricing, cart API, developer docs"
-stack: [JavaScript, API Development, Front-End Development, E-Commerce, Technical Documentation, HTML5, CSS, AJAX, Debugging]
+stack: [JavaScript, API Development, AJAX, Front-End Development, E-Commerce, Technical Documentation, HTML5, CSS, Debugging]
 featured: false
 order: 9
 ---

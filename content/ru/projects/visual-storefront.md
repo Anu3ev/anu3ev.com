@@ -10,7 +10,7 @@ category: Браузерные редакторы
 year: Май – август 2024
 context: inSales
 role: "Единственный frontend-разработчик: редизайн, контракт данных, технический режим"
-stack: [Vue.js, TypeScript, Front-End Development, Complex UI, Frontend Architecture, JavaScript, SCSS, Vuetify, Mixpanel, API Integration, State Management, Web Application Development, E-Commerce Development, Customer Onboarding, E-commerce Optimization]
+stack: [Vue.js, TypeScript, Complex UI, Front-End Development, Frontend Architecture, JavaScript, SCSS, Vuetify, Mixpanel, API Integration, State Management, Web Application Development, E-Commerce Development, Customer Onboarding, E-commerce Optimization]
 featured: false
 order: 2
 results:
