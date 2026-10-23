@@ -81,4 +81,4 @@ The editor started tied to the product media entity. To reuse it in the visual s
 
 ## Where to try it
 
-The editor is desktop-only by design: it was tested in Chrome, Firefox and Safari on Windows and macOS, and the entry button is hidden on mobile. Anyone can try it: create an inSales account, add a product, upload an image and open the editor from the product card on a desktop browser. The [open-source engine](/work/image-editor/) behind it also has a live demo.
+The editor is desktop-only by design: it was tested in Chrome, Firefox and Safari on Windows and macOS, and the entry button is hidden on mobile. Anyone can try it: create an inSales account, add a product, upload an image and open the editor from the product card on a desktop browser. Without an account, you can try the [open-source engine](/work/image-editor/) it runs on: open its [live demo](https://anu3ev.github.io/image-editor/) or read the [source code on GitHub](https://github.com/Anu3ev/image-editor).
