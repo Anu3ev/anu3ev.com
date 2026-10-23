@@ -12,7 +12,7 @@ context: inSales
 role: Отвечал за frontend-интеграцию, общий код капчи и выпуск
 stack: [JavaScript, Vue, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
 featured: false
-order: 10
+order: 11
 results:
   - value: "2"
     label: "провайдера капчи, Google и Яндекс, на выбор для поддерживаемых форм магазина"

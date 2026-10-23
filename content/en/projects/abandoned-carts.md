@@ -12,7 +12,7 @@ context: inSales
 role: "Sole frontend developer: requirements, API contracts, implementation, release"
 stack: [Vue.js, JavaScript, Data Visualization, REST APIs, Front-End Development, State Management, Responsive Web Design, Requirements Analysis, Technical Documentation, Vue Router, Monaco Editor, E-Commerce Development, Software Architecture, ApexCharts, Software as a Service (SaaS)]
 featured: false
-order: 4
+order: 5
 results:
   - value: "200+"
     label: "active paid subscribers by September 2026"

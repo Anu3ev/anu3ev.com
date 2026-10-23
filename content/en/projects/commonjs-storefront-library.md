@@ -12,7 +12,7 @@ context: inSales
 role: "Library maintainer: refactoring, build, components, public API, docs"
 stack: [JavaScript, Web Performance, Webpack, Code Refactoring, AJAX, IndexedDB, Web Caching, Technical Documentation, Debugging, E-Commerce]
 featured: false
-order: 6
+order: 7
 results:
   - value: "300+ KB → 168 KB"
     label: "compressed production bundle after the build and dependency rework"
