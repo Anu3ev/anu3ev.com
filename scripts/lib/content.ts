@@ -45,6 +45,13 @@ function validatePublicImage({ root, image, source }: { root: string, image: str
   if (!imagePath.startsWith(imageRoot) || !existsSync(imagePath)) throw new Error(`${source}: image must reference an existing public image`)
 }
 
+/** A CV link is a public download; a missing or misplaced PDF would ship as a broken button. */
+function validatePublicCv({ root, cv }: { root: string, cv: string }) {
+  const cvRoot = resolve(root, 'public/cv') + sep
+  const cvPath = resolve(root, 'public', cv.slice(1))
+  if (!cvPath.startsWith(cvRoot) || !existsSync(cvPath)) throw new Error('settings/profile.json: CV must reference an existing PDF in public/cv')
+}
+
 /** Owns the file format boundary: BOM/CRLF support, non-executable YAML and date-only string semantics. */
 function readEditorialSource({ path, source }: { path: string, source: string }): { data: unknown, content: string } {
   const input = readFileSync(path, 'utf8').replace(/^\uFEFF/, '')
@@ -101,6 +108,7 @@ export function readContentInventory({ root = process.cwd(), now = new Date() } 
   const profile = profileSchema.parse(profileInput)
   validatePublicImage({ root, image: profile.photo, source: 'settings/profile.json' })
   validatePublicImage({ root, image: profile.avatar, source: 'settings/profile.json' })
+  for (const cv of [profile.cv_en, profile.cv_ru]) validatePublicCv({ root, cv })
   const pagesInput: unknown = JSON.parse(readFileSync(join(root, 'content/settings/pages.json'), 'utf8'))
   const pages = sitePagesSchema.parse(pagesInput)
   const certificates = readCertificates(root)

@@ -32,7 +32,7 @@ export const messages = {
     services: 'What I bring', openSource: 'Open-source editor core',
     certificates: 'Certificates', certificatesTitle: 'Courses and tests', otherCertificates: 'Other certificates',
     certificateCourse: 'Course', certificateTest: 'Language test', certificateLessons: 'Lessons',
-    viewCertificate: 'View certificate', opensInNewTab: 'opens in a new tab'
+    viewCertificate: 'View certificate', downloadCv: 'Download CV', opensInNewTab: 'opens in a new tab'
   },
   ru: {
     personalSpace: 'Разделы', homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
@@ -66,6 +66,6 @@ export const messages = {
     services: 'Чем могу помочь', openSource: 'Open-source ядро редактора',
     certificates: 'Сертификаты', certificatesTitle: 'Курсы и тесты', otherCertificates: 'Другие сертификаты',
     certificateCourse: 'Курс', certificateTest: 'Языковой тест', certificateLessons: 'Занятия',
-    viewCertificate: 'Открыть сертификат', opensInNewTab: 'откроется в новой вкладке'
+    viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', opensInNewTab: 'откроется в новой вкладке'
   }
 } as const

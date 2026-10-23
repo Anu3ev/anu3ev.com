@@ -200,6 +200,7 @@ p { line-height: inherit; }
 .profile-location span { display: inline-flex; align-items: center; gap: var(--space-2); }
 .profile-location svg { width: 14px; height: 14px; flex: none; color: var(--subtle); }
 .profile-body .tags { margin-top: 0; }
+.profile-cta { margin-bottom: var(--space-4); }
 /* Proof points (home) and key results (cases): the number leads, the description says whose result it is. */
 .fact-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); margin-top: var(--block-gap); padding: 0; list-style: none; }
 .fact-list li { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4); border: 1px solid var(--line); border-radius: 9px; background: var(--surface); }
@@ -379,7 +380,8 @@ p { line-height: inherit; }
 .certificate-list strong { font-size: 14px; font-weight: 550; }
 .certificate-list-text span { color: var(--muted); font-size: 12px; }
 .contact-page-heading h1 { font-size: 40px; max-width: 15ch; }
-.contact-page-heading .button { margin-top: var(--block-gap); min-height: 46px; font-size: 13px; }
+.contact-page-heading .actions { margin-top: var(--block-gap); }
+.contact-page-heading .button { min-height: 46px; font-size: 13px; }
 .contact-email-section { padding: 0 var(--gutter) var(--section-space); }
 .email-card { display: flex; align-items: start; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); padding: var(--card-padding) var(--space-5); gap: var(--space-3); }
 .email-icon { display: grid; place-items: center; width: 38px; height: 38px; flex-shrink: 0; border: 1px solid var(--control-line); border-radius: 9px; color: var(--accent-label); }

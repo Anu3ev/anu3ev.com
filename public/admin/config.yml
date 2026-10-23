@@ -94,6 +94,8 @@ collections:
           - { name: name_ru, label: Name — Russian, widget: string }
           - { name: photo, label: Photo, widget: image, hint: Prefer WebP under 200 KB at 600 × 600 px. }
           - { name: avatar, label: Avatar, widget: image, hint: "Square face crop, WebP at 256 × 256 px. Shown at 44–86 px." }
+          - { name: cv_en, label: CV — English (PDF), widget: file, media_folder: /public/cv, public_folder: /cv, hint: The public CV has no phone number. }
+          - { name: cv_ru, label: CV — Russian (PDF), widget: file, media_folder: /public/cv, public_folder: /cv }
           - { name: email, label: Email, widget: string }
           - { name: github, label: GitHub URL, widget: string }
           - { name: linkedin, label: LinkedIn URL, widget: string }

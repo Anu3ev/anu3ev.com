@@ -87,6 +87,15 @@ usePageSeo({
         <p class="profile-location">
           <span><AppIcon name="location" />{{ locale === 'ru' ? profile.location_ru : profile.location }}</span><span><AppIcon name="globe" />{{ copy.remote }}</span>
         </p>
+        <div class="actions profile-cta">
+          <a
+            :href="profile[`cv_${locale}`]"
+            class="button button-primary"
+            :title="copy.downloadCv"
+            type="application/pdf"
+            download
+          >{{ copy.downloadCv }} <AppIcon name="download" /></a>
+        </div>
         <ul class="tags">
           <li v-for="tag in siteContent.home.tags" :key="tag">
             {{ tag }}

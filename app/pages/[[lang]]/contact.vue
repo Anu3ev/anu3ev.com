@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import profile from '~~/content/settings/profile.json'
 
-const { copy } = useLocale()
+const { copy, locale } = useLocale()
 const siteContent = useSiteContent()
 const telegramHandle = new URL(profile.telegram).pathname.replace(/^\/+/, '@')
 usePageSeo({ title: () => copy.value.contact, description: () => siteContent.value.contact.intro })
@@ -18,9 +18,18 @@ usePageSeo({ title: () => copy.value.contact, description: () => siteContent.val
         {{ siteContent.contact.title.replace(/\.$/, '') }}<span v-if="siteContent.contact.title.endsWith('.')" class="accent-period">.</span>
       </h1>
       <p>{{ siteContent.contact.intro }}</p>
-      <a :href="`mailto:${profile.email}`" class="button button-primary" :title="copy.emailMe">
-        {{ copy.emailMe }} <AppIcon name="arrow" />
-      </a>
+      <div class="actions">
+        <a :href="`mailto:${profile.email}`" class="button button-primary" :title="copy.emailMe">
+          {{ copy.emailMe }} <AppIcon name="arrow" />
+        </a>
+        <a
+          :href="profile[`cv_${locale}`]"
+          class="button button-secondary"
+          :title="copy.downloadCv"
+          type="application/pdf"
+          download
+        >{{ copy.downloadCv }} <AppIcon name="download" /></a>
+      </div>
     </header>
 
     <section class="contact-email-section" :aria-label="copy.emailMe">

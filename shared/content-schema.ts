@@ -49,6 +49,9 @@ export const profileSchema = z.object({
   photo: publicImage,
   /** Square crop shown at 44–86 px; the larger portrait stays in `photo`. */
   avatar: publicImage,
+  /** The downloadable CV for each language; one version without a phone number, published as is. */
+  cv_en: z.string().regex(/^\/cv\/[^?#]+\.pdf$/i),
+  cv_ru: z.string().regex(/^\/cv\/[^?#]+\.pdf$/i),
   email: z.string().email(),
   github: z.string().url().regex(/^https:\/\//),
   linkedin: z.string().url().regex(/^https:\/\//),
