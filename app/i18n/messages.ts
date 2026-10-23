@@ -32,7 +32,7 @@ export const messages = {
     services: 'What I bring', openSource: 'Open-source editor core',
     certificates: 'Certificates', certificatesTitle: 'Courses and tests', otherCertificates: 'Other certificates',
     certificateCourse: 'Course', certificateTest: 'Language test', certificateLessons: 'Lessons',
-    viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab'
+    viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', openDemo: 'Open the live demo of my image editor', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab'
   },
   ru: {
     homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
@@ -66,6 +66,6 @@ export const messages = {
     services: 'Чем могу помочь', openSource: 'Open-source ядро редактора',
     certificates: 'Сертификаты', certificatesTitle: 'Курсы и тесты', otherCertificates: 'Другие сертификаты',
     certificateCourse: 'Курс', certificateTest: 'Языковой тест', certificateLessons: 'Занятия',
-    viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', bookCall: 'Созвониться', bookCallNote: 'Видеозвонок на 30 минут', opensInNewTab: 'откроется в новой вкладке'
+    viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', bookCall: 'Созвониться', openDemo: 'Открыть демо моего редактора изображений', bookCallNote: 'Видеозвонок на 30 минут', opensInNewTab: 'откроется в новой вкладке'
   }
 } as const
