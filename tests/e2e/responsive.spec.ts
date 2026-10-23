@@ -42,37 +42,34 @@ for (const frame of frames) {
 }
 
 for (const frame of frames) {
-  test(`${frame.name} home cover keeps its text clear of the shapes and the button on the avatar's line`, async ({ page }) => {
+  test(`${frame.name} home cover keeps its label clear of the editor window and the button on the avatar's line`, async ({ page }) => {
     await page.setViewportSize({ width: frame.width, height: frame.height })
-    await page.goto('/')
+    for (const path of ['/', '/ru/']) {
+      await page.goto(path)
 
-    const layout = await page.locator('.profile-cover').evaluate((cover) => {
-      const shapes = [...cover.querySelectorAll('.cover-shapes i')]
-      // Hit-testing follows the rotation; the 13px margin covers the shapes' painted ring.
-      const coveredPoints = (text: Element) => {
-        const box = text.getBoundingClientRect()
-        let count = 0
-        for (let x = box.left - 13; x <= box.right + 13; x += 4) {
-          for (let y = box.top - 13; y <= box.bottom + 13; y += 4) {
-            if (document.elementsFromPoint(x, y).some(element => shapes.includes(element))) count += 1
-          }
+      const layout = await page.locator('.profile-cover').evaluate((cover) => {
+        const label = cover.querySelector('span')!.getBoundingClientRect()
+        const demo = cover.querySelector('.cover-demo')!.getBoundingClientRect()
+        return {
+          labelRight: label.right,
+          labelBottom: label.bottom,
+          demo: demo.toJSON() as DOMRect,
+          coverBottom: cover.getBoundingClientRect().bottom,
+          button: document.querySelector('.profile-actions .button')!.getBoundingClientRect().toJSON() as DOMRect,
+          avatar: document.querySelector('.profile-avatar')!.getBoundingClientRect().toJSON() as DOMRect
         }
-        return count
-      }
-      return {
-        labelCovered: coveredPoints(cover.querySelector('span')!),
-        coverBottom: cover.getBoundingClientRect().bottom,
-        button: document.querySelector('.profile-actions .button')!.getBoundingClientRect().toJSON() as DOMRect,
-        avatar: document.querySelector('.profile-avatar')!.getBoundingClientRect().toJSON() as DOMRect
-      }
-    })
+      })
 
-    expect(layout.labelCovered).toBe(0)
-    // Owner's design: the button and the avatar form one row that straddles the cover edge.
-    const centre = (box: DOMRect) => box.top + box.height / 2
-    expect(Math.abs(centre(layout.button) - centre(layout.avatar))).toBeLessThanOrEqual(1)
-    expect(layout.button.top).toBeLessThan(layout.coverBottom)
-    expect(layout.button.bottom).toBeGreaterThan(layout.coverBottom)
+      // The label and the editor window never overlap: the window starts right of the label or below it.
+      expect(layout.labelRight < layout.demo.left || layout.labelBottom < layout.demo.top).toBe(true)
+      // The window ends above the button row, so "Let's talk" never sits on the screenshot.
+      expect(layout.demo.bottom).toBeLessThan(layout.button.top)
+      // Owner's design: the button and the avatar form one row that straddles the cover edge.
+      const centre = (box: DOMRect) => box.top + box.height / 2
+      expect(Math.abs(centre(layout.button) - centre(layout.avatar))).toBeLessThanOrEqual(1)
+      expect(layout.button.top).toBeLessThan(layout.coverBottom)
+      expect(layout.button.bottom).toBeGreaterThan(layout.coverBottom)
+    }
   })
 }
 
@@ -204,4 +201,13 @@ test('a card list keeps exactly one divider before the next band', async ({ page
   await page.goto('/')
   await expect(page.locator('.project-grid + .feed-more')).toHaveCSS('border-top-width', '1px')
   await expect(page.locator('.project-grid > :last-child')).toHaveCSS('border-bottom-width', '0px')
+})
+
+test('the home cover shows the real editor and opens its live demo in a new tab', async ({ page }) => {
+  await page.goto('/')
+  const demo = page.getByRole('link', { name: 'Open the live demo of my image editor, opens in a new tab' })
+
+  await expect(demo).toHaveAttribute('href', 'https://anu3ev.github.io/image-editor/')
+  await expect(demo).toHaveAttribute('target', '_blank')
+  await expect.poll(() => demo.locator('img').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
 })

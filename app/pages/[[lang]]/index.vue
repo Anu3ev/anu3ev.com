@@ -17,6 +17,11 @@ const { data: projects } = await useAsyncData(
       .limit(1)
       .all()
 )
+/** The cover shows the open-source editor and links to its live demo, taken from that case's metadata. */
+const { data: editorDemo } = await useAsyncData(
+  'home-editor-demo',
+  () => queryCollection('projects').where('slug', '=', 'image-editor').where('locale', '=', 'en').select('demo').first()
+)
 const { data: posts } = await useAsyncData(
   () => `home-posts-${locale.value}`,
   () => getPostSummaries({ locale: locale.value, limit: 1 })
@@ -53,9 +58,21 @@ usePageSeo({
     <section class="home-profile" aria-labelledby="home-title">
       <div class="profile-cover">
         <span>{{ copy.crafting }}</span>
-        <div class="cover-shapes" aria-hidden="true">
-          <i /><i /><i />
-        </div>
+        <a
+          v-if="editorDemo?.demo"
+          class="cover-demo"
+          :href="editorDemo.demo"
+          :title="copy.openDemo"
+          :aria-label="`${copy.openDemo}, ${copy.opensInNewTab}`"
+          target="_blank"
+          rel="noopener noreferrer"
+        ><img
+          src="/images/editor-cover.webp"
+          alt=""
+          width="800"
+          height="429"
+          fetchpriority="high"
+        ></a>
       </div>
 
       <div class="profile-body">
