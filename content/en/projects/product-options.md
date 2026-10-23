@@ -12,7 +12,7 @@ context: inSales
 role: "Frontend developer: ui-accessories component, pricing, cart API, developer docs"
 stack: [JavaScript, API Development, AJAX, Front-End Development, E-Commerce, Technical Documentation, HTML5, CSS, Debugging]
 featured: false
-order: 9
+order: 10
 ---
 
 ## The problem

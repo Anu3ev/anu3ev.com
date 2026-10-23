@@ -12,7 +12,7 @@ context: inSales
 role: "Мейнтейнер библиотеки: рефакторинг, сборка, компоненты, публичный API, документация"
 stack: [JavaScript, Web Performance, Webpack, Code Refactoring, AJAX, IndexedDB, Web Caching, Technical Documentation, Debugging, E-Commerce]
 featured: false
-order: 6
+order: 7
 results:
   - value: "300+ КБ → 168 КБ"
     label: "сжатый production-бандл после переделки сборки и зависимостей"

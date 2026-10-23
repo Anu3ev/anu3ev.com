@@ -12,7 +12,7 @@ context: inSales
 role: "Led development: language tooling, browser API, packaging, integrations"
 stack: [Monaco Editor, TypeScript, Liquid, JavaScript, Front-End Architecture, Vue.js, Webpack, API Integration, CI/CD, Gitlab, Ruby on Rails, SCSS, HTML, Developer Tools, Software Maintenance, Syntax Highlighting, Autocomplete]
 featured: false
-order: 7
+order: 8
 results:
   - value: "5"
     label: "inSales product interfaces run on the same editor build"

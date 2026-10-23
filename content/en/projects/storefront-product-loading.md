@@ -12,7 +12,7 @@ context: inSales
 role: "Library maintainer: AJAX components, client-side cache, rollout and docs"
 stack: [JavaScript, IndexedDB, Web Performance, AJAX, Web Caching, Debugging, API Integration, Technical Documentation, Cross-browser Compatibility, Liquid]
 featured: false
-order: 5
+order: 6
 results:
   - value: "≈70%"
     label: "fewer product-data requests in a before/after comparison of request counts"

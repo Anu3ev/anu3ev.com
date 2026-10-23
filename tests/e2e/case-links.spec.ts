@@ -16,3 +16,13 @@ for (const path of ['/work/product-image-editor/', '/ru/work/product-image-edito
     }
   })
 }
+
+for (const path of ['/work/frontend-jobs-radar/', '/ru/work/frontend-jobs-radar/']) {
+  test(`${path} links to the live public channel in a new tab`, async ({ page }) => {
+    await page.goto(path)
+    const channel = page.locator('.prose a[href="https://t.me/frontendjobsradar"]')
+
+    await expect(channel.first()).toBeVisible()
+    await expect(channel.first()).toHaveAttribute('target', '_blank')
+  })
+}

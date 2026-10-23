@@ -12,7 +12,7 @@ context: inSales
 role: Frontend owner of the integration, shared CAPTCHA code and release
 stack: [JavaScript, Vue, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
 featured: false
-order: 10
+order: 11
 results:
   - value: "2"
     label: "CAPTCHA providers, Google and Yandex, available for supported store forms"

@@ -12,7 +12,7 @@ context: inSales
 role: Owner of the storefront implementation and API coordination
 stack: [JavaScript, API Development, AJAX, State Management, E-Commerce, Debugging, Front-End Development, API Integration, Requirements Analysis]
 featured: false
-order: 8
+order: 9
 ---
 
 ## The problem

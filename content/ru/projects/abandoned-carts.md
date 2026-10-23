@@ -12,7 +12,7 @@ context: inSales
 role: "Единственный frontend-разработчик: требования, контракты API, разработка, релиз"
 stack: [Vue.js, JavaScript, Data Visualization, REST APIs, Front-End Development, State Management, Responsive Web Design, Requirements Analysis, Technical Documentation, Vue Router, Monaco Editor, E-Commerce Development, Software Architecture, ApexCharts, Software as a Service (SaaS)]
 featured: false
-order: 4
+order: 5
 results:
   - value: "200+"
     label: "активных платных подписчиков на сентябрь 2026 года"

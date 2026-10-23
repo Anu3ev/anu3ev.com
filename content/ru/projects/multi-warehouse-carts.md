@@ -12,7 +12,7 @@ context: inSales
 role: Отвечал за реализацию на витрине и согласование API
 stack: [JavaScript, API Development, AJAX, State Management, E-Commerce, Debugging, Front-End Development, API Integration, Requirements Analysis]
 featured: false
-order: 8
+order: 9
 ---
 
 ## Задача

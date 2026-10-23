@@ -12,7 +12,7 @@ context: inSales
 role: "Frontend-разработчик: компонент ui-accessories, цены, API корзины, документация"
 stack: [JavaScript, API Development, AJAX, Front-End Development, E-Commerce, Technical Documentation, HTML5, CSS, Debugging]
 featured: false
-order: 9
+order: 10
 ---
 
 ## Задача
