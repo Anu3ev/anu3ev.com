@@ -49,6 +49,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Drop the decorations](tasks/40-drop-decorations/summary.md)
 - [The editor on the home cover](tasks/41-editor-cover/summary.md)
 - [Frontend Jobs Radar case](tasks/42-frontend-jobs-radar/summary.md)
+- [Certificate rows stay inside their lines](tasks/43-certificate-row-hover/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 
