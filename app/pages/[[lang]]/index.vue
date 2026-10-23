@@ -34,7 +34,10 @@ usePageSeo({
       'alternateName': profile.name_ru,
       'url': siteUrl,
       'jobTitle': profile.headline_en,
+      'description': profile.bio_en.replace(/\s*\n\s*/g, ' '),
       'image': `${siteUrl}${profile.photo}`,
+      'knowsAbout': siteContent.value.about.technologies,
+      'knowsLanguage': ['English', 'Russian'],
       'sameAs': [profile.github, profile.linkedin, profile.telegram]
     },
     {
