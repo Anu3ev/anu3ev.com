@@ -42,28 +42,41 @@ for (const frame of frames) {
 }
 
 for (const frame of frames) {
-  test(`${frame.name} home cover keeps its label clear of the editor window and the button on the avatar's line`, async ({ page }) => {
+  test(`${frame.name} home cover keeps its statement clear and the editor window above the avatar and button line`, async ({ page }) => {
     await page.setViewportSize({ width: frame.width, height: frame.height })
     for (const path of ['/', '/ru/']) {
       await page.goto(path)
 
       const layout = await page.locator('.profile-cover').evaluate((cover) => {
-        const label = cover.querySelector('span')!.getBoundingClientRect()
-        const demo = cover.querySelector('.cover-demo')!.getBoundingClientRect()
+        const editor = cover.querySelector('.cover-editor')!.getBoundingClientRect()
+        const statement = cover.querySelector('.cover-statement')!
+        const shapes = [...cover.querySelectorAll('.cover-shapes i')]
+        // Hit-testing follows the stripes' rotation; the 13px margin covers their painted ring.
+        const box = statement.getBoundingClientRect()
+        let statementOnShapes = 0
+        for (let x = box.left - 13; x <= box.right + 13; x += 4) {
+          for (let y = box.top - 13; y <= box.bottom + 13; y += 4) {
+            if (document.elementsFromPoint(x, y).some(element => shapes.includes(element))) statementOnShapes += 1
+          }
+        }
         return {
-          labelRight: label.right,
-          labelBottom: label.bottom,
-          demo: demo.toJSON() as DOMRect,
+          statement: box.toJSON() as DOMRect,
+          statementOnShapes,
+          editor: editor.toJSON() as DOMRect,
+          cover: cover.getBoundingClientRect().toJSON() as DOMRect,
           coverBottom: cover.getBoundingClientRect().bottom,
           button: document.querySelector('.profile-actions .button')!.getBoundingClientRect().toJSON() as DOMRect,
           avatar: document.querySelector('.profile-avatar')!.getBoundingClientRect().toJSON() as DOMRect
         }
       })
 
-      // The label and the editor window never overlap: the window starts right of the label or below it.
-      expect(layout.labelRight < layout.demo.left || layout.labelBottom < layout.demo.top).toBe(true)
-      // The window ends above the button row, so "Let's talk" never sits on the screenshot.
-      expect(layout.demo.bottom).toBeLessThan(layout.button.top)
+      // The statement stays clear of the stripes and of the editor window (beside it on wide screens, above it on phones).
+      expect(layout.statementOnShapes).toBe(0)
+      expect(layout.statement.right <= layout.editor.left || layout.statement.bottom <= layout.editor.top).toBe(true)
+      // The window stays inside the cover and ends above the button row, so "Let's talk" never sits on the screenshot.
+      expect(layout.editor.left).toBeGreaterThan(layout.cover.left)
+      expect(layout.editor.right).toBeLessThan(layout.cover.right)
+      expect(layout.editor.bottom).toBeLessThan(layout.button.top)
       // Owner's design: the button and the avatar form one row that straddles the cover edge.
       const centre = (box: DOMRect) => box.top + box.height / 2
       expect(Math.abs(centre(layout.button) - centre(layout.avatar))).toBeLessThanOrEqual(1)
@@ -203,11 +216,16 @@ test('a card list keeps exactly one divider before the next band', async ({ page
   await expect(page.locator('.project-grid > :last-child')).toHaveCSS('border-bottom-width', '0px')
 })
 
-test('the home cover shows the real editor and opens its live demo in a new tab', async ({ page }) => {
-  await page.goto('/')
-  const demo = page.getByRole('link', { name: 'Open the live demo of my image editor, opens in a new tab' })
+for (const { path, name, href } of [
+  { path: '/', name: 'Product image editor case study', href: '/work/product-image-editor/' },
+  { path: '/ru/', name: 'Кейс редактора изображений для товаров', href: '/ru/work/product-image-editor/' }
+]) {
+  test(`${path} cover shows the real Vue editor and opens its case study`, async ({ page }) => {
+    await page.goto(path)
+    const editor = page.getByRole('link', { name, exact: true })
 
-  await expect(demo).toHaveAttribute('href', 'https://anu3ev.github.io/image-editor/')
-  await expect(demo).toHaveAttribute('target', '_blank')
-  await expect.poll(() => demo.locator('img').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
-})
+    await expect(editor).toHaveAttribute('href', href)
+    await expect(editor).not.toHaveAttribute('target', '_blank')
+    await expect.poll(() => editor.locator('img').evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
+  })
+}

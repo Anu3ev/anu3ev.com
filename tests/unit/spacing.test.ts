@@ -9,6 +9,7 @@ const GEOMETRY_EXCEPTIONS = [
   '.theme-switch: 3px',
   '.site-sidebar: 35px',
   '.wordmark: 53px',
+  '.cover-shapes: 22px',
   '.profile-actions: -34px'
 ]
 

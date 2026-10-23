@@ -4,7 +4,7 @@ export const messages = {
     homeSectionTitle: 'A little about me', aboutSectionTitle: 'Experience and approach', notebookTitle: 'Development notes',
     startConversation: 'Start a conversation', builtWithCare: 'Site built by',
     currentFocus: 'Current focus',
-    tagline: 'Senior frontend engineer · Vue and TypeScript · Batumi, Georgia', crafting: 'Browser editors',
+    tagline: 'Senior frontend engineer · Vue and TypeScript · Batumi, Georgia',
     workbench: 'Latest', workAndNotes: 'Work & notes', remote: 'Remote · B2B / EOR · Relocation', allWork: 'All work',
     collaboration: 'Working together',
     home: 'Home', work: 'Portfolio', blog: 'Blog', about: 'About', contact: 'Contacts',
@@ -32,13 +32,13 @@ export const messages = {
     services: 'What I bring', openSource: 'Open-source editor core',
     certificates: 'Certificates', certificatesTitle: 'Courses and tests', otherCertificates: 'Other certificates',
     certificateCourse: 'Course', certificateTest: 'Language test', certificateLessons: 'Lessons',
-    viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', openDemo: 'Open the live demo of my image editor', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab'
+    viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', openEditorCase: 'Product image editor case study', coverTitle: 'I build complex\nweb applications.', coverText: 'Browser editors. E-commerce tools.\nAI integrations.', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab'
   },
   ru: {
     homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
     startConversation: 'Как со мной связаться', builtWithCare: 'Сайт собрал',
     currentFocus: 'Чем занимаюсь',
-    tagline: 'Senior frontend-разработчик · Vue и TypeScript · Батуми, Грузия', crafting: 'Браузерные редакторы',
+    tagline: 'Senior frontend-разработчик · Vue и TypeScript · Батуми, Грузия',
     workbench: 'Свежее', workAndNotes: 'Проекты и заметки', remote: 'Удалённо · B2B / EOR · Релокация', allWork: 'Все проекты',
     collaboration: 'Формат работы',
     home: 'Главная', work: 'Портфолио', blog: 'Блог', about: 'Обо мне', contact: 'Контакты',
@@ -66,6 +66,6 @@ export const messages = {
     services: 'Чем могу помочь', openSource: 'Open-source ядро редактора',
     certificates: 'Сертификаты', certificatesTitle: 'Курсы и тесты', otherCertificates: 'Другие сертификаты',
     certificateCourse: 'Курс', certificateTest: 'Языковой тест', certificateLessons: 'Занятия',
-    viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', bookCall: 'Созвониться', openDemo: 'Открыть демо моего редактора изображений', bookCallNote: 'Видеозвонок на 30 минут', opensInNewTab: 'откроется в новой вкладке'
+    viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', bookCall: 'Созвониться', openEditorCase: 'Кейс редактора изображений для товаров', coverTitle: 'Делаю сложные\nвеб-приложения.', coverText: 'Браузерные редакторы, e-commerce,\nAI-интеграции.', bookCallNote: 'Видеозвонок на 30 минут', opensInNewTab: 'откроется в новой вкладке'
   }
 } as const
