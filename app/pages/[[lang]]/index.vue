@@ -56,7 +56,6 @@ usePageSeo({
         <div class="cover-shapes" aria-hidden="true">
           <i /><i /><i />
         </div>
-        <code>&lt;ideas /&gt; → interfaces</code>
       </div>
 
       <div class="profile-body">
@@ -122,7 +121,6 @@ usePageSeo({
     </div>
 
     <section class="pinned-note" aria-labelledby="pinned-note-title">
-      <span class="eyebrow">↳ {{ copy.pinnedNote }}</span>
       <h2 id="pinned-note-title">
         {{ siteContent.home.pinnedTitle }}
       </h2>

@@ -1,10 +1,10 @@
 /** Interface labels for the two published languages; editorial copy lives in content/settings/pages.json. */
 export const messages = {
   en: {
-    personalSpace: 'Personal space', homeSectionTitle: 'A little about me', aboutSectionTitle: 'Experience and approach', notebookTitle: 'Development notes',
+    homeSectionTitle: 'A little about me', aboutSectionTitle: 'Experience and approach', notebookTitle: 'Development notes',
     startConversation: 'Start a conversation', builtWithCare: 'Site built by',
     currentFocus: 'Current focus',
-    tagline: 'Senior frontend engineer · Vue and TypeScript · Batumi, Georgia', crafting: 'Browser editors', pinnedNote: 'Pinned note',
+    tagline: 'Senior frontend engineer · Vue and TypeScript · Batumi, Georgia', crafting: 'Browser editors',
     workbench: 'Latest', workAndNotes: 'Work & notes', remote: 'Remote · B2B / EOR · Relocation', allWork: 'All work',
     collaboration: 'Working together',
     home: 'Home', work: 'Portfolio', blog: 'Blog', about: 'About', contact: 'Contacts',
@@ -35,10 +35,10 @@ export const messages = {
     viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab'
   },
   ru: {
-    personalSpace: 'Разделы', homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
+    homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
     startConversation: 'Как со мной связаться', builtWithCare: 'Сайт собрал',
     currentFocus: 'Чем занимаюсь',
-    tagline: 'Senior frontend-разработчик · Vue и TypeScript · Батуми, Грузия', crafting: 'Браузерные редакторы', pinnedNote: 'Закреплённая заметка',
+    tagline: 'Senior frontend-разработчик · Vue и TypeScript · Батуми, Грузия', crafting: 'Браузерные редакторы',
     workbench: 'Свежее', workAndNotes: 'Проекты и заметки', remote: 'Удалённо · B2B / EOR · Релокация', allWork: 'Все проекты',
     collaboration: 'Формат работы',
     home: 'Главная', work: 'Портфолио', blog: 'Блог', about: 'Обо мне', contact: 'Контакты',

@@ -28,9 +28,6 @@ const links = computed(
       ><BrandMark /><span class="wordmark-text">anu<span class="wordmark-accent">3</span>ev<span class="wordmark-domain">.com</span></span></NuxtLink>
     </div>
 
-    <p class="nav-caption">
-      {{ copy.personalSpace }}
-    </p>
     <nav class="primary-nav" :aria-label="copy.navigation">
       <NuxtLink
         v-for="link in links"
