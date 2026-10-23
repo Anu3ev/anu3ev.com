@@ -78,3 +78,16 @@ test('Russian certificates keep the issuer names and use the site date style', a
   expect(second.y).toBeGreaterThan(first.y + first.height)
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
 })
+
+test('certificate rows and their hover state stay inside the list lines', async ({ page }) => {
+  await page.goto('/about/')
+  const list = await page.locator('.certificate-list').boundingBox()
+  const row = page.locator('a.certificate-row').first()
+  await row.hover()
+  const box = await row.boundingBox()
+  if (!list || !box) throw new Error('The certificate list must render a linked row')
+
+  expect(box.x).toBeGreaterThanOrEqual(list.x)
+  expect(box.x + box.width).toBeLessThanOrEqual(list.x + list.width)
+  await expect(row).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+})
