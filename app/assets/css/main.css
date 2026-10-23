@@ -173,14 +173,20 @@ p { line-height: inherit; }
 .sidebar-connect p { display: flex; gap: var(--space-1); align-items: center; font-size: 10px; }
 .sidebar-connect .status-dot { width: 4px; height: 4px; }
 .sidebar-connect a { display: inline-flex; align-items: center; min-height: 44px; font-size: 11px; }
-.profile-cover { position: relative; height: 196px; padding: var(--space-5) var(--gutter); background: var(--soft-accent); overflow: hidden; color: var(--accent-label); }
-/* The labels sit on a layer above the decorative shapes, which start to the right of them so nothing covers the text. */
-.profile-cover > span { position: relative; z-index: 1; font-size: 9px; text-transform: uppercase; letter-spacing: .18em; }
-/* The cover shows the real open-source editor (live-demo screenshot) and links to the demo. It ends above the button row, so the avatar and "Let's talk" keep their line. */
-.cover-demo { position: absolute; top: var(--space-5); right: var(--gutter); bottom: var(--space-8); aspect-ratio: 800 / 429; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #f6f2ea; box-shadow: 0 12px 32px -14px #050a14; transition: transform .2s, box-shadow .2s; }
-.cover-demo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-@media (hover: hover) { .cover-demo:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -14px #050a14; } }
-.cover-demo:focus-visible { outline-offset: 3px; }
+.profile-cover { position: relative; height: 228px; padding: var(--space-5) var(--gutter); background: var(--soft-accent); overflow: hidden; color: var(--accent-label); }
+/* Decorative stripes from the original cover sit behind the real Vue editor screenshot; the window ends above the avatar and button row. */
+.cover-shapes { display: flex; position: absolute; inset: -80px -20px -65px 372px; transform: rotate(-28deg); gap: 22px; }
+.cover-shapes i { display: block; width: 100px; border: 1px solid var(--cover-fill); border-radius: 65px; box-shadow: 0 0 0 12px var(--soft-accent), 0 0 0 13px #263d69; }
+.cover-shapes i:nth-child(2) { background: var(--cover-fill); }
+.cover-shapes i:nth-child(3) { background: var(--cover-light); }
+/* The owner's LinkedIn statement sits left of the stripes; on phones it sits above the editor window. */
+/* Line breaks come from the copy (as on the LinkedIn cover), so the block hugs its text and never reaches the stripes. */
+.cover-statement { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: start; gap: var(--space-2); width: fit-content; white-space: pre-line; color: var(--accent-label); font-size: 12px; line-height: 1.5; }
+.cover-statement strong { color: var(--text); font-size: 24px; line-height: 1.15; font-weight: 650; letter-spacing: -.02em; }
+.cover-editor { position: absolute; z-index: 1; top: var(--space-5); right: var(--gutter); bottom: var(--space-8); aspect-ratio: 960 / 521; overflow: hidden; border: 1px solid #ffffff; border-radius: 10px; background: #ffffff; box-shadow: 0 16px 36px -12px #050a14; transition: transform .2s, box-shadow .2s; }
+.cover-editor img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+@media (hover: hover) { .cover-editor:hover { transform: translateY(-2px); box-shadow: 0 20px 40px -12px #050a14; } }
+.cover-editor:focus-visible { outline-offset: 3px; }
 .profile-body { padding: 0 var(--gutter) var(--section-space); }
 .profile-actions { display: flex; align-items: center; justify-content: space-between; position: relative; margin-top: -34px; margin-bottom: var(--space-4); }
 .profile-avatar { position: relative; display: flex; justify-content: center; align-items: center; width: 86px; height: 86px; border: 6px solid var(--canvas); border-radius: 24px; background: var(--cover-light); color: #202c45; font-size: 32px; font-weight: 600; letter-spacing: -4px; }
@@ -432,9 +438,12 @@ p { line-height: inherit; }
   .primary-nav i { display: none !important; }
   .main-column { border: 0; padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
   .page-topbar { min-height: 58px; padding-right: var(--space-2); }
-  /* On phones the window starts under the label row, so a long Russian label never runs beneath it. */
-  .profile-cover { height: 184px; }
-  .cover-demo { top: var(--space-10); }
+  .profile-cover { height: 268px; }
+  .cover-statement { gap: var(--space-1); font-size: 11px; }
+  .cover-statement strong { font-size: 20px; }
+  .cover-editor { top: 104px; }
+  .cover-shapes { left: 306px; gap: var(--space-3); }
+  .cover-shapes i { width: 54px; }
   .profile-body h1 { font-size: 29px; letter-spacing: -1px; }
   .profile-description { white-space: normal; font-size: 16px; }
   .profile-location { font-size: 11px; gap: var(--space-3); }

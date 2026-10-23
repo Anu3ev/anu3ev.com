@@ -17,11 +17,6 @@ const { data: projects } = await useAsyncData(
       .limit(1)
       .all()
 )
-/** The cover shows the open-source editor and links to its live demo, taken from that case's metadata. */
-const { data: editorDemo } = await useAsyncData(
-  'home-editor-demo',
-  () => queryCollection('projects').where('slug', '=', 'image-editor').where('locale', '=', 'en').select('demo').first()
-)
 const { data: posts } = await useAsyncData(
   () => `home-posts-${locale.value}`,
   () => getPostSummaries({ locale: locale.value, limit: 1 })
@@ -57,22 +52,25 @@ usePageSeo({
   <div>
     <section class="home-profile" aria-labelledby="home-title">
       <div class="profile-cover">
-        <span>{{ copy.crafting }}</span>
-        <a
-          v-if="editorDemo?.demo"
-          class="cover-demo"
-          :href="editorDemo.demo"
-          :title="copy.openDemo"
-          :aria-label="`${copy.openDemo}, ${copy.opensInNewTab}`"
-          target="_blank"
-          rel="noopener noreferrer"
+        <p class="cover-statement">
+          <strong>{{ copy.coverTitle }}</strong>
+          <span>{{ copy.coverText }}</span>
+        </p>
+        <div class="cover-shapes" aria-hidden="true">
+          <i /><i /><i />
+        </div>
+        <NuxtLink
+          class="cover-editor"
+          :to="localePath('/work/product-image-editor')"
+          :title="copy.openEditorCase"
+          :aria-label="copy.openEditorCase"
         ><img
           src="/images/editor-cover.webp"
           alt=""
-          width="800"
-          height="429"
+          width="960"
+          height="521"
           fetchpriority="high"
-        ></a>
+        ></NuxtLink>
       </div>
 
       <div class="profile-body">
