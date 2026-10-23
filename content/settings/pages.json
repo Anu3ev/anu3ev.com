@@ -26,7 +26,7 @@
       ]
     },
     "about": {
-      "title": "The person behind the pixels.",
+      "title": "Five years of frontend work at inSales.",
       "intro": "I care about what happens after the happy path.",
       "body": "I’m Alexander Anufriev, a frontend engineer based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors, code editors, merchant analytics, and the workflows around them.",
       "story": "Before moving into frontend development, I worked in technical support. Debugging real stores and talking to merchants taught me to start with the problem, understand the constraints, and take responsibility for what reaches production.",
@@ -79,8 +79,8 @@
       ]
     },
     "portfolio": {
-      "title": "Work with a purpose.",
-      "intro": "Complex editors, useful tools, and the engineering that makes them feel simple.",
+      "title": "What I’ve worked on.",
+      "intro": "Editors, merchant tools and storefront work, from the first requirements to the details that make an interface easy to use.",
       "summary": [
         {
           "value": "5 years",
@@ -93,11 +93,11 @@
       ]
     },
     "blog": {
-      "title": "Thinking out loud.",
+      "title": "Notes from real frontend work.",
       "intro": "Practical ideas about Vue, TypeScript, browser editors, and the decisions behind product interfaces."
     },
     "contact": {
-      "title": "Good work starts with a conversation.",
+      "title": "Get in touch.",
       "intro": "A frontend role, a challenging product, or a good engineering conversation. I’d like to hear about it.",
       "note": "I work remotely from Georgia (UTC+4), in English and Russian.",
       "arrangements": [
@@ -107,7 +107,7 @@
       ]
     },
     "sidebar": {
-      "bio": "Building at the intersection of engineering and experience.",
+      "bio": "I build browser editors and merchant tools with Vue and TypeScript.",
       "focusTitle": "Complex UI, owned end to end.",
       "focusDetails": "Editor architecture.\nStorefront performance.\nClear contracts with backend.",
       "focusTags": [
@@ -117,15 +117,15 @@
       ]
     },
     "collaboration": {
-      "title": "Based in Batumi. Built for distributed teams.",
+      "title": "Based in Batumi, working remotely.",
       "body": "Available for remote roles through B2B or EOR. Open to employer-sponsored relocation."
     },
     "cta": {
-      "title": "Let’s build something thoughtful.",
-      "body": "Have a product challenge or an interesting role? Get in touch."
+      "title": "Looking for a senior frontend engineer?",
+      "body": "I’m open to remote work and relocation. Send me an email or book a call."
     },
     "privacy": {
-      "title": "A little privacy, by design.",
+      "title": "Privacy.",
       "updated": "2026-10-20",
       "body": "This site does not use advertising cookies, tracking analytics, or a contact form. Public pages and assets are delivered by Vercel. The hosting provider may process technical request data, including IP addresses and access logs, to serve and protect the site.",
       "contact": "When you contact me by email, Telegram, or LinkedIn, the service you choose processes that conversation under its own privacy policy. I use your message to respond to your enquiry. You can ask me to delete the correspondence by email.",
@@ -159,7 +159,7 @@
       ]
     },
     "about": {
-      "title": "Кто я и чем занимаюсь.",
+      "title": "Пять лет писал фронтенд в inSales.",
       "intro": "Мне важно, что происходит, когда что-то идёт не по плану.",
       "body": "Я Александр Ануфриев, frontend-разработчик, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений и кода, аналитику для магазинов и всё, что вокруг них.",
       "story": "До фронтенда я работал в техподдержке: разбирался в сломанных магазинах и общался с их владельцами. Там привык начинать с проблемы, выяснять ограничения и отвечать за то, что уходит в продакшен.",
@@ -226,7 +226,7 @@
       ]
     },
     "blog": {
-      "title": "Мысли вслух.",
+      "title": "Заметки из реальных задач.",
       "intro": "Пишу о Vue, TypeScript, браузерных редакторах и решениях из реальных задач."
     },
     "contact": {
@@ -240,7 +240,7 @@
       ]
     },
     "sidebar": {
-      "bio": "Делаю сложные интерфейсы удобными.",
+      "bio": "Делаю браузерные редакторы и инструменты для продавцов на Vue и TypeScript.",
       "focusTitle": "Сложный UI от задачи до поддержки.",
       "focusDetails": "Редакторы и конструкторы.\nСкорость витрин.\nДоговорённости с бэкендом об API.",
       "focusTags": [
@@ -254,8 +254,8 @@
       "body": "Готов работать удалённо по B2B-договору или через EOR. Рассмотрю релокацию, если работодатель её поддержит."
     },
     "cta": {
-      "title": "Давайте работать вместе.",
-      "body": "Ищете frontend-разработчика или хотите обсудить проект? Напишите мне."
+      "title": "Ищете senior frontend-разработчика?",
+      "body": "Готов к удалённой работе и релокации. Напишите мне или запишитесь на звонок."
     },
     "privacy": {
       "title": "Приватность.",

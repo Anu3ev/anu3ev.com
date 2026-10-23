@@ -127,7 +127,7 @@ test('the theme survives a reload and contact destinations are real', async ({ p
 test('unknown and draft URLs return HTTP 404 and the correct locale', async ({ page }) => {
   const draft = await page.goto('/blog/draft-example')
   expect(draft?.status()).toBe(404)
-  await expect(page.locator('main h1')).toHaveText('This page wandered off.')
+  await expect(page.locator('main h1')).toHaveText('Page not found.')
   const russian = await page.goto('/ru/nonexistent-page')
   expect(russian?.status()).toBe(404)
   await expect(page.locator('main h1')).toHaveText('Страница не найдена.')
