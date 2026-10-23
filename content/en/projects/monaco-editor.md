@@ -10,7 +10,7 @@ category: Browser editors
 year: Jul 2022 – Nov 2025
 context: inSales
 role: "Led development: language tooling, browser API, packaging, integrations"
-stack: [TypeScript, JavaScript, Monaco Editor, Front-End Architecture, Vue.js, Webpack, Liquid, API Integration, CI/CD, Gitlab, Ruby on Rails, SCSS, HTML, Developer Tools, Software Maintenance, Syntax Highlighting, Autocomplete]
+stack: [Monaco Editor, TypeScript, Liquid, JavaScript, Front-End Architecture, Vue.js, Webpack, API Integration, CI/CD, Gitlab, Ruby on Rails, SCSS, HTML, Developer Tools, Software Maintenance, Syntax Highlighting, Autocomplete]
 featured: false
 order: 7
 results:

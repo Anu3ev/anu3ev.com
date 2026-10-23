@@ -10,7 +10,7 @@ category: Платформа витрин
 year: Декабрь 2024 – май 2025
 context: inSales
 role: "Мейнтейнер библиотеки: AJAX-компоненты, клиентский кеш, выкатка и документация"
-stack: [JavaScript, Web Performance, AJAX, IndexedDB, Web Caching, Debugging, API Integration, Technical Documentation, Cross-browser Compatibility, Liquid]
+stack: [JavaScript, IndexedDB, Web Performance, AJAX, Web Caching, Debugging, API Integration, Technical Documentation, Cross-browser Compatibility, Liquid]
 featured: false
 order: 5
 results:

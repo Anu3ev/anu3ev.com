@@ -10,7 +10,7 @@ category: Storefront platform
 year: Dec 2024 – May 2025
 context: inSales
 role: "Library maintainer: AJAX components, client-side cache, rollout and docs"
-stack: [JavaScript, Web Performance, AJAX, IndexedDB, Web Caching, Debugging, API Integration, Technical Documentation, Cross-browser Compatibility, Liquid]
+stack: [JavaScript, IndexedDB, Web Performance, AJAX, Web Caching, Debugging, API Integration, Technical Documentation, Cross-browser Compatibility, Liquid]
 featured: false
 order: 5
 results:

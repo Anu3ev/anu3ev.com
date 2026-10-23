@@ -10,7 +10,7 @@ category: Merchant tools
 year: Oct 2024 – Apr 2025
 context: inSales
 role: "Sole frontend developer: requirements, API contracts, implementation, release"
-stack: [Vue.js, JavaScript, REST APIs, Front-End Development, State Management, Responsive Web Design, Requirements Analysis, Technical Documentation, Vue Router, Monaco Editor, E-Commerce Development, Software Architecture, Data Visualization, ApexCharts, Software as a Service (SaaS)]
+stack: [Vue.js, JavaScript, Data Visualization, REST APIs, Front-End Development, State Management, Responsive Web Design, Requirements Analysis, Technical Documentation, Vue Router, Monaco Editor, E-Commerce Development, Software Architecture, ApexCharts, Software as a Service (SaaS)]
 featured: false
 order: 4
 results:
