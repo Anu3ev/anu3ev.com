@@ -26,6 +26,7 @@ usePageSeo({
   title: () => project.value?.title || copy.value.work,
   description: () => project.value?.description || siteContent.value.portfolio.intro,
   parent: () => ({ name: copy.value.work, url: `${siteUrl}${localePath('/work')}` }),
+  markdownCopy: () => Boolean(project.value),
   schema: () => {
     const currentProject = project.value
     if (!currentProject) return []
@@ -34,7 +35,7 @@ usePageSeo({
       '@context': 'https://schema.org', '@type': 'CreativeWork',
       'name': currentProject.title, 'description': currentProject.description,
       'url': `${siteUrl}${localePath(`/work/${currentProject.slug}`)}`,
-      'author': { '@type': 'Person', 'name': profile.name, 'url': siteUrl }
+      'author': { '@type': 'Person', '@id': `${siteUrl}/#person`, 'name': profile.name, 'url': siteUrl }
     }]
   }
 })

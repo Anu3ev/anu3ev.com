@@ -21,6 +21,14 @@ public/robots.txt
 public/version.json
 public/rss.xml
 public/ru/rss.xml
+public/llms.txt
+public/llms-full.txt
+public/ru/llms.txt
+public/ru/llms-full.txt
+public/work/
+public/blog/
+public/ru/work/
+public/ru/blog/
 public/site.webmanifest
 public/favicon-48.png
 public/apple-touch-icon.png

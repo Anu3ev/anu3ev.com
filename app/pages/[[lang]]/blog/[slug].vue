@@ -40,6 +40,7 @@ usePageSeo({
       ? socialImagePath({ locale: locale.value, slug: post.value.slug })
       : '/images/og-default.png',
   parent: () => ({ name: copy.value.blog, url: `${siteUrl}${localePath('/blog')}` }),
+  markdownCopy: () => Boolean(post.value),
   publishedTime: () => post.value?.date,
   schema: () => {
     const article = post.value
@@ -55,7 +56,7 @@ usePageSeo({
         'image': `${siteUrl}${socialImagePath({ locale: locale.value, slug: article.slug })}`,
         'mainEntityOfPage': `${siteUrl}${localePath(`/blog/${article.slug}`)}`,
         'inLanguage': locale.value,
-        'author': { '@type': 'Person', 'name': profile.name, 'url': `${siteUrl}${localePath('/about')}` },
+        'author': { '@type': 'Person', '@id': `${siteUrl}/#person`, 'name': profile.name, 'url': `${siteUrl}${localePath('/about')}` },
         'publisher': { '@type': 'Person', 'name': profile.name, 'url': siteUrl }
       }
     ]

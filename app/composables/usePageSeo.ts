@@ -12,6 +12,8 @@ interface PageSeo {
   parent?: MaybeRefOrGetter<SeoAncestor | undefined>
   publishedTime?: MaybeRefOrGetter<string | undefined>
   noindex?: MaybeRefOrGetter<boolean>
+  /** Cases and articles publish a Markdown copy beside the page (`…/index.md`) for AI tools; the head points to it. */
+  markdownCopy?: MaybeRefOrGetter<boolean>
 }
 
 /** Owns canonical, alternate languages, social cards and escaped page/breadcrumb structured data. */
@@ -54,7 +56,9 @@ export function usePageSeo(options: PageSeo) {
 
   useHead(() => ({
     htmlAttrs: { lang: locale.value },
-    link: pageLinks.value.links,
+    link: toValue(options.markdownCopy)
+      ? [...pageLinks.value.links, { rel: 'alternate', type: 'text/markdown', href: `${pageLinks.value.canonical}index.md` }]
+      : pageLinks.value.links,
     script: [{ key: 'page-schema', type: 'application/ld+json', innerHTML: serializeJsonLd(graphs.value) }]
   }))
 }

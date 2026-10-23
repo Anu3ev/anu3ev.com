@@ -3,6 +3,7 @@ import { dirname, join } from 'node:path'
 import sharp from 'sharp'
 import { z } from 'zod'
 import { readContentInventory } from './lib/content'
+import { createLlmsIndex, createPostMarkdown, createProjectMarkdown, markdownPath } from './lib/llms'
 import { createPublicPaths } from './lib/routes'
 import { canonicalPagePath, socialImagePath } from '../shared/seo'
 import { getSiteOrigin } from '../shared/site'
@@ -12,7 +13,7 @@ function escapeXml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 }
 
-const { projects, posts, profile, pages } = readContentInventory()
+const { projects, posts, profile, pages, certificates } = readContentInventory()
 const origin = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)
 const { version } = z.object({ version: z.string().regex(/^\d+\.\d+\.\d+$/) }).parse(JSON.parse(readFileSync('package.json', 'utf8')))
 const commit = z.string().regex(/^[a-f0-9]{40}$/).nullable().parse(process.env.GITHUB_SHA || process.env.VERCEL_GIT_COMMIT_SHA || null)
@@ -62,9 +63,37 @@ for (const locale of ['en', 'ru'] as const) {
   }
 }
 
+/** Generated machine-readable copies live under these public paths; they are rebuilt from content on every build. */
+for (const generated of ['public/llms.txt', 'public/llms-full.txt', 'public/ru/llms.txt', 'public/ru/llms-full.txt', 'public/work', 'public/blog', 'public/ru/work', 'public/ru/blog']) {
+  rmSync(generated, { recursive: true, force: true })
+}
+
+/** For AI answer engines: an llms.txt index per language, a Markdown copy beside every case and article, and one full-text file. */
+for (const locale of ['en', 'ru'] as const) {
+  const prefix = locale === 'ru' ? '/ru' : ''
+  const localeProjects = projects.filter(project => project.isPublic && project.metadata.locale === locale).sort((first, second) => first.metadata.order - second.metadata.order)
+  const localePosts = posts.filter(post => post.isPublic && post.metadata.locale === locale).sort((first, second) => second.metadata.date.localeCompare(first.metadata.date) || first.metadata.slug.localeCompare(second.metadata.slug))
+  const projectFiles = localeProjects.map(project => ({ path: markdownPath(`${prefix}/work/${project.metadata.slug}`), markdown: createProjectMarkdown({ project, origin }) }))
+  const postFiles = localePosts.map(post => ({ path: markdownPath(`${prefix}/blog/${post.metadata.slug}`), markdown: createPostMarkdown({ post, origin }) }))
+
+  for (const { path, markdown } of [...projectFiles, ...postFiles]) {
+    mkdirSync(dirname(`public${path}`), { recursive: true })
+    writeFileSync(`public${path}`, markdown)
+  }
+
+  const index = createLlmsIndex({
+    locale, origin, profile, pages, certificates,
+    projects: localeProjects.map(project => project.metadata),
+    posts: localePosts.map(post => post.metadata)
+  })
+  mkdirSync(`public${prefix}`, { recursive: true })
+  writeFileSync(`public${prefix}/llms.txt`, index)
+  writeFileSync(`public${prefix}/llms-full.txt`, [index, ...projectFiles.map(file => file.markdown), ...postFiles.map(file => file.markdown)].join('\n---\n\n'))
+}
+
 const favicon = readFileSync('public/favicon.svg')
 for (const [size, filename] of [[48, 'favicon-48.png'], [180, 'apple-touch-icon.png'], [192, 'icon-192.png'], [512, 'icon-512.png']] as const) {
   await sharp(favicon).resize(size, size).png().toFile(`public/${filename}`)
 }
 writeFileSync('public/site.webmanifest', JSON.stringify({ name: profile.name, short_name: 'anu3ev', start_url: '/', display: 'browser', background_color: '#101216', theme_color: '#101216', icons: [{ src: '/icon-192.png', sizes: '192x192', type: 'image/png' }, { src: '/icon-512.png', sizes: '512x512', type: 'image/png' }] }, null, 2))
-console.log(`Generated sitemap (${paths.length} pages), EN/RU RSS, social cards, manifest and icons for ${origin}.`)
+console.log(`Generated sitemap (${paths.length} pages), EN/RU RSS and llms.txt, Markdown copies, social cards, manifest and icons for ${origin}.`)
