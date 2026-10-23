@@ -53,6 +53,12 @@ usePageSeo({ title: () => copy.value.contact, description: () => siteContent.val
     </div>
     <nav class="contact-options" :aria-label="copy.elsewhere">
       <a
+        :href="profile.calendly"
+        :title="copy.bookCall"
+        target="_blank"
+        rel="noopener noreferrer"
+      ><span><strong>{{ copy.bookCall }}</strong><small>{{ copy.bookCallNote }}</small></span><AppIcon name="arrow" /></a>
+      <a
         :href="profile.telegram"
         title="Telegram"
         target="_blank"
