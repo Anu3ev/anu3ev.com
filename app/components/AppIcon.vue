@@ -4,6 +4,7 @@ const paths = {
   person: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M4 21a8 8 0 0 1 16 0',
   home: 'M3 10l9-7 9 7v10H3zM9 20v-7h6v7',
   briefcase: 'M3 7h18v14H3zM8 7V3h8v4M3 12h18',
+  calendar: 'M4 6h16v14H4zM4 10h16M8 3v4m8-4v4',
   download: 'M12 4v11m-5-5 5 5 5-5M5 20h14',
   arrow: 'M7 17 17 7M7 7h10v10',
   right: 'M4 12h16m-6-6 6 6-6 6',

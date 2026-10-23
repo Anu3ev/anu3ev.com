@@ -95,6 +95,13 @@ usePageSeo({
             type="application/pdf"
             download
           >{{ copy.downloadCv }} <AppIcon name="download" /></a>
+          <a
+            :href="profile.calendly"
+            class="button button-secondary"
+            :title="copy.bookCall"
+            target="_blank"
+            rel="noopener noreferrer"
+          >{{ copy.bookCall }} <AppIcon name="calendar" /></a>
         </div>
         <ul class="tags">
           <li v-for="tag in siteContent.home.tags" :key="tag">

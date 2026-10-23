@@ -100,6 +100,7 @@ collections:
           - { name: github, label: GitHub URL, widget: string }
           - { name: linkedin, label: LinkedIn URL, widget: string }
           - { name: telegram, label: Telegram URL, widget: string }
+          - { name: calendly, label: Calendly booking URL, widget: string, hint: The public page where people book a call. }
           - { name: location, label: Location, widget: string }
           - { name: location_ru, label: Location — Russian, widget: string }
           - { name: available, label: Available for opportunities, widget: boolean }

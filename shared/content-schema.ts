@@ -56,6 +56,8 @@ export const profileSchema = z.object({
   github: z.string().url().regex(/^https:\/\//),
   linkedin: z.string().url().regex(/^https:\/\//),
   telegram: z.string().url().regex(/^https:\/\//),
+  /** Public booking page for a short intro call. */
+  calendly: z.string().url().regex(/^https:\/\/calendly\.com\//),
   location: z.string().min(3),
   location_ru: z.string().min(3),
   available: z.boolean(),
