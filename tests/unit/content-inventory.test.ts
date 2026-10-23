@@ -1,5 +1,5 @@
 import { afterAll, beforeEach, describe, expect, it } from 'vitest'
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import { copyFileSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 import matter from 'gray-matter'
@@ -18,6 +18,8 @@ beforeEach(() => {
   copyFileSync('content/settings/pages.json', join(root, 'content/settings/pages.json'))
   copyFileSync('content/settings/certificates.json', join(root, 'content/settings/certificates.json'))
   mkdirSync(join(root, 'public/images/certificates'), { recursive: true })
+  mkdirSync(join(root, 'public/cv'), { recursive: true })
+  for (const cv of readdirSync('public/cv')) copyFileSync(join('public/cv', cv), join(root, 'public/cv', cv))
   for (const image of ['vue-master-class-2024.webp', 'vue-master-class-2024-full.webp', 'ef-set-english.webp']) copyFileSync(`public/images/certificates/${image}`, join(root, 'public/images/certificates', image))
   copyFileSync('public/images/alexander.webp', join(root, 'public/images/alexander.webp'))
   copyFileSync('public/images/alexander-avatar.webp', join(root, 'public/images/alexander-avatar.webp'))
@@ -61,6 +63,8 @@ describe('public content inventory', () => {
     expect(() => readContentInventory({ root, now })).toThrow('existing public image')
     writeFileSync(path, JSON.stringify({ ...profile, avatar: '/images/missing-avatar.webp' }))
     expect(() => readContentInventory({ root, now })).toThrow('existing public image')
+    writeFileSync(path, JSON.stringify({ ...profile, cv_ru: '/cv/missing.pdf' }))
+    expect(() => readContentInventory({ root, now })).toThrow('existing PDF in public/cv')
   })
 
   it('accepts the published certificates and rejects a card without its preview', () => {
