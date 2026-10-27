@@ -65,6 +65,8 @@ usePageSeo({
         </li>
       </ul>
 
+      <CaseMentions :project="project.slug" />
+
       <dl class="case-facts">
         <div>
           <dt>{{ copy.projectRole }}</dt>

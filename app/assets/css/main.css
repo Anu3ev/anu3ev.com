@@ -318,6 +318,16 @@ p { line-height: inherit; }
 .recommendation-cases { margin-top: var(--block-gap); padding-top: var(--block-gap); border-top: 1px solid var(--line); }
 .recommendation-cases h2 { margin: 0 0 var(--space-2); }
 .recommendation-cases ul { margin: 0; padding: 0; list-style: none; }
+/* On a case: what a colleague said about it, under the results and between hairlines rather than in a card. */
+.case-mentions { display: grid; gap: var(--space-3); margin-bottom: var(--block-gap); padding-block: var(--space-4); border-block: 1px solid var(--line); }
+.case-mentions blockquote { margin: 0; }
+.case-mentions blockquote p { color: var(--text); font-size: 15px; line-height: 1.7; }
+.case-mentions-by { display: flex; align-items: center; gap: var(--space-3); color: var(--muted); font-size: 12px; line-height: 1.5; }
+.case-mentions-faces { display: flex; flex: none; }
+.case-mentions-faces .person-initials { width: 30px; height: 30px; border: 2px solid var(--canvas); font-size: 10px; }
+.case-mentions-faces .person-initials + .person-initials { margin-left: calc(var(--space-2) * -1); }
+/* Names are links inside a sentence, styled like links in case text; inline so a comma never wraps away from its name. */
+.case-mentions-by a { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
 /* The recommendations list: one row per person, laid out like the case cards. */
 .recommendation-card { padding: var(--card-padding) var(--gutter); border-top: 1px solid var(--line); }
 .recommendation-card:last-of-type { border-bottom: 1px solid var(--line); }
