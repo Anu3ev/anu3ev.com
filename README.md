@@ -44,10 +44,7 @@ pnpm test:e2e            # browser and accessibility tests against the build
 
 ## How the work is organised
 
-Each change is a task with its own branch and pull request:
-- the [task board](docs/roadmap/STATUS.md) lists every task, its status and its release;
-- the [roadmap](docs/roadmap/README.md) sets what comes next;
-- each task folder in [`docs/tasks/`](docs/tasks/) has a plan written before the work and a summary written after it.
+Each change is a task with its own branch and pull request: a plan before the work, a summary after it, and a release when the version changes. The pull requests describe what changed and how it was checked; the planning notes themselves are kept privately.
 
 Operations guides: [editing content](docs/operations/content.md) and [deployment](docs/operations/deployment.md).
 
