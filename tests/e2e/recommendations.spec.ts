@@ -91,3 +91,40 @@ test('the menu marks Recommendations as current on the list and on a single page
   await page.getByRole('link', { name: 'All recommendations', exact: true }).click()
   await expect(page).toHaveURL(/\/recommendations\/$/)
 })
+
+test('a case that colleagues mention quotes one of them and links to each recommendation', async ({ page }) => {
+  const published = inventory.recommendations.filter(recommendation => recommendation.isPublic)
+  const mentioning = (project: string) => published.filter(recommendation => recommendation.metadata.mentions.some(mention => mention.project === project))
+
+  for (const project of ['product-image-editor', 'abandoned-carts']) {
+    const people = mentioning(project)
+    test.skip(people.length < 2, `${project} needs two mentions for this check`)
+
+    await page.goto(`/work/${project}`)
+    const block = page.locator('.case-mentions')
+    await expect(block).toContainText(`Mentioned in ${people.length} recommendations:`)
+    await expect(block.locator('blockquote')).toHaveAttribute('lang', 'en')
+    const quotes = people.flatMap(person => person.metadata.mentions.filter(mention => mention.project === project).map(mention => mention.quote))
+    expect(quotes).toContain(await block.locator('blockquote p').textContent().then(text => text?.trim()))
+    const links = block.getByRole('link')
+    await expect(links).toHaveCount(people.length)
+    for (const link of await links.all()) {
+      const href = await link.getAttribute('href')
+      expect(people.map(person => `/recommendations/${person.slug}/`)).toContain(href)
+    }
+
+    await page.goto(`/ru/work/${project}`)
+    await expect(block).toContainText(`Упоминается в ${people.length} рекомендациях:`)
+    await expect(links.first()).toHaveAttribute('href', /^\/ru\/recommendations\//)
+  }
+
+  const single = ['visual-storefront', 'image-editor'].find(project => mentioning(project).length === 1)
+  if (single) {
+    await page.goto(`/work/${single}`)
+    await expect(page.locator('.case-mentions')).toContainText(`From the recommendation by ${mentioning(single)[0]?.metadata.name}`)
+  }
+
+  await page.goto('/work/form-protection')
+  await expect(page.locator('main h1')).toBeVisible()
+  await expect(page.locator('.case-mentions')).toHaveCount(0)
+})

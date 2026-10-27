@@ -39,7 +39,8 @@ export const messages = {
     relationshipManagedDirectly: 'Managed me directly', relationshipSenior: 'Senior colleague, not my manager', relationshipSameTeam: 'Worked on the same team', relationshipTeacher: 'My teacher',
     recommendationsTitle: 'People I worked with', readRecommendation: 'Read it', allRecommendations: 'All recommendations',
     recommendationsIntro: 'My manager, the CTO of inSales, other colleagues and my English teacher. Each text is shown in full, as written on LinkedIn, with a link to the original.',
-    mentionsCases: { one: 'Mentions {count} case', other: 'Mentions {count} cases' }
+    mentionsCases: { one: 'Mentions {count} case', other: 'Mentions {count} cases' },
+    mentionedInRecommendations: 'Mentioned in {count} recommendations:', fromRecommendation: 'From the recommendation by'
   },
   ru: {
     homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
@@ -80,6 +81,7 @@ export const messages = {
     relationshipManagedDirectly: 'Мой непосредственный руководитель', relationshipSenior: 'Старший коллега, не руководитель', relationshipSameTeam: 'Работали в одной команде', relationshipTeacher: 'Мой преподаватель',
     recommendationsTitle: 'Люди, с которыми я работал', readRecommendation: 'Читать целиком', allRecommendations: 'Все рекомендации',
     recommendationsIntro: 'Мой руководитель, CTO inSales, другие коллеги и преподаватель английского. Каждый текст приведён целиком, как в LinkedIn, со ссылкой на оригинал.',
-    mentionsCases: { one: 'Упоминает {count} кейс', few: 'Упоминает {count} кейса', many: 'Упоминает {count} кейсов', other: 'Упоминает {count} кейса' }
+    mentionsCases: { one: 'Упоминает {count} кейс', few: 'Упоминает {count} кейса', many: 'Упоминает {count} кейсов', other: 'Упоминает {count} кейса' },
+    mentionedInRecommendations: 'Упоминается в {count} рекомендациях:', fromRecommendation: 'Из рекомендации'
   }
 } as const
