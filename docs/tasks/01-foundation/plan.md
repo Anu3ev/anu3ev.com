@@ -1,5 +1,7 @@
 # Sequential task queue
 
+> Historical queue, kept as written up to task 27. The current status of every task is in the [task board](../../roadmap/STATUS.md).
+
 Each task follows requirements → implementation → checks → self-review → corrections → another review → summary → separate branch/commit → push → merge → next task. The user's Git index is preserved; commits use a temporary index. `git add` is not used.
 
 | Task | Deliverable | Status |

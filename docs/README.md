@@ -4,6 +4,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 
 **Production:** [Vercel Hobby](https://anu3ev-com.vercel.app/), connected to `Anu3ev/anu3ev.com`. [Automatic deployment verification](tasks/08-github-deployment/summary.md). The [initial launch audit](tasks/07-launch-audit/summary.md) describes the earlier Sites snapshot and its historical limitations.
 
+- [Roadmap](roadmap/README.md) and [task board](roadmap/STATUS.md): what is next and the status of every task
 - [Architecture and decisions](tasks/01-foundation/architecture.md)
 - [Sequential task queue](tasks/01-foundation/plan.md)
 - [Acceptance criteria](tasks/01-foundation/acceptance.md)
