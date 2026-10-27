@@ -12,7 +12,7 @@ Eight colleagues have written recommendations for Alexander on LinkedIn. They ar
 
 A sixth section needs room in the phone menu, which has five equal tabs today. That work is a separate task. It also fixes the oversized space under the phone menu that the owner noticed in production.
 
-Mockups: the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7) (private to the owner). The owner approved R1–R4 on 27 October 2026, and on the same day N5 for the menu and the full word "Recommendations" for its label.
+Mockups: the design mockups (private to the owner). The owner approved R1–R4 on 27 October 2026, and on the same day N5 for the menu and the full word "Recommendations" for its label.
 
 ### Order
 

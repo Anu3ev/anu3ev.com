@@ -11,3 +11,6 @@ export function getSiteOrigin(value = DEFAULT_SITE_ORIGIN) {
 
   return url.origin
 }
+
+/** The site's own source code; the footer links to it. */
+export const SOURCE_REPOSITORY = 'https://github.com/Anu3ev/anu3ev.com'
