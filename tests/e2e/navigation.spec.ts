@@ -88,7 +88,7 @@ test('mobile bottom navigation supports the keyboard and leaves the final conten
   await page.setViewportSize({ width: 320, height: 812 })
   await page.goto('/')
   const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
-  await expect(navigation.getByRole('link')).toHaveCount(5)
+  await expect(navigation.getByRole('link')).toHaveCount(6)
   await expect(navigation.getByRole('link', { name: 'Home', exact: true })).toHaveAttribute('aria-current', 'page')
   const blogLink = navigation.getByRole('link', { name: 'Blog', exact: true })
   await blogLink.focus()
@@ -120,12 +120,21 @@ async function isTabFullyShown(page: Page, name: string) {
   }, name)
 }
 
-test('the phone menu fits five tabs on common phones and sits on the screen edge', async ({ page }) => {
-  await page.setViewportSize({ width: 360, height: 800 })
+test('the phone menu shows four tabs and part of the fifth, and sits on the screen edge', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/')
   const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
-  await expect(navigation.getByRole('button', { name: 'Show more sections', exact: true })).toBeHidden()
-  for (const name of ['Home', 'About', 'Blog', 'Portfolio', 'Contacts']) expect(await isTabFullyShown(page, name)).toBe(true)
+  await expect(navigation.getByRole('button', { name: 'Show more sections', exact: true })).toBeVisible()
+  for (const name of ['Home', 'About', 'Blog', 'Portfolio']) expect(await isTabFullyShown(page, name)).toBe(true)
+  expect(await isTabFullyShown(page, 'Recommendations')).toBe(false)
+
+  // The fifth tab sticks out of the strip rather than hiding behind its edge, so the strip reads as scrollable.
+  const peek = await page.locator('.nav-tabs').evaluate((strip) => {
+    const tab = [...strip.querySelectorAll('a')].find(link => link.textContent?.trim() === 'Recommendations')
+    if (!tab) throw new Error('The strip has no Recommendations tab')
+    return strip.getBoundingClientRect().right - tab.getBoundingClientRect().left
+  })
+  expect(peek).toBeGreaterThan(20)
 
   // Without a home-indicator inset the space under the tabs equals the space above them.
   const padding = await page.locator('.site-sidebar').evaluate(element => getComputedStyle(element).paddingBottom)

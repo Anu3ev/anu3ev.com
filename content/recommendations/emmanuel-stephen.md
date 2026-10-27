@@ -5,7 +5,7 @@ headline_ru: Преподаватель английского
 relationship: teacher
 date: 2026-10-11
 profile: https://www.linkedin.com/in/emmanuel-stephen-017734271/
-excerpt: He wants to understand the question and explain his thinking in his own words, even when the conversation goes somewhere he wasn't expecting.
+highlight: He wants to understand the question and explain his thinking in his own words, even when the conversation goes somewhere he wasn't expecting.
 mentions: []
 published: true
 ---

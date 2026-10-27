@@ -50,8 +50,8 @@ const sourceUrl = `${profile.linkedin}details/recommendations/`
 
 usePageSeo({
   title: () => pageTitle.value,
-  description: () => recommendation.value?.excerpt ?? copy.value.recommendations,
-  parent: () => ({ name: copy.value.about, url: `${siteUrl}${localePath('/about')}` }),
+  description: () => recommendation.value?.highlight ?? copy.value.recommendations,
+  parent: () => ({ name: copy.value.recommendations, url: `${siteUrl}${localePath('/recommendations')}` }),
   markdownCopy: () => Boolean(recommendation.value),
   schema: () => {
     const current = recommendation.value
@@ -60,7 +60,7 @@ usePageSeo({
     // Plain page data: Google ignores Review markup a person publishes about themselves.
     return [{
       '@context': 'https://schema.org', '@type': 'WebPage',
-      'name': pageTitle.value, 'description': current.excerpt, 'inLanguage': 'en', 'datePublished': current.date,
+      'name': pageTitle.value, 'description': current.highlight, 'inLanguage': 'en', 'datePublished': current.date,
       'url': `${siteUrl}${localePath(`/recommendations/${String(route.params.slug)}`)}`,
       'about': { '@type': 'Person', '@id': `${siteUrl}/#person`, 'name': profile.name },
       'author': { '@type': 'Person', 'name': current.name, 'jobTitle': current.headline_en, 'sameAs': [current.profile] },
@@ -74,10 +74,10 @@ usePageSeo({
   <div class="page-shell">
     <div v-if="recommendation" class="container page-content">
       <NuxtLink
-        :to="localePath('/about')"
+        :to="localePath('/recommendations')"
         class="text-link back-link"
-        :title="copy.backToAbout"
-      ><AppIcon name="left" /> {{ copy.backToAbout }}</NuxtLink>
+        :title="copy.allRecommendations"
+      ><AppIcon name="left" /> {{ copy.allRecommendations }}</NuxtLink>
 
       <header class="page-heading recommendation-heading">
         <p class="eyebrow">

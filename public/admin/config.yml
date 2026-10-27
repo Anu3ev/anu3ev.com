@@ -107,7 +107,7 @@ collections:
         hint: LinkedIn shows this line above the text.
       - { name: date, label: Date on LinkedIn, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
       - { name: profile, label: Their LinkedIn profile, widget: string, hint: 'https://www.linkedin.com/in/…/ with the trailing slash.' }
-      - { name: excerpt, label: Excerpt, widget: text, hint: One sentence copied from the text without changes. The build fails if it is not in the text. }
+      - { name: highlight, label: Highlight, widget: text, hint: One sentence copied from the text without changes. The build fails if it is not in the text. }
       - name: mentions
         label: Cases mentioned
         widget: list

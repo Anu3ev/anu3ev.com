@@ -21,7 +21,8 @@ const paths = {
   sun: 'M12 8a4 4 0 1 1 0 8 4 4 0 0 1 0-8M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
   moon: 'M20 13.5A8 8 0 1 1 10.5 4a6.5 6.5 0 0 0 9.5 9.5',
   check: 'm5 12 4 4L19 6',
-  book: 'M5 3h14v18H5zM8 7h8M8 11h8M8 15h5'
+  book: 'M5 3h14v18H5zM8 7h8M8 11h8M8 15h5',
+  quote: 'M7 7h4v4c0 3-1.5 5-4 6M15 7h4v4c0 3-1.5 5-4 6'
 }
 
 defineProps<{ name: keyof typeof paths }>()

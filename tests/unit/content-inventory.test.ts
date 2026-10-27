@@ -39,11 +39,11 @@ function writePost({ locale = 'en', published = false, date = '2026-10-20', cove
 }
 
 /** Writes a recommendation whose text has an emphasised phrase, as LinkedIn authors sometimes type it. */
-function writeRecommendation({ filename = 'egor-fedkin.md', excerpt = 'He ships complete features.', mentions = [] as { project: string, quote: string }[], featured = undefined as number | undefined } = {}) {
+function writeRecommendation({ filename = 'egor-fedkin.md', highlight = 'He ships complete features.', mentions = [] as { project: string, quote: string }[], featured = undefined as number | undefined } = {}) {
   mkdirSync(join(root, 'content/recommendations'), { recursive: true })
   writeFileSync(join(root, 'content/recommendations', filename), matter.stringify('I worked with Alexander for five years.\n\nHe ships **complete** features.\n', {
     name: 'Egor Fedkin', headline_en: 'Team lead, inSales', headline_ru: 'Тимлид, inSales', relationship: 'managed-directly',
-    date: '2026-08-31', profile: 'https://www.linkedin.com/in/egor-fedkin/', excerpt, mentions, published: true,
+    date: '2026-08-31', profile: 'https://www.linkedin.com/in/egor-fedkin/', highlight, mentions, published: true,
     ...(featured ? { featured } : {})
   }))
 }
@@ -177,15 +177,15 @@ describe('public content inventory', () => {
     expect(() => readContentInventory({ root, now })).toThrow('locale and slug')
   })
 
-  it('accepts a recommendation whose excerpt is copied from the text, ignoring emphasis and line wrapping', () => {
+  it('accepts a recommendation whose highlight is copied from the text, ignoring emphasis and line wrapping', () => {
     writeRecommendation()
     const [recommendation] = readContentInventory({ root, now }).recommendations
     expect(recommendation?.slug).toBe('egor-fedkin')
     expect(recommendation?.isPublic).toBe(true)
   })
 
-  it('rejects a reworded excerpt and a quote about a case that is not published', () => {
-    writeRecommendation({ excerpt: 'He always ships complete features.' })
+  it('rejects a reworded highlight and a quote about a case that is not published', () => {
+    writeRecommendation({ highlight: 'He always ships complete features.' })
     expect(() => readContentInventory({ root, now })).toThrow('must be copied from the recommendation text')
 
     writeRecommendation({ mentions: [{ project: 'missing-case', quote: 'I worked with Alexander for five years.' }] })

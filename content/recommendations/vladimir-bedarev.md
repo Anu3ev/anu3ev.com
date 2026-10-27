@@ -5,7 +5,7 @@ headline_ru: Тимлид, inSales
 relationship: senior
 date: 2026-09-16
 profile: https://www.linkedin.com/in/bedarev-vladimir-1b904254/
-excerpt: One of Alexander’s key strengths is his ability to quickly get to the root of difficult technical issues, especially when they span multiple parts of the system.
+highlight: One of Alexander’s key strengths is his ability to quickly get to the root of difficult technical issues, especially when they span multiple parts of the system.
 mentions: []
 published: true
 ---
