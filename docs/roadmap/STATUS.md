@@ -74,8 +74,8 @@ The status of every task. Order and dependencies for upcoming work are in the [r
 
 | Task | Title | Size | Status | Note |
 | --- | --- | --- | --- | --- |
+| [47](../tasks/47-navigation-sixth-item/plan.md) | Scrollable phone menu | M | doing | N5 chosen; fixes the space under the menu; 1.5.1 |
 | [46](../tasks/46-recommendation-pages/plan.md) | Recommendation pages | M | todo | content model, 8 texts, one page each (R2) |
-| [47](../tasks/47-navigation-sixth-item/plan.md) | Sixth item in the navigation | M | design | options N5, N6 and N7 on the canvas; label still open |
 | [48](../tasks/48-recommendations-list/plan.md) | Recommendations list | S | todo | R1; opens the section; 1.6.0 |
 | [49](../tasks/49-recommendations-on-about/plan.md) | Teaser on About | S | todo | R3; three featured, "Read all" |
 | [50](../tasks/50-recommendations-on-cases/plan.md) | Mentions on case pages | S | todo | R4; quote and people under the results |

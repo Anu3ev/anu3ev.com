@@ -1,6 +1,16 @@
-# 47 — Sixth item in the navigation
+# 47 — Scrollable phone menu
 
-Status: design · Size: M · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Mockups: rows "Phone menu with a 6th section" and "Phone menu, round 2" on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
+Status: doing · Size: M · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Mockups: rows "Phone menu with a 6th section" and "Phone menu, round 2" on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
+
+## Decision
+
+On 27 October 2026 the owner chose **N5** and the **full word** for the label. The owner also reported that the phone menu has too much space under it in production. That fix is part of this task.
+
+Scope: the scrolling bar with the arrow segment and the bottom-space fix, with today's five items. With five items everything fits, so nothing scrolls and the segment stays hidden. Task 48 adds the sixth item. From seven items on, the segment also shows the hidden count (N7).
+
+## Space under the menu
+
+The bar's bottom padding is `12px + env(safe-area-inset-bottom)`. On an iPhone with a home indicator the inset is 34 px, so the tabs end 46 px above the screen edge. Native iOS tab bars keep only the inset. The bottom padding becomes `max(8px, env(safe-area-inset-bottom))`: 34 px on such iPhones, 8 px on phones without an inset. That matches the 8 px top padding. The page's bottom padding and `scroll-padding-bottom` follow the new bar height.
 
 ## Problem
 
@@ -20,7 +30,7 @@ Platform guidance: Material 3 and Apple's HIG both cap a bottom bar at five dest
 | N6 | Four fixed tabs and a full-height "\| Menu" segment that opens a panel with every section | Fits in the panel | Yes, one row per section | Round 2 |
 | N7 | N5 with eight sections; the segment shows how many tabs are hidden ("+4") and moves one screen per tap | Fits | Shows it | Round 2 (growth test of N5) |
 
-**Proposal:** N5, plus N7's "+N" count once the menu has seven or more items. Reasons:
+**Chosen:** N5, plus N7's "+N" count once the menu has seven or more items. Reasons:
 - It keeps the owner's swipe idea and fixes the small arrow.
 - It keeps the true word.
 - Adding sections later changes nothing in the design.
@@ -33,15 +43,15 @@ Compared at real size on the canvas (board L):
 
 | Label | Verdict |
 | --- | --- |
-| Recommendations / Рекомендации | Keep: exact, LinkedIn's own term; fits once tabs size to their labels |
+| Recommendations / Рекомендации | **Chosen**: exact, LinkedIn's own term; fits once tabs size to their labels |
 | Reviews | Vague: reads as code reviews or product ratings |
 | References | Misleading: in hiring it means people a recruiter may call |
 | Testimonials | Sales tone, nearly as long |
 | Отзывы | Good Russian short form if the tabs stay equal width |
 
-## Requirements once the design is chosen
+## Requirements
 
-- Order on phones: Home, About, Blog, Portfolio, Recommendations, Contacts. The desktop sidebar gets the same six items and has room for them.
+- Order on phones once task 48 adds the item: Home, About, Blog, Portfolio, Recommendations, Contacts. The desktop sidebar gets the same six items and has room for them.
 - The scroll area is a real `overflow-x: auto` container with scroll snapping and a hidden scrollbar. Swipe, trackpad and keyboard all work.
 - On load, and on every navigation, the active tab is scrolled into view, so it is never hidden behind the edge.
 - The arrow segment is a `button` with an `aria-label` ("Show more sections" / "Show the first sections"). It is at least 44×52 px and hidden when everything fits. The fade marks the side that has more tabs.
@@ -52,13 +62,13 @@ Compared at real size on the canvas (board L):
 ## Tests
 
 - E2e at 360, 390 and 402 px in EN and RU:
-  - the fifth tab is partly visible;
-  - the arrow reveals the last tab and flips;
-  - the active tab is visible on `/recommendations` and `/contact`;
+  - with five items, all tabs are visible and the segment is hidden;
+  - the bar's bottom padding is 8 px when there is no safe-area inset;
+  - at 320 px five tabs no longer fit (task 48 adds the same case with six items at every width): the last tab is partly visible, the arrow reveals it and flips, and the active tab is visible;
   - there's no horizontal page scroll;
   - axe passes.
 - The existing navigation tests keep passing with six links.
 
 ## Done when
 
-The owner has picked an option on the canvas and it works on a real phone in both languages. Verify on production at phone width.
+The bar works on a real phone in both languages with no extra space under it. Verify on production at phone width.
