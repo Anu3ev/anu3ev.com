@@ -1,6 +1,6 @@
 # 49 — Teaser on About
 
-Status: todo · Size: S · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Depends on: [46](../46-recommendation-pages/plan.md), [48](../48-recommendations-list/plan.md) · Mockup: R3 on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
+Status: todo · Size: S · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Depends on: [46](../46-recommendation-pages/plan.md), [48](../48-recommendations-list/plan.md) · Mockup: R3 in the design mockups
 
 ## Goal
 

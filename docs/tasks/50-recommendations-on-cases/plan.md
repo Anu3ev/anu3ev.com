@@ -1,6 +1,6 @@
 # 50 — Mentions on case pages
 
-Status: todo · Size: S · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Depends on: [46](../46-recommendation-pages/plan.md) · Mockup: R4 on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
+Status: todo · Size: S · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Depends on: [46](../46-recommendation-pages/plan.md) · Mockup: R4 in the design mockups
 
 ## Goal
 

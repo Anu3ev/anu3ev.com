@@ -1,6 +1,6 @@
 # 19 — Interface copy review (Russian)
 
-The owner found the Russian interface text unnatural: it read as a word-for-word translation of the English slogans. Every interface string outside the case studies and articles was reviewed phrase by phrase with the new `anti-cringe-copy` skill (source in the Obsidian skills folder, installed for Claude). The skill's checklist combines Ilyakhov's information style, Nora Gal's work on bureaucratese and calques, and Russian UI-writing practice. The checklist numbers below refer to its sections.
+The owner found the Russian interface text unnatural: it read as a word-for-word translation of the English slogans. Every interface string outside the case studies and articles was reviewed phrase by phrase with a new copy checklist, `anti-cringe-copy`, kept in the owner's notes. The checklist combines Ilyakhov's information style, Nora Gal's work on bureaucratese and calques, and Russian UI-writing practice. The checklist numbers below refer to its sections.
 
 **English** stayed as it is: the owner approved it, and its slogans are idiomatic in English. **Russian** was written for Russian norms rather than translated. Headline, hero bio, home tags and the experience list are left for the home-positioning task.
 
