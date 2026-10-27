@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import { readContentInventory } from '../../scripts/lib/content'
 import pages from '../../content/settings/pages.json' with { type: 'json' }
 
@@ -106,6 +106,60 @@ test('mobile bottom navigation supports the keyboard and leaves the final conten
   if (!contentBox || !navigationBox) throw new Error('Both the focused content and bottom navigation must be visible')
   expect(contentBox.y + contentBox.height).toBeLessThanOrEqual(navigationBox.y)
   expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
+})
+
+/** Whether a tab is wholly inside the visible part of the phone tab strip. */
+async function isTabFullyShown(page: Page, name: string) {
+  return page.locator('.nav-tabs').evaluate((strip, tabName) => {
+    const tab = [...strip.querySelectorAll('a')].find(link => link.textContent?.trim() === tabName)
+    if (!tab) throw new Error(`The strip has no ${tabName} tab`)
+
+    const stripBox = strip.getBoundingClientRect()
+    const tabBox = tab.getBoundingClientRect()
+    return tabBox.left >= stripBox.left - 1 && tabBox.right <= stripBox.right + 1
+  }, name)
+}
+
+test('the phone menu fits five tabs on common phones and sits on the screen edge', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 })
+  await page.goto('/')
+  const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
+  await expect(navigation.getByRole('button', { name: 'Show more sections', exact: true })).toBeHidden()
+  for (const name of ['Home', 'About', 'Blog', 'Portfolio', 'Contacts']) expect(await isTabFullyShown(page, name)).toBe(true)
+
+  // Without a home-indicator inset the space under the tabs equals the space above them.
+  const padding = await page.locator('.site-sidebar').evaluate(element => getComputedStyle(element).paddingBottom)
+  expect(padding).toBe('8px')
+})
+
+test('when tabs do not fit, the arrow segment slides to the hidden ones and back', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 812 })
+  await page.goto('/')
+  const navigation = page.getByRole('navigation', { name: 'Main navigation', exact: true })
+  const forward = navigation.getByRole('button', { name: 'Show more sections', exact: true })
+  await expect(forward).toBeVisible()
+  expect(await isTabFullyShown(page, 'Contacts')).toBe(false)
+
+  await forward.click()
+  await expect.poll(() => isTabFullyShown(page, 'Contacts')).toBe(true)
+  const back = navigation.getByRole('button', { name: 'Back to the first sections', exact: true })
+  await expect(back).toHaveAttribute('title', 'Back to the first sections')
+
+  await back.click()
+  await expect.poll(() => isTabFullyShown(page, 'Home')).toBe(true)
+  await expect(forward).toBeVisible()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false)
+})
+
+test('the current section tab is scrolled into view in both languages', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 812 })
+  await page.goto('/contact')
+  await expect.poll(() => isTabFullyShown(page, 'Contacts')).toBe(true)
+
+  await page.goto('/ru/contact')
+  await expect.poll(() => isTabFullyShown(page, 'Контакты')).toBe(true)
+  const back = page.getByRole('navigation', { name: 'Основная навигация', exact: true }).getByRole('button', { name: 'Вернуться к первым разделам', exact: true })
+  await expect(back).toBeVisible()
 })
 
 test('the theme survives a reload and contact destinations are real', async ({ page }) => {

@@ -9,6 +9,8 @@ const paths = {
   arrow: 'M7 17 17 7M7 7h10v10',
   right: 'M4 12h16m-6-6 6 6-6 6',
   left: 'M20 12H4m6-6-6 6 6 6',
+  chevronRight: 'm9 18 6-6-6-6',
+  chevronLeft: 'm15 18-6-6 6-6',
   menu: 'M4 7h16M4 12h16M4 17h16',
   close: 'm6 6 12 12M6 18 18 6',
   mail: 'M3 6h18v12H3zm0 0 9 7 9-7',

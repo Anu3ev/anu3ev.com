@@ -1,6 +1,6 @@
 # 47 — Scrollable phone menu
 
-Status: doing · Size: M · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Mockups: rows "Phone menu with a 6th section" and "Phone menu, round 2" on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
+Status: done ([summary](summary.md)) · Size: M · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Mockups: rows "Phone menu with a 6th section" and "Phone menu, round 2" on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
 
 ## Decision
 
