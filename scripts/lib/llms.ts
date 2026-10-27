@@ -1,5 +1,5 @@
 import type { z } from 'zod'
-import type { certificatesSchema, postSchema, profileSchema, projectSchema } from '../../shared/content-schema'
+import type { certificatesSchema, postSchema, profileSchema, projectSchema, recommendationSchema } from '../../shared/content-schema'
 import type { sitePagesSchema } from '../../shared/page-content'
 import { canonicalPagePath } from '../../shared/seo'
 
@@ -9,6 +9,14 @@ type Post = z.output<typeof postSchema>
 type Profile = z.output<typeof profileSchema>
 type Pages = z.output<typeof sitePagesSchema>
 type Certificate = z.output<typeof certificatesSchema>['certificates'][number]
+type Recommendation = z.output<typeof recommendationSchema>
+
+/** A published recommendation: one text for both languages, addressed by its filename slug. */
+interface PublicRecommendation {
+  slug: string
+  metadata: Recommendation
+  body: string
+}
 
 /** A published case or article with the Markdown body it was written in. */
 interface PublicDocument<Metadata> {
@@ -23,16 +31,32 @@ const LABELS = {
     contact: 'Contact', cv: 'CV (PDF)', call: 'Book a call', cases: 'Case studies', articles: 'Articles', certificates: 'Certificates',
     pages: 'Pages', about: 'About', contactPage: 'Contacts', optional: 'Optional', fullText: 'Full text of every case and article',
     otherLanguage: 'Russian version', url: 'URL', period: 'Period', context: 'Where', role: 'Role', skills: 'Skills', results: 'Results',
-    published: 'Published', topic: 'Topic', readingTime: 'Reading time', minutes: 'min'
+    published: 'Published', topic: 'Topic', readingTime: 'Reading time', minutes: 'min',
+    recommendations: 'Recommendations', recommendationFrom: 'Recommendation from', author: 'Author', relationship: 'Relationship',
+    written: 'Written', original: 'Original on LinkedIn'
   },
   ru: {
     summary: 'Senior frontend-разработчик', location: 'Где', availability: 'Работа', available: 'Открыт к предложениям',
     contact: 'Контакты', cv: 'Резюме (PDF)', call: 'Созвониться', cases: 'Кейсы', articles: 'Статьи', certificates: 'Сертификаты',
     pages: 'Страницы', about: 'Обо мне', contactPage: 'Контакты', optional: 'Optional', fullText: 'Полный текст всех кейсов и статей',
     otherLanguage: 'English version', url: 'Адрес', period: 'Период', context: 'Где', role: 'Роль', skills: 'Навыки', results: 'Результаты',
-    published: 'Опубликовано', topic: 'Тема', readingTime: 'Время чтения', minutes: 'мин'
+    published: 'Опубликовано', topic: 'Тема', readingTime: 'Время чтения', minutes: 'мин',
+    recommendations: 'Рекомендации', recommendationFrom: 'Рекомендация от', author: 'Автор', relationship: 'Как работали',
+    written: 'Написана', original: 'Оригинал в LinkedIn'
   }
 } as const satisfies Record<Locale, Record<string, string>>
+
+/** LinkedIn's relationship line, in the third person: these files describe the owner rather than speak for him. */
+const RELATIONSHIPS = {
+  en: {
+    'managed-directly': 'managed Alexander directly', 'senior': 'senior to Alexander, not his manager',
+    'same-team': 'worked with Alexander on the same team', 'teacher': 'Alexander’s teacher'
+  },
+  ru: {
+    'managed-directly': 'непосредственный руководитель Александра', 'senior': 'старший коллега, не руководитель Александра',
+    'same-team': 'работали с Александром в одной команде', 'teacher': 'преподаватель Александра'
+  }
+} as const satisfies Record<Locale, Record<Recommendation['relationship'], string>>
 
 /** The site serves each page's Markdown copy next to it, as `…/index.md`. */
 export function markdownPath(pagePath: string) {
@@ -79,9 +103,9 @@ export function createPostMarkdown({ post, origin }: { post: PublicDocument<Post
 
 /**
  * The `/llms.txt` index for one language (llmstxt.org format): who the owner is, how to reach him,
- * and every published case and article with a link to its Markdown copy.
+ * and every published case, article and recommendation with a link to its Markdown copy.
  */
-export function createLlmsIndex({ locale, origin, profile, pages, projects, posts, certificates }: {
+export function createLlmsIndex({ locale, origin, profile, pages, projects, posts, certificates, recommendations }: {
   locale: Locale
   origin: string
   profile: Profile
@@ -89,6 +113,7 @@ export function createLlmsIndex({ locale, origin, profile, pages, projects, post
   projects: readonly Project[]
   posts: readonly Post[]
   certificates: readonly Certificate[]
+  recommendations: readonly Omit<PublicRecommendation, 'body'>[]
 }) {
   const labels = LABELS[locale]
   const prefix = locale === 'ru' ? '/ru' : ''
@@ -97,6 +122,7 @@ export function createLlmsIndex({ locale, origin, profile, pages, projects, post
   const arrangements = pages[locale].contact.arrangements.join(', ')
   const caseLinks = projects.map(project => `- [${project.title}](${origin}${markdownPath(`${prefix}/work/${project.slug}`)}): ${project.description}`)
   const articleLinks = posts.map(post => `- [${post.title}](${origin}${markdownPath(`${prefix}/blog/${post.slug}`)}): ${post.description}`)
+  const recommendationLinks = recommendations.map(({ slug, metadata }) => `- [${labels.recommendationFrom} ${metadata.name}](${origin}${markdownPath(`${prefix}/recommendations/${slug}`)}): ${metadata.excerpt}`)
   const certificateLines = certificates.map(certificate => `- ${certificate.name}, ${certificate.issuer}, ${certificate.issued}`)
   const otherPrefix = locale === 'ru' ? '' : '/ru'
   // The bio keeps its paragraph break on the page; the llms.txt summary must stay one blockquote line.
@@ -120,6 +146,10 @@ ${caseLinks.join('\n')}
 
 ${articleLinks.join('\n')}
 
+## ${labels.recommendations}
+
+${recommendationLinks.join('\n')}
+
 ## ${labels.certificates}
 
 ${certificateLines.join('\n')}
@@ -134,4 +164,28 @@ ${certificateLines.join('\n')}
 - [${labels.fullText}](${origin}${prefix}/llms-full.txt)
 - [${labels.otherLanguage}](${origin}${otherPrefix}/llms.txt)
 `
+}
+
+/**
+ * One recommendation as a self-contained Markdown document for a language's page: who wrote it and how they
+ * know the owner first, then their text in the original English.
+ */
+export function createRecommendationMarkdown({ recommendation, locale, origin, sourceUrl }: {
+  recommendation: PublicRecommendation
+  locale: Locale
+  origin: string
+  sourceUrl: string
+}) {
+  const { slug, metadata, body } = recommendation
+  const labels = LABELS[locale]
+  const prefix = locale === 'ru' ? '/ru' : ''
+  const facts = [
+    `- ${labels.url}: ${origin}${canonicalPagePath(`${prefix}/recommendations/${slug}`)}`,
+    `- ${labels.author}: ${metadata.name}, ${metadata[`headline_${locale}`]} (${metadata.profile})`,
+    `- ${labels.relationship}: ${RELATIONSHIPS[locale][metadata.relationship]}`,
+    `- ${labels.written}: ${metadata.date}`,
+    `- ${labels.original}: ${sourceUrl}`
+  ]
+
+  return `# ${labels.recommendationFrom} ${metadata.name}\n\n> ${metadata.excerpt}\n\n${facts.join('\n')}\n\n${body.trim()}\n`
 }

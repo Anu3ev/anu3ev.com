@@ -7,8 +7,18 @@ interface RoutableDocument {
   metadata: { locale: 'en' | 'ru', slug: string }
 }
 
+/** A recommendation has one file for both languages, so its slug comes from the filename rather than a locale field. */
+interface RoutableRecommendation {
+  isPublic: boolean
+  slug: string
+}
+
 /** Includes every published route, even pagination pages that a link crawler could otherwise miss. */
-export function createPublicPaths({ projects, posts }: { projects: readonly RoutableDocument[], posts: readonly RoutableDocument[] }) {
+export function createPublicPaths({ projects, posts, recommendations }: {
+  projects: readonly RoutableDocument[]
+  posts: readonly RoutableDocument[]
+  recommendations: readonly RoutableRecommendation[]
+}) {
   const paths: string[] = []
   const staticPages = ['/', '/work', '/blog', '/about', '/contact', '/privacy']
 
@@ -19,6 +29,7 @@ export function createPublicPaths({ projects, posts }: { projects: readonly Rout
     paths.push(...staticPages.map(path => `${prefix}${path === '/' ? '' : path}` || '/'))
     paths.push(...localeProjects.map(project => `${prefix}/work/${project.metadata.slug}`))
     paths.push(...localePosts.map(post => `${prefix}/blog/${post.metadata.slug}`))
+    paths.push(...recommendations.filter(recommendation => recommendation.isPublic).map(recommendation => `${prefix}/recommendations/${recommendation.slug}`))
 
     const additionalPages = Math.max(0, Math.ceil(localePosts.length / BLOG_PAGE_SIZE) - 1)
     paths.push(...Array.from({ length: additionalPages }, (_, index) => `${prefix}/blog/page/${index + 2}`))

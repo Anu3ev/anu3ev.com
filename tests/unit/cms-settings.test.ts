@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { parse } from 'yaml'
 import { z } from 'zod'
 import pages from '../../content/settings/pages.json'
+import { recommendationSchema } from '../../shared/content-schema'
 
 const fieldNames = z.array(z.object({ name: z.string() }))
 const group = z.object({ name: z.string(), widget: z.enum(['object', 'list']), fields: z.array(z.unknown()) })
@@ -40,5 +41,15 @@ describe('CMS settings contract', () => {
       expect(summary.widget).toBe('list')
       expect(fieldNames.parse(summary.fields).map(field => field.name).sort()).toEqual(['label', 'value'])
     }
+  })
+
+  it('edits every recommendation field the schema accepts, plus the filename slug and the text', () => {
+    const input: unknown = parse(readFileSync('public/admin/config.yml', 'utf8'))
+    const collections = z.object({ collections: z.array(z.object({ name: z.string(), folder: z.string().optional(), fields: z.array(z.unknown()).optional() })) }).parse(input).collections
+    const recommendations = collections.find(collection => collection.name === 'recommendations')
+    expect(recommendations?.folder).toBe('content/recommendations')
+
+    const names = fieldNames.parse(recommendations?.fields).map(field => field.name)
+    expect(names.filter(name => !['slug', 'body'].includes(name)).sort()).toEqual(Object.keys(recommendationSchema.shape).sort())
   })
 })

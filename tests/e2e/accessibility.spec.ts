@@ -5,7 +5,13 @@ import { readContentInventory } from '../../scripts/lib/content'
 const inventory = readContentInventory()
 const project = inventory.projects.find(document => document.isPublic && document.metadata.locale === 'en')
 const article = inventory.posts.find(document => document.isPublic && document.metadata.locale === 'en')
-const paths = ['/', '/blog', '/work', '/contact', '/about', '/privacy', ...(project ? [`/work/${project.metadata.slug}`] : []), ...(article ? [`/blog/${article.metadata.slug}`] : [])]
+const recommendation = inventory.recommendations.find(document => document.isPublic && document.metadata.mentions.length)
+const paths = [
+  '/', '/blog', '/work', '/contact', '/about', '/privacy',
+  ...(project ? [`/work/${project.metadata.slug}`] : []),
+  ...(article ? [`/blog/${article.metadata.slug}`] : []),
+  ...(recommendation ? [`/recommendations/${recommendation.slug}`] : [])
+]
 
 for (const locale of ['en', 'ru']) {
   for (const theme of ['dark', 'light']) {

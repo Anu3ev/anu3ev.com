@@ -60,23 +60,29 @@ describe('canonical routes and structured data', () => {
     expect(JSON.parse(serialized)).toEqual(graphs)
   })
 
-  it('generates real second-page paths and excludes unpublished documents', () => {
+  it('generates real second-page paths, recommendation pages in both languages and excludes unpublished documents', () => {
     const posts = (['en', 'ru'] as const).flatMap(locale => Array.from({ length: 11 }, (_, index) => ({ isPublic: true, metadata: { locale, slug: `article-${index + 1}` } })))
     const paths = createPublicPaths({ projects: [
       { isPublic: true, metadata: { locale: 'en', slug: 'editor-case' } },
       { isPublic: true, metadata: { locale: 'ru', slug: 'editor-case' } },
       { isPublic: false, metadata: { locale: 'en', slug: 'hidden-project' } }
-    ], posts: [...posts, { isPublic: false, metadata: { locale: 'en', slug: 'draft-note' } }] })
+    ], posts: [...posts, { isPublic: false, metadata: { locale: 'en', slug: 'draft-note' } }], recommendations: [
+      { isPublic: true, slug: 'egor-fedkin' },
+      { isPublic: false, slug: 'hidden-person' }
+    ] })
 
     expect(paths).toContain('/blog/page/2/')
     expect(paths).toContain('/ru/blog/page/2/')
     expect(paths.some(path => path.includes('draft-note') || path.includes('hidden-project'))).toBe(false)
     expect(paths).toContain('/work/editor-case/')
-    expect(paths).toHaveLength(38)
+    expect(paths).toContain('/recommendations/egor-fedkin/')
+    expect(paths).toContain('/ru/recommendations/egor-fedkin/')
+    expect(paths.some(path => path.includes('hidden-person'))).toBe(false)
+    expect(paths).toHaveLength(40)
   })
 
   it('keeps empty blogs to their first page and gives each locale a distinct raster card', () => {
-    const paths = createPublicPaths({ projects: [], posts: [] })
+    const paths = createPublicPaths({ projects: [], posts: [], recommendations: [] })
     expect(paths).toHaveLength(12)
     expect(paths.some(path => path.includes('/page/'))).toBe(false)
     expect(socialImagePath({ locale: 'en', slug: 'editor-note' })).toBe('/images/social/en/editor-note.png')

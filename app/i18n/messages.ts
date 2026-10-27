@@ -32,7 +32,11 @@ export const messages = {
     services: 'What I bring', openSource: 'Open-source editor core',
     certificates: 'Certificates', certificatesTitle: 'Courses and tests', otherCertificates: 'Other certificates',
     certificateCourse: 'Course', certificateTest: 'Language test', certificateLessons: 'Lessons',
-    viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', openEditorCase: 'Product image editor case study', coverTitle: 'I build complex\nweb applications.', coverText: 'Browser editors. E-commerce tools.\nAI integrations.', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab'
+    viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', openEditorCase: 'Product image editor case study', coverTitle: 'I build complex\nweb applications.', coverText: 'Browser editors. E-commerce tools.\nAI integrations.', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab',
+    recommendations: 'Recommendations', recommendationsSectionTitle: 'What colleagues say', recommendationFrom: 'Recommendation from', backToAbout: 'Back to About',
+    recommendationRelationship: 'How we worked', recommendationWritten: 'Written', readOnLinkedIn: 'Read the original on LinkedIn',
+    mentionedWork: 'Work mentioned', originalLanguageNote: '',
+    relationshipManagedDirectly: 'Managed me directly', relationshipSenior: 'Senior colleague, not my manager', relationshipSameTeam: 'Worked on the same team', relationshipTeacher: 'My teacher'
   },
   ru: {
     homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
@@ -66,6 +70,10 @@ export const messages = {
     services: 'Чем могу помочь', openSource: 'Open-source ядро редактора',
     certificates: 'Сертификаты', certificatesTitle: 'Курсы и тесты', otherCertificates: 'Другие сертификаты',
     certificateCourse: 'Курс', certificateTest: 'Языковой тест', certificateLessons: 'Занятия',
-    viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', bookCall: 'Созвониться', openEditorCase: 'Кейс редактора изображений для товаров', coverTitle: 'Делаю сложные\nвеб-приложения.', coverText: 'Браузерные редакторы, e-commerce,\nAI-интеграции.', bookCallNote: 'Видеозвонок на 30 минут', opensInNewTab: 'откроется в новой вкладке'
+    viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', bookCall: 'Созвониться', openEditorCase: 'Кейс редактора изображений для товаров', coverTitle: 'Делаю сложные\nвеб-приложения.', coverText: 'Браузерные редакторы, e-commerce,\nAI-интеграции.', bookCallNote: 'Видеозвонок на 30 минут', opensInNewTab: 'откроется в новой вкладке',
+    recommendations: 'Рекомендации', recommendationsSectionTitle: 'Что говорят коллеги', recommendationFrom: 'Рекомендация от', backToAbout: 'Назад на страницу «Обо мне»',
+    recommendationRelationship: 'Как мы работали', recommendationWritten: 'Написана', readOnLinkedIn: 'Оригинал в LinkedIn',
+    mentionedWork: 'Проекты из рекомендации', originalLanguageNote: 'Рекомендация написана на английском, текст приведён без перевода.',
+    relationshipManagedDirectly: 'Мой непосредственный руководитель', relationshipSenior: 'Старший коллега, не руководитель', relationshipSameTeam: 'Работали в одной команде', relationshipTeacher: 'Мой преподаватель'
   }
 } as const
