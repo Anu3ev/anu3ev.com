@@ -216,3 +216,13 @@ test('article text and native navigation work without JavaScript', async ({ brow
     await context.close()
   }
 })
+
+test('the footer links to the site source code in a new tab in both languages', async ({ page }) => {
+  for (const [path, label] of [['/', 'Source code'], ['/ru', 'Исходный код']] as const) {
+    await page.goto(path)
+    const source = page.locator('footer').getByRole('link', { name: new RegExp(`^${label}`) })
+    await expect(source).toHaveAttribute('href', 'https://github.com/Anu3ev/anu3ev.com')
+    await expect(source).toHaveAttribute('target', '_blank')
+    await expect(source).toHaveAttribute('rel', 'noopener noreferrer')
+  }
+})

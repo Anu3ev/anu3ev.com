@@ -12,7 +12,7 @@ Vercel builds each Git push. Merging a PR into `master` updates production autom
 
 The Vercel build validates content, ESLint, TypeScript and unit contracts before generating HTML. GitHub also runs browser/axe checks and the real pagination fixture. Wait for green PR checks before merging. Branch protection and Vercel deployment checks are **not configured**; the workflow is not claimed to enforce a merge gate.
 
-The initial import deployed master `3020b2779bf6aafe051fb8938295b078452971e0` with version 1.0.1. [Subsequent automatic deployment verification](../tasks/08-github-deployment/summary.md).
+The initial import deployed master `3020b2779bf6aafe051fb8938295b078452971e0` with version 1.0.1.
 
 ## Versioned releases
 
@@ -30,10 +30,6 @@ Preview deployments retain default protection. The production alias is public: a
 
 ## Custom domain
 
-`anu3ev.com` uses Vercel nameservers (`ns1.vercel-dns.com`, `ns2.vercel-dns.com`); the registrar is Zomro, which only exposes the nameserver setting. Vercel therefore hosts the DNS zone: apex and `www` records are managed in the Vercel project, and the previous Zomro `MX`/`mail` records were not carried over because that mail host no longer accepted SMTP. Recreate them in Vercel DNS before using mail on this domain. Vercel issues the Let's Encrypt certificate automatically. See [task 15](../tasks/15-custom-domain/summary.md).
-
-## Historical Sites snapshot
-
-`https://anu3ev-portfolio.pastel-glade-2427.chatgpt.site/` is a historical 1.0.1 snapshot, not the current production host or an automatic deployment target. Its identity remains in `.openai/hosting.json`; do not create a duplicate Site. The earlier [publication procedure](../tasks/05-release-and-deploy/hosting.md) and [archive provenance](../tasks/07-launch-audit/reports/provenance.json) remain available for recovery.
+`anu3ev.com` uses Vercel nameservers (`ns1.vercel-dns.com`, `ns2.vercel-dns.com`); the registrar is Zomro, which only exposes the nameserver setting. Vercel therefore hosts the DNS zone: apex and `www` records are managed in the Vercel project, and the previous Zomro `MX`/`mail` records were not carried over because that mail host no longer accepted SMTP. Recreate them in Vercel DNS before using mail on this domain. Vercel issues the Let's Encrypt certificate automatically.
 
 References: [Vercel for GitHub](https://vercel.com/docs/git/vercel-for-github), [environments](https://vercel.com/docs/deployments/environments).
