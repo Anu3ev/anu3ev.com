@@ -82,6 +82,45 @@ collections:
           - { name: label, label: Description, widget: string }
       - { name: body, label: Case study, widget: markdown, i18n: true, hint: Context → my role → decisions → constraints → outcome. Start headings at H2. }
 
+  - name: recommendations
+    label: Recommendations
+    label_singular: Recommendation
+    folder: content/recommendations
+    create: true
+    slug: '{{fields.slug}}'
+    preview_path: /recommendations/{{slug}}/
+    summary: '{{name}} · {{date}}'
+    sortable_fields: [date, name]
+    fields:
+      - { name: slug, label: URL slug, widget: string, pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Lowercase Latin letters, numbers and hyphens'], hint: 'Used only for the file name when the entry is created, e.g. egor-fedkin. Do not change a published one.' }
+      - { name: name, label: Name, widget: string, hint: Exactly as on LinkedIn. }
+      - { name: headline_en, label: Their role (English), widget: string, hint: 'Role and company when they wrote it, e.g. "Team lead, inSales".' }
+      - { name: headline_ru, label: Their role (Russian), widget: string }
+      - name: relationship
+        label: How we worked
+        widget: select
+        options:
+          - { label: Managed me directly, value: managed-directly }
+          - { label: 'Senior colleague, not my manager', value: senior }
+          - { label: Same team, value: same-team }
+          - { label: Teacher, value: teacher }
+        hint: LinkedIn shows this line above the text.
+      - { name: date, label: Date on LinkedIn, widget: datetime, type: date, format: YYYY-MM-DD, date_format: YYYY-MM-DD, time_format: false }
+      - { name: profile, label: Their LinkedIn profile, widget: string, hint: 'https://www.linkedin.com/in/…/ with the trailing slash.' }
+      - { name: excerpt, label: Excerpt, widget: text, hint: One sentence copied from the text without changes. The build fails if it is not in the text. }
+      - name: mentions
+        label: Cases mentioned
+        widget: list
+        required: false
+        summary: '{{fields.project}}'
+        hint: Each case the text talks about, with the sentence that does. The quote must be copied from the text.
+        fields:
+          - { name: project, label: Case slug, widget: relation, collection: projects, value_field: slug, search_fields: [title], display_fields: [title] }
+          - { name: quote, label: Quote, widget: text }
+      - { name: featured, label: Position on About (1–3), widget: number, value_type: int, min: 1, max: 3, required: false, hint: Leave empty to keep it off the About page. }
+      - { name: published, label: Publish on the site, widget: boolean, default: false }
+      - { name: body, label: Text, widget: markdown, hint: Paste the text from LinkedIn exactly as written. Do not translate or shorten it. }
+
   - name: settings
     label: Site settings
     publish_mode: simple

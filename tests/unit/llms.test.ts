@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { readContentInventory } from '../../scripts/lib/content'
-import { createLlmsIndex, createPostMarkdown, createProjectMarkdown, markdownPath } from '../../scripts/lib/llms'
+import { createLlmsIndex, createPostMarkdown, createProjectMarkdown, createRecommendationMarkdown, markdownPath } from '../../scripts/lib/llms'
 
 const origin = 'https://portfolio.example.test'
-const { projects, posts, profile, pages, certificates } = readContentInventory()
+const { projects, posts, profile, pages, certificates, recommendations } = readContentInventory()
+const publicRecommendations = recommendations.filter(recommendation => recommendation.isPublic)
+const sourceUrl = 'https://www.linkedin.com/in/owner/details/recommendations/'
 const englishProject = projects.find(project => project.isPublic && project.metadata.locale === 'en')!
 const englishPost = posts.find(post => post.isPublic && post.metadata.locale === 'en')!
 
@@ -12,7 +14,8 @@ function buildIndex(locale: 'en' | 'ru') {
   return createLlmsIndex({
     locale, origin, profile, pages, certificates,
     projects: projects.filter(project => project.isPublic && project.metadata.locale === locale).map(project => project.metadata),
-    posts: posts.filter(post => post.isPublic && post.metadata.locale === locale).map(post => post.metadata)
+    posts: posts.filter(post => post.isPublic && post.metadata.locale === locale).map(post => post.metadata),
+    recommendations: publicRecommendations
   })
 }
 
@@ -67,5 +70,26 @@ describe('machine-readable copies for AI answer engines', () => {
     expect(index).toContain('## Кейсы')
     expect(index).toContain(`](${origin}/ru/work/${englishProject.metadata.slug}/index.md)`)
     expect(index).toContain(`- [English version](${origin}/llms.txt)`)
+  })
+
+  it('lists every published recommendation with its Markdown copy in both indexes', () => {
+    const english = buildIndex('en')
+    const russian = buildIndex('ru')
+    expect(english).toContain('## Recommendations')
+    expect(russian).toContain('## Рекомендации')
+    for (const { slug, metadata } of publicRecommendations) {
+      expect(english).toContain(`- [Recommendation from ${metadata.name}](${origin}/recommendations/${slug}/index.md): ${metadata.excerpt}`)
+      expect(russian).toContain(`(${origin}/ru/recommendations/${slug}/index.md)`)
+    }
+  })
+
+  it('copies a recommendation with who wrote it, how they know the owner and the original text', () => {
+    const recommendation = publicRecommendations.find(item => item.metadata.relationship === 'managed-directly')!
+    const markdown = createRecommendationMarkdown({ recommendation, locale: 'ru', origin, sourceUrl })
+    expect(markdown.startsWith(`# Рекомендация от ${recommendation.metadata.name}\n\n> ${recommendation.metadata.excerpt}\n`)).toBe(true)
+    expect(markdown).toContain(`- Адрес: ${origin}/ru/recommendations/${recommendation.slug}/`)
+    expect(markdown).toContain('- Как работали: непосредственный руководитель Александра')
+    expect(markdown).toContain(`- Оригинал в LinkedIn: ${sourceUrl}`)
+    expect(markdown).toContain(recommendation.body.trim())
   })
 })

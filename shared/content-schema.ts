@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 /** Stable slugs avoid framework route names and map one-to-one to Markdown filenames. */
-const slugSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).refine(slug => !['page', 'index', 'admin'].includes(slug), 'This slug is reserved')
+export const slugSchema = z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).refine(slug => !['page', 'index', 'admin'].includes(slug), 'This slug is reserved')
 
 /** External project links must remain ordinary HTTPS navigation destinations. */
 const optionalLink = z.union([z.string().url().regex(/^https:\/\//), z.literal('')]).optional()
@@ -101,3 +101,28 @@ const certificateSchema = z.strictObject({
 
 /** Certificates edited through the CMS, in display order. */
 export const certificatesSchema = z.strictObject({ certificates: z.array(certificateSchema).max(30) })
+
+/** The way LinkedIn describes who the recommender was to the owner; the page words it per language. */
+export const recommendationRelationships = ['managed-directly', 'senior', 'same-team', 'teacher'] as const
+
+/**
+ * One LinkedIn recommendation, shared by both languages. The Markdown body is the recommender's text exactly
+ * as written; `excerpt` and every mention `quote` must be sentences copied from it, which the inventory checks.
+ */
+export const recommendationSchema = z.object({
+  /** As written on LinkedIn, including Cyrillic names. */
+  name: z.string().min(3).max(60),
+  /** The recommender's role when they wrote it, in each language. */
+  headline_en: z.string().min(3).max(80),
+  headline_ru: z.string().min(3).max(80),
+  relationship: z.enum(recommendationRelationships),
+  date: z.iso.date(),
+  /** The recommender's LinkedIn profile. */
+  profile: z.string().url().regex(/^https:\/\/www\.linkedin\.com\/in\/[^/?#]+\/$/),
+  excerpt: z.string().min(20).max(260),
+  /** Cases the text talks about, each with the sentence that does; a case page shows it next to its results. */
+  mentions: z.array(z.strictObject({ project: slugSchema, quote: z.string().min(20).max(300) })).max(6).default([]),
+  /** Position in the About teaser; recommendations without it are not featured there. */
+  featured: z.number().int().min(1).max(3).optional(),
+  published: z.boolean().default(false)
+})

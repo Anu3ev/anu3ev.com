@@ -3,7 +3,7 @@ import { dirname, join } from 'node:path'
 import sharp from 'sharp'
 import { z } from 'zod'
 import { readContentInventory } from './lib/content'
-import { createLlmsIndex, createPostMarkdown, createProjectMarkdown, markdownPath } from './lib/llms'
+import { createLlmsIndex, createPostMarkdown, createProjectMarkdown, createRecommendationMarkdown, markdownPath } from './lib/llms'
 import { createPublicPaths } from './lib/routes'
 import { canonicalPagePath, socialImagePath } from '../shared/seo'
 import { getSiteOrigin } from '../shared/site'
@@ -13,12 +13,12 @@ function escapeXml(value: string) {
   return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 }
 
-const { projects, posts, profile, pages, certificates } = readContentInventory()
+const { projects, posts, profile, pages, certificates, recommendations } = readContentInventory()
 const origin = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)
 const { version } = z.object({ version: z.string().regex(/^\d+\.\d+\.\d+$/) }).parse(JSON.parse(readFileSync('package.json', 'utf8')))
 const commit = z.string().regex(/^[a-f0-9]{40}$/).nullable().parse(process.env.GITHUB_SHA || process.env.VERCEL_GIT_COMMIT_SHA || null)
 writeFileSync('public/version.json', `${JSON.stringify({ version, commit })}\n`)
-const paths = createPublicPaths({ projects, posts })
+const paths = createPublicPaths({ projects, posts, recommendations })
 const urls = paths.map(path => `<url><loc>${escapeXml(`${origin}${path}`)}</loc></url>`).join('\n')
 writeFileSync('public/sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`)
 writeFileSync('public/robots.txt', `User-agent: *\nAllow: /\nDisallow: /admin/\n\nSitemap: ${origin}/sitemap.xml\n`)
@@ -64,11 +64,15 @@ for (const locale of ['en', 'ru'] as const) {
 }
 
 /** Generated machine-readable copies live under these public paths; they are rebuilt from content on every build. */
-for (const generated of ['public/llms.txt', 'public/llms-full.txt', 'public/ru/llms.txt', 'public/ru/llms-full.txt', 'public/work', 'public/blog', 'public/ru/work', 'public/ru/blog']) {
+for (const generated of ['public/llms.txt', 'public/llms-full.txt', 'public/ru/llms.txt', 'public/ru/llms-full.txt', 'public/work', 'public/blog', 'public/ru/work', 'public/ru/blog', 'public/recommendations', 'public/ru/recommendations']) {
   rmSync(generated, { recursive: true, force: true })
 }
 
-/** For AI answer engines: an llms.txt index per language, a Markdown copy beside every case and article, and one full-text file. */
+/** Newest first, like the list on LinkedIn. */
+const publicRecommendations = recommendations.filter(recommendation => recommendation.isPublic).sort((first, second) => second.metadata.date.localeCompare(first.metadata.date))
+const recommendationSource = `${profile.linkedin}details/recommendations/`
+
+/** For AI answer engines: an llms.txt index per language, a Markdown copy beside every case, article and recommendation, and one full-text file. */
 for (const locale of ['en', 'ru'] as const) {
   const prefix = locale === 'ru' ? '/ru' : ''
   const localeProjects = projects.filter(project => project.isPublic && project.metadata.locale === locale).sort((first, second) => first.metadata.order - second.metadata.order)
@@ -76,7 +80,12 @@ for (const locale of ['en', 'ru'] as const) {
   const projectFiles = localeProjects.map(project => ({ path: markdownPath(`${prefix}/work/${project.metadata.slug}`), markdown: createProjectMarkdown({ project, origin }) }))
   const postFiles = localePosts.map(post => ({ path: markdownPath(`${prefix}/blog/${post.metadata.slug}`), markdown: createPostMarkdown({ post, origin }) }))
 
-  for (const { path, markdown } of [...projectFiles, ...postFiles]) {
+  const recommendationFiles = publicRecommendations.map(recommendation => ({
+    path: markdownPath(`${prefix}/recommendations/${recommendation.slug}`),
+    markdown: createRecommendationMarkdown({ recommendation, locale, origin, sourceUrl: recommendationSource })
+  }))
+
+  for (const { path, markdown } of [...projectFiles, ...postFiles, ...recommendationFiles]) {
     mkdirSync(dirname(`public${path}`), { recursive: true })
     writeFileSync(`public${path}`, markdown)
   }
@@ -84,11 +93,12 @@ for (const locale of ['en', 'ru'] as const) {
   const index = createLlmsIndex({
     locale, origin, profile, pages, certificates,
     projects: localeProjects.map(project => project.metadata),
-    posts: localePosts.map(post => post.metadata)
+    posts: localePosts.map(post => post.metadata),
+    recommendations: publicRecommendations
   })
   mkdirSync(`public${prefix}`, { recursive: true })
   writeFileSync(`public${prefix}/llms.txt`, index)
-  writeFileSync(`public${prefix}/llms-full.txt`, [index, ...projectFiles.map(file => file.markdown), ...postFiles.map(file => file.markdown)].join('\n---\n\n'))
+  writeFileSync(`public${prefix}/llms-full.txt`, [index, ...[...projectFiles, ...postFiles, ...recommendationFiles].map(file => file.markdown)].join('\n---\n\n'))
 }
 
 const favicon = readFileSync('public/favicon.svg')

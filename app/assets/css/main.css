@@ -304,6 +304,20 @@ p { line-height: inherit; }
 .case-facts dt { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; margin-bottom: var(--space-2); }
 .case-facts dd { margin: 0; font-size: 13px; }
 .case-facts .tags { margin-top: 0; }
+.case-facts-pair > div:last-child { grid-column: auto; }
+/* A recommendation page: who wrote it, then their words in the main text colour, then the source. */
+.recommendation-heading { padding-bottom: 0; }
+.recommendation-person { display: flex; align-items: center; gap: var(--space-4); }
+.recommendation-person h1 { margin: 0; }
+.recommendation-person p { margin: var(--space-1) 0 0; color: var(--muted); font-size: 13px; }
+.person-initials { display: inline-flex; flex: none; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 50%; background: var(--soft-accent); color: var(--accent-label); font-size: 18px; font-weight: 600; }
+.recommendation-note { margin: 0 0 var(--space-4); color: var(--muted); font-size: 12px; }
+.prose.recommendation-text { font-size: 15px; line-height: 1.8; }
+.prose.recommendation-text p { color: var(--text); }
+.recommendation-text + .actions { margin-top: var(--block-gap); }
+.recommendation-cases { margin-top: var(--block-gap); padding-top: var(--block-gap); border-top: 1px solid var(--line); }
+.recommendation-cases h2 { margin: 0 0 var(--space-2); }
+.recommendation-cases ul { margin: 0; padding: 0; list-style: none; }
 .case-cover { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 7px; border: 1px solid var(--line); margin-block: var(--block-gap) var(--section-space); }
 .reading-layout { min-width: 0; }
 .table-of-contents { margin-bottom: var(--space-8); padding: var(--space-4) var(--space-5) var(--space-3); background: var(--surface); border: 1px solid var(--line); border-radius: 8px; font-size: 13px; }

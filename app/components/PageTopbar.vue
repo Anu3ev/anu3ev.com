@@ -7,7 +7,8 @@ const sectionTitle = computed(() => {
     about: copy.value.aboutSectionTitle,
     blog: copy.value.notebookTitle,
     work: copy.value.selectedWork,
-    contact: copy.value.startConversation
+    contact: copy.value.startConversation,
+    recommendations: copy.value.recommendationsSectionTitle
   }
   const segment = route.path.replace(/^\/ru(?=\/|$)/, '').split('/')[1] || ''
 

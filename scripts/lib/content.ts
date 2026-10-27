@@ -3,7 +3,7 @@ import { basename, join, resolve, sep } from 'node:path'
 import matter from 'gray-matter'
 import { parse as parseYaml } from 'yaml'
 import type { z } from 'zod'
-import { certificatesSchema, postSchema, profileSchema, projectSchema } from '../../shared/content-schema'
+import { certificatesSchema, postSchema, profileSchema, projectSchema, recommendationSchema, slugSchema } from '../../shared/content-schema'
 import { getPublicationDate } from '../../shared/publication'
 import { sitePagesSchema } from '../../shared/page-content'
 
@@ -112,8 +112,47 @@ export function readContentInventory({ root = process.cwd(), now = new Date() } 
   const pagesInput: unknown = JSON.parse(readFileSync(join(root, 'content/settings/pages.json'), 'utf8'))
   const pages = sitePagesSchema.parse(pagesInput)
   const certificates = readCertificates(root)
-  const excluded = [...projects, ...posts].filter(document => !document.isPublic).map(document => document.source)
-  return { projects, posts, profile, pages, certificates, excluded }
+  const recommendations = readRecommendations({ root, projects })
+  const excluded = [...projects, ...posts, ...recommendations].filter(document => !document.isPublic).map(document => document.source)
+  return { projects, posts, profile, pages, certificates, recommendations, excluded }
+}
+
+/** Compares wording only: Markdown emphasis and line wrapping must not hide a real difference. */
+function normalizeWording(text: string) {
+  return text.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim()
+}
+
+/**
+ * Recommendations are someone else's words: every excerpt and quote must be copied from the text unchanged,
+ * every mentioned case must exist, and each About position may be used once.
+ */
+function readRecommendations({ root, projects }: { root: string, projects: readonly ContentDocument<z.infer<typeof projectSchema>>[] }) {
+  const directory = join(root, 'content', 'recommendations')
+  if (!existsSync(directory)) return []
+
+  const publicCases = new Set(projects.filter(project => project.isPublic).map(project => project.metadata.slug))
+  const recommendations: (ContentDocument<z.infer<typeof recommendationSchema>> & { slug: string })[] = []
+  for (const filename of readdirSync(directory).filter(name => name.endsWith('.md')).sort()) {
+    const source = `recommendations/${filename}`
+    // The filename is the page address, so it follows the same rule as case and article slugs.
+    const slug = basename(filename, '.md')
+    if (!slugSchema.safeParse(slug).success) throw new Error(`${source}: the filename must be a lowercase, hyphenated slug`)
+    const { data, content: body } = readEditorialSource({ path: join(directory, filename), source })
+    const metadata = recommendationSchema.parse(data)
+    const text = normalizeWording(body)
+    for (const sentence of [metadata.excerpt, ...metadata.mentions.map(mention => mention.quote)]) {
+      if (!text.includes(normalizeWording(sentence))) throw new Error(`${source}: "${sentence}" must be copied from the recommendation text`)
+    }
+    for (const { project } of metadata.mentions) {
+      if (!publicCases.has(project)) throw new Error(`${source}: mentions "${project}", which is not a published case`)
+    }
+
+    recommendations.push({ source, body, metadata, isPublic: metadata.published, slug })
+  }
+
+  const featured = recommendations.filter(recommendation => recommendation.isPublic && recommendation.metadata.featured).map(recommendation => recommendation.metadata.featured)
+  if (new Set(featured).size !== featured.length) throw new Error('recommendations: each featured position may be used once')
+  return recommendations
 }
 
 /** Certificates are public evidence: every preview must be an existing public image, like a case cover. */
