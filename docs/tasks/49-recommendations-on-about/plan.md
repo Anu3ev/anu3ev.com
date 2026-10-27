@@ -11,7 +11,7 @@ A short block on About, so a reader who never opens the section still sees what 
 - Place: after the experience section, before Certificates.
 - Eyebrow "Recommendations" and an H2 "What colleagues say" / its Russian version.
 - Three cards, sorted by `featured`. Each card shows:
-  - the `excerpt`;
+  - the `highlight`;
   - initials, name and relationship;
   - an arrow.
   The whole card links to that recommendation's page.

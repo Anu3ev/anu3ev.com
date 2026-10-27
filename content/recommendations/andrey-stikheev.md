@@ -5,7 +5,7 @@ headline_ru: CTO и сооснователь inSales
 relationship: senior
 date: 2026-09-08
 profile: https://www.linkedin.com/in/andrey-stikheev-b4004254/
-excerpt: He grew into a strong and independent engineer capable of owning complex product features from requirements and API design through implementation and release.
+highlight: He grew into a strong and independent engineer capable of owning complex product features from requirements and API design through implementation and release.
 mentions:
   - project: product-image-editor
     quote: Among his most notable projects was a sophisticated browser-based image editor built with TypeScript and Fabric.js, now used by thousands of merchants.

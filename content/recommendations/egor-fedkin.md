@@ -5,7 +5,7 @@ headline_ru: Full stack-разработчик, inSales
 relationship: managed-directly
 date: 2026-08-31
 profile: https://www.linkedin.com/in/egor-fedkin-a80a961ab/
-excerpt: "He is also very precise when implementing designs: he consistently delivers pixel-accurate interfaces while at the same time suggesting thoughtful and meaningful improvements."
+highlight: "He is also very precise when implementing designs: he consistently delivers pixel-accurate interfaces while at the same time suggesting thoughtful and meaningful improvements."
 mentions:
   - project: product-image-editor
     quote: Today, the tool is actively used by around 3,000 users.

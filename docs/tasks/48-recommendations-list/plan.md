@@ -1,6 +1,6 @@
 # 48 — Recommendations list
 
-Status: todo · Size: S · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Depends on: [46](../46-recommendation-pages/plan.md), [47](../47-navigation-sixth-item/plan.md) · Mockup: R1 on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
+Status: done ([summary](summary.md)) · Size: S · Milestone: [M5 — Recommendations](../../roadmap/README.md#m5--recommendations) · Depends on: [46](../46-recommendation-pages/plan.md), [47](../47-navigation-sixth-item/plan.md) · Mockup: R1 on the [design canvas](https://claude.ai/artifact/RmPeTJMZCzdYe4eUu9s6s7)
 
 ## Goal
 
@@ -11,7 +11,7 @@ The section's front page at `/recommendations` and `/ru/recommendations`. This t
 - Eyebrow "Recommendations" and an H1 with the count ("8 people I worked with" / its Russian version). Below them, one line naming the recommenders' roles at inSales and the English coach, and saying that each recommendation links to its original. Run the copy through `anti-cringe-copy`.
 - One card per recommendation, newest first:
   - initials, name, `headline` and date;
-  - the `excerpt`;
+  - the `highlight`;
   - the cases from `mentions`, as short titles;
   - "Read it →" to the task 46 page. The whole card is a single link target, to match the case cards.
 - Page header text: "What colleagues say" / its Russian version.

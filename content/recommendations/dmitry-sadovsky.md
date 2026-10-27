@@ -5,7 +5,7 @@ headline_ru: Senior full-stack-разработчик
 relationship: senior
 date: 2026-08-22
 profile: https://www.linkedin.com/in/dmitry-sadovsky-9459131a3/
-excerpt: I had the pleasure of working with Alexander at inSales, and he's one of those engineers who make a team noticeably better just by being on it.
+highlight: I had the pleasure of working with Alexander at inSales, and he's one of those engineers who make a team noticeably better just by being on it.
 mentions:
   - project: visual-storefront
     quote: For years he was the driving force behind our visual storefront editor — a large, complex application where merchants build their online stores.

@@ -8,12 +8,12 @@ const frames = [
 ] as const
 
 for (const frame of frames) {
-  test(`${frame.name} reference frame keeps navigation and the five page layouts consistent`, async ({ page }) => {
+  test(`${frame.name} reference frame keeps navigation and the six page layouts consistent`, async ({ page }) => {
     await page.setViewportSize({ width: frame.width, height: frame.height })
 
-    for (const path of ['/', '/about/', '/blog/', '/work/', '/contact/']) {
+    for (const path of ['/', '/about/', '/blog/', '/work/', '/recommendations/', '/contact/']) {
       await page.goto(path)
-      await expect(page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link')).toHaveCount(5)
+      await expect(page.getByRole('navigation', { name: 'Main navigation', exact: true }).getByRole('link')).toHaveCount(6)
       const sidebar = await page.locator('.site-sidebar').boundingBox()
       const main = await page.locator('.main-column').boundingBox()
       const topbar = await page.locator('.page-topbar').boundingBox()

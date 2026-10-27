@@ -55,6 +55,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [GEO: llms.txt, Markdown copies and Person entity](tasks/45-geo/summary.md)
 - [Scrollable phone menu](tasks/47-navigation-sixth-item/summary.md)
 - [Recommendation pages](tasks/46-recommendation-pages/summary.md)
+- [Recommendations list](tasks/48-recommendations-list/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 

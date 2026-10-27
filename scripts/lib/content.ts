@@ -123,7 +123,7 @@ function normalizeWording(text: string) {
 }
 
 /**
- * Recommendations are someone else's words: every excerpt and quote must be copied from the text unchanged,
+ * Recommendations are someone else's words: every highlight and quote must be copied from the text unchanged,
  * every mentioned case must exist, and each About position may be used once.
  */
 function readRecommendations({ root, projects }: { root: string, projects: readonly ContentDocument<z.infer<typeof projectSchema>>[] }) {
@@ -140,7 +140,7 @@ function readRecommendations({ root, projects }: { root: string, projects: reado
     const { data, content: body } = readEditorialSource({ path: join(directory, filename), source })
     const metadata = recommendationSchema.parse(data)
     const text = normalizeWording(body)
-    for (const sentence of [metadata.excerpt, ...metadata.mentions.map(mention => mention.quote)]) {
+    for (const sentence of [metadata.highlight, ...metadata.mentions.map(mention => mention.quote)]) {
       if (!text.includes(normalizeWording(sentence))) throw new Error(`${source}: "${sentence}" must be copied from the recommendation text`)
     }
     for (const { project } of metadata.mentions) {

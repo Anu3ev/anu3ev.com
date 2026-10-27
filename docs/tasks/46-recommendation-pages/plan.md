@@ -28,12 +28,12 @@ One Markdown file per person in `content/recommendations/<slug>.md`, shared by b
 | `date` | date | LinkedIn's date |
 | `profile` | url | Their LinkedIn profile |
 | `source` | url | Where the recommendation can be read on LinkedIn |
-| `excerpt` | string | The opening line, taken from the text without changes; used by 48 and 49 |
+| `highlight` | string | The opening line, taken from the text without changes; used by 48 and 49 |
 | `mentions` | `{ project, quote }[]` | `project` is a case slug; `quote` is one sentence from the text, verbatim. Used here and by 50 |
 | `featured` | number, optional | Position in the About teaser (task 49) |
 | `published` | boolean | Same draft rule as cases and articles |
 
-A unit test checks that every `excerpt` and `quote` occurs in the body, and that every `project` is an existing case slug. That makes a paraphrase or a broken link fail the build.
+A unit test checks that every `highlight` and `quote` occurs in the body, and that every `project` is an existing case slug. That makes a paraphrase or a broken link fail the build.
 
 Sveltia CMS gets a "Recommendations" collection with the same fields (`public/admin/config.yml`).
 
@@ -54,14 +54,14 @@ Check again whether LinkedIn offers a permalink for a single recommendation. If 
 
 ## SEO and GEO
 
-- `usePageSeo` with a title like "Egor Fedkin on working with Alexander Anufriev" and the excerpt as the description.
+- `usePageSeo` with a title like "Egor Fedkin on working with Alexander Anufriev" and the highlight as the description.
 - JSON-LD `WebPage` with `about` → the Person `@id` and `author` → a Person with the recommender's name and `sameAs` → their profile. No `Review` markup (see the roadmap decisions).
 - A Markdown copy beside each page and a "Recommendations" section in `llms.txt` and `llms-full.txt`, in `scripts/lib/llms.ts`.
 - The pages go into the sitemap.
 
 ## Tests
 
-- Unit: the schema, the excerpt and quote checks, the Markdown copy and the `llms.txt` section.
+- Unit: the schema, the highlight and quote checks, the Markdown copy and the `llms.txt` section.
 - E2e: each published page renders in EN and RU, the text block has `lang="en"` on RU, the LinkedIn link has the right `target` and `rel`, Mentioned work links resolve, there's no horizontal scroll at 360 px, and axe passes.
 
 ## Done when

@@ -107,7 +107,7 @@ export const recommendationRelationships = ['managed-directly', 'senior', 'same-
 
 /**
  * One LinkedIn recommendation, shared by both languages. The Markdown body is the recommender's text exactly
- * as written; `excerpt` and every mention `quote` must be sentences copied from it, which the inventory checks.
+ * as written; `highlight` and every mention `quote` must be sentences copied from it, which the inventory checks.
  */
 export const recommendationSchema = z.object({
   /** As written on LinkedIn, including Cyrillic names. */
@@ -119,7 +119,7 @@ export const recommendationSchema = z.object({
   date: z.iso.date(),
   /** The recommender's LinkedIn profile. */
   profile: z.string().url().regex(/^https:\/\/www\.linkedin\.com\/in\/[^/?#]+\/$/),
-  excerpt: z.string().min(20).max(260),
+  highlight: z.string().min(20).max(260),
   /** Cases the text talks about, each with the sentence that does; a case page shows it next to its results. */
   mentions: z.array(z.strictObject({ project: slugSchema, quote: z.string().min(20).max(300) })).max(6).default([]),
   /** Position in the About teaser; recommendations without it are not featured there. */

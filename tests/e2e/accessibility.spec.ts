@@ -7,7 +7,7 @@ const project = inventory.projects.find(document => document.isPublic && documen
 const article = inventory.posts.find(document => document.isPublic && document.metadata.locale === 'en')
 const recommendation = inventory.recommendations.find(document => document.isPublic && document.metadata.mentions.length)
 const paths = [
-  '/', '/blog', '/work', '/contact', '/about', '/privacy',
+  '/', '/blog', '/work', '/recommendations', '/contact', '/about', '/privacy',
   ...(project ? [`/work/${project.metadata.slug}`] : []),
   ...(article ? [`/blog/${article.metadata.slug}`] : []),
   ...(recommendation ? [`/recommendations/${recommendation.slug}`] : [])

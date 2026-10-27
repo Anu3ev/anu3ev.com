@@ -33,10 +33,13 @@ export const messages = {
     certificates: 'Certificates', certificatesTitle: 'Courses and tests', otherCertificates: 'Other certificates',
     certificateCourse: 'Course', certificateTest: 'Language test', certificateLessons: 'Lessons',
     viewCertificate: 'View certificate', downloadCv: 'Download CV', bookCall: 'Book a call', openEditorCase: 'Product image editor case study', coverTitle: 'I build complex\nweb applications.', coverText: 'Browser editors. E-commerce tools.\nAI integrations.', bookCallNote: '30-minute video call', opensInNewTab: 'opens in a new tab',
-    recommendations: 'Recommendations', recommendationsSectionTitle: 'What colleagues say', recommendationFrom: 'Recommendation from', backToAbout: 'Back to About',
+    recommendations: 'Recommendations', recommendationsSectionTitle: 'What colleagues say', recommendationFrom: 'Recommendation from',
     recommendationRelationship: 'How we worked', recommendationWritten: 'Written', readOnLinkedIn: 'Read the original on LinkedIn',
     mentionedWork: 'Work mentioned', originalLanguageNote: '',
-    relationshipManagedDirectly: 'Managed me directly', relationshipSenior: 'Senior colleague, not my manager', relationshipSameTeam: 'Worked on the same team', relationshipTeacher: 'My teacher'
+    relationshipManagedDirectly: 'Managed me directly', relationshipSenior: 'Senior colleague, not my manager', relationshipSameTeam: 'Worked on the same team', relationshipTeacher: 'My teacher',
+    recommendationsTitle: 'People I worked with', readRecommendation: 'Read it', allRecommendations: 'All recommendations',
+    recommendationsIntro: 'My manager, the CTO of inSales, other colleagues and my English teacher. Each text is shown in full, as written on LinkedIn, with a link to the original.',
+    mentionsCases: { one: 'Mentions {count} case', other: 'Mentions {count} cases' }
   },
   ru: {
     homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
@@ -71,9 +74,12 @@ export const messages = {
     certificates: 'Сертификаты', certificatesTitle: 'Курсы и тесты', otherCertificates: 'Другие сертификаты',
     certificateCourse: 'Курс', certificateTest: 'Языковой тест', certificateLessons: 'Занятия',
     viewCertificate: 'Открыть сертификат', downloadCv: 'Скачать резюме', bookCall: 'Созвониться', openEditorCase: 'Кейс редактора изображений для товаров', coverTitle: 'Делаю сложные\nвеб-приложения.', coverText: 'Браузерные редакторы, e-commerce,\nAI-интеграции.', bookCallNote: 'Видеозвонок на 30 минут', opensInNewTab: 'откроется в новой вкладке',
-    recommendations: 'Рекомендации', recommendationsSectionTitle: 'Что говорят коллеги', recommendationFrom: 'Рекомендация от', backToAbout: 'Назад на страницу «Обо мне»',
+    recommendations: 'Рекомендации', recommendationsSectionTitle: 'Что говорят коллеги', recommendationFrom: 'Рекомендация от',
     recommendationRelationship: 'Как мы работали', recommendationWritten: 'Написана', readOnLinkedIn: 'Оригинал в LinkedIn',
     mentionedWork: 'Проекты из рекомендации', originalLanguageNote: 'Рекомендация написана на английском, текст приведён без перевода.',
-    relationshipManagedDirectly: 'Мой непосредственный руководитель', relationshipSenior: 'Старший коллега, не руководитель', relationshipSameTeam: 'Работали в одной команде', relationshipTeacher: 'Мой преподаватель'
+    relationshipManagedDirectly: 'Мой непосредственный руководитель', relationshipSenior: 'Старший коллега, не руководитель', relationshipSameTeam: 'Работали в одной команде', relationshipTeacher: 'Мой преподаватель',
+    recommendationsTitle: 'Люди, с которыми я работал', readRecommendation: 'Читать целиком', allRecommendations: 'Все рекомендации',
+    recommendationsIntro: 'Мой руководитель, CTO inSales, другие коллеги и преподаватель английского. Каждый текст приведён целиком, как в LinkedIn, со ссылкой на оригинал.',
+    mentionsCases: { one: 'Упоминает {count} кейс', few: 'Упоминает {count} кейса', many: 'Упоминает {count} кейсов', other: 'Упоминает {count} кейса' }
   }
 } as const

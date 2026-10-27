@@ -5,7 +5,7 @@ headline_ru: Дизайн-лид
 relationship: senior
 date: 2026-08-27
 profile: https://www.linkedin.com/in/daniil-churakov-63185b123/
-excerpt: Sasha not only performed his work flawlessly but also actively facilitated discussions, helped the team find optimal solutions, and always maintained a very high standard of quality.
+highlight: Sasha not only performed his work flawlessly but also actively facilitated discussions, helped the team find optimal solutions, and always maintained a very high standard of quality.
 mentions: []
 published: true
 ---

@@ -12,7 +12,7 @@ LinkedIn has no public link to a single recommendation. The only per-recommendat
 
 One Markdown file per person in `content/recommendations/`, shared by both languages. The schema is `recommendationSchema` in `shared/content-schema.ts`. The Nuxt Content collection is `recommendations`.
 
-- **`excerpt` is a chosen sentence, not the opening line.** Most texts open with "I worked with Alexander at inSales…", which says nothing on a card. The rule that matters stayed: the sentence is copied from the text without changes.
+- **`highlight` is a chosen sentence, not the opening line.** Most texts open with "I worked with Alexander at inSales…", which says nothing on a card. The rule that matters stayed: the sentence is copied from the text without changes.
 - **`headline_en` and `headline_ru`** replace one `headline`. A Russian page showing "Team Lead at InSales" while the rest of the page is Russian read as a translation slip. The headline is the site's description of the person, not their words, so translating it is fine.
 - **No `source` field.** It would be the same URL in every file, so the page builds it from `profile.linkedin`.
 - **No `relationship_note`.** The one candidate, "for more than five years", is already in Egor's text.
@@ -26,7 +26,7 @@ One Markdown file per person in `content/recommendations/`, shared by both langu
 
 **Build checks** in `readRecommendations` (`scripts/lib/content.ts`):
 - the filename is a valid slug;
-- the excerpt and every quote occur in the text, ignoring `**` and line wrapping;
+- the highlight and every quote occur in the text, ignoring `**` and line wrapping;
 - every mentioned case is published;
 - no About position is used twice.
 
@@ -51,12 +51,12 @@ A paraphrase fails the build.
 
 **CMS.** A Recommendations collection in Sveltia:
 - the case field is a relation to Projects;
-- the hints repeat the rules: verbatim text, a copied excerpt and quotes, positions 1–3.
+- the hints repeat the rules: verbatim text, a copied highlight and quotes, positions 1–3.
 
 ## Tests
 
 - **Unit:**
-  - the inventory accepts a copied excerpt through emphasis, and rejects a reworded one, an unpublished case, a bad filename and a duplicate About position;
+  - the inventory accepts a copied highlight through emphasis, and rejects a reworded one, an unpublished case, a bad filename and a duplicate About position;
   - routes include both languages and skip drafts;
   - `llms.txt` lists every recommendation;
   - the Markdown copy has its facts and the original text;
@@ -78,3 +78,8 @@ A paraphrase fails the build.
 - GitHub Actions still can't start jobs because of the account's billing status.
 - The pages are live but unlinked until task 48.
 - Tell the eight people before task 48 announces the section.
+
+## Correction after release
+
+Nuxt Content fills its own `excerpt` field from the Markdown body and overwrites a frontmatter field with that name. The field shipped as `excerpt`, so on production every page's meta description fell back to "Recommendations". The page text was not affected. Task 48 renamed the field to `highlight` and added an e2e check on the meta description.
+

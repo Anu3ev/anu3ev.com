@@ -78,7 +78,7 @@ describe('machine-readable copies for AI answer engines', () => {
     expect(english).toContain('## Recommendations')
     expect(russian).toContain('## Рекомендации')
     for (const { slug, metadata } of publicRecommendations) {
-      expect(english).toContain(`- [Recommendation from ${metadata.name}](${origin}/recommendations/${slug}/index.md): ${metadata.excerpt}`)
+      expect(english).toContain(`- [Recommendation from ${metadata.name}](${origin}/recommendations/${slug}/index.md): ${metadata.highlight}`)
       expect(russian).toContain(`(${origin}/ru/recommendations/${slug}/index.md)`)
     }
   })
@@ -86,7 +86,7 @@ describe('machine-readable copies for AI answer engines', () => {
   it('copies a recommendation with who wrote it, how they know the owner and the original text', () => {
     const recommendation = publicRecommendations.find(item => item.metadata.relationship === 'managed-directly')!
     const markdown = createRecommendationMarkdown({ recommendation, locale: 'ru', origin, sourceUrl })
-    expect(markdown.startsWith(`# Рекомендация от ${recommendation.metadata.name}\n\n> ${recommendation.metadata.excerpt}\n`)).toBe(true)
+    expect(markdown.startsWith(`# Рекомендация от ${recommendation.metadata.name}\n\n> ${recommendation.metadata.highlight}\n`)).toBe(true)
     expect(markdown).toContain(`- Адрес: ${origin}/ru/recommendations/${recommendation.slug}/`)
     expect(markdown).toContain('- Как работали: непосредственный руководитель Александра')
     expect(markdown).toContain(`- Оригинал в LinkedIn: ${sourceUrl}`)

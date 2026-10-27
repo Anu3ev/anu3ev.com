@@ -5,7 +5,7 @@ headline_ru: Руководитель продуктового направле�
 relationship: same-team
 date: 2026-09-17
 profile: https://www.linkedin.com/in/valuepathfinder/
-excerpt: "Alexander looks beyond the interface and implementation details: he considers the user journey, the business goal, and how a change will work in a real product environment."
+highlight: "Alexander looks beyond the interface and implementation details: he considers the user journey, the business goal, and how a change will work in a real product environment."
 mentions: []
 published: true
 ---

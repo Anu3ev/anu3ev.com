@@ -78,12 +78,12 @@ describe('canonical routes and structured data', () => {
     expect(paths).toContain('/recommendations/egor-fedkin/')
     expect(paths).toContain('/ru/recommendations/egor-fedkin/')
     expect(paths.some(path => path.includes('hidden-person'))).toBe(false)
-    expect(paths).toHaveLength(40)
+    expect(paths).toHaveLength(42)
   })
 
   it('keeps empty blogs to their first page and gives each locale a distinct raster card', () => {
     const paths = createPublicPaths({ projects: [], posts: [], recommendations: [] })
-    expect(paths).toHaveLength(12)
+    expect(paths).toHaveLength(14)
     expect(paths.some(path => path.includes('/page/'))).toBe(false)
     expect(socialImagePath({ locale: 'en', slug: 'editor-note' })).toBe('/images/social/en/editor-note.png')
     expect(socialImagePath({ locale: 'ru', slug: 'editor-note' })).toBe('/images/social/ru/editor-note.png')

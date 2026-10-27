@@ -20,7 +20,7 @@ export function createPublicPaths({ projects, posts, recommendations }: {
   recommendations: readonly RoutableRecommendation[]
 }) {
   const paths: string[] = []
-  const staticPages = ['/', '/work', '/blog', '/about', '/contact', '/privacy']
+  const staticPages = ['/', '/work', '/blog', '/recommendations', '/about', '/contact', '/privacy']
 
   for (const locale of ['en', 'ru']) {
     const prefix = locale === 'ru' ? '/ru' : ''

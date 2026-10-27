@@ -122,7 +122,7 @@ export function createLlmsIndex({ locale, origin, profile, pages, projects, post
   const arrangements = pages[locale].contact.arrangements.join(', ')
   const caseLinks = projects.map(project => `- [${project.title}](${origin}${markdownPath(`${prefix}/work/${project.slug}`)}): ${project.description}`)
   const articleLinks = posts.map(post => `- [${post.title}](${origin}${markdownPath(`${prefix}/blog/${post.slug}`)}): ${post.description}`)
-  const recommendationLinks = recommendations.map(({ slug, metadata }) => `- [${labels.recommendationFrom} ${metadata.name}](${origin}${markdownPath(`${prefix}/recommendations/${slug}`)}): ${metadata.excerpt}`)
+  const recommendationLinks = recommendations.map(({ slug, metadata }) => `- [${labels.recommendationFrom} ${metadata.name}](${origin}${markdownPath(`${prefix}/recommendations/${slug}`)}): ${metadata.highlight}`)
   const certificateLines = certificates.map(certificate => `- ${certificate.name}, ${certificate.issuer}, ${certificate.issued}`)
   const otherPrefix = locale === 'ru' ? '' : '/ru'
   // The bio keeps its paragraph break on the page; the llms.txt summary must stay one blockquote line.
@@ -157,6 +157,7 @@ ${certificateLines.join('\n')}
 ## ${labels.pages}
 
 - [${labels.about}](${origin}${canonicalPagePath(`${prefix}/about`)})
+- [${labels.recommendations}](${origin}${canonicalPagePath(`${prefix}/recommendations`)})
 - [${labels.contactPage}](${origin}${canonicalPagePath(`${prefix}/contact`)})
 
 ## ${labels.optional}
@@ -187,5 +188,5 @@ export function createRecommendationMarkdown({ recommendation, locale, origin, s
     `- ${labels.original}: ${sourceUrl}`
   ]
 
-  return `# ${labels.recommendationFrom} ${metadata.name}\n\n> ${metadata.excerpt}\n\n${facts.join('\n')}\n\n${body.trim()}\n`
+  return `# ${labels.recommendationFrom} ${metadata.name}\n\n> ${metadata.highlight}\n\n${facts.join('\n')}\n\n${body.trim()}\n`
 }

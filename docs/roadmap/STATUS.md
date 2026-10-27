@@ -76,6 +76,6 @@ The status of every task. Order and dependencies for upcoming work are in the [r
 | --- | --- | --- | --- | --- |
 | [47](../tasks/47-navigation-sixth-item/summary.md) | Scrollable phone menu | M | done | 1.5.1; 8 px under the tabs, scrolling strip with the arrow segment |
 | [46](../tasks/46-recommendation-pages/summary.md) | Recommendation pages | M | done | 8 verbatim texts, EN/RU pages, llms.txt; unlinked until 48 |
-| [48](../tasks/48-recommendations-list/plan.md) | Recommendations list | S | todo | R1; opens the section; 1.6.0 |
+| [48](../tasks/48-recommendations-list/summary.md) | Recommendations list | S | done | 1.6.0; list, sixth menu item; fixes the 46 meta description |
 | [49](../tasks/49-recommendations-on-about/plan.md) | Teaser on About | S | todo | R3; three featured, "Read all" |
 | [50](../tasks/50-recommendations-on-cases/plan.md) | Mentions on case pages | S | todo | R4; quote and people under the results |

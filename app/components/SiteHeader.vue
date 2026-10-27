@@ -10,6 +10,7 @@ const links = computed(
       { path: '/about', label: copy.value.about, icon: 'person' },
       { path: '/blog', label: copy.value.blog, icon: 'book' },
       { path: '/work', label: copy.value.work, icon: 'briefcase' },
+      { path: '/recommendations', label: copy.value.recommendations, icon: 'quote' },
       { path: '/contact', label: copy.value.contact, icon: 'mail' }
     ] as const
 )

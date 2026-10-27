@@ -5,7 +5,7 @@ headline_ru: Директор по разработке IT-продукта
 relationship: senior
 date: 2026-09-21
 profile: https://www.linkedin.com/in/lonshakoff/
-excerpt: He was independent, technically solid, and always understood the product context behind the task, not just the implementation.
+highlight: He was independent, technically solid, and always understood the product context behind the task, not just the implementation.
 mentions: []
 published: true
 ---
