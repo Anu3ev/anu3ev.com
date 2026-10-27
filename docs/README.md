@@ -53,6 +53,7 @@ Alexander Anufriev's new portfolio. Work started on 20 October 2026, Asia/Tbilis
 - [Certificate rows stay inside their lines](tasks/43-certificate-row-hover/summary.md)
 - [Vue editor and statement on the home cover](tasks/44-vue-editor-cover/summary.md)
 - [GEO: llms.txt, Markdown copies and Person entity](tasks/45-geo/summary.md)
+- [Scrollable phone menu](tasks/47-navigation-sixth-item/summary.md)
 
 Each task has a folder under `docs/tasks/`, a review and a `summary.md` describing actual results. Historical reports retain their original versions, test counts and captured evidence. Current operations live in `docs/operations/`.
 

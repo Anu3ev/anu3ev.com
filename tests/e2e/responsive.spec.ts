@@ -25,7 +25,8 @@ for (const frame of frames) {
 
       if (frame.bottomNavigation) {
         expect(sidebar.y + sidebar.height).toBe(frame.height)
-        expect(sidebar.height).toBeCloseTo(76, 0)
+        // 8px above and below the 55px tabs plus the top border, with no safe-area inset in the test browser.
+        expect(sidebar.height).toBeCloseTo(72, 0)
         await expect(page.locator('.sidebar-top')).toBeHidden()
       }
       else {
