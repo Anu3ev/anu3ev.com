@@ -151,6 +151,9 @@ test('when tabs do not fit, the arrow segment slides to the hidden ones and back
 
   await forward.click()
   await expect.poll(() => isTabFullyShown(page, 'Contacts')).toBe(true)
+  // The slide ends where a swipe would: the last tab at the right edge, with no empty space after it.
+  const stripEnd = await page.locator('.nav-tabs').evaluate(strip => ({ left: strip.scrollLeft, max: strip.scrollWidth - strip.clientWidth }))
+  expect(stripEnd.left).toBeCloseTo(stripEnd.max, 0)
   const back = navigation.getByRole('button', { name: 'Back to the first sections', exact: true })
   await expect(back).toHaveAttribute('title', 'Back to the first sections')
 

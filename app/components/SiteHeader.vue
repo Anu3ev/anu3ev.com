@@ -35,13 +35,21 @@ function measureHiddenTabs() {
   tabsAfter.value = scrollLeft + clientWidth < scrollWidth - 1
 }
 
+/**
+ * Scrolls the strip to a position kept inside its scrollable range. iOS Safari does not clamp a smooth
+ * programmatic scroll on this strip and leaves empty space after the last tab, so the end is computed here.
+ */
+function scrollStripTo(strip: HTMLElement, left: number) {
+  strip.scrollTo({ left: Math.min(Math.max(left, 0), strip.scrollWidth - strip.clientWidth) })
+}
+
 /** Moves one strip width forward, keeping the faded edge in view, or returns to the first tab at the end. */
 function slideTabs() {
   const strip = tabStrip.value
   if (!strip) return
 
-  if (tabsAfter.value) strip.scrollBy({ left: strip.clientWidth - FADE_WIDTH })
-  else strip.scrollTo({ left: 0 })
+  if (tabsAfter.value) scrollStripTo(strip, strip.scrollLeft + strip.clientWidth - FADE_WIDTH)
+  else scrollStripTo(strip, 0)
 }
 
 /** Keeps the current section's tab inside the strip after loading, after every navigation and when the strip changes width. */
@@ -52,8 +60,8 @@ function revealActiveTab() {
 
   const stripBox = strip.getBoundingClientRect()
   const tabBox = activeTab.getBoundingClientRect()
-  if (tabBox.left < stripBox.left) strip.scrollLeft -= stripBox.left - tabBox.left
-  else if (tabBox.right > stripBox.right) strip.scrollLeft += tabBox.right - stripBox.right
+  if (tabBox.left < stripBox.left) scrollStripTo(strip, strip.scrollLeft - (stripBox.left - tabBox.left))
+  else if (tabBox.right > stripBox.right) scrollStripTo(strip, strip.scrollLeft + (tabBox.right - stripBox.right))
 }
 
 onMounted(() => {
