@@ -52,7 +52,7 @@ describe('machine-readable copies for AI answer engines', () => {
     const [title, , summary] = index.split('\n')
 
     expect(title).toBe(`# ${profile.name}`)
-    expect(summary).toMatch(/^> Senior frontend engineer\. \S/)
+    expect(summary).toMatch(new RegExp(`^> ${profile.headline_en}\\. \\S`))
     for (const { metadata } of projects.filter(project => project.isPublic && project.metadata.locale === 'en')) {
       expect(index).toContain(`](${origin}/work/${metadata.slug}/index.md): ${metadata.description}`)
     }
@@ -66,7 +66,7 @@ describe('machine-readable copies for AI answer engines', () => {
   it('writes the Russian index for Russian readers, with Russian case links', () => {
     const index = buildIndex('ru')
 
-    expect(index.startsWith(`# ${profile.name_ru}\n\n> Senior frontend-разработчик. `)).toBe(true)
+    expect(index.startsWith(`# ${profile.name_ru}\n\n> ${profile.headline_ru}. `)).toBe(true)
     expect(index).toContain('## Кейсы')
     expect(index).toContain(`](${origin}/ru/work/${englishProject.metadata.slug}/index.md)`)
     expect(index).toContain(`- [English version](${origin}/llms.txt)`)

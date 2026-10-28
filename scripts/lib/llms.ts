@@ -27,7 +27,7 @@ interface PublicDocument<Metadata> {
 /** Fixed labels of the generated files; the facts themselves come from the content and settings. */
 const LABELS = {
   en: {
-    summary: 'Senior frontend engineer', location: 'Location', availability: 'Availability', available: 'Open to new roles',
+    location: 'Location', availability: 'Availability', available: 'Open to new roles',
     contact: 'Contact', cv: 'CV (PDF)', call: 'Book a call', cases: 'Case studies', articles: 'Articles', certificates: 'Certificates',
     pages: 'Pages', about: 'About', contactPage: 'Contacts', optional: 'Optional', fullText: 'Full text of every case and article',
     otherLanguage: 'Russian version', url: 'URL', period: 'Period', context: 'Where', role: 'Role', skills: 'Skills', results: 'Results',
@@ -36,7 +36,7 @@ const LABELS = {
     written: 'Written', original: 'Original on LinkedIn'
   },
   ru: {
-    summary: 'Senior frontend-разработчик', location: 'Где', availability: 'Работа', available: 'Открыт к предложениям',
+    location: 'Где', availability: 'Работа', available: 'Открыт к предложениям',
     contact: 'Контакты', cv: 'Резюме (PDF)', call: 'Созвониться', cases: 'Кейсы', articles: 'Статьи', certificates: 'Сертификаты',
     pages: 'Страницы', about: 'Обо мне', contactPage: 'Контакты', optional: 'Optional', fullText: 'Полный текст всех кейсов и статей',
     otherLanguage: 'English version', url: 'Адрес', period: 'Период', context: 'Где', role: 'Роль', skills: 'Навыки', results: 'Результаты',
@@ -130,7 +130,7 @@ export function createLlmsIndex({ locale, origin, profile, pages, projects, post
 
   return `# ${name}
 
-> ${labels.summary}. ${summary}
+> ${profile[`headline_${locale}`]}. ${summary}
 
 - ${labels.location}: ${location}
 - ${labels.availability}: ${profile.available ? `${labels.available}; ` : ''}${arrangements}
