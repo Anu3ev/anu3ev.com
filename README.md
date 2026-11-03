@@ -1,6 +1,6 @@
 # anu3ev.com
 
-The source of [anu3ev.com](https://anu3ev.com/), the portfolio of Alexander Anufriev, a senior frontend engineer working with Vue and TypeScript. The site has case studies of products I built at inSales and in open source, technical articles, certificates and recommendations from colleagues, in English and Russian (`/ru`).
+The source of [anu3ev.com](https://anu3ev.com/), the portfolio of Alexander Anufriev, an AI-native senior frontend engineer working with Vue and TypeScript. The site has case studies of products I built at inSales and in open source, technical articles, certificates and recommendations from colleagues, in English and Russian (`/ru`).
 
 ## Stack
 
