@@ -143,8 +143,10 @@ collections:
           - { name: location, label: Location, widget: string }
           - { name: location_ru, label: Location — Russian, widget: string }
           - { name: available, label: Available for opportunities, widget: boolean }
-          - { name: headline_en, label: Headline — English, widget: string }
+          - { name: headline_en, label: Headline — English, widget: string, hint: 'The positioning title, used across the site. Page copy refers to these fields as placeholders like {{headline_en}}. After changing it, run pnpm social-image.' }
           - { name: headline_ru, label: Headline — Russian, widget: string }
+          - { name: headline_sentence_en, label: Headline inside a sentence — English, widget: string, hint: 'For example: an AI-native senior frontend engineer' }
+          - { name: headline_genitive_ru, label: Headline in the genitive — Russian, widget: string, hint: 'For example: ищете AI-native senior frontend-разработчика' }
           - { name: bio_en, label: Bio — English, widget: text }
           - { name: bio_ru, label: Bio — Russian, widget: text }
 

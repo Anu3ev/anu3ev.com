@@ -6,6 +6,7 @@ import type { z } from 'zod'
 import { certificatesSchema, postSchema, profileSchema, projectSchema, recommendationSchema, slugSchema } from '../../shared/content-schema'
 import { getPublicationDate } from '../../shared/publication'
 import { sitePagesSchema } from '../../shared/page-content'
+import { applyPositioning, defaultSocialImagePath } from '../../shared/positioning'
 
 /** Parsed source document with its build-time publication decision. */
 interface ContentDocument<Metadata> {
@@ -108,9 +109,10 @@ export function readContentInventory({ root = process.cwd(), now = new Date() } 
   const profile = profileSchema.parse(profileInput)
   validatePublicImage({ root, image: profile.photo, source: 'settings/profile.json' })
   validatePublicImage({ root, image: profile.avatar, source: 'settings/profile.json' })
+  validatePublicImage({ root, image: defaultSocialImagePath(profile.headline_en), source: 'settings/profile.json: run pnpm social-image after changing headline_en' })
   for (const cv of [profile.cv_en, profile.cv_ru]) validatePublicCv({ root, cv })
   const pagesInput: unknown = JSON.parse(readFileSync(join(root, 'content/settings/pages.json'), 'utf8'))
-  const pages = sitePagesSchema.parse(pagesInput)
+  const pages = sitePagesSchema.parse(applyPositioning({ settings: pagesInput, profile }))
   const certificates = readCertificates(root)
   const recommendations = readRecommendations({ root, projects })
   const excluded = [...projects, ...posts, ...recommendations].filter(document => !document.isPublic).map(document => document.source)

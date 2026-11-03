@@ -1,7 +1,7 @@
 {
   "en": {
     "home": {
-      "seoTitle": "AI-native Senior Frontend Engineer · Vue & TypeScript",
+      "seoTitle": "{{headline_en}} · Vue & TypeScript",
       "pinnedTitle": "Hard frontend problems, shipped and maintained.",
       "pinnedBody": "Case studies of the editors, AI features, storefront performance work and merchant tools I built at inSales, and the decisions behind them.",
       "tags": [
@@ -29,7 +29,7 @@
     "about": {
       "title": "Five years of frontend work at inSales.",
       "intro": "I care about what happens after the happy path.",
-      "body": "I’m Alexander Anufriev, an AI-native senior frontend engineer based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors with AI tools, code editors, merchant analytics, and the workflows around them.",
+      "body": "I’m Alexander Anufriev, an {{headline_sentence_en}} based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors with AI tools, code editors, merchant analytics, and the workflows around them.",
       "story": "Before moving into frontend development, I worked in technical support. Debugging real stores and talking to merchants taught me to start with the problem, understand the constraints, and take responsibility for what reaches production.",
       "technologies": [
         "Vue 3",
@@ -55,7 +55,7 @@
           "start": "2021-10",
           "end": "2026-09",
           "company": "inSales",
-          "role": "Senior Frontend Engineer",
+          "role": "{{headline_en}}",
           "description": "Browser editors, merchant analytics, AI-assisted content, checkout, and reusable Vue components. From requirements and API contracts to automated tests and production verification."
         },
         {
@@ -101,7 +101,7 @@
     },
     "contact": {
       "title": "Get in touch.",
-      "intro": "A frontend role, a product with AI features, or a good engineering conversation. I’d like to hear about it.",
+      "intro": "Looking for an {{headline_sentence_en}}, building a product with AI features, or up for a good engineering conversation? I’d like to hear about it.",
       "note": "I work remotely from Georgia (UTC+4), in English and Russian.",
       "arrangements": [
         "Remote",
@@ -125,7 +125,7 @@
       "body": "Available as a B2B contractor or through EOR, working remotely. Open to employer-sponsored relocation."
     },
     "cta": {
-      "title": "Looking for an AI-native senior frontend engineer?",
+      "title": "Looking for an {{headline_sentence_en}}?",
       "body": "I’m open to remote work and relocation. Send me an email or book a call."
     },
     "privacy": {
@@ -138,7 +138,7 @@
   },
   "ru": {
     "home": {
-      "seoTitle": "AI-native senior frontend-разработчик · Vue и TypeScript",
+      "seoTitle": "{{headline_ru}} · Vue и TypeScript",
       "pinnedTitle": "Сложный фронтенд, доведённый до продакшена.",
       "pinnedBody": "Разборы редакторов, AI-функций, ускорения витрин и инструментов для продавцов, которые я делал в inSales, и решения, которые за ними стоят.",
       "tags": [
@@ -166,7 +166,7 @@
     "about": {
       "title": "Пять лет писал фронтенд в inSales.",
       "intro": "Мне важно, что происходит, когда что-то идёт не по плану.",
-      "body": "Я Александр Ануфриев, AI-native senior frontend-разработчик, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений с AI-инструментами, редакторы кода, аналитику для магазинов и всё, что вокруг них.",
+      "body": "Я Александр Ануфриев, {{headline_ru}}, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений с AI-инструментами, редакторы кода, аналитику для магазинов и всё, что вокруг них.",
       "story": "До фронтенда я работал в техподдержке: разбирался в сломанных магазинах и общался с их владельцами. Там привык начинать с проблемы, выяснять ограничения и отвечать за то, что уходит в продакшен.",
       "technologies": [
         "Vue 3",
@@ -192,7 +192,7 @@
           "start": "2021-10",
           "end": "2026-09",
           "company": "inSales",
-          "role": "Senior frontend-разработчик",
+          "role": "{{headline_ru}}",
           "description": "Браузерные редакторы, аналитика, AI-инструменты, checkout и общие Vue-компоненты. От требований и API-контрактов до тестов и проверки в production."
         },
         {
@@ -238,7 +238,7 @@
     },
     "contact": {
       "title": "Давайте познакомимся.",
-      "intro": "Напишите, если ищете AI-native frontend-разработчика, делаете продукт с AI-функциями или хотите обсудить разработку.",
+      "intro": "Напишите, если ищете {{headline_genitive_ru}}, делаете продукт с AI-функциями или хотите обсудить разработку.",
       "note": "Работаю удалённо из Грузии (UTC+4). Общаюсь на русском и английском.",
       "arrangements": [
         "Удалённо",
@@ -262,7 +262,7 @@
       "body": "Готов работать удалённо по B2B-договору или через EOR. Рассмотрю релокацию, если работодатель её поддержит."
     },
     "cta": {
-      "title": "Ищете AI-native senior frontend-разработчика?",
+      "title": "Ищете {{headline_genitive_ru}}?",
       "body": "Готов к удалённой работе и релокации. Напишите мне или запишитесь на звонок."
     },
     "privacy": {

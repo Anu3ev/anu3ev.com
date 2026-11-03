@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getPublicationDate } from '~~/shared/publication'
 import { socialImagePath } from '~~/shared/seo'
+import { defaultSocialImagePath } from '~~/shared/positioning'
 import profile from '~~/content/settings/profile.json'
 
 const route = useRoute()
@@ -38,7 +39,7 @@ usePageSeo({
   image: () =>
     post.value
       ? socialImagePath({ locale: locale.value, slug: post.value.slug })
-      : '/images/og-default.png',
+      : defaultSocialImagePath(profile.headline_en),
   parent: () => ({ name: copy.value.blog, url: `${siteUrl}${localePath('/blog')}` }),
   markdownCopy: () => Boolean(post.value),
   publishedTime: () => post.value?.date,

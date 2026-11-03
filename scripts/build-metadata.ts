@@ -47,7 +47,7 @@ for (const locale of ['en', 'ru'] as const) {
   <channel>
     <title>${escapeXml(`${ownerName} — ${pages[locale].blog.title}`)}</title>
     <link>${origin}${canonicalPagePath(`${prefix}/blog`)}</link>
-    <description>${escapeXml(profile[`bio_${locale}`])}</description>
+    <description>${escapeXml(`${profile[`headline_${locale}`]}. ${profile[`bio_${locale}`]}`)}</description>
     <language>${locale}</language>
     <atom:link href="${origin}${prefix}/rss.xml" rel="self" type="application/rss+xml"/>
     ${items}
