@@ -1,9 +1,9 @@
 {
   "en": {
     "home": {
-      "seoTitle": "Senior Frontend Engineer · Vue & TypeScript",
+      "seoTitle": "AI-native Senior Frontend Engineer · Vue & TypeScript",
       "pinnedTitle": "Hard frontend problems, shipped and maintained.",
-      "pinnedBody": "Case studies of the editors, storefront performance work and merchant tools I built at inSales, and the decisions behind them.",
+      "pinnedBody": "Case studies of the editors, AI features, storefront performance work and merchant tools I built at inSales, and the decisions behind them.",
       "tags": [
         "Vue & TypeScript",
         "Complex product UI",
@@ -21,15 +21,15 @@
           "label": "fewer product requests after I reworked storefront loading"
         },
         {
-          "value": "90%+",
-          "label": "of stores work in the visual site editor redesign I implemented"
+          "value": "800+",
+          "label": "AI operations a day in the product image editor I built"
         }
       ]
     },
     "about": {
       "title": "Five years of frontend work at inSales.",
       "intro": "I care about what happens after the happy path.",
-      "body": "I’m Alexander Anufriev, a frontend engineer based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors, code editors, merchant analytics, and the workflows around them.",
+      "body": "I’m Alexander Anufriev, an AI-native senior frontend engineer based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors with AI tools, code editors, merchant analytics, and the workflows around them.",
       "story": "Before moving into frontend development, I worked in technical support. Debugging real stores and talking to merchants taught me to start with the problem, understand the constraints, and take responsibility for what reaches production.",
       "technologies": [
         "Vue 3",
@@ -45,7 +45,9 @@
         "Vite",
         "Playwright",
         "Jest",
-        "REST API"
+        "REST API",
+        "AI integrations",
+        "AI-assisted development"
       ],
       "experienceTitle": "inSales",
       "experience": [
@@ -81,7 +83,7 @@
     },
     "portfolio": {
       "title": "What I’ve worked on.",
-      "intro": "Editors, merchant tools and storefront work, from the first requirements to the details that make an interface easy to use.",
+      "intro": "Editors, AI features, merchant tools and storefront work, from the first requirements to the details that make an interface easy to use.",
       "summary": [
         {
           "value": "5 years",
@@ -99,7 +101,7 @@
     },
     "contact": {
       "title": "Get in touch.",
-      "intro": "A frontend role, a challenging product, or a good engineering conversation. I’d like to hear about it.",
+      "intro": "A frontend role, a product with AI features, or a good engineering conversation. I’d like to hear about it.",
       "note": "I work remotely from Georgia (UTC+4), in English and Russian.",
       "arrangements": [
         "Remote",
@@ -108,21 +110,22 @@
       ]
     },
     "sidebar": {
-      "bio": "I build browser editors and merchant tools with Vue and TypeScript.",
+      "bio": "I build browser editors, AI features and merchant tools with Vue and TypeScript.",
       "focusTitle": "Complex UI, owned end to end.",
-      "focusDetails": "Editor architecture.\nStorefront performance.\nClear contracts with backend.",
+      "focusDetails": "Editor architecture.\nAI features in product UI.\nStorefront performance.\nClear contracts with backend.",
       "focusTags": [
         "Vue.js",
         "TypeScript",
-        "Fabric.js"
+        "Fabric.js",
+        "AI features"
       ]
     },
     "collaboration": {
       "title": "Based in Batumi, working remotely.",
-      "body": "Available for remote roles through B2B or EOR. Open to employer-sponsored relocation."
+      "body": "Available as a B2B contractor or through EOR, working remotely. Open to employer-sponsored relocation."
     },
     "cta": {
-      "title": "Looking for a senior frontend engineer?",
+      "title": "Looking for an AI-native senior frontend engineer?",
       "body": "I’m open to remote work and relocation. Send me an email or book a call."
     },
     "privacy": {
@@ -135,9 +138,9 @@
   },
   "ru": {
     "home": {
-      "seoTitle": "Senior frontend-разработчик · Vue и TypeScript",
+      "seoTitle": "AI-native senior frontend-разработчик · Vue и TypeScript",
       "pinnedTitle": "Сложный фронтенд, доведённый до продакшена.",
-      "pinnedBody": "Разборы редакторов, ускорения витрин и инструментов для продавцов, которые я делал в inSales, и решения, которые за ними стоят.",
+      "pinnedBody": "Разборы редакторов, AI-функций, ускорения витрин и инструментов для продавцов, которые я делал в inSales, и решения, которые за ними стоят.",
       "tags": [
         "Vue и TypeScript",
         "Сложные интерфейсы",
@@ -155,15 +158,15 @@
           "label": "меньше запросов за товарами после того, как я переделал загрузку витрины"
         },
         {
-          "value": "90%+",
-          "label": "магазинов работают в новом визуальном редакторе сайта, который я делал"
+          "value": "800+",
+          "label": "AI-операций в день в редакторе изображений, который я сделал"
         }
       ]
     },
     "about": {
       "title": "Пять лет писал фронтенд в inSales.",
       "intro": "Мне важно, что происходит, когда что-то идёт не по плану.",
-      "body": "Я Александр Ануфриев, frontend-разработчик, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений и кода, аналитику для магазинов и всё, что вокруг них.",
+      "body": "Я Александр Ануфриев, AI-native senior frontend-разработчик, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений с AI-инструментами, редакторы кода, аналитику для магазинов и всё, что вокруг них.",
       "story": "До фронтенда я работал в техподдержке: разбирался в сломанных магазинах и общался с их владельцами. Там привык начинать с проблемы, выяснять ограничения и отвечать за то, что уходит в продакшен.",
       "technologies": [
         "Vue 3",
@@ -179,7 +182,9 @@
         "Vite",
         "Playwright",
         "Jest",
-        "REST API"
+        "REST API",
+        "AI-интеграции",
+        "AI-assisted development"
       ],
       "experienceTitle": "inSales",
       "experience": [
@@ -215,7 +220,7 @@
     },
     "portfolio": {
       "title": "Над чем я работал.",
-      "intro": "Редакторы, инструменты для магазинов и витрины: от постановки задачи до мелочей, из-за которых интерфейсом удобно пользоваться.",
+      "intro": "Редакторы, AI-функции, инструменты для магазинов и витрины: от постановки задачи до мелочей, из-за которых интерфейсом удобно пользоваться.",
       "summary": [
         {
           "value": "5 лет",
@@ -233,7 +238,7 @@
     },
     "contact": {
       "title": "Давайте познакомимся.",
-      "intro": "Напишите, если ищете frontend-разработчика, делаете сложный продукт или хотите обсудить разработку.",
+      "intro": "Напишите, если ищете AI-native frontend-разработчика, делаете продукт с AI-функциями или хотите обсудить разработку.",
       "note": "Работаю удалённо из Грузии (UTC+4). Общаюсь на русском и английском.",
       "arrangements": [
         "Удалённо",
@@ -242,13 +247,14 @@
       ]
     },
     "sidebar": {
-      "bio": "Делаю браузерные редакторы и инструменты для продавцов на Vue и TypeScript.",
+      "bio": "Делаю браузерные редакторы, AI-функции и инструменты для продавцов на Vue и TypeScript.",
       "focusTitle": "Сложный UI от задачи до поддержки.",
-      "focusDetails": "Редакторы и конструкторы.\nСкорость витрин.\nДоговорённости с бэкендом об API.",
+      "focusDetails": "Редакторы и конструкторы.\nAI-функции в интерфейсах.\nСкорость витрин.\nДоговорённости с бэкендом об API.",
       "focusTags": [
         "Vue.js",
         "TypeScript",
-        "Fabric.js"
+        "Fabric.js",
+        "AI-функции"
       ]
     },
     "collaboration": {
@@ -256,7 +262,7 @@
       "body": "Готов работать удалённо по B2B-договору или через EOR. Рассмотрю релокацию, если работодатель её поддержит."
     },
     "cta": {
-      "title": "Ищете senior frontend-разработчика?",
+      "title": "Ищете AI-native senior frontend-разработчика?",
       "body": "Готов к удалённой работе и релокации. Напишите мне или запишитесь на звонок."
     },
     "privacy": {
