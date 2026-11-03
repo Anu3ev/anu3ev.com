@@ -24,7 +24,7 @@ const { data: posts } = await useAsyncData(
 
 usePageSeo({
   title: () => siteContent.value.home.seoTitle,
-  description: () => profile[`bio_${locale.value}`],
+  description: () => `${profile[`headline_${locale.value}`]}. ${profile[`bio_${locale.value}`]}`,
   schema: [
     {
       '@context': 'https://schema.org',

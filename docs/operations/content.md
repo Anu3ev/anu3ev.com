@@ -32,6 +32,16 @@ Optional `repository` and `demo` fields must contain real public HTTPS URLs. A d
 
 Under **Site settings → Profile and contacts**, edit English/Russian names, photo, email, social links, location, availability, headline and bio. Prefer a square WebP portrait at 600×600 under 200 KB. About, author attribution and metadata use the same profile and photo.
 
+## Positioning title
+
+The title lives only in **Profile** (`content/settings/profile.json`), in four forms: `headline_en`, `headline_ru`, `headline_sentence_en` for the middle of an English sentence, and `headline_genitive_ru` for the Russian genitive. To change it:
+
+1. Edit the four fields. The page titles, descriptions, experience section, footer, structured data, RSS and `llms.txt` follow on the next build.
+2. Run `pnpm social-image` and commit the new card from `public/images/og/`. The build fails until it exists. The file is named after the title, so link previews get a new URL.
+3. Update the first line of `README.md`, and the CVs in their own source. A unit test fails while the README is out of date.
+
+In page copy, write the title as a placeholder such as `{{headline_en}}`, never as text. An unknown placeholder fails the build.
+
 ## Page copy and career history
 
 Open **Site settings → Page copy and career history**, then English or Russian. Collapsed groups correspond to pages; values live in `content/settings/pages.json`.

@@ -1,10 +1,12 @@
+import profile from '../../content/settings/profile.json'
+
 /** Interface labels for the two published languages; editorial copy lives in content/settings/pages.json. */
 export const messages = {
   en: {
     homeSectionTitle: 'A little about me', aboutSectionTitle: 'Experience and approach', notebookTitle: 'Development notes',
     startConversation: 'Start a conversation', builtWithCare: 'Site built by',
     currentFocus: 'Current focus',
-    tagline: 'AI-native Senior Frontend Engineer · Vue and TypeScript · Batumi, Georgia',
+    tagline: `${profile.headline_en} · Vue and TypeScript · Batumi, Georgia`,
     workbench: 'Latest', workAndNotes: 'Work & notes', remote: 'Remote · B2B / EOR · Relocation', allWork: 'All work',
     collaboration: 'Working together',
     home: 'Home', work: 'Portfolio', blog: 'Blog', about: 'About', contact: 'Contacts',
@@ -46,7 +48,7 @@ export const messages = {
     homeSectionTitle: 'Немного обо мне', aboutSectionTitle: 'Опыт и подход к работе', notebookTitle: 'Заметки о разработке',
     startConversation: 'Как со мной связаться', builtWithCare: 'Сайт собрал',
     currentFocus: 'Чем занимаюсь',
-    tagline: 'AI-native senior frontend-разработчик · Vue и TypeScript · Батуми, Грузия',
+    tagline: `${profile.headline_ru} · Vue и TypeScript · Батуми, Грузия`,
     workbench: 'Свежее', workAndNotes: 'Проекты и заметки', remote: 'Удалённо · B2B / EOR · Релокация', allWork: 'Все проекты',
     collaboration: 'Формат работы',
     home: 'Главная', work: 'Портфолио', blog: 'Блог', about: 'Обо мне', contact: 'Контакты',

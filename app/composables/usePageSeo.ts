@@ -1,5 +1,6 @@
 import { createPageLinks } from '~/utils/seo'
 import { createPageSchemas, serializeJsonLd, type SeoAncestor } from '~~/shared/seo'
+import { defaultSocialImagePath } from '~~/shared/positioning'
 import profile from '~~/content/settings/profile.json'
 
 /** Reactive metadata follows the current route when Nuxt reuses a page component. */
@@ -25,7 +26,7 @@ export function usePageSeo(options: PageSeo) {
   const ownerName = computed(() => locale.value === 'ru' ? profile.name_ru : profile.name)
   const pageLinks = computed(() => createPageLinks({ origin, path: route.path, locale: locale.value, feedTitle: `${ownerName.value} — ${siteContent.value.blog.title}` }))
   const title = computed(() => `${toValue(options.title)} · ${ownerName.value}`)
-  const image = computed(() => new URL(toValue(options.image) || '/images/og-default.png', origin).href)
+  const image = computed(() => new URL(toValue(options.image) || defaultSocialImagePath(profile.headline_en), origin).href)
   const graphs = computed(() => createPageSchemas({
     home: { name: copy.value.home, url: `${origin}${localePath('/')}` },
     current: { name: toValue(options.title), url: pageLinks.value.canonical },

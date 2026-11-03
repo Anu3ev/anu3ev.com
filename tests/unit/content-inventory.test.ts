@@ -15,6 +15,8 @@ beforeEach(() => {
   mkdirSync(join(root, 'content/settings'), { recursive: true })
   mkdirSync(join(root, 'public/images'), { recursive: true })
   copyFileSync('content/settings/profile.json', join(root, 'content/settings/profile.json'))
+  mkdirSync(join(root, 'public/images/og'), { recursive: true })
+  copyFileSync('public/images/og/ai-native-senior-frontend-engineer.png', join(root, 'public/images/og/ai-native-senior-frontend-engineer.png'))
   copyFileSync('content/settings/pages.json', join(root, 'content/settings/pages.json'))
   copyFileSync('content/settings/certificates.json', join(root, 'content/settings/certificates.json'))
   mkdirSync(join(root, 'public/images/certificates'), { recursive: true })

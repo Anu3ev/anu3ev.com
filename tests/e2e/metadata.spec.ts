@@ -1,7 +1,6 @@
 import { expect, test } from '@playwright/test'
 import sharp from 'sharp'
 import { readContentInventory } from '../../scripts/lib/content'
-import pages from '../../content/settings/pages.json' with { type: 'json' }
 
 const inventory = readContentInventory()
 const article = inventory.posts.find(document => document.isPublic && document.metadata.locale === 'ru')
@@ -48,7 +47,7 @@ test('localized feeds contain only published articles and valid XML', async ({ p
     }, await response.text())
     expect(feed.language).toBe(locale)
     const ownerName = locale === 'ru' ? inventory.profile.name_ru : inventory.profile.name
-    expect(feed.title).toBe(`${ownerName} — ${pages[locale].blog.title}`)
+    expect(feed.title).toBe(`${ownerName} — ${inventory.pages[locale].blog.title}`)
     expect(feed.count).toBe(inventory.posts.filter(document => document.isPublic && document.metadata.locale === locale).length)
     expect(feed.text).not.toContain('DRAFT_ONLY_DO_NOT_SHIP_7f49a2')
   }
@@ -105,7 +104,7 @@ test('editable settings drive public page content, author metadata, photos and c
   const { profile } = inventory
 
   for (const locale of ['en', 'ru'] as const) {
-    const settings = pages[locale]
+    const settings = inventory.pages[locale]
     const prefix = locale === 'ru' ? '/ru' : ''
     const ownerName = locale === 'ru' ? profile.name_ru : profile.name
     await page.goto(prefix || '/')
