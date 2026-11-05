@@ -11,7 +11,6 @@ test('every recommendation has its own page with the full text in both languages
   for (const { slug, metadata } of recommendations) {
     await page.goto(`/recommendations/${slug}`)
     await expect(page.locator('main h1')).toHaveText(metadata.name)
-    await expect(page.locator('.page-topbar')).toContainText('What colleagues say')
     await expect(page.locator('.recommendation-text')).toContainText(metadata.highlight.replace(/\*\*/g, ''))
     await expect(page.locator('.recommendation-note')).toHaveCount(0)
     // Nuxt Content owns a field called `excerpt`; this catches a frontmatter field silently overwritten again.

@@ -193,7 +193,6 @@ collections:
                   - { name: seoTitle, label: SEO title, widget: string }
                   - { name: pinnedTitle, label: Pinned note title, widget: string }
                   - { name: pinnedBody, label: Pinned note, widget: text }
-                  - { name: tags, label: Profile topics, widget: list }
                   - name: highlights
                     label: Proof points
                     widget: list
@@ -238,15 +237,6 @@ collections:
                 fields:
                   - { name: title, label: Title, widget: string }
                   - { name: intro, label: Introduction, widget: text }
-                  - name: summary
-                    label: Introductory facts
-                    widget: list
-                    min: 1
-                    max: 4
-                    summary: '{{fields.value}} · {{fields.label}}'
-                    fields:
-                      - { name: value, label: Value, widget: string }
-                      - { name: label, label: Description, widget: string }
               - name: blog
                 label: Blog
                 widget: object
@@ -263,15 +253,6 @@ collections:
                   - { name: intro, label: Introduction, widget: text }
                   - { name: note, label: Email note, widget: text }
                   - { name: arrangements, label: Working arrangements, widget: list }
-              - name: sidebar
-                label: Right sidebar
-                widget: object
-                collapsed: true
-                fields:
-                  - { name: bio, label: Short bio, widget: text }
-                  - { name: focusTitle, label: Focus heading, widget: string }
-                  - { name: focusDetails, label: Current focus, widget: text }
-                  - { name: focusTags, label: Focus technologies, widget: list }
               - name: collaboration
                 label: Collaboration
                 widget: object

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getPublicationDate } from '~~/shared/publication'
+import { formatDay } from '~~/shared/page-content'
 import { socialImagePath } from '~~/shared/seo'
 import { defaultSocialImagePath } from '~~/shared/positioning'
 import profile from '~~/content/settings/profile.json'
@@ -24,12 +25,7 @@ if (!post.value) throw createError({ statusCode: 404, statusMessage: 'Article no
 
 const dateLabel = computed(() => {
   if (!post.value) return ''
-  return new Intl.DateTimeFormat(locale.value, {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    timeZone: 'UTC'
-  }).format(new Date(post.value.date))
+  return formatDay({ value: post.value.date, locale: locale.value })
 })
 
 usePageSeo({

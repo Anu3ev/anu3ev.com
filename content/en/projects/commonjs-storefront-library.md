@@ -26,13 +26,13 @@ I picked it up soon after I moved from support engineering to frontend in 2021. 
 
 ## My role
 
-I became the library's maintainer and stayed in that role for several years. I mapped the architecture, reworked the build, added components and public APIs, wrote developer documentation, prepared QA scenarios and releases, and fixed issues on live stores. Server APIs belonged to backend developers; I agreed data requirements with them.
+I became the library’s maintainer and stayed in that role for several years. I mapped the architecture, reworked the build, added components and public APIs, wrote developer documentation, prepared QA scenarios and releases, and fixed issues on live stores. Server APIs belonged to backend developers; I agreed data requirements with them.
 
 ## What I built
 
 ### A dependency map before the first big change
 
-Before changing anything, I had to understand the code. AI assistants weren't part of my workflow yet, so I read it and drew a map in Miro by hand: where product data comes from, when it reaches the cache, what starts rendering, how cart events lead to new requests and which modules depend on each other. With that map I could see what a change in one method would affect outside it.
+Before changing anything, I had to understand the code. AI assistants weren’t part of my workflow yet, so I read it and drew a map in Miro by hand: where product data comes from, when it reaches the cache, what starts rendering, how cart events lead to new requests and which modules depend on each other. With that map I could see what a change in one method would affect outside it.
 
 ### A smaller build with the same behavior
 
@@ -47,11 +47,11 @@ The library connects Liquid templates, HTML markup and store data. Components at
 
 ### Compatibility as a release rule
 
-Every new version had to work with several generations of templates and with custom store code I couldn't see in advance. I kept old ways of connecting components working and checked a shared component everywhere it appears on the storefront. I built test versions of the library, connected them to test stores, sent changes to review and QA and released them in stages. For larger changes, such as choosing the CAPTCHA provider, I used feature flags. When an empty `captcha_type` turned up on real accounts after a release, I traced the cause, fixed how the setting was handled and prepared a second rollout of the system forms.
+Every new version had to work with several generations of templates and with custom store code I couldn’t see in advance. I kept old ways of connecting components working and checked a shared component everywhere it appears on the storefront. I built test versions of the library, connected them to test stores, sent changes to review and QA and released them in stages. For larger changes, such as choosing the CAPTCHA provider, I used feature flags. When an empty `captcha_type` turned up on real accounts after a release, I traced the cause, fixed how the setting was handled and prepared a second rollout of the system forms.
 
 ### Documentation and support
 
-I wrote developer documentation for `ui-ajax-products`, `ui-ajax-product` and the reCAPTCHA and Yandex SmartCaptcha APIs: which markup and `data-*` attributes to add, which settings a component accepts, how display templates work, which events start an action and which report that it has finished, with integration examples. I also described how to connect a test build to a store before a general update. When something broke on a client's site, I helped colleagues work out whether the cause was the library, the data, the server response or the store's own code.
+I wrote developer documentation for `ui-ajax-products`, `ui-ajax-product` and the reCAPTCHA and Yandex SmartCaptcha APIs: which markup and `data-*` attributes to add, which settings a component accepts, how display templates work, which events start an action and which report that it has finished, with integration examples. I also described how to connect a test build to a store before a general update. When something broke on a client’s site, I helped colleagues work out whether the cause was the library, the data, the server response or the store’s own code.
 
 ## Results
 

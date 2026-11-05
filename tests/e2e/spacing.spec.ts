@@ -37,7 +37,7 @@ for (const frame of frames) {
     for (const path of ['/about/', '/blog/', '/work/', '/contact/', '/privacy/']) {
       await page.goto(path)
       const sectionSpace = await readSectionSpace(page)
-      expect(await measureGap(page.locator('.page-topbar'), page.locator('.page-heading .eyebrow').first()), path).toBeCloseTo(sectionSpace, 0)
+      expect(await measureGap(page.locator('.page-topbar'), page.locator('.page-heading').locator('h1, .availability').first()), path).toBeCloseTo(sectionSpace, 0)
     }
   })
 }

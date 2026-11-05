@@ -45,7 +45,7 @@ function describeLink(url: string) {
           >
           <div class="certificate-body">
             <p class="certificate-meta">
-              {{ categoryLabels[certificate.category] }} · <time :datetime="certificate.issued">{{ formatMonth(certificate.issued) }}</time>
+              {{ categoryLabels[certificate.category] }} · <time :datetime="certificate.issued">{{ formatMonth({ value: certificate.issued, locale }) }}</time>
             </p>
             <h3>{{ certificate.name }}</h3>
             <p class="certificate-issuer">
@@ -80,7 +80,7 @@ function describeLink(url: string) {
         >
           <span class="certificate-list-text">
             <strong>{{ certificate.name }}</strong>
-            <span>{{ certificate.issuer }} · {{ categoryLabels[certificate.category] }} · <time :datetime="certificate.issued">{{ formatMonth(certificate.issued) }}</time></span>
+            <span>{{ certificate.issuer }} · {{ categoryLabels[certificate.category] }} · <time :datetime="certificate.issued">{{ formatMonth({ value: certificate.issued, locale }) }}</time></span>
           </span>
           <span class="sr-only">{{ copy.viewCertificate }}{{ describeLink(certificate.url).newTabNote }}</span>
           <AppIcon name="arrow" />
@@ -88,7 +88,7 @@ function describeLink(url: string) {
         <div v-else class="certificate-row">
           <span class="certificate-list-text">
             <strong>{{ certificate.name }}</strong>
-            <span>{{ certificate.issuer }} · {{ categoryLabels[certificate.category] }} · <time :datetime="certificate.issued">{{ formatMonth(certificate.issued) }}</time></span>
+            <span>{{ certificate.issuer }} · {{ categoryLabels[certificate.category] }} · <time :datetime="certificate.issued">{{ formatMonth({ value: certificate.issued, locale }) }}</time></span>
           </span>
         </div>
       </li>

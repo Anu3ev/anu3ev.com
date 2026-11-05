@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test'
 import sharp from 'sharp'
 import { readContentInventory } from '../../scripts/lib/content'
+import { typesetSettings } from '../../shared/typography'
 
 const inventory = readContentInventory()
 const article = inventory.posts.find(document => document.isPublic && document.metadata.locale === 'ru')
@@ -104,7 +105,7 @@ test('editable settings drive public page content, author metadata, photos and c
   const { profile } = inventory
 
   for (const locale of ['en', 'ru'] as const) {
-    const settings = inventory.pages[locale]
+    const settings = typesetSettings({ settings: inventory.pages[locale], locale })
     const prefix = locale === 'ru' ? '/ru' : ''
     const ownerName = locale === 'ru' ? profile.name_ru : profile.name
     await page.goto(prefix || '/')

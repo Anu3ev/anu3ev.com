@@ -17,7 +17,7 @@ results:
   - value: "200+"
     label: "active paid subscribers by September 2026"
   - value: "15%"
-    label: "of one merchant's customers returned to complete a purchase, per an inSales case study (May 2025)"
+    label: "of one merchant’s customers returned to complete a purchase, per an inSales case study (May 2025)"
 ---
 
 ## The problem
@@ -54,13 +54,13 @@ One "subscribed" flag was not enough. The server returns trial state and expiry,
 
 ### Three ways to send, one template workflow
 
-Merchants can message one customer, select carts across pages for a bulk email or SMS, or configure automatic reminders per channel. Before a bulk send, the form shows how many selected customers lack the required contact and offers to filter them out. We deliberately left out a "select every cart" action because of the load it could create. Templates are edited in our shared Monaco-based editor, and the preview renders Liquid with the selected cart's products, quantities and totals.
+Merchants can message one customer, select carts across pages for a bulk email or SMS, or configure automatic reminders per channel. Before a bulk send, the form shows how many selected customers lack the required contact and offers to filter them out. We deliberately left out a "select every cart" action because of the load it could create. Templates are edited in our shared Monaco-based editor, and the preview renders Liquid with the selected cart’s products, quantities and totals.
 
-![Email preview rendered with the selected cart's data next to the message form](/images/work/abandoned-carts/email-preview-with-cart-data.webp)
+![Email preview rendered with the selected cart’s data next to the message form](/images/work/abandoned-carts/email-preview-with-cart-data.webp)
 
 ## Results
 
 - The product has 200+ active paid subscribers (as of September 2026), at a list price of RUB 1,000 a month after a 7-day trial.
-- In a case study published in May 2025, inSales reported that retargeting linked to abandoned carts brought one merchant, Hited, RUB 100,000–350,000 a month (about $1,200–4,400), with 15% of customers returning to complete a purchase. This is one store's result, not a platform average, and it is not a frontend-only effect.
+- In a case study published in May 2025, inSales reported that retargeting linked to abandoned carts brought one merchant, Hited, RUB 100,000–350,000 a month (about $1,200–4,400), with 15% of customers returning to complete a purchase. This is one store’s result, not a platform average, and it is not a frontend-only effect.
 - Analytics shipped in October 2024; the remaining frontend was finished and released by April 2025.
 - The section works on desktop and mobile, and the date picker, filter and data table improvements went into the shared UI kit.

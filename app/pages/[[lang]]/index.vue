@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { getPostSummaries } from '~/queries/posts'
 import profile from '~~/content/settings/profile.json'
+import { typeset } from '~~/shared/typography'
 
 const { locale, copy, localePath } = useLocale()
 const siteContent = useSiteContent()
 const siteUrl = useSiteOrigin()
+/** The bio keeps its paragraphs apart with a line break in the source. */
+const bioParagraphs = computed(() => typeset({ text: profile[`bio_${locale.value}`], locale: locale.value }).split('\n'))
 const { data: projects } = await useAsyncData(
   () => `home-projects-${locale.value}`,
   () =>
@@ -98,8 +101,8 @@ usePageSeo({
         <p class="profile-role">
           {{ profile[`headline_${locale}`] }}
         </p>
-        <p class="profile-description">
-          {{ profile[`bio_${locale}`] }}
+        <p v-for="paragraph in bioParagraphs" :key="paragraph" class="profile-description">
+          {{ paragraph }}
         </p>
         <p class="profile-location">
           <span><AppIcon name="location" />{{ locale === 'ru' ? profile.location_ru : profile.location }}</span><span><AppIcon name="globe" />{{ copy.remote }}</span>
@@ -120,11 +123,6 @@ usePageSeo({
             rel="noopener noreferrer"
           >{{ copy.bookCall }} <AppIcon name="calendar" /></a>
         </div>
-        <ul class="tags">
-          <li v-for="tag in siteContent.home.tags" :key="tag">
-            {{ tag }}
-          </li>
-        </ul>
         <ul class="fact-list profile-highlights">
           <li v-for="highlight in siteContent.home.highlights" :key="highlight.value">
             <strong>{{ highlight.value }}</strong> <span>{{ highlight.label }}</span>
@@ -132,11 +130,6 @@ usePageSeo({
         </ul>
       </div>
     </section>
-
-    <div class="feed-heading">
-      <h2>{{ copy.workbench }}</h2>
-      <span>{{ copy.workAndNotes }}</span>
-    </div>
 
     <section class="pinned-note" aria-labelledby="pinned-note-title">
       <h2 id="pinned-note-title">
@@ -155,9 +148,6 @@ usePageSeo({
     >{{ copy.viewAllWork }} <AppIcon name="right" /></NuxtLink>
 
     <section v-if="posts?.length" class="home-notebook" aria-labelledby="notebook-title">
-      <p class="eyebrow">
-        {{ copy.recentWriting }}
-      </p>
       <template v-for="post in posts" :key="post.slug">
         <h2 id="notebook-title">
           <NuxtLink :to="localePath(`/blog/${post.slug}`)" :title="post.title">{{

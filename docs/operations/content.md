@@ -42,17 +42,22 @@ The title lives only in **Profile** (`content/settings/profile.json`), in four f
 
 In page copy, write the title as a placeholder such as `{{headline_en}}`, never as text. An unknown placeholder fails the build.
 
+## Typography
+
+Sizes, line heights, tracking and weights live in one block of `app/assets/css/main.css`, and a unit test rejects anything else. In cases and articles, write curly apostrophes (’) outside code; the content check rejects straight ones.
+
+A new article diagram with text needs Inter inside the file, because an image cannot use the page fonts: run `pnpm diagram-fonts` and commit the result.
+
 ## Page copy and career history
 
 Open **Site settings → Page copy and career history**, then English or Russian. Collapsed groups correspond to pages; values live in `content/settings/pages.json`.
 
 | Group | Editable content |
 | --- | --- |
-| Home | SEO title, pinned note and profile topics |
+| Home | SEO title and pinned note |
 | About | Heading, introduction, biography, tools, career and principles |
-| Portfolio / Blog | Listing headings, introductions and Portfolio summary facts |
+| Portfolio / Blog | Listing headings and introductions |
 | Contacts | Introduction, email note and working arrangements |
-| Right sidebar | Short bio, current focus and technologies |
 | Collaboration / Contact callout | Invitations to collaborate and shared contact copy |
 | Privacy | Updated date, hosting, correspondence and browser storage |
 

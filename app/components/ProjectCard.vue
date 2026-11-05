@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ProjectSummary } from '~/types/content'
-import profile from '~~/content/settings/profile.json'
 import { PROJECT_IMAGE_WIDTHS, projectImagePath } from '~~/shared/images'
+import { typeset } from '~~/shared/typography'
 
 const { project } = defineProps<{ project: ProjectSummary, featured?: boolean }>()
 const { copy, localePath, locale } = useLocale()
@@ -10,18 +10,8 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
 
 <template>
   <article class="project-card" :class="{ 'project-card-featured': featured }">
-    <div class="card-author">
-      <span class="tiny-avatar" aria-hidden="true"><img
-        :src="profile.avatar"
-        alt=""
-        width="34"
-        height="34"
-        loading="lazy"
-        decoding="async"
-      ></span>
-      <div>
-        <strong>{{ locale === 'ru' ? profile.name_ru : profile.name }}</strong><span>{{ project.context }} · {{ project.year }}</span>
-      </div>
+    <div class="card-meta">
+      <span>{{ project.context }} · {{ project.year }}</span>
       <span class="mini-tag">{{ project.category }}</span>
     </div>
 
@@ -49,14 +39,13 @@ const responsiveSources = computed(() => PROJECT_IMAGE_WIDTHS.map(width => `${pr
           :title="`${copy.viewCase}: ${project.title}`"
         >{{ project.title }}</NuxtLink>
       </h2>
-      <p>{{ project.description }}</p>
+      <p>{{ typeset({ text: project.description, locale }) }}</p>
       <ul v-if="project.results.length" class="card-results">
         <li v-for="result in project.results.slice(0, 2)" :key="result.value">
-          <strong>{{ result.value }}</strong> {{ result.label }}
+          <strong>{{ result.value }}</strong> {{ typeset({ text: result.label, locale }) }}
         </li>
       </ul>
       <div class="project-card-bottom">
-        <SkillTags :skills="project.stack" :label="copy.projectStack" />
         <NuxtLink
           :to="localePath(`/work/${project.slug}`)"
           class="text-link"

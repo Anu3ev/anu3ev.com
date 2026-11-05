@@ -149,8 +149,13 @@ test('when tabs do not fit, the arrow segment slides to the hidden ones and back
   await expect(forward).toBeVisible()
   expect(await isTabFullyShown(page, 'Contacts')).toBe(false)
 
+  // Each press moves one strip width, so wider labels on the narrowest phone can take a second press.
   await forward.click()
-  await expect.poll(() => isTabFullyShown(page, 'Contacts')).toBe(true)
+  await expect.poll(async () => {
+    if (await isTabFullyShown(page, 'Contacts')) return true
+    if (await forward.isVisible()) await forward.click()
+    return false
+  }).toBe(true)
   // The slide ends where a swipe would: the last tab at the right edge, with no empty space after it.
   const stripEnd = await page.locator('.nav-tabs').evaluate(strip => ({ left: strip.scrollLeft, max: strip.scrollWidth - strip.clientWidth }))
   expect(stripEnd.left).toBeCloseTo(stripEnd.max, 0)

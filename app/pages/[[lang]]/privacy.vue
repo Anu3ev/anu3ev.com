@@ -1,18 +1,16 @@
 <script setup lang="ts">
+import { formatDay } from '~~/shared/page-content'
 import profile from '~~/content/settings/profile.json'
 
 const { copy, locale } = useLocale()
 const siteContent = useSiteContent()
-const updatedLabel = computed(() => new Intl.DateTimeFormat(locale.value, { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' }).format(new Date(siteContent.value.privacy.updated)))
+const updatedLabel = computed(() => formatDay({ value: siteContent.value.privacy.updated, locale: locale.value }))
 usePageSeo({ title: () => copy.value.privacy, description: () => siteContent.value.privacy.body })
 </script>
 
 <template>
   <div class="container">
     <header class="page-heading">
-      <p class="eyebrow">
-        {{ copy.privacy }}
-      </p>
       <h1>{{ siteContent.privacy.title }}</h1>
       <p>{{ copy.updated }}: <time :datetime="siteContent.privacy.updated">{{ updatedLabel }}</time></p>
     </header>

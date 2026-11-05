@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import profile from '~~/content/settings/profile.json'
+import { formatDay } from '~~/shared/page-content'
 
 const route = useRoute()
 const { locale, copy, localePath } = useLocale()
@@ -39,7 +40,7 @@ const initials = computed(() => (recommendation.value?.name ?? '').split(/\s+/).
 
 const writtenLabel = computed(() => {
   if (!recommendation.value) return ''
-  return new Intl.DateTimeFormat(locale.value, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(recommendation.value.date))
+  return formatDay({ value: recommendation.value.date, locale: locale.value })
 })
 
 const headline = computed(() => recommendation.value?.[`headline_${locale.value}`] ?? '')
@@ -80,9 +81,6 @@ usePageSeo({
       ><AppIcon name="left" /> {{ copy.allRecommendations }}</NuxtLink>
 
       <header class="page-heading recommendation-heading">
-        <p class="eyebrow">
-          {{ copy.recommendations }}
-        </p>
         <div class="recommendation-person">
           <span class="person-initials" aria-hidden="true">{{ initials }}</span>
           <div>

@@ -4,6 +4,7 @@ import { readContentInventory } from './scripts/lib/content'
 import { createPublicPaths } from './scripts/lib/routes'
 import { getSiteOrigin } from './shared/site'
 import { getPublicationDate } from './shared/publication'
+import { typesetMarkdownNodes } from './shared/typography'
 
 /** Public origin is a build-time setting so static metadata always matches the live host. */
 const siteUrl = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)
@@ -43,5 +44,13 @@ export default defineNuxtConfig({
   vite: { plugins: [tailwindcss()] },
   typescript: { strict: true },
   debug: false,
+  hooks: {
+    /** Cases and articles get line-break protection at build time; recommendations stay exactly as written. */
+    'content:file:afterParse'({ collection, content }) {
+      const body = content.body as { type?: string, value?: unknown[] } | undefined
+      if (!['projects', 'posts'].includes(collection.name) || body?.type !== 'minimark' || !body.value) return
+      typesetMarkdownNodes({ nodes: body.value, locale: content.locale === 'ru' ? 'ru' : 'en' })
+    }
+  },
   eslint: { config: { stylistic: { semi: false, quotes: 'single', commaDangle: 'never' } } }
 })

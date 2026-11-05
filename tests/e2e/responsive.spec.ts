@@ -2,9 +2,9 @@ import { expect, test, type Page } from '@playwright/test'
 
 /** These are the owner's actual design frames, rather than inferred desktop-to-mobile sizes. */
 const frames = [
-  { name: 'mobile', width: 402, height: 874, bottomNavigation: true, profile: false },
-  { name: 'tablet', width: 1133, height: 744, bottomNavigation: false, profile: false },
-  { name: 'browser', width: 1440, height: 1024, bottomNavigation: false, profile: true }
+  { name: 'mobile', width: 402, height: 874, bottomNavigation: true },
+  { name: 'tablet', width: 1133, height: 744, bottomNavigation: false },
+  { name: 'browser', width: 1440, height: 1024, bottomNavigation: false }
 ] as const
 
 for (const frame of frames) {
@@ -31,13 +31,10 @@ for (const frame of frames) {
       }
       else {
         expect(sidebar.x + sidebar.width).toBeLessThan(main.x)
-        expect(main.width).toBeCloseTo(720, 0)
+        expect(main.width).toBeCloseTo(760, 0)
         await expect(page.locator('.wordmark')).toBeVisible()
         await expect(page.locator('.wordmark')).toHaveAccessibleName(/^anu3ev\.com · /)
       }
-
-      if (frame.profile) await expect(page.locator('.profile-sidebar')).toBeVisible()
-      else await expect(page.locator('.profile-sidebar')).toBeHidden()
     }
   })
 }
@@ -104,7 +101,7 @@ for (const frame of frames) {
         rowLeft: rowBox.left,
         rowRight: rowBox.right,
         textLeft: link.querySelector('strong')!.getBoundingClientRect().left,
-        headingLeft: document.querySelector('.feed-heading h2')!.getBoundingClientRect().left,
+        headingLeft: document.querySelector('.contact-page-heading h1')!.getBoundingClientRect().left,
         mainLeft,
         mainRight: mainLeft + main.clientWidth
       }

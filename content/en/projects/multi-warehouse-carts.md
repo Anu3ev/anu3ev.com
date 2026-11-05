@@ -17,7 +17,7 @@ order: 9
 
 ## The problem
 
-Some inSales merchants sell wholesale from more than one stock source: their own warehouse and a partner's, shown in one catalogue. A wholesale buyer needs to say "15 units from the main warehouse, 8 from the partner" for the same product, and the cart has to keep those choices apart, each warehouse with its own quantities and subtotal.
+Some inSales merchants sell wholesale from more than one stock source: their own warehouse and a partner’s, shown in one catalogue. A wholesale buyer needs to say "15 units from the main warehouse, 8 from the partner" for the same product, and the cart has to keep those choices apart, each warehouse with its own quantities and subtotal.
 
 The storefront cart was built around a single list of items. Every cart operation in CommonJS, the shared JavaScript library that inSales storefronts use, assumed one cart. Storefronts call it from many places: the product page, the catalogue, the home page, related-product widgets. A change to it affects a lot of stores, including those with one warehouse that never use this feature.
 
@@ -29,11 +29,11 @@ I owned the project from storefront implementation to production. I extended the
 
 ### The warehouse travels with every cart operation
 
-The library's add, update and remove operations had no way to say which warehouse a change was for. I extended all three to carry the selected warehouse, so a product page with two quantity fields could update the right warehouse group. I also agreed with the backend which response fields the interface relies on. One example: the top-level warehouse in the response refers to the main cart's warehouse, which is not necessarily the warehouse of the last operation. The library's response handling follows that agreement.
+The library’s add, update and remove operations had no way to say which warehouse a change was for. I extended all three to carry the selected warehouse, so a product page with two quantity fields could update the right warehouse group. I also agreed with the backend which response fields the interface relies on. One example: the top-level warehouse in the response refers to the main cart’s warehouse, which is not necessarily the warehouse of the last operation. The library’s response handling follows that agreement.
 
 ### Quantity changes start from the selected warehouse
 
-When a buyer types a new quantity, the library works out how many units to add or remove. It read the starting value from the wrong cart, so a change for one warehouse could be calculated against another. I changed the calculation to read the current quantity from the selected warehouse's group: if the buyer has 15 units there and asks for 5, the library removes 10.
+When a buyer types a new quantity, the library works out how many units to add or remove. It read the starting value from the wrong cart, so a change for one warehouse could be calculated against another. I changed the calculation to read the current quantity from the selected warehouse’s group: if the buyer has 15 units there and asks for 5, the library removes 10.
 
 Available stock and ordered quantity are also separate data. I requested stock per item inside each warehouse group, because the existing quantity field only said how much the buyer had ordered.
 
@@ -58,4 +58,4 @@ I connected warehouse-cart updates to the product controls, so the product page 
 - The grouped update shipped: changes for several warehouses go to the server in one request, which closed the lost-selection case I found in testing.
 - Stores with a single warehouse kept the ordinary cart without changes to their code.
 
-I don't have a usage or revenue figure for this feature. For context on why merchants sell partner stock: in a [case study published by inSales](https://www.insales.ru/blogs/cases/hited), one merchant with a 45,000-SKU catalogue reported that partner warehouses accounted for 21% of its online sales in 2024. That is the merchant's own figure, not a result of my work.
+I don’t have a usage or revenue figure for this feature. For context on why merchants sell partner stock: in a [case study published by inSales](https://www.insales.ru/blogs/cases/hited), one merchant with a 45,000-SKU catalogue reported that partner warehouses accounted for 21% of its online sales in 2024. That is the merchant’s own figure, not a result of my work.

@@ -1,24 +1,10 @@
 <script setup lang="ts">
-const route = useRoute()
-const { copy, locale, alternatePath } = useLocale()
-/** The topbar names the current section; the home page and unknown paths use the home title. */
-const sectionTitle = computed(() => {
-  const titles: Record<string, string> = {
-    about: copy.value.aboutSectionTitle,
-    blog: copy.value.notebookTitle,
-    work: copy.value.selectedWork,
-    contact: copy.value.startConversation,
-    recommendations: copy.value.recommendationsSectionTitle
-  }
-  const segment = route.path.replace(/^\/ru(?=\/|$)/, '').split('/')[1] || ''
-
-  return titles[segment] || copy.value.homeSectionTitle
-})
+const { copy, locale, localePath, alternatePath } = useLocale()
 </script>
 
 <template>
   <header class="page-topbar">
-    <span>{{ sectionTitle }}</span>
+    <NuxtLink :to="localePath('/')" class="topbar-brand" :title="copy.home">anu3ev.com</NuxtLink>
     <div class="topbar-controls">
       <NuxtLink
         :to="alternatePath"

@@ -42,7 +42,7 @@ A host application works only through public methods, options and events. It nev
 
 ### One serialization for every way an object appears
 
-An object can be created, imported, pasted, grouped, restored from a saved project, applied from a template or brought back by undo. Each path has to restore Fabric's own properties and the library's data: IDs, locks, selectability, rich-text styles and links between nested objects.
+An object can be created, imported, pasted, grouped, restored from a saved project, applied from a template or brought back by undo. Each path has to restore Fabric’s own properties and the library’s data: IDs, locks, selectability, rich-text styles and links between nested objects.
 
 So I made one serialization mechanism serve saved projects, history, templates and the clipboard. Temporary states stay out of it. An active crop lives only during the interaction and reaches history once the user applies it. Operations that change several properties at once are committed as a single history entry, so one user action needs one undo.
 
@@ -58,7 +58,7 @@ Templates store positions relative to the montage area with start, center or end
 
 Early versions kept large images as base64 inside objects and history. That bloated every serialized state and put heavy work on the main thread. I replaced it with Blob and Object URLs, added a resource cache with explicit cleanup when an image is replaced or the editor is destroyed, and moved heavy import and export work to Web Workers. Image loading became more than twice as fast, and long operations stopped freezing the interface.
 
-Export renders from a separate copy of the canvas, so the zoom, selection and viewport on screen stay untouched. It also accounts for device pixel ratio and browser zoom, so output size does not depend on the user's display settings.
+Export renders from a separate copy of the canvas, so the zoom, selection and viewport on screen stay untouched. It also accounts for device pixel ratio and browser zoom, so output size does not depend on the user’s display settings.
 
 ### Tests that follow the interaction
 

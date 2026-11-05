@@ -11,7 +11,5 @@
 
       <SiteFooter />
     </div>
-
-    <ProfileSidebar />
   </div>
 </template>
