@@ -85,7 +85,7 @@ h2, .fact-list strong, .cover-statement strong { font-size: var(--text-title); l
 h3, .recommendation-card h2, .certificates-subtitle, .empty-state h2, .wordmark, .topbar-brand, .page-heading > p:not(.availability), .article-description, .profile-role { font-size: var(--text-lead); line-height: 1.5; letter-spacing: -.014em; }
 h3, .recommendation-card h2, .certificates-subtitle, .empty-state h2, .wordmark, .topbar-brand { line-height: 1.4; font-weight: 600; }
 .button, .text-link, .feed-more, .language-link, .topic-filter, .tags li, .mini-tag, .availability, .sidebar-social, .site-footer, .profile-location, .card-meta, .card-results, .cover-statement, .eyebrow, .post-card-top time, .post-card-bottom > span, .article-meta, .case-facts dt, .table-of-contents, .timeline-item time, .approach-number, .certificate-meta, .certificate-issuer, .certificate-list-text span, .case-mentions-by, .recommendation-note, .recommendation-card-author span, .recommendation-card-author time, .recommendation-card-bottom, .recommendation-person p, .contact-options small, .email-note, .fact-list span, .pagination a, .pagination > span, .author-line p, .prose pre { font-size: var(--text-small); line-height: 1.45; letter-spacing: -.006em; }
-strong, .button-primary, .topic-filter[aria-pressed='true'] { font-weight: 600; }
+strong, th, .button-primary, .topic-filter[aria-pressed='true'] { font-weight: 600; }
 .email-card strong, .contact-options strong, .certificate-list strong { font-weight: 400; }
 h1, h2, h3 { text-wrap: balance; }
 p, li, dd { text-wrap: pretty; }
