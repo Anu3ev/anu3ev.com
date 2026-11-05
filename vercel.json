@@ -7,6 +7,8 @@
   "cleanUrls": true,
   "trailingSlash": true,
   "redirects": [
+    { "source": "/cv/Alexander_Anufriev_Senior_Frontend_Engineer_CV.pdf", "destination": "/cv/Alexander_Anufriev_AI_Native_Senior_Frontend_Engineer_CV.pdf", "permanent": true },
+    { "source": "/cv/Alexander_Anufriev_Senior_Frontend_Developer_CV_RU.pdf", "destination": "/cv/Alexander_Anufriev_AI_Native_Senior_Frontend_Engineer_CV_RU.pdf", "permanent": true },
     {
       "source": "/(.*)",
       "has": [{ "type": "host", "value": "anu3ev-com.vercel.app" }],
