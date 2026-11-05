@@ -19,6 +19,8 @@ interface ContentDocument<Metadata> {
 /** Prevents accidental H1 duplication, active HTML, broken evidence images and mismatched language routes. */
 function validateDocument({ document, root }: { document: ContentDocument<z.infer<typeof postSchema> | z.infer<typeof projectSchema>>, root: string }) {
   const { source, body, metadata, isPublic } = document
+  const visibleText = [metadata.title, metadata.description, body.replace(/```[\s\S]*?```|`[^`\n]*`/g, '')].join('\n')
+  if (/\w'\w/.test(visibleText)) throw new Error(`${source}: use a curly apostrophe (’) outside code`)
   if (metadata.locale !== source.split('/')[0] || metadata.slug !== basename(source, '.md')) {
     throw new Error(`${source}: locale and slug must match their directory and filename`)
   }

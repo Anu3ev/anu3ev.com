@@ -7,7 +7,7 @@ const { copy, locale } = useLocale()
 const siteContent = useSiteContent()
 const experience = computed(() => siteContent.value.about.experience.map(job => ({
   ...job,
-  period: formatExperiencePeriod({ start: job.start, end: job.end, presentLabel: copy.value.present })
+  period: formatExperiencePeriod({ start: job.start, end: job.end, presentLabel: copy.value.present, locale: locale.value })
 })))
 
 const siteUrl = useSiteOrigin()
@@ -31,9 +31,6 @@ usePageSeo({
   <div class="page-shell">
     <div class="container">
       <header class="page-heading">
-        <p class="eyebrow">
-          {{ copy.about }}
-        </p>
         <h1>{{ siteContent.about.title }}</h1>
         <p>{{ siteContent.about.intro }}</p>
       </header>

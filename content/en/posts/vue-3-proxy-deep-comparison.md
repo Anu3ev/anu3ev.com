@@ -1,5 +1,5 @@
 ---
-title: Vue 3 didn't make our autocomplete slow. 244,650 comparisons did
+title: Vue 3 didn’t make our autocomplete slow. 244,650 comparisons did
 description: After a Vue 3 migration, an autocomplete with 700 domain zones took about 12 seconds to open. The cause was an old quadratic deduplication that became expensive once it read every object through a reactive Proxy.
 locale: en
 slug: vue-3-proxy-deep-comparison
@@ -14,7 +14,7 @@ tags: [Vue 3, Performance, Reactivity, Migration]
 
 After we migrated one of the components in the inSales back office to Vue 3, opening an autocomplete with 700 domain zones started taking about 12 seconds. (inSales is an e-commerce platform with more than 60,000 merchants, and the back office is where they run their stores.) You click the field, you wait, you wait some more, and only then the list appears.
 
-At first this looked like a Vue 3 performance problem. It wasn't. Vue 3 didn't add a single comparison to that component. It made comparisons that had been there for years more expensive, and there were a lot of them.
+At first this looked like a Vue 3 performance problem. It wasn’t. Vue 3 didn’t add a single comparison to that component. It made comparisons that had been there for years more expensive, and there were a lot of them.
 
 The 12 seconds is what I observed while reproducing the bug, not a benchmark. But nobody needs a benchmark to notice a field that freezes for 12 seconds.
 
@@ -22,7 +22,7 @@ The 12 seconds is what I observed while reproducing the bug, not a benchmark. Bu
 
 The component had two problems, and they only became visible together.
 
-First, on initialization it copied the local list of items into a separate cache. That cache exists for external search, where results arrive from the server in portions and have to be merged. In local mode the full list is already passed in, so the copy wasn't needed at all.
+First, on initialization it copied the local list of items into a separate cache. That cache exists for external search, where results arrive from the server in portions and have to be merged. In local mode the full list is already passed in, so the copy wasn’t needed at all.
 
 Second, while filling the cache it removed duplicates like this:
 
@@ -30,7 +30,7 @@ Second, while filling the cache it removed duplicates like this:
 const uniqueItems = uniqWith(items, isEqual)
 ```
 
-`uniqWith` keeps a result array and compares every new element with everything already in it. For 700 distinct items that's:
+`uniqWith` keeps a result array and compares every new element with everything already in it. For 700 distinct items that’s:
 
 ```text
 item 1:       0 comparisons
@@ -68,15 +68,15 @@ reactiveZone === zone        // false
 toRaw(reactiveZone) === zone // true
 ```
 
-The data is the same, but these are two different objects. A Proxy doesn't carry extra fields for `isEqual` to compare, and `isEqual(zone, reactiveZone)` correctly returns `true`. The problem is how it gets there. Every `proxy.value`, `Object.keys(proxy)` and `'value' in proxy` goes through Vue's handlers, which record what the code depends on. One call costs almost nothing. Millions of them inside a quadratic loop cost seconds.
+The data is the same, but these are two different objects. A Proxy doesn’t carry extra fields for `isEqual` to compare, and `isEqual(zone, reactiveZone)` correctly returns `true`. The problem is how it gets there. Every `proxy.value`, `Object.keys(proxy)` and `'value' in proxy` goes through Vue’s handlers, which record what the code depends on. One call costs almost nothing. Millions of them inside a quadratic loop cost seconds.
 
-So the honest description is this: Vue 3 didn't create the 244,650 comparisons. It raised the price of each one, and an old algorithm finally became visible to users. Proxy-based reactivity is a good trade for normal UI work. A deep walk over hundreds of objects inside nested loops is not normal UI work.
+So the honest description is this: Vue 3 didn’t create the 244,650 comparisons. It raised the price of each one, and an old algorithm finally became visible to users. Proxy-based reactivity is a good trade for normal UI work. A deep walk over hundreds of objects inside nested loops is not normal UI work.
 
-I also checked whether Vue has its own deep equality that unwraps Proxies. Publicly, it doesn't. Internal helpers like `looseEqual` walk properties too, so they go through the Proxy just the same.
+I also checked whether Vue has its own deep equality that unwraps Proxies. Publicly, it doesn’t. Internal helpers like `looseEqual` walk properties too, so they go through the Proxy just the same.
 
 ## Fix 1: delete the work
 
-The first question wasn't how to make deduplication faster. It was why local mode deduplicated anything at all.
+The first question wasn’t how to make deduplication faster. It was why local mode deduplicated anything at all.
 
 ```js
 initCachedItems() {
@@ -88,7 +88,7 @@ initCachedItems() {
 
 That one early return is what removed the delay. The local list was already in the component, and copying it into a cache just to clean it of duplicates again was pure overhead. After this change the autocomplete with 700 zones opened without the wait.
 
-If a heavy operation isn't needed, removing it beats optimizing it. It's also the easiest fix to review: there's no new algorithm to trust.
+If a heavy operation isn’t needed, removing it beats optimizing it. It’s also the easiest fix to review: there’s no new algorithm to trust.
 
 ## Fix 2: make the remaining comparisons cheap
 
@@ -107,13 +107,13 @@ this.cachedItems = uniqWith(
 
 A few details matter here.
 
-There's no `isProxy` check before `toRaw`. `toRaw` returns a plain object unchanged, so the check would only add a branch to the hot loop.
+There’s no `isProxy` check before `toRaw`. `toRaw` returns a plain object unchanged, so the check would only add a branch to the hot loop.
 
 The cache still stores the original items. `toRaw` is used only for the duration of one comparison, and the raw reference is dropped right after. Keeping raw references as separate state is a different story: writes through them bypass reactivity, and you end up with two references to the same data that behave differently.
 
-`toRaw` also doesn't unwrap everything recursively. If someone manually put a Proxy inside a plain object, it stays there. Our items didn't have that, but it's worth knowing before copying the trick somewhere else.
+`toRaw` also doesn’t unwrap everything recursively. If someone manually put a Proxy inside a plain object, it stays there. Our items didn’t have that, but it’s worth knowing before copying the trick somewhere else.
 
-## Why I didn't switch to comparing by id
+## Why I didn’t switch to comparing by id
 
 The textbook fix for quadratic deduplication is a key:
 
@@ -122,15 +122,15 @@ const itemsById = new Map(items.map(item => [item.id, item]))
 const uniqueItems = [...itemsById.values()]
 ```
 
-That's O(n) instead of O(n²), and I'd pick it for new code. Here it would have changed the contract. Right now two objects are duplicates only if all their fields match. With an id-based key, two objects with the same id and different fields would silently merge into one. I didn't know every caller well enough to promise that this never matters, and a performance fix is a bad place to change what "duplicate" means.
+That’s O(n) instead of O(n²), and I’d pick it for new code. Here it would have changed the contract. Right now two objects are duplicates only if all their fields match. With an id-based key, two objects with the same id and different fields would silently merge into one. I didn’t know every caller well enough to promise that this never matters, and a performance fix is a bad place to change what "duplicate" means.
 
-So I kept the old semantics and removed only the Proxy cost. It's a less impressive diff and a safer one.
+So I kept the old semantics and removed only the Proxy cost. It’s a less impressive diff and a safer one.
 
 ## Testing the contract instead of the clock
 
 The tempting test is "opening the list must take less than 1.5 seconds". It depends on the machine, CPU load and whatever else runs in parallel, so it ends up either flaky or so generous it proves nothing.
 
-What I actually wanted to verify is that the comparison doesn't read reactive properties. Vue can tell you that directly with `effect` and `onTrack`:
+What I actually wanted to verify is that the comparison doesn’t read reactive properties. Vue can tell you that directly with `effect` and `onTrack`:
 
 ```js
 import { effect, reactive, stop, toRaw } from 'vue'
@@ -150,7 +150,7 @@ stop(runner)
 expect(trackedKeys).toEqual([])
 ```
 
-`onTrack` only fires in development builds, which is where tests usually run anyway. The test fails for the right reason: someone put a Proxy back into the hot path. It doesn't care how fast the CI runner is today.
+`onTrack` only fires in development builds, which is where tests usually run anyway. The test fails for the right reason: someone put a Proxy back into the hot path. It doesn’t care how fast the CI runner is today.
 
 ## What I check after a Vue 3 migration now
 

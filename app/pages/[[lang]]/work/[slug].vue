@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { typeset } from '~~/shared/typography'
 import { getLinkNavigation } from '~/utils/links'
 import profile from '~~/content/settings/profile.json'
 
@@ -52,16 +53,13 @@ usePageSeo({
       ><AppIcon name="left" /> {{ copy.backToWork }}</NuxtLink>
 
       <header class="page-heading case-heading">
-        <p class="eyebrow">
-          {{ project.category }}
-        </p>
         <h1>{{ project.title }}</h1>
-        <p>{{ project.description }}</p>
+        <p>{{ typeset({ text: project.description, locale }) }}</p>
       </header>
 
       <ul v-if="project.results.length" class="fact-list fact-list-wide case-results">
         <li v-for="result in project.results" :key="result.value">
-          <strong>{{ result.value }}</strong> <span>{{ result.label }}</span>
+          <strong>{{ result.value }}</strong> <span>{{ typeset({ text: result.label, locale }) }}</span>
         </li>
       </ul>
 

@@ -4,13 +4,6 @@
       "seoTitle": "{{headline_en}} · Vue & TypeScript",
       "pinnedTitle": "Hard frontend problems, shipped and maintained.",
       "pinnedBody": "Case studies of the editors, AI features, storefront performance work and merchant tools I built at inSales, and the decisions behind them.",
-      "tags": [
-        "Vue & TypeScript",
-        "Complex product UI",
-        "Browser editors",
-        "AI features",
-        "E-commerce SaaS"
-      ],
       "highlights": [
         {
           "value": "3,000+",
@@ -83,17 +76,7 @@
     },
     "portfolio": {
       "title": "What I’ve worked on.",
-      "intro": "Editors, AI features, merchant tools and storefront work, from the first requirements to the details that make an interface easy to use.",
-      "summary": [
-        {
-          "value": "5 years",
-          "label": "in production"
-        },
-        {
-          "value": "Vue + TypeScript",
-          "label": "core toolkit"
-        }
-      ]
+      "intro": "Editors, AI features, merchant tools and storefront work, from the first requirements to the details that make an interface easy to use."
     },
     "blog": {
       "title": "Notes from real frontend work.",
@@ -107,17 +90,6 @@
         "Remote",
         "B2B / EOR",
         "Relocation"
-      ]
-    },
-    "sidebar": {
-      "bio": "I build browser editors, AI features and merchant tools with Vue and TypeScript.",
-      "focusTitle": "Complex UI, owned end to end.",
-      "focusDetails": "Editor architecture.\nAI features in product UI.\nStorefront performance.\nClear contracts with backend.",
-      "focusTags": [
-        "Vue.js",
-        "TypeScript",
-        "Fabric.js",
-        "AI features"
       ]
     },
     "collaboration": {
@@ -141,13 +113,6 @@
       "seoTitle": "{{headline_ru}} · Vue и TypeScript",
       "pinnedTitle": "Сложный фронтенд, доведённый до продакшена.",
       "pinnedBody": "Разборы редакторов, AI-функций, ускорения витрин и инструментов для продавцов, которые я делал в inSales, и решения, которые за ними стоят.",
-      "tags": [
-        "Vue и TypeScript",
-        "Сложные интерфейсы",
-        "Браузерные редакторы",
-        "AI-функции",
-        "E-commerce SaaS"
-      ],
       "highlights": [
         {
           "value": "3 000+",
@@ -220,17 +185,7 @@
     },
     "portfolio": {
       "title": "Над чем я работал.",
-      "intro": "Редакторы, AI-функции, инструменты для магазинов и витрины: от постановки задачи до мелочей, из-за которых интерфейсом удобно пользоваться.",
-      "summary": [
-        {
-          "value": "5 лет",
-          "label": "в коммерческой разработке"
-        },
-        {
-          "value": "Vue + TypeScript",
-          "label": "основной стек"
-        }
-      ]
+      "intro": "Редакторы, AI-функции, инструменты для магазинов и витрины: от постановки задачи до мелочей, из-за которых интерфейсом удобно пользоваться."
     },
     "blog": {
       "title": "Заметки из реальных задач.",
@@ -244,17 +199,6 @@
         "Удалённо",
         "B2B / EOR",
         "Релокация"
-      ]
-    },
-    "sidebar": {
-      "bio": "Делаю браузерные редакторы, AI-функции и инструменты для продавцов на Vue и TypeScript.",
-      "focusTitle": "Сложный UI от задачи до поддержки.",
-      "focusDetails": "Редакторы и конструкторы.\nAI-функции в интерфейсах.\nСкорость витрин.\nДоговорённости с бэкендом об API.",
-      "focusTags": [
-        "Vue.js",
-        "TypeScript",
-        "Fabric.js",
-        "AI-функции"
       ]
     },
     "collaboration": {

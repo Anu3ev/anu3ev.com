@@ -33,11 +33,11 @@ I built the storefront side in CommonJS: the `ui-accessories` component, pricing
 
 ### Price follows the variant and the add-ons
 
-The displayed price recalculates when the shopper changes either the variant or the options. In the demo store, a gift box (+$5) and a greeting card (+$3) take the Classic bouquet from $40 to $48, and the same extras take Grand from $60 to $68. The price checks couldn't treat zero as "no value": a variant can legitimately cost nothing, and standard wrap adds $0.
+The displayed price recalculates when the shopper changes either the variant or the options. In the demo store, a gift box (+$5) and a greeting card (+$3) take the Classic bouquet from $40 to $48, and the same extras take Grand from $60 to $68. The price checks couldn’t treat zero as "no value": a variant can legitimately cost nothing, and standard wrap adds $0.
 
 ### A cart line is a variant plus its options
 
-I extended `Cart.add`, `Cart.set`, `Cart.delete` and the cart's task queue to carry `accessory_value_ids` together with the variant ID, grouped under `accessoriable_variant_ids`. A quantity change or deletion now targets one exact combination, not every line with that variant. The cart widget shows the selected option names and their prices on each line.
+I extended `Cart.add`, `Cart.set`, `Cart.delete` and the cart’s task queue to carry `accessory_value_ids` together with the variant ID, grouped under `accessoriable_variant_ids`. A quantity change or deletion now targets one exact combination, not every line with that variant. The cart widget shows the selected option names and their prices on each line.
 
 ![Cart with the same bouquet variant as two lines: standard wrap, and gift box with greeting card](/images/work/product-options/cart-same-variant-two-lines.webp)
 *Demo store: one Classic variant, two cart lines with their own options, quantities and prices.*

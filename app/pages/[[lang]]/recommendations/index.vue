@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { formatMonth } from '~~/shared/page-content'
+
 const { locale, copy, localePath } = useLocale()
 const siteUrl = useSiteOrigin()
 const { data: recommendations } = await useAsyncData(
@@ -17,7 +19,7 @@ const cards = computed(() => (recommendations.value ?? []).map(recommendation =>
   slug: recommendation.stem.replace(/^recommendations\//, ''),
   initials: recommendation.name.split(/\s+/).slice(0, 2).map(part => part.charAt(0)).join('').toUpperCase(),
   headline: recommendation[`headline_${locale.value}`],
-  month: new Intl.DateTimeFormat(locale.value, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(recommendation.date))
+  month: formatMonth({ value: recommendation.date.slice(0, 7), locale: locale.value })
 })))
 
 /** "Mentions 2 cases" / «Упоминает 2 кейса»: Russian needs its own plural forms. */
@@ -45,7 +47,6 @@ usePageSeo({
 <template>
   <div class="page-shell">
     <header class="page-heading">
-      <span class="eyebrow">{{ copy.recommendations }}</span>
       <h1>{{ copy.recommendationsTitle }}</h1>
       <p>{{ copy.recommendationsIntro }}</p>
     </header>

@@ -10,7 +10,6 @@ usePageSeo({ title: () => copy.value.contact, description: () => siteContent.val
 <template>
   <div>
     <header class="page-heading contact-page-heading">
-      <span class="eyebrow">{{ copy.contact }}</span>
       <p v-if="profile.available" class="availability">
         <span class="status-dot" />{{ copy.available }}
       </p>
@@ -47,10 +46,6 @@ usePageSeo({ title: () => copy.value.contact, description: () => siteContent.val
       </a>
     </section>
 
-    <div class="feed-heading">
-      <h2>{{ copy.elsewhere }}</h2>
-      <span>{{ copy.directLinks }}</span>
-    </div>
     <nav class="contact-options" :aria-label="copy.elsewhere">
       <a
         :href="profile.calendly"

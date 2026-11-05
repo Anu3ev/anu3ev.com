@@ -37,9 +37,6 @@ describe('CMS settings contract', () => {
       expect(fieldNames.parse(highlights.fields).map(field => field.name).sort()).toEqual(['label', 'value'])
       const portfolio = group.parse(groups.find(section => section.name === 'portfolio'))
       expect(fieldNames.parse(portfolio.fields).map(field => field.name).sort()).toEqual(Object.keys(pages[locale.name].portfolio).sort())
-      const summary = group.parse(portfolio.fields.find(field => z.object({ name: z.string() }).parse(field).name === 'summary'))
-      expect(summary.widget).toBe('list')
-      expect(fieldNames.parse(summary.fields).map(field => field.name).sort()).toEqual(['label', 'value'])
     }
   })
 

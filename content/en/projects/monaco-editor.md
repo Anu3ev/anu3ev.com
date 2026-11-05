@@ -38,7 +38,7 @@ Liquid lives directly in the markup: output tags, control tags, comments, `raw` 
 
 ### Suggestions follow the language under the cursor
 
-Inside `script` the user needs JavaScript, not HTML attributes or Liquid snippets; inside `style`, CSS. The first version guessed the context from the nearest opening and closing tags before the cursor. In 2024 I replaced that check with Monaco's own `getLanguageIdAtPosition`, because the model already knows which embedded language is at that position. I also normalised `script type` values such as `application/json` and `application/ld+json`, so unusual types no longer tried to load a language service that does not exist.
+Inside `script` the user needs JavaScript, not HTML attributes or Liquid snippets; inside `style`, CSS. The first version guessed the context from the nearest opening and closing tags before the cursor. In 2024 I replaced that check with Monaco’s own `getLanguageIdAtPosition`, because the model already knows which embedded language is at that position. I also normalised `script type` values such as `application/json` and `application/ld+json`, so unusual types no longer tried to load a language service that does not exist.
 
 ![Full template editor with a file tree and a querySelector suggestion inside a script block in layouts.layout.liquid](/images/work/monaco-editor/template-editor-script-completion.webp)
 

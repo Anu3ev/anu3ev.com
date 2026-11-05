@@ -1,22 +1,17 @@
 <script setup lang="ts">
 import type { PostSummary } from '~/types/content'
+import { formatDay } from '~~/shared/page-content'
+import { typeset } from '~~/shared/typography'
 
-const { post } = defineProps<{ post: PostSummary, position?: number }>()
+const { post } = defineProps<{ post: PostSummary }>()
 const { copy, locale, localePath } = useLocale()
-const dateLabel = computed(() =>
-  new Intl.DateTimeFormat(locale.value, {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-    timeZone: 'UTC'
-  }).format(new Date(post.date))
-)
+const dateLabel = computed(() => formatDay({ value: post.date, locale: locale.value }))
 </script>
 
 <template>
   <article class="post-card">
     <div class="post-card-top">
-      <span class="eyebrow">{{ String(position || 1).padStart(2, '0') }} / {{ post.category }}</span><time :datetime="post.date">{{ dateLabel }}</time>
+      <span class="eyebrow">{{ post.category }}</span><time :datetime="post.date">{{ dateLabel }}</time>
     </div>
     <NuxtLink
       :to="localePath(`/blog/${post.slug}`)"
@@ -38,7 +33,7 @@ const dateLabel = computed(() =>
         :title="`${copy.readArticle}: ${post.title}`"
       >{{ post.title }}</NuxtLink>
     </h2>
-    <p>{{ post.description }}</p>
+    <p>{{ typeset({ text: post.description, locale }) }}</p>
     <div class="post-card-bottom">
       <span>{{ post.readingMinutes }} {{ copy.minuteRead }}</span><NuxtLink
         :to="localePath(`/blog/${post.slug}`)"

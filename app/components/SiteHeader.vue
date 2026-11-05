@@ -111,7 +111,7 @@ watch(() => route.path, () => nextTick(revealActiveTab))
           :class="{ 'nav-active': link.path !== '/' && route.path.startsWith(localePath(link.path)) }"
           active-class="nav-active"
           exact-active-class="nav-exact"
-        ><AppIcon :name="link.icon" /><span>{{ link.label }}</span><i aria-hidden="true" /></NuxtLink>
+        ><AppIcon :name="link.icon" /><span>{{ link.label }}</span></NuxtLink>
       </div>
 
       <button
@@ -130,16 +130,10 @@ watch(() => route.path, () => nextTick(revealActiveTab))
       <p v-if="profile.available" class="availability">
         <span class="status-dot" />{{ copy.available }}
       </p>
-      <p class="sidebar-role">
-        {{ profile[`headline_${locale}`] }}<br>{{ locale === 'ru' ? profile.location_ru : profile.location }}
-      </p>
       <div class="sidebar-social">
-        <a :href="profile.github" title="GitHub" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
-        <a :href="profile.linkedin" title="LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        <a :href="profile.github" title="GitHub" target="_blank" rel="noopener noreferrer">GitHub <AppIcon name="arrow" /></a>
+        <a :href="profile.linkedin" title="LinkedIn" target="_blank" rel="noopener noreferrer">LinkedIn <AppIcon name="arrow" /></a>
       </div>
-      <p class="sidebar-sign">
-        {{ copy.builtWithCare }}<br>{{ locale === 'ru' ? profile.name_ru : profile.name }}
-      </p>
     </div>
   </aside>
 </template>

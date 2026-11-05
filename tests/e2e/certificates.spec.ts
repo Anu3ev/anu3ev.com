@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test'
+import { formatMonth } from '../../shared/page-content'
 import { readContentInventory } from '../../scripts/lib/content'
 
 const { certificates } = readContentInventory()
@@ -72,7 +73,7 @@ test('Russian certificates keep the issuer names and use the site date style', a
   const cards = section.locator('.certificate-card')
 
   await expect(section.getByText('Сертификаты', { exact: true })).toBeVisible()
-  await expect(cards.first().locator('time')).toHaveText(featured[0]!.issued.replace(/^(\d{4})-(\d{2})$/, '$2.$1'))
+  await expect(cards.first().locator('time')).toHaveText(formatMonth({ value: featured[0]!.issued, locale: 'ru' }))
   const [first, second] = await Promise.all([cards.nth(0).boundingBox(), cards.nth(1).boundingBox()])
   if (!first || !second) throw new Error('Both certificate cards must render on a phone')
   expect(second.y).toBeGreaterThan(first.y + first.height)

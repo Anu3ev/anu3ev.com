@@ -13,6 +13,6 @@ const { buildYear } = useRuntimeConfig().public
       target="_blank"
       rel="noopener noreferrer"
       :title="`${copy.sourceCode}, ${copy.opensInNewTab}`"
-    >{{ copy.sourceCode }} ↗</a><span>{{ copy.tagline }}</span>
+    >{{ copy.sourceCode }} <AppIcon name="arrow" /></a><span>{{ copy.tagline }}</span>
   </footer>
 </template>
