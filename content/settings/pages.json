@@ -22,7 +22,7 @@
     "about": {
       "title": "Five years of frontend work at inSales.",
       "intro": "I care about what happens after the happy path.",
-      "body": "I’m Alexander Anufriev, an {{headline_sentence_en}} based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors with AI tools, code editors, merchant analytics, and the workflows around them.",
+      "body": "I’m Alexander Anufriev, an {{headline_sentence_en}} based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors with AI tools, code editors, merchant analytics, and the workflows around them. I’ve used AI coding tools on every project since 2022, now Claude Code and Codex daily under my own code standard, and I stay responsible for architecture and review.",
       "story": "Before moving into frontend development, I worked in technical support. Debugging real stores and talking to merchants taught me to start with the problem, understand the constraints, and take responsibility for what reaches production.",
       "technologies": [
         "Vue 3",
@@ -39,8 +39,8 @@
         "Playwright",
         "Jest",
         "REST API",
-        "AI integrations",
-        "AI-assisted development"
+        "AI features in production",
+        "AI coding agents (Claude Code, Codex)"
       ],
       "experienceTitle": "inSales",
       "experience": [
@@ -49,7 +49,7 @@
           "end": "2026-09",
           "company": "inSales",
           "role": "{{headline_en}}",
-          "description": "Browser editors, merchant analytics, AI-assisted content, checkout, and reusable Vue components. From requirements and API contracts to automated tests and production verification."
+          "description": "Approximately $4.9 billion in merchant GMV and $12.8 million in company revenue in 2025. Led frontend development of 100+ product features and improvements: browser editors, merchant analytics, AI features, checkout and reusable Vue components, from requirements and API contracts to automated tests and production verification."
         },
         {
           "start": "2019-10",
@@ -131,7 +131,7 @@
     "about": {
       "title": "Пять лет писал фронтенд в inSales.",
       "intro": "Мне важно, что происходит, когда что-то идёт не по плану.",
-      "body": "Я Александр Ануфриев, {{headline_ru}}, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений с AI-инструментами, редакторы кода, аналитику для магазинов и всё, что вокруг них.",
+      "body": "Я Александр Ануфриев, {{headline_ru}}, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений с AI-инструментами, редакторы кода, аналитику для магазинов и всё, что вокруг них. С 2022 года делаю все проекты с AI-агентами, сейчас каждый день с Claude Code и Codex по своему стандарту кода. За архитектуру и ревью отвечаю сам.",
       "story": "До фронтенда я работал в техподдержке: разбирался в сломанных магазинах и общался с их владельцами. Там привык начинать с проблемы, выяснять ограничения и отвечать за то, что уходит в продакшен.",
       "technologies": [
         "Vue 3",
@@ -148,8 +148,8 @@
         "Playwright",
         "Jest",
         "REST API",
-        "AI-интеграции",
-        "AI-assisted development"
+        "AI-функции в продакшене",
+        "AI-агенты для разработки (Claude Code, Codex)"
       ],
       "experienceTitle": "inSales",
       "experience": [
@@ -158,7 +158,7 @@
           "end": "2026-09",
           "company": "inSales",
           "role": "{{headline_ru}}",
-          "description": "Браузерные редакторы, аналитика, AI-инструменты, checkout и общие Vue-компоненты. От требований и API-контрактов до тестов и проверки в production."
+          "description": "За 2025 год оборот магазинов — 407 млрд ₽, выручка компании — 1,069 млрд ₽. Руководил frontend-разработкой 100+ продуктовых функций и улучшений: браузерные редакторы, аналитика, AI-инструменты, checkout и общие Vue-компоненты — от требований и API-контрактов до тестов и проверки в production."
         },
         {
           "start": "2019-10",

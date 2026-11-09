@@ -30,7 +30,7 @@ The library is published as [`@anu3ev/fabric-image-editor`](https://www.npmjs.co
 
 ## My role
 
-I built the library alone. I designed the architecture and the public API, wrote the code and tests, and set up the build, CI and releases to GitHub Releases, npm and the GitHub Pages demo. The only production consumer I can confirm is my own Vue integration at inSales. I keep maintaining the library after leaving inSales in September 2026.
+I built the library alone, working with AI coding agents from the start. I designed the architecture and the public API, wrote the code and tests, and set up the build, CI and releases to GitHub Releases, npm and the GitHub Pages demo. The only production consumer I can confirm is my own Vue integration at inSales. I keep maintaining the library after leaving inSales in September 2026.
 
 ## What I built
 
