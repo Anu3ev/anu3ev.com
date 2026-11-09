@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { createPageLinks } from '../../app/utils/seo'
 import { createPublicPaths } from '../../scripts/lib/routes'
-import { canonicalPagePath, createCredentialSchemas, createPageSchemas, serializeJsonLd, socialImagePath } from '../../shared/seo'
+import { canonicalPagePath, caseSocialImagePath, createCredentialSchemas, createPageSchemas, serializeJsonLd, socialImagePath } from '../../shared/seo'
 
 const origin = 'https://portfolio.example.test'
 
@@ -87,6 +87,8 @@ describe('canonical routes and structured data', () => {
     expect(paths.some(path => path.includes('/page/'))).toBe(false)
     expect(socialImagePath({ locale: 'en', slug: 'editor-note' })).toBe('/images/social/en/editor-note.png')
     expect(socialImagePath({ locale: 'ru', slug: 'editor-note' })).toBe('/images/social/ru/editor-note.png')
+    expect(caseSocialImagePath({ locale: 'en', slug: 'editor-case' })).toBe('/images/og/work/en/editor-case.png')
+    expect(caseSocialImagePath({ locale: 'ru', slug: 'editor-case' })).toBe('/images/og/work/ru/editor-case.png')
   })
 
   it('describes certificates as credentials and leaves out links an issuer does not provide', () => {

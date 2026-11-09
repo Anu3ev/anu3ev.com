@@ -35,6 +35,14 @@ export function socialImagePath({ locale, slug }: { locale: 'en' | 'ru', slug: s
   return `/images/social/${locale}/${slug}.png`
 }
 
+/**
+ * A case shares a card with its title next to its cover. `pnpm case-cards` draws it by hand and the file is committed,
+ * like the default card: builds do not draw text because the hosting image may lack the fonts.
+ */
+export function caseSocialImagePath({ locale, slug }: { locale: 'en' | 'ru', slug: string }) {
+  return `/images/og/work/${locale}/${slug}.png`
+}
+
 /** The certificate facts structured data needs; optional links stay out of the graph when empty. */
 interface CredentialSource {
   name: string
