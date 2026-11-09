@@ -73,7 +73,7 @@ The law applied not only to the stores but to the inSales platform itself, so Ya
 
 ![Before: a buyer closed the challenge in the contact form and passed the captcha in the review form, and the contact form was sent. After: the review is sent, because each captcha is tied to the form that asked for it](/images/work/form-protection/two-forms-one-page.svg)
 
-**The Send button that did nothing.** Sometimes a page loaded the Yandex script twice: once for a system form and once for a store widget. The second copy of the script didn’t know about the captchas the first one had already created, and the buyer got a Send button that did nothing. It happened only when the parts of the page loaded in a certain order, so it came and went. I made every part of the page reuse the script that was already there.
+**The Send button that did nothing.** Sometimes a page loaded the Yandex script twice: once for a system form and once for a store widget. The second copy of the script didn’t know about the captchas the first one had already created, and the buyer got a Send button that did nothing. It happened only when the parts of the page loaded in a certain order, so the bug sometimes appeared and sometimes didn’t. I made every part of the page reuse the script that was already there.
 
 **A closed challenge no longer blocks the form.** If a buyer closed the Yandex SmartCaptcha challenge, the form stayed stuck in "sending" forever. Now they can just try again, and a form that waited too long gets a fresh captcha.
 
