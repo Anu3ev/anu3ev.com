@@ -1,11 +1,43 @@
 {
   "certificates": [
     {
+      "name": "Certified Mid-Level Vue.js Developer",
+      "issuer": "certificates.dev",
+      "issued": "2026-11",
+      "category": "exam",
+      "skills": [
+        "Vue.js",
+        "Composition API",
+        "Reactivity",
+        "Components",
+        "Vue Router",
+        "TypeScript"
+      ],
+      "credentialId": "CMVD-009520",
+      "url": "https://certificates.dev/c/a32cfb9f-3def-47b4-8b0d-9c5532e2abf6",
+      "featured": true,
+      "image": "/images/certificates/vue-developer-level-1.webp",
+      "imageAlt_en": "certificates.dev Certificate of Competence, Vue.js Developer Level I, issued to Alexander Anufriev on 8 November 2026, signed by Alex Kyriakidis and Evan You",
+      "imageAlt_ru": "Сертификат certificates.dev о прохождении экзамена Vue.js Developer Level I на имя Александра Ануфриева, выдан 8 ноября 2026 года, подписи Алекса Кириакидиса и Эвана Ю",
+      "summary_en": "The Vue.js certification exam from certificates.dev, run by Vue School in partnership with Vue.js: 30 multiple-choice questions and two coding tasks.",
+      "summary_ru": "Экзамен по Vue.js от certificates.dev, который проводит Vue School вместе с командой Vue.js: 30 вопросов с выбором ответа и две задачи на код."
+    },
+    {
       "name": "The Vue.js Master Class 2024 Edition",
       "issuer": "Vue School",
       "issued": "2026-10",
       "category": "course",
-      "skills": ["Vue.js", "TypeScript", "Pinia", "Supabase", "Vue Router", "Vite", "Tailwind CSS", "SQL", "REST APIs"],
+      "skills": [
+        "Vue.js",
+        "TypeScript",
+        "Pinia",
+        "Supabase",
+        "Vue Router",
+        "Vite",
+        "Tailwind CSS",
+        "SQL",
+        "REST APIs"
+      ],
       "credentialId": "c086375f-1f1d-4fc1-86e2-da86c05253ae",
       "url": "/images/certificates/vue-master-class-2024-full.webp",
       "featured": true,
@@ -20,21 +52,27 @@
       "issuer": "EF SET",
       "issued": "2026-10",
       "category": "test",
-      "skills": ["English"],
+      "skills": [
+        "English"
+      ],
       "url": "https://cert.efset.org/en/kmzghR",
       "featured": true,
       "image": "/images/certificates/ef-set-english.webp",
       "imageAlt_en": "EF SET English Certificate for Alexander Anufriev: 60/100, B2 Upper Intermediate, awarded on 19 October 2026",
       "imageAlt_ru": "Сертификат EF SET на имя Александра Ануфриева: 60 из 100, уровень B2 Upper Intermediate, выдан 19 октября 2026 года",
-      "summary_en": "60/100, B2 Upper Intermediate. Reading, listening and writing scored at C1 level (61–\u206062), speaking 56.",
-      "summary_ru": "60 из 100, уровень B2. Чтение, аудирование и письмо\u00a0— на уровне C1 (61–\u206062\u00a0балла), говорение\u00a0— 56."
+      "summary_en": "60/100, B2 Upper Intermediate. Reading, listening and writing scored at C1 level (61–⁠62), speaking 56.",
+      "summary_ru": "60 из 100, уровень B2. Чтение, аудирование и письмо — на уровне C1 (61–⁠62 балла), говорение — 56."
     },
     {
       "name": "200 hours of English lessons",
       "issuer": "Preply",
       "issued": "2026-09",
       "category": "lessons",
-      "skills": ["Communication", "English", "Business English"],
+      "skills": [
+        "Communication",
+        "English",
+        "Business English"
+      ],
       "featured": false
     },
     {
@@ -42,7 +80,9 @@
       "issuer": "LinkedIn Learning",
       "issued": "2025-05",
       "category": "course",
-      "skills": ["TypeScript"],
+      "skills": [
+        "TypeScript"
+      ],
       "credentialId": "b37ec4fd20c245bd56da38318ce341ac507949c36c58a6b5ca384ab98a4d7a2b",
       "url": "https://www.linkedin.com/learning/certificates/b37ec4fd20c245bd56da38318ce341ac507949c36c58a6b5ca384ab98a4d7a2b/",
       "featured": false
@@ -52,7 +92,10 @@
       "issuer": "LinkedIn Learning",
       "issued": "2025-05",
       "category": "course",
-      "skills": ["TypeScript", "Front-End Development"],
+      "skills": [
+        "TypeScript",
+        "Front-End Development"
+      ],
       "credentialId": "e38633d8cebde1572f96c39b1611370a272e613e190b731af1d781d6ff99993e",
       "url": "https://www.linkedin.com/learning/certificates/e38633d8cebde1572f96c39b1611370a272e613e190b731af1d781d6ff99993e/",
       "featured": false
@@ -62,7 +105,11 @@
       "issuer": "LinkedIn Learning",
       "issued": "2025-04",
       "category": "course",
-      "skills": ["TypeScript", "JavaScript", "Front-End Development"],
+      "skills": [
+        "TypeScript",
+        "JavaScript",
+        "Front-End Development"
+      ],
       "credentialId": "cd95b1c6681a08c4f71b1c8189cac78a19a0a354440c95f7d1ff21f416b19a0a",
       "url": "https://www.linkedin.com/learning/certificates/cd95b1c6681a08c4f71b1c8189cac78a19a0a354440c95f7d1ff21f416b19a0a/",
       "featured": false
@@ -72,7 +119,9 @@
       "issuer": "LinkedIn Learning",
       "issued": "2025-04",
       "category": "course",
-      "skills": ["TypeScript"],
+      "skills": [
+        "TypeScript"
+      ],
       "credentialId": "4d3e14e351154ac469c0003606df64e71c29d3ad43ef012cd86131a8c56c49dd",
       "url": "https://www.linkedin.com/learning/certificates/4d3e14e351154ac469c0003606df64e71c29d3ad43ef012cd86131a8c56c49dd/",
       "featured": false

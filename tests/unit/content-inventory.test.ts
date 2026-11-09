@@ -22,7 +22,7 @@ beforeEach(() => {
   mkdirSync(join(root, 'public/images/certificates'), { recursive: true })
   mkdirSync(join(root, 'public/cv'), { recursive: true })
   for (const cv of readdirSync('public/cv')) copyFileSync(join('public/cv', cv), join(root, 'public/cv', cv))
-  for (const image of ['vue-master-class-2024.webp', 'vue-master-class-2024-full.webp', 'ef-set-english.webp']) copyFileSync(`public/images/certificates/${image}`, join(root, 'public/images/certificates', image))
+  for (const image of ['vue-developer-level-1.webp', 'vue-master-class-2024.webp', 'vue-master-class-2024-full.webp', 'ef-set-english.webp']) copyFileSync(`public/images/certificates/${image}`, join(root, 'public/images/certificates', image))
   copyFileSync('public/images/alexander.webp', join(root, 'public/images/alexander.webp'))
   copyFileSync('public/images/alexander-avatar.webp', join(root, 'public/images/alexander-avatar.webp'))
   copyFileSync('public/images/vue-lifecycle.svg', join(root, 'public/images/cover.svg'))

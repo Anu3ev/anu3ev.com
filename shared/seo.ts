@@ -40,17 +40,23 @@ interface CredentialSource {
   name: string
   issuer: string
   issued: string
-  category: 'course' | 'test' | 'lessons'
+  category: 'exam' | 'course' | 'test' | 'lessons'
   url?: string
   credentialId?: string
 }
 
 /** Describes the owner's certificates as schema.org credentials; a self-hosted copy's path becomes an absolute URL on `origin`. */
+/** Schema.org credential categories; anything else is a certificate of completion. */
+const credentialCategories: Partial<Record<CredentialSource['category'], string>> = {
+  exam: 'Professional certification',
+  test: 'Language test certificate'
+}
+
 export function createCredentialSchemas({ certificates, origin }: { certificates: readonly CredentialSource[], origin: string }) {
   return certificates.map(certificate => ({
     '@type': 'EducationalOccupationalCredential',
     'name': certificate.name,
-    'credentialCategory': certificate.category === 'test' ? 'Language test certificate' : 'Certificate of completion',
+    'credentialCategory': credentialCategories[certificate.category] ?? 'Certificate of completion',
     'recognizedBy': { '@type': 'Organization', 'name': certificate.issuer },
     'dateCreated': certificate.issued,
     ...(certificate.url ? { url: new URL(certificate.url, origin).href } : {}),
