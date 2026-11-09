@@ -5,7 +5,7 @@ locale: en
 slug: form-protection
 published: true
 cover: /images/work/form-protection/invisible-captcha-submit-flow.svg
-coverAlt: "Diagram: the buyer clicks Send, the form checks its fields, Google or Yandex decides whether this is a person, only this form is sent, and the server checks that the result is real"
+coverAlt: "Diagram: the buyer clicks Send, the form checks its fields, Google or Yandex decides whether this is a person, only this form is sent, and the server checks the token"
 category: Storefront platform
 year: Oct 2023 – Jul 2026
 context: inSales
@@ -28,7 +28,11 @@ inSales is a platform where 60,000+ businesses run their online stores. On every
 
 Remember the "I’m not a robot" checkbox you have to click before sending a form? Stores on inSales had it on their forms, so every buyer who filled in a form had to make one more click. Every extra click lowers the share of people who send the form, which matters most on the checkout page. Google also offers an invisible version of the same check: it runs when you click Send and decides whether you are a person without asking for an extra click. I switched the store forms to that version, so a buyer fills in the form, clicks Send, and the order goes through.
 
-The browser alone is not trusted. A bot can skip the page and send an order straight to the server, so the server asks Google whether the check really passed before it accepts the order. And when Google is unsure, the buyer still gets the famous test: find all the fire hydrants.
+![The same contact form before, with the "I’m not a robot" checkbox and a Send button, and after, with only the Send button](/images/work/form-protection/form-checkbox-before-after.svg)
+
+The browser alone is not trusted. When the check passes, Google gives the form a token, a string that proves the check was passed, and the form sends it to the server together with the order. The server checks the token with Google and accepts the order only if it is real. A bot that skips the page and sends an order straight to the server has no real token, so the order doesn’t go through. And when Google is unsure, the buyer still gets the famous test: find all the fire hydrants.
+
+![A buyer clicks Send, gets a token from Google or Yandex, the form sends the data and the token, the server checks the token and accepts the request. A bot skips the page, sends a request without a token, and the server rejects it](/images/work/form-protection/server-check.svg)
 
 In 2025 Russia tightened its personal data law. Since July 2025, a website may not collect personal data of people in Russia using databases abroad, and fines for this can reach millions of rubles. Google reCAPTCHA sends data about every visitor to Google’s servers abroad, so for a Russian online store keeping it became a legal risk. Yandex has a similar service, SmartCaptcha, that keeps the data in Russia. The idea was to offer an alternative that stores could easily switch to, without rebuilding all their forms.
 
@@ -42,16 +46,18 @@ I was responsible for the frontend: the code on store pages that shows the check
 
 I suggested a setting in the store settings where the owner picks Google or Yandex. Getting it to every form was the hard part, because a store has two kinds of forms and each needed its own work.
 
-System forms are part of the platform itself: sign-in, registration and checkout. Their code lives in inSales, not in the store’s template, so they are the same on every store, whatever its design. The customer account and the first two versions of checkout are written as server-side Slim templates, and the newest checkout is written in Vue. I added Yandex as an option to both the Slim templates and the Vue checkout, so these forms got the choice on every store at once.
+System forms are part of the platform itself: sign-in, registration and checkout. Their code lives in inSales, not in the store’s template code, which the owner can edit. So they are the same on every store, whatever its design. The customer account and the first two versions of checkout are written as server-side Slim templates, and the newest checkout is written in Vue. I added Yandex as an option to both the Slim templates and the Vue checkout, so these forms got the choice on every store at once.
 
-Store forms are the contact, review, comment and one-click order forms that sit inside the store’s design. Template developers build them from ready-made form components in inSales’s shared JavaScript library. Here everything depended on the generation of the store’s template, and inSales has had four:
+Store forms are the contact, review, comment and one-click order forms inside the store’s template. Here everything depended on the generation of the store’s template, and inSales has had four:
 
-- The first generation has only system forms.
-- The second could use the library’s form components, but most of these templates were made before the components existed. Even where they were used, the form code had to be updated to read the setting.
-- The third was built in Vue. It was removed from most stores and isn’t available to store owners.
-- The fourth is built from widgets. A store owner adds, say, a contact form widget, and if they never edit its code, the form updates together with the setting.
+- In the first generation, forms like contact and reviews were built directly into the template code, so store owners had to update them with their own developers or with help from our support engineers.
+- In the second generation, the forms were also built directly into the template code, so the owner needed to update them. These templates included inSales’s shared storefront JavaScript library by default, and with it the owner could use its ready-made form components that support both captchas, or build their own custom forms with the library’s captcha APIs written for both Google and Yandex.
+- The third generation was built in Vue. It was removed from most stores and isn’t available to store owners.
+- The fourth generation is built from widgets. A store owner adds, say, a contact form widget. System widgets updated automatically, and custom widgets needed to be updated manually by the owner.
 
-So I added Yandex as an option to the library’s form components and to the fourth-generation widgets. For everything else, I added captcha functions to the library and wrote instructions, so store developers could add either check themselves (more on that below).
+So I added Yandex as an option to the form components of the storefront JavaScript library and to the fourth-generation widgets. For everything else, I added captcha APIs for Google and Yandex to that library and wrote instructions, so store developers could add either check themselves (more on that below).
+
+![System forms got the choice automatically on every store. In first- and second-generation templates, forms are built into the template code and need to be updated manually. The third generation is not available. In the fourth, system widgets updated automatically and custom widgets needed to be updated manually. Custom forms need to be updated manually using our instructions](/images/work/form-protection/forms-by-template-generation.svg)
 
 ### The platform’s own forms
 
@@ -59,7 +65,9 @@ The law applied to inSales itself, not only to the stores, so Yandex had to go a
 
 ### Each check belongs to one form
 
-One page can have several forms. Say a buyer sends the contact form, gets a puzzle and closes it. Then they write a review and pass the check there. In the old code both forms waited for the same answer, so the answer meant for the review could send the contact form instead. I tied every check to the form that asked for it.
+One page can have several forms. Say a buyer sends the contact form, gets a puzzle and closes it. Then they write a review and pass the check there. In the old code both forms waited for the same answer from the check, so the answer meant for the review could send the contact form instead. I tied every check to the form that asked for it.
+
+![Before: a buyer closed the puzzle in the contact form and passed the check in the review form, and the contact form was sent. After: the review is sent, because each check is tied to the form that asked for it](/images/work/form-protection/two-forms-one-page.svg)
 
 ### The Send button that did nothing
 
@@ -75,7 +83,7 @@ Both bugs were in Yandex SmartCaptcha. In Safari the page jumped to the top afte
 
 ### Instructions for store developers
 
-Many stores have forms written by their own developers. For them I published instructions with examples for adding either check through the library’s functions: [Google reCAPTCHA](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/Google%20reCAPTCHA/recaptcha-common/) and [Yandex SmartCaptcha](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/yandex_captcha/#_2).
+Many stores have forms written by their own developers. For them I published instructions with examples for adding either check through the captcha API of the storefront JavaScript library: [Google reCAPTCHA](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/Google%20reCAPTCHA/recaptcha-common/) and [Yandex SmartCaptcha](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/yandex_captcha/#_2).
 
 ## Results
 
@@ -87,4 +95,4 @@ Many stores have forms written by their own developers. For them I published ins
 
 ## Limits
 
-System forms got the choice automatically on every store, and so did fourth-generation widgets whose code the owner never changed. If an owner had edited a widget’s code, their copy didn’t update: after switching to Yandex, that form showed no check at all, because its code lacked the template condition that picks which check to show. Those widgets, forms in older templates and custom forms had to be updated by the store’s developers, using the instructions above. Some admin forms don’t have the check.
+System forms got the choice automatically on every store, and so did fourth-generation system widgets. Custom widgets didn’t update: after switching to Yandex, such a form showed no check at all, because its code lacked the template condition that picks which check to show. Custom widgets, forms in first- and second-generation templates and custom forms had to be updated by the store owner, using the instructions above.
