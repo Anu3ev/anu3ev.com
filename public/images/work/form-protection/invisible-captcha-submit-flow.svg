@@ -20,7 +20,7 @@
     <text x="156" y="330">01</text><text x="378" y="330">02</text><text x="600" y="330">03</text><text x="822" y="330">04</text><text x="1044" y="330">05</text>
   </g>
   <g text-anchor="middle" font-size="19" font-weight="600" fill="#ecedee">
-    <text x="156" y="362">Buyer clicks Send</text><text x="378" y="362">Fields checked</text><text x="600" y="362">Invisible check</text><text x="822" y="362">Form is sent</text><text x="1044" y="362">Server verifies</text>
+    <text x="156" y="362">Buyer clicks Send</text><text x="378" y="362">Fields checked</text><text x="600" y="362">Invisible captcha</text><text x="822" y="362">Form is sent</text><text x="1044" y="362">Server verifies</text>
   </g>
   <g text-anchor="middle" font-size="15" fill="#a1a3a8">
     <text x="156" y="392">No extra checkbox</text><text x="378" y="392">Required fields filled?</text><text x="600" y="392">Person or bot?</text><text x="822" y="383">Only this form,</text><text x="822" y="402">not its neighbors</text><text x="1044" y="392">Checks the token</text>
@@ -40,11 +40,11 @@
     <rect x="730" y="476" width="406" height="104" rx="12"/>
   </g>
   <g font-size="14" font-weight="600" fill="#a9c4f5" letter-spacing="1.5">
-    <text x="310" y="510">IF GOOGLE OR YANDEX IS UNSURE</text>
-    <text x="754" y="510">IF THE BUYER CLOSES THE PUZZLE</text>
+    <text x="310" y="510">IF THE BUYER’S ACTIONS LOOK SUSPICIOUS</text>
+    <text x="754" y="510">IF THE BUYER CLOSES THE CHALLENGE</text>
   </g>
   <g font-size="17" fill="#ecedee">
-    <text x="310" y="546">The buyer gets a puzzle to solve</text>
+    <text x="310" y="546">The buyer gets a challenge</text>
     <text x="754" y="546">The form can be sent again</text>
   </g>
 </svg>
