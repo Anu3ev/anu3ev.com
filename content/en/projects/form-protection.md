@@ -1,6 +1,6 @@
 ---
 title: Invisible captcha for store forms, with a choice between Google and Yandex
-description: Buyers on inSales stores had to click "I’m not a robot" before sending any form. I replaced it with an invisible check, and later added a setting where the store owner can choose between Google and Yandex.
+description: Buyers on inSales stores had to click "I’m not a robot" before sending any form. I replaced it with an invisible check, and later added a setting where the store owner can choose between the Google and Yandex captchas.
 locale: en
 slug: form-protection
 published: true
@@ -32,13 +32,13 @@ The second problem came from Russia’s personal data law. Since July 2025, a we
 
 ## My role
 
-I owned the whole project except the server-side token check, which a backend developer built. I agreed with that developer on what each form sends. My part covered the store and platform forms, the setting for choosing the captcha, the storefront JavaScript library, the widgets, the instructions for store developers, testing with QA and the release. I shipped the invisible Google captcha in 2023 and the choice between Google and Yandex in August 2025, and maintained the feature until July 2026.
+I owned the whole project except the server-side token check, which a backend developer built. I agreed with that developer on what each form sends. My part covered the store and platform forms, the setting for choosing the captcha, the storefront JavaScript library, the widgets, the documentation for store developers, testing with QA and the release. I rolled out the invisible Google captcha in 2023 and the choice between Google and Yandex in August 2025, and maintained the feature until July 2026.
 
 ## What I built
 
 ### An invisible captcha instead of the checkbox
 
-Google also offers an invisible version of the same captcha: it runs when you click Send and determines whether you are a person without asking for an extra click. I switched the forms on stores to that version, so a buyer fills in the form, clicks Send, and the form is sent.
+Google also offers an invisible version of the same captcha: it runs when you click Send and determines whether you are a person without asking for an extra click. I switched the forms on stores to that version, so a buyer fills in the form, clicks Send, and the check happens automatically.
 
 ![The same contact form before, with the "I’m not a robot" checkbox and a Send button, and after, with only the Send button](/images/work/form-protection/form-checkbox-before-after.svg)
 
@@ -59,13 +59,13 @@ Template forms are the contact, review, comment and one-click order forms inside
 - The third generation was built in Vue. It isn’t available to store owners.
 - The fourth generation is built from widgets. A store owner adds, say, a contact form widget. System widgets updated automatically, and custom widgets needed to be updated manually by the owner.
 
-So I added Yandex SmartCaptcha to the form components of the storefront JavaScript library and to the fourth-generation system widgets. For custom forms, I added captcha APIs for Google and Yandex to that library and wrote instructions, so store developers could add either captcha themselves (more on that below). As a result, the owner picks the captcha in one setting, and the choice works at once in the system forms, the library’s form components and the system widgets.
+So I added Yandex SmartCaptcha to the form components of the storefront JavaScript library and to the fourth-generation system widgets. For custom forms, I added captcha APIs for Google and Yandex to that library and wrote documentation, so store developers could add either captcha themselves (more on that below). As a result, the owner picks the captcha in one setting, and the choice works at once in the system forms, the library’s form components and the system widgets.
 
-![System forms got the choice automatically on every store. In first- and second-generation templates, the owner updates the forms in the template code manually; in the second generation it’s easier with the ready-made components or captcha API of the storefront JavaScript library. The third generation is not available to store owners. In the fourth generation, system widgets update automatically, while custom widgets have no captcha at all after switching to Yandex until the owner updates their code. Store developers update custom forms using our instructions](/images/work/form-protection/forms-by-template-generation.svg)
+![System forms got the choice automatically on every store. In first- and second-generation templates, the owner updates the forms in the template code manually; in the second generation it’s easier with the ready-made components or captcha API of the storefront JavaScript library. The third generation is not available to store owners. In the fourth generation, system widgets update automatically, while custom widgets have no captcha at all after switching to Yandex until the owner updates their code. Store developers update custom forms using our documentation](/images/work/form-protection/forms-by-template-generation.svg)
 
 ### The platform’s own forms
 
-The law applied not only to the stores but to the inSales platform itself, so Yandex SmartCaptcha had to be added to the platform’s own forms too. Store owners sign in to inSales and recover their access through those forms, and they used Google reCAPTCHA as well. There was nothing to choose here, because the platform itself has to follow the law, so in those forms I replaced Google reCAPTCHA with Yandex SmartCaptcha.
+The law applied not only to the stores but to the inSales platform itself, so Yandex SmartCaptcha had to be added to the platform’s own forms too. Store owners sign in to inSales and recover their access through those forms, and they used Google reCAPTCHA as well. But the law only covers users in Russia: in the Russian version of the platform I replaced Google reCAPTCHA with Yandex SmartCaptcha, while the versions for Ukraine and Kazakhstan kept Google reCAPTCHA on sign-in. So the platform’s forms had to support both captchas and show the right one for the account’s country.
 
 ### Bugs buyers ran into
 
@@ -77,20 +77,22 @@ The law applied not only to the stores but to the inSales platform itself, so Ya
 
 **A closed challenge no longer blocks the form.** If a buyer closed the Yandex SmartCaptcha challenge, the form stayed stuck in "sending" forever. Now they can just try again, and a form that waited too long gets a fresh captcha.
 
-**Bugs in Yandex SmartCaptcha itself.** Both bugs were in Yandex SmartCaptcha. In Safari the page jumped to the top after a form was sent. I worked around it on our side: after sending, the form creates the captcha again. On some Android phones the keyboard covered the field inside the challenge, which we couldn’t fix from our side at all. I reported both bugs to Yandex with a test page and a video, but neither has been fixed.
+**Bugs in Yandex SmartCaptcha itself.** Both bugs were in Yandex SmartCaptcha. In Safari, after the captcha was passed, the next click anywhere on the page made it jump to the top. On some Android phones the keyboard covered the field inside the challenge, and this couldn’t be fixed on our side. I reported both bugs to Yandex with a test page and a video, but neither has been fixed.
 
-### Instructions for store developers
+**The Safari workaround that broke the checkbox.** I worked around the Safari jump on our side: after a successful pass, the captcha was removed and drawn again. That worked for the invisible captcha, because nobody sees it redraw. But where the captcha is visible and the buyer ticks a checkbox, the captcha redrew right away, and the tick disappeared together with the pass. So I kept the redraw only for the invisible captcha. The checkbox captcha now only removes focus from itself, and the tick stays.
 
-Many stores have forms written by their own developers. For them I published instructions with examples for adding either captcha through the API of the storefront JavaScript library: [Google reCAPTCHA](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/Google%20reCAPTCHA/recaptcha-common/) and [Yandex SmartCaptcha](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/yandex_captcha/#_2).
+### Documentation for store developers
+
+Many stores have forms written by their own developers. For them I published documentation with examples for adding either captcha through the API of the storefront JavaScript library: [Google reCAPTCHA](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/Google%20reCAPTCHA/recaptcha-common/) and [Yandex SmartCaptcha](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/yandex_captcha/#_2).
 
 ## Results
 
 - Buyers send forms without the extra "I’m not a robot" click.
 - Store owners choose between Google and Yandex with one setting, and the choice works at once in the system forms, the library’s form components and the system widgets.
-- Store owners sign in to inSales and recover their access through forms protected by Yandex SmartCaptcha.
+- In the Russian version of the platform, store owners sign in to inSales and recover their access through forms protected by Yandex SmartCaptcha; the versions for Ukraine and Kazakhstan kept Google reCAPTCHA.
 - The captcha works in 3 versions of checkout, 3 versions of the customer account, and the contact, review, comment and one-click order forms.
-- Store developers can add either captcha to their own forms using the published instructions.
+- Store developers can add either captcha to their own forms using the published documentation.
 
 ## Limits
 
-The choice didn’t start working on its own in forms built into first- and second-generation template code, in custom forms or in custom widgets. Custom widgets were the worst case: after switching to Yandex, such a form showed no captcha at all, because its code lacked the condition that picks which captcha to show. In September 2025 inSales warned its clients about this in an announcement that listed which forms would update automatically and which the store owner had to update, using the instructions above.
+The choice didn’t start working on its own in forms built into first- and second-generation template code, in custom forms or in custom widgets. Custom widgets were the worst case: after switching to Yandex, such a form showed no captcha at all, because its code lacked the condition that picks which captcha to show. In September 2025 inSales warned its clients about this in an announcement that listed which forms would update automatically and which the store owner had to update, using the documentation above.
