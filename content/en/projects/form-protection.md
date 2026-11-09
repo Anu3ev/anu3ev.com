@@ -73,13 +73,13 @@ The law applied not only to the stores but to the inSales platform itself, so Ya
 
 ![Before: a buyer closed the challenge in the contact form and passed the captcha in the review form, and the contact form was sent. After: the review is sent, because each captcha is tied to the form that asked for it](/images/work/form-protection/two-forms-one-page.svg)
 
-**The Send button that did nothing.** Sometimes a page loaded the Yandex script twice: once for a system form and once for a store widget. The second copy of the script didn’t know about the captchas the first one had already created, and the buyer got a Send button that did nothing. It happened only when the parts of the page loaded in a certain order, so it came and went. I made every part of the page reuse the script that was already there.
+**The Send button that did nothing.** Sometimes a page loaded the Yandex script twice: once for a system form and once for a store widget. The second copy of the script didn’t know about the captchas the first one had already created, and the buyer got a Send button that did nothing. It happened only when the parts of the page loaded in a certain order, so the bug sometimes appeared and sometimes didn’t. I made every part of the page reuse the script that was already there.
 
 **A closed challenge no longer blocks the form.** If a buyer closed the Yandex SmartCaptcha challenge, the form stayed stuck in "sending" forever. Now they can just try again, and a form that waited too long gets a fresh captcha.
 
 **Bugs in Yandex SmartCaptcha itself.** Both bugs were in Yandex SmartCaptcha. In Safari, after the captcha was passed, the next click anywhere on the page made it jump to the top. On some Android phones the keyboard covered the field inside the challenge, and this couldn’t be fixed on our side. I reported both bugs to Yandex with a test page and a video, but neither has been fixed.
 
-**The Safari workaround that broke the checkbox.** I worked around the Safari jump on our side: after a successful pass, the captcha was removed and drawn again. That worked for the invisible captcha, because nobody sees it redraw. But where the captcha is visible and the buyer ticks a checkbox, the captcha redrew right away, and the tick disappeared together with the pass. So I kept the redraw only for the invisible captcha. The checkbox captcha now only removes focus from itself, and the tick stays.
+**The Safari workaround that broke the checkbox.** I worked around the Safari jump on our side: after a successful pass, the captcha was removed and drawn again. That worked for the invisible captcha, because nobody sees it redraw. But the captcha component I built lets any developer make the captcha visible, with the "I’m not a robot" checkbox. Only a few stores did that, and that’s how we found the problem: the buyer ticked the box, the captcha redrew right away, and the tick disappeared together with the pass. So I kept the redraw only for the invisible captcha. The checkbox captcha now only removes focus from itself, and the tick stays.
 
 ### Documentation for store developers
 
