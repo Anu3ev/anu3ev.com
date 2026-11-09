@@ -23,7 +23,7 @@
     <text x="156" y="362">Buyer clicks Send</text><text x="378" y="362">Fields checked</text><text x="600" y="362">Invisible check</text><text x="822" y="362">Form is sent</text><text x="1044" y="362">Server verifies</text>
   </g>
   <g text-anchor="middle" font-size="15" fill="#a1a3a8">
-    <text x="156" y="392">No extra checkbox</text><text x="378" y="392">Same rules as before</text><text x="600" y="392">Person or bot?</text><text x="822" y="392">Only the one that asked</text><text x="1044" y="392">Checks the token</text>
+    <text x="156" y="392">No extra checkbox</text><text x="378" y="392">Required fields filled?</text><text x="600" y="392">Person or bot?</text><text x="822" y="383">Only this form,</text><text x="822" y="402">not its neighbors</text><text x="1044" y="392">Checks the token</text>
   </g>
   <g fill="none" stroke="#86adff" stroke-width="2.5">
     <path d="M250 358h32m-9-9 9 9-9 9"/>
@@ -33,7 +33,7 @@
   </g>
 
   <path d="M600 418v52" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 6"/>
-  <path d="M822 418v52" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M694 528h30" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 4"/><path d="M716 520l8 8-8 8" fill="none" stroke="#a1a3a8" stroke-width="2"/>
 
   <g fill="#181a1f" stroke="#2d3139" stroke-width="2">
     <rect x="286" y="476" width="406" height="104" rx="12"/>
@@ -41,7 +41,7 @@
   </g>
   <g font-size="14" font-weight="600" fill="#a9c4f5" letter-spacing="1.5">
     <text x="310" y="510">IF GOOGLE OR YANDEX IS UNSURE</text>
-    <text x="754" y="510">IF THE BUYER CLOSES IT</text>
+    <text x="754" y="510">IF THE BUYER CLOSES THE PUZZLE</text>
   </g>
   <g font-size="17" fill="#ecedee">
     <text x="310" y="546">The buyer gets a puzzle to solve</text>

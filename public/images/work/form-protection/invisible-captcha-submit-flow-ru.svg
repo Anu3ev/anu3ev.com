@@ -20,10 +20,10 @@
     <text x="156" y="330">01</text><text x="378" y="330">02</text><text x="600" y="330">03</text><text x="822" y="330">04</text><text x="1044" y="330">05</text>
   </g>
   <g text-anchor="middle" font-size="17" font-weight="600" fill="#ecedee">
-    <text x="156" y="362">Клик «Отправить»</text><text x="378" y="362">Проверка полей</text><text x="600" y="362">Скрытая проверка</text><text x="822" y="362">Отправка формы</text><text x="1044" y="362">Сервер сверяет</text>
+    <text x="156" y="362">Клик «Отправить»</text><text x="378" y="362">Проверка полей</text><text x="600" y="362">Невидимая капча</text><text x="822" y="362">Отправка формы</text><text x="1044" y="362">Сервер сверяет</text>
   </g>
   <g text-anchor="middle" font-size="15" fill="#a1a3a8">
-    <text x="156" y="392">Без лишнего клика</text><text x="378" y="392">Те же правила</text><text x="600" y="392">Человек или бот?</text><text x="822" y="392">Только этой формы</text><text x="1044" y="392">Проверяет токен</text>
+    <text x="156" y="392">Без лишнего клика</text><text x="378" y="392">Поля заполнены?</text><text x="600" y="392">Человек или бот?</text><text x="822" y="383">Только эта форма,</text><text x="822" y="402">не соседняя</text><text x="1044" y="392">Проверяет токен</text>
   </g>
   <g fill="none" stroke="#86adff" stroke-width="2.5">
     <path d="M250 358h32m-9-9 9 9-9 9"/>
@@ -33,15 +33,15 @@
   </g>
 
   <path d="M600 418v52" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 6"/>
-  <path d="M822 418v52" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 6"/>
+  <path d="M694 528h30" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 4"/><path d="M716 520l8 8-8 8" fill="none" stroke="#a1a3a8" stroke-width="2"/>
 
   <g fill="#181a1f" stroke="#2d3139" stroke-width="2">
     <rect x="286" y="476" width="406" height="104" rx="12"/>
     <rect x="730" y="476" width="406" height="104" rx="12"/>
   </g>
-  <g font-size="14" font-weight="600" fill="#a9c4f5" letter-spacing="1.5">
-    <text x="310" y="510">ЕСЛИ СЕРВИС СОМНЕВАЕТСЯ</text>
-    <text x="754" y="510">ЕСЛИ ЗАДАНИЕ ЗАКРЫЛИ</text>
+  <g font-size="13" font-weight="600" fill="#a9c4f5" letter-spacing="1">
+    <text x="310" y="510">ЕСЛИ GOOGLE ИЛИ ЯНДЕКС СОМНЕВАЕТСЯ</text>
+    <text x="754" y="510">ЕСЛИ ПОКУПАТЕЛЬ ЗАКРЫЛ ЗАДАНИЕ</text>
   </g>
   <g font-size="17" fill="#ecedee">
     <text x="310" y="546">Покупатель решает задание</text>
