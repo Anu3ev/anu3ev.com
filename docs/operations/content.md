@@ -26,6 +26,8 @@ A future date is not a timer. Entries are excluded until that date in **Asia/Tbi
 
 The **Projects** collection includes case copy, category, role, period, stack, cover/alt, ordering and featured status. Home shows the first published featured project by `order`.
 
+Every published case has a social card in `public/images/og/work/<locale>/<slug>.png`: the site mark, the case label and title, the author and the cover. Run `pnpm case-cards` after adding a case or changing a case title or cover, and commit the cards. The build fails while a published case has no card, so a new case from the CMS needs this step before it can publish. A changed title or cover does not fail the build: the old card stays until the script runs again.
+
 Optional `repository` and `demo` fields must contain real public HTTPS URLs. A demo link does not embed a heavy editor in the page. The commercial Vue editor and open-source FabricJS library remain separate cases.
 
 ## Profile

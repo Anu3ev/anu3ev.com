@@ -97,7 +97,8 @@ describe('public content inventory', () => {
     expect(() => readContentInventory({ root, now })).toThrow()
   })
 
-  it('loads paired project cases through their distinct metadata contract', () => {
+  /** Writes the same published case in both languages; the social cards are created unless a scenario omits them. */
+  function writeProjectPair({ withCards = true } = {}) {
     for (const locale of ['en', 'ru']) {
       const directory = join(root, 'content', locale, 'projects')
       mkdirSync(directory, { recursive: true })
@@ -106,12 +107,25 @@ describe('public content inventory', () => {
         locale, slug: 'editor-case', published: true, cover: '/images/cover.svg', coverAlt: 'A diagram about the editor engine',
         category: 'Open source', year: '2026', context: 'Open source', role: 'Core library author', stack: ['TypeScript'], featured: true, order: 1
       }))
+      if (!withCards) continue
+
+      mkdirSync(join(root, 'public/images/og/work', locale), { recursive: true })
+      copyFileSync('public/images/og/ai-native-senior-frontend-engineer.png', join(root, 'public/images/og/work', locale, 'editor-case.png'))
     }
+  }
+
+  it('loads paired project cases through their distinct metadata contract', () => {
+    writeProjectPair()
 
     const inventory = readContentInventory({ root, now })
     expect(inventory.projects.map(project => project.metadata.locale)).toEqual(['en', 'ru'])
     expect(inventory.projects.every(project => project.isPublic)).toBe(true)
     expect(inventory.excluded).toEqual([])
+  })
+
+  it('requires a social card for every published case', () => {
+    writeProjectPair({ withCards: false })
+    expect(() => readContentInventory({ root, now })).toThrow('en/projects/editor-case.md: run pnpm case-cards')
   })
 
   it('excludes drafts and future entries before creating public collections', () => {

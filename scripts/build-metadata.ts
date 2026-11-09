@@ -7,11 +7,7 @@ import { createLlmsIndex, createPostMarkdown, createProjectMarkdown, createRecom
 import { createPublicPaths } from './lib/routes'
 import { canonicalPagePath, socialImagePath } from '../shared/seo'
 import { getSiteOrigin } from '../shared/site'
-
-/** XML text/attributes must remain data even when an editor writes angle brackets or ampersands. */
-function escapeXml(value: string) {
-  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
-}
+import { escapeXml } from './lib/xml'
 
 const { projects, posts, profile, pages, certificates, recommendations } = readContentInventory()
 const origin = getSiteOrigin(process.env.NUXT_PUBLIC_SITE_URL)

@@ -7,6 +7,7 @@ import { certificatesSchema, postSchema, profileSchema, projectSchema, recommend
 import { getPublicationDate } from '../../shared/publication'
 import { sitePagesSchema } from '../../shared/page-content'
 import { applyPositioning, defaultSocialImagePath } from '../../shared/positioning'
+import { caseSocialImagePath } from '../../shared/seo'
 
 /** Parsed source document with its build-time publication decision. */
 interface ContentDocument<Metadata> {
@@ -56,7 +57,7 @@ function validatePublicCv({ root, cv }: { root: string, cv: string }) {
 }
 
 /** Owns the file format boundary: BOM/CRLF support, non-executable YAML and date-only string semantics. */
-function readEditorialSource({ path, source }: { path: string, source: string }): { data: unknown, content: string } {
+export function readEditorialSource({ path, source }: { path: string, source: string }): { data: unknown, content: string } {
   const input = readFileSync(path, 'utf8').replace(/^\uFEFF/, '')
   // Tagged JavaScript frontmatter would select gray-matter's executable engine before schema validation.
   if (!/^---[ \t]*\r?\n/.test(input)) throw new Error(`${source}: only ordinary YAML frontmatter is supported`)
@@ -93,6 +94,7 @@ export function readContentInventory({ root = process.cwd(), now = new Date() } 
           const metadata = projectSchema.parse(data)
           const document = { source, body, metadata, isPublic: metadata.published }
           validateDocument({ document, root })
+          if (document.isPublic) validatePublicImage({ root, image: caseSocialImagePath(metadata), source: `${source}: run pnpm case-cards` })
           projects.push(document)
           continue
         }

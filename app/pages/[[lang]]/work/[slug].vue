@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { typeset } from '~~/shared/typography'
 import { getLinkNavigation } from '~/utils/links'
+import { caseSocialImagePath } from '~~/shared/seo'
+import { defaultSocialImagePath } from '~~/shared/positioning'
 import profile from '~~/content/settings/profile.json'
 
 const route = useRoute()
@@ -26,6 +28,10 @@ const sourceNavigation = computed(() => getLinkNavigation({ href: project.value?
 usePageSeo({
   title: () => project.value?.title || copy.value.work,
   description: () => project.value?.description || siteContent.value.portfolio.intro,
+  image: () =>
+    project.value
+      ? caseSocialImagePath({ locale: locale.value, slug: project.value.slug })
+      : defaultSocialImagePath(profile.headline_en),
   parent: () => ({ name: copy.value.work, url: `${siteUrl}${localePath('/work')}` }),
   markdownCopy: () => Boolean(project.value),
   schema: () => {
@@ -36,6 +42,7 @@ usePageSeo({
       '@context': 'https://schema.org', '@type': 'CreativeWork',
       'name': currentProject.title, 'description': currentProject.description,
       'url': `${siteUrl}${localePath(`/work/${currentProject.slug}`)}`,
+      'image': `${siteUrl}${caseSocialImagePath({ locale: locale.value, slug: currentProject.slug })}`,
       'author': { '@type': 'Person', '@id': `${siteUrl}/#person`, 'name': profile.name, 'url': siteUrl }
     }]
   }
