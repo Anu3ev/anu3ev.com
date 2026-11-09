@@ -23,7 +23,7 @@
     <text x="156" y="362">Buyer clicks Send</text><text x="378" y="362">Fields checked</text><text x="600" y="362">Invisible check</text><text x="822" y="362">Form is sent</text><text x="1044" y="362">Server verifies</text>
   </g>
   <g text-anchor="middle" font-size="15" fill="#a1a3a8">
-    <text x="156" y="392">No extra checkbox</text><text x="378" y="392">Same rules as before</text><text x="600" y="392">Person or bot?</text><text x="822" y="392">Only the one that asked</text><text x="1044" y="392">Asks if the check is real</text>
+    <text x="156" y="392">No extra checkbox</text><text x="378" y="392">Same rules as before</text><text x="600" y="392">Person or bot?</text><text x="822" y="392">Only the one that asked</text><text x="1044" y="392">Checks the token</text>
   </g>
   <g fill="none" stroke="#86adff" stroke-width="2.5">
     <path d="M250 358h32m-9-9 9 9-9 9"/>
