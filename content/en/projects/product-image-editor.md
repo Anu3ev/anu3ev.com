@@ -32,7 +32,7 @@ The goal was an editor that opens from the product card and covers the whole job
 
 ## My role
 
-I owned the frontend of the product. I designed the architecture of the Vue application, implemented the prepared Figma designs, integrated the canvas library, and agreed the API contracts with the backend engineer, who built the server side. I also wrote technical specs and QA scenarios, added Mixpanel tracking for AI actions, and prepared notes for the support team. I worked with a product manager, a designer, the backend engineer and a QA engineer.
+I owned the frontend of the product and worked with AI coding agents from the start. I designed the architecture of the Vue application, implemented the prepared Figma designs, integrated the canvas library, and agreed the API contracts with the backend engineer, who built the server side. I also wrote technical specs and QA scenarios, added Mixpanel tracking for AI actions, and prepared notes for the support team. I worked with a product manager, a designer, the backend engineer and a QA engineer.
 
 The canvas itself runs on [my separate TypeScript/FabricJS library](/work/image-editor/). This case is about the product built on top of it: panels, dialogs, server workflows, limits, errors and everything that happens between a click and a saved product.
 
