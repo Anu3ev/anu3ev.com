@@ -359,6 +359,10 @@ p, li, dd { text-wrap: pretty; }
 :root[data-theme='light'] .certificate-issuer { color: var(--accent); }
 .certificate-summary { color: var(--muted); }
 .certificate-card .tags { margin-top: var(--space-1); }
+/* An odd last card takes the full row, image beside the text, so no card sits alone in a half-empty row. */
+.certificate-grid > li:last-child:nth-child(odd) { grid-column: 1 / -1; }
+.certificate-grid > li:last-child:nth-child(odd) .certificate-card { flex-direction: row; }
+.certificate-grid > li:last-child:nth-child(odd) .certificate-preview { width: 50%; height: auto; border-bottom: 0; border-right: 1px solid var(--line); }
 /* The link closes every card on the same line, however long the summary above it is. */
 .certificate-link { margin-top: auto; }
 .certificates-subtitle { margin-top: var(--space-8); }
@@ -458,6 +462,8 @@ p, li, dd { text-wrap: pretty; }
   .project-card-bottom .text-link { margin-left: auto; }
   .about-grid { grid-template-columns: minmax(0, 1fr); }
   .certificate-grid { grid-template-columns: minmax(0, 1fr); }
+  .certificate-grid > li:last-child:nth-child(odd) .certificate-card { flex-direction: column; }
+  .certificate-grid > li:last-child:nth-child(odd) .certificate-preview { width: 100%; border-right: 0; border-bottom: 1px solid var(--line); }
   .about-grid figure { max-width: 220px; }
   .email-card { padding: var(--space-4); }
   .email-icon { width: 34px; height: 34px; }

@@ -4,6 +4,7 @@ import { formatMonth } from '~~/shared/page-content'
 const { copy, locale } = useLocale()
 const { featuredCertificates, otherCertificates } = useCertificates()
 const categoryLabels = computed(() => ({
+  exam: copy.value.certificateExam,
   course: copy.value.certificateCourse,
   test: copy.value.certificateTest,
   lessons: copy.value.certificateLessons

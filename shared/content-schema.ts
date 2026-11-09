@@ -81,7 +81,7 @@ const certificateSchema = z.strictObject({
   name: z.string().min(3).max(120),
   issuer: z.string().min(2).max(60),
   issued: issueMonth,
-  category: z.enum(['course', 'test', 'lessons']),
+  category: z.enum(['exam', 'course', 'test', 'lessons']),
   /** Skills in the owner's LinkedIn order; cards show the first three. */
   skills: z.array(z.string().min(1).max(40)).min(1).max(20),
   credentialId: z.string().max(100).optional().default(''),
