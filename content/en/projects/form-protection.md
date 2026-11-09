@@ -28,7 +28,11 @@ inSales is a platform where 60,000+ businesses run their online stores. On every
 
 Remember the "I’m not a robot" checkbox you have to click before sending a form? Stores on inSales had it on their forms, so every buyer who filled in a form had to make one more click. Every extra click lowers the share of people who send the form, which matters most on the checkout page. Google also offers an invisible version of the same check: it runs when you click Send and decides whether you are a person without asking for an extra click. I switched the store forms to that version, so a buyer fills in the form, clicks Send, and the order goes through.
 
+![The same contact form before, with the "I’m not a robot" checkbox and a Send button, and after, with only the Send button](/images/work/form-protection/form-checkbox-before-after.svg)
+
 The browser alone is not trusted. When the check passes, Google gives the form a token, a string that proves the check was passed, and the form sends it to the server together with the order. The server checks the token with Google and accepts the order only if it is real. A bot that skips the page and sends an order straight to the server has no real token, so the order doesn’t go through. And when Google is unsure, the buyer still gets the famous test: find all the fire hydrants.
+
+![A buyer clicks Send, gets a token from Google or Yandex, the form sends the data and the token, the server checks the token and accepts the request. A bot skips the page, sends a request without a token, and the server rejects it](/images/work/form-protection/server-check.svg)
 
 In 2025 Russia tightened its personal data law. Since July 2025, a website may not collect personal data of people in Russia using databases abroad, and fines for this can reach millions of rubles. Google reCAPTCHA sends data about every visitor to Google’s servers abroad, so for a Russian online store keeping it became a legal risk. Yandex has a similar service, SmartCaptcha, that keeps the data in Russia. The idea was to offer an alternative that stores could easily switch to, without rebuilding all their forms.
 
@@ -53,6 +57,8 @@ Store forms are the contact, review, comment and one-click order forms inside th
 
 So I added Yandex as an option to the form components of the storefront JavaScript library and to the fourth-generation widgets. For everything else, I added captcha APIs for Google and Yandex to that library and wrote instructions, so store developers could add either check themselves (more on that below).
 
+![System forms got the choice automatically on every store. In first- and second-generation templates, forms are built into the template code and need to be updated manually. The third generation is not available. In the fourth, system widgets updated automatically and custom widgets needed to be updated manually. Custom forms need to be updated manually using our instructions](/images/work/form-protection/forms-by-template-generation.svg)
+
 ### The platform’s own forms
 
 The law applied to inSales itself, not only to the stores, so Yandex had to go across the whole platform. Store owners sign in to inSales and recover their access through the platform’s own forms, and those forms used Google reCAPTCHA too. There was nothing to choose here, so in those forms I replaced Google reCAPTCHA with Yandex SmartCaptcha.
@@ -60,6 +66,8 @@ The law applied to inSales itself, not only to the stores, so Yandex had to go a
 ### Each check belongs to one form
 
 One page can have several forms. Say a buyer sends the contact form, gets a puzzle and closes it. Then they write a review and pass the check there. In the old code both forms waited for the same answer from the check, so the answer meant for the review could send the contact form instead. I tied every check to the form that asked for it.
+
+![Before: a buyer closed the puzzle in the contact form and passed the check in the review form, and the contact form was sent. After: the review is sent, because each check is tied to the form that asked for it](/images/work/form-protection/two-forms-one-page.svg)
 
 ### The Send button that did nothing
 
