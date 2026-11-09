@@ -5,7 +5,7 @@ locale: en
 slug: form-protection
 published: true
 cover: /images/work/form-protection/invisible-captcha-submit-flow.svg
-coverAlt: "Diagram: the buyer clicks Send, the form checks its fields, Google or Yandex decides whether this is a person, only this form is sent, and the server checks the token"
+coverAlt: "Diagram: the buyer clicks Send, the form checks its fields, Google or Yandex decides whether this is a human, only this form is sent, and the server checks the token"
 category: Storefront platform
 year: Oct 2023 – Jul 2026
 context: inSales
@@ -38,7 +38,7 @@ I owned the whole project except the server-side token check, which a backend de
 
 ### An invisible captcha instead of the checkbox
 
-Google also offers an invisible version of the same captcha: it runs when you click Send and determines whether you are a person without asking for an extra click. I switched the forms on stores to that version, so a buyer fills in the form, clicks Send, and the check happens automatically.
+Google also offers an invisible version of the same captcha: it runs when you click Send and determines whether you’re human without asking for an extra click. I switched the forms on stores to that version, so a buyer fills in the form, clicks Send, and the check happens automatically.
 
 ![The same contact form before, with the "I’m not a robot" checkbox and a Send button, and after, with only the Send button](/images/work/form-protection/form-checkbox-before-after.svg)
 
