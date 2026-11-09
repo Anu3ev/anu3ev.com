@@ -77,7 +77,9 @@ The law applied not only to the stores but to the inSales platform itself, so Ya
 
 **A closed challenge no longer blocks the form.** If a buyer closed the Yandex SmartCaptcha challenge, the form stayed stuck in "sending" forever. Now they can just try again, and a form that waited too long gets a fresh captcha.
 
-**Bugs in Yandex SmartCaptcha itself.** Both bugs were in Yandex SmartCaptcha. In Safari the page jumped to the top after a form was sent. On some Android phones the keyboard covered the field inside the challenge, and this couldn’t be fixed on our side. I reported both bugs to Yandex with a test page and a video, but neither has been fixed.
+**Bugs in Yandex SmartCaptcha itself.** Both bugs were in Yandex SmartCaptcha. In Safari, after the captcha was passed, the next click anywhere on the page made it jump to the top. On some Android phones the keyboard covered the field inside the challenge, and this couldn’t be fixed on our side. I reported both bugs to Yandex with a test page and a video, but neither has been fixed.
+
+**The Safari workaround that broke the checkbox.** I worked around the Safari jump on our side: after a successful pass, the captcha was removed and drawn again. That worked for the invisible captcha, because nobody sees it redraw. But where the captcha is visible and the buyer ticks a checkbox, the captcha redrew right away, and the tick disappeared together with the pass. So I kept the redraw only for the invisible captcha. The checkbox captcha now only removes focus from itself, and the tick stays.
 
 ### Documentation for store developers
 
