@@ -12,7 +12,7 @@ readingMinutes: 7
 tags: [Caching, IndexedDB, Storefront, Liquid, Performance]
 ---
 
-Put a few product collections on a store’s home page and you can easily get 60 to 200 products on one screen. Each of them needs data in the browser: prices, variants, stock, and what happens when a customer clicks "Add to cart". On inSales, an e-commerce platform with 60,000+ merchants, that work is done by CommonJS, the JavaScript library behind the storefronts. I maintained it for several years.
+Put a few product collections on a store’s home page and you can easily get 60 to 200 products on one screen. Each of them needs data in the browser: prices, variants, stock, and what happens when a customer clicks "Add to cart". On inSales, an e-commerce platform with 60,000+ merchants, that work is done by [CommonJS](/work/commonjs-storefront-library/), the JavaScript library behind the storefronts. I maintained it for several years.
 
 When I started digging into its caching, product data in the browser lived on a timer: two minutes in the common case, less on product pages, a few seconds in admin mode. It’s the most ordinary cache there is, and it failed in two opposite directions at once:
 

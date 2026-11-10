@@ -68,7 +68,7 @@ Cancelling had to be safe: if an image is mid-processing, the queue stops only a
 
 ### One editor, two hosts
 
-The editor started tied to the product media entity. To reuse it in the visual site editor, I moved product logic out of the component. Each host now passes the entity type, normalized image data, available images, a save handler and recommended crop ratios. The site editor mounts a single dialog instance at the top level, and features depend on context: text generation from product data stays in the product card, while a site edit saves a new file and leaves the original untouched.
+The editor started tied to the product media entity. To reuse it in the [visual site editor](/work/visual-storefront/), I moved product logic out of the component. Each host now passes the entity type, normalized image data, available images, a save handler and recommended crop ratios. The site editor mounts a single dialog instance at the top level, and features depend on context: text generation from product data stays in the product card, while a site edit saves a new file and leaves the original untouched.
 
 ![The same editor opened from the visual site editor, cropping a banner image to a recommended ratio](/images/work/product-image-editor/site-editor-banner-crop.webp)
 

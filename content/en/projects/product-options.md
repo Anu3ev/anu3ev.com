@@ -51,7 +51,7 @@ Two questions that used to have one answer now needed different ones. The produc
 
 ### Compatibility and documentation
 
-Options had to work in the product widget, AJAX products, category previews, modals, multi-warehouse carts and older templates. I wrote the test checklist for adding, changing and deleting regular products, multi-warehouse products and products with options in each of those places, plus price changes when switching variants and options. I also documented the options API for store developers who build product cards and carts in their own templates.
+Options had to work in the product widget, AJAX products, category previews, modals, [multi-warehouse carts](/work/multi-warehouse-carts/) and older templates. I wrote the test checklist for adding, changing and deleting regular products, multi-warehouse products and products with options in each of those places, plus price changes when switching variants and options. I also documented the options API for store developers who build product cards and carts in their own templates.
 
 ## Results
 
