@@ -1,66 +1,90 @@
 ---
 title: Custom Monaco code editor for Liquid templates
-description: A shared Monaco-based editor for mixed HTML, Liquid, CSS and JavaScript, used in five inSales product interfaces. I built the first integration and maintained it for more than three years.
+description: "Partners and support staff at inSales edit template code in the admin. The old editor highlighted mixed HTML and Liquid poorly and gave no suggestions. I made a Monaco build for five interfaces. The share of typical edits finished in the browser rose from 64% to 82%."
 locale: en
 slug: monaco-editor
 published: true
 cover: /images/work/monaco-editor/widget-code-liquid-autocomplete.webp
 coverAlt: Widget code editor with six file tabs showing a Liquid "for" tag suggestion inside HTML markup
 category: Browser editors
-year: Jul 2022 – Nov 2025
+year: Jun 2022 – Oct 2025
 context: inSales
-role: "Led development: language tooling, browser API, packaging, integrations"
-stack: [Monaco Editor, TypeScript, Liquid, JavaScript, Front-End Architecture, Vue.js, Webpack, API Integration, CI/CD, Gitlab, Ruby on Rails, SCSS, HTML, Developer Tools, Software Maintenance, Syntax Highlighting, Autocomplete]
+role: "Built the editor, then developed and maintained it for over three years: language support, package, API, integrations"
+stack: [Monaco Editor, TypeScript, JavaScript, Liquid, Vue.js, Webpack, GitLab CI, Ruby on Rails]
 featured: false
 order: 8
 results:
+  - value: "64% → 82%"
+    label: "share of typical edits users finished on their own in the browser, before (CodeMirror) and after (Monaco)"
   - value: "5"
-    label: "inSales product interfaces run on the same editor build"
-  - value: "3+ years"
-    label: "as primary maintainer, from July 2022 to October 2025"
+    label: "inSales product interfaces run on one editor build"
+  - value: "3 days"
+    label: "to connect the ready-made build to Abandoned Carts"
 ---
 
 ## The problem
 
-inSales storefront templates mix HTML, Liquid, JavaScript and CSS in one file, with JSON for settings and translations. Partner developers, support engineers and technical merchants edit this code in the browser, inside the admin, without downloading the template to an IDE.
+In the inSales admin, partner developers, support specialists and technically skilled merchants edit template and widget code right in the browser, without downloading the template. The platform has more than 60,000 clients, so there are many such users. One template file mixes HTML, the Liquid template language, CSS and JavaScript, and settings and translations are stored in JSON.
 
-The existing CodeMirror integration could open and save code, but it had no mixed-language highlighting, no suggestions that depended on where the cursor was, no Emmet and no inSales snippets. Turning it into a proper workspace would have meant redesigning the language setup anyway, so the team chose Monaco, the engine behind VS Code, and gave me the custom build and its rollout.
+The old CodeMirror-based editor highlighted this code poorly and had no context-aware suggestions and no Emmet, which expands short abbreviations into full markup, and errors appeared when users switched tabs or searched. CodeMirror itself can be extended, but the CodeMirror integration at inSales couldn’t be extended with platform features, and working in it was far less comfortable than in VS Code. The language configuration and suggestions would have had to be designed from scratch anyway, so the team decided to move to Monaco Editor, the engine VS Code is built on. I was asked to make the custom Monaco build and roll it out.
 
 ## My role
 
-I led the development from July 2022 to October 2025. I built the first integration for widget code, then moved it into a shared package and remained its primary maintainer as it spread to other screens. I owned the language tooling, the browser API, packaging, the release setup and the major integrations. Monaco itself supplied the editing engine. Other engineers contributed worker routing, theme updates and code formatting for supported languages.
+From June 2022 to October 2025, I developed and maintained this editor: I built its base, moved the build into a shared package, connected it to new interfaces, extended the language support and fixed bugs after rollouts. Monaco provided the editing engine; my work was the product build on top of it. Colleagues helped with some parts: loading Monaco’s background workers in Rails, updating the theme and formatting Liquid code.
 
 ## What I built
 
-### A tokenizer for templates that mix HTML and Liquid
+### The first version worked in the widget code window
 
-Liquid lives directly in the markup: output tags, control tags, comments, `raw` blocks and inSales filters. It can also sit inside an HTML attribute value, alone or mixed with plain text. I registered a custom HTML + Liquid language with a Monarch tokenizer and language configuration. After a closing delimiter inside an attribute, the tokenizer has to return to the attribute state instead of colouring the rest of the line as Liquid. It switches to JavaScript or JSON inside `script`, to CSS inside `style`, and back to HTML after the closing tag. Bracket pairs, auto-closing and indentation rules make the file behave as one language. Some edge cases only show up in a real product: one regular expression variant broke the editor entirely in Safari, so the tokenizer avoids it.
+The first place for the editor was the widget code window in the visual site editor. To make Monaco work inside a Vue component, you need an adapter. We decided not to add the ready-made `vue-monaco` and `@guolao/vue-monaco-editor` wrappers as dependencies: they contain little code, are rarely updated, and `vue-monaco` used an old Monaco version. So I moved the adapter code into the project, where the team could change it, and connected the latest Monaco version.
 
-### Suggestions follow the language under the cursor
+On top of the adapter, I built a Vue component for a widget with six files in tabs: HTML and Liquid markup, SCSS, JavaScript, translations, the settings form schema and default values. The last three files belong to different parts of the widget but share one format, JSON, so the component picks the language by file format, not by tab.
 
-Inside `script` the user needs JavaScript, not HTML attributes or Liquid snippets; inside `style`, CSS. The first version guessed the context from the nearest opening and closing tags before the cursor. In 2024 I replaced that check with Monaco’s own `getLanguageIdAtPosition`, because the model already knows which embedded language is at that position. I also normalised `script type` values such as `application/json` and `application/ld+json`, so unusual types no longer tried to load a language service that does not exist.
+![Widget code editor with six file tabs showing a Liquid "for" tag suggestion inside HTML markup](/images/work/monaco-editor/widget-code-liquid-autocomplete.webp)
+
+First, on 25–26 July 2022, the editor was rolled out only to inSales staff, so we could test it ourselves while clients still had CodeMirror. On 18–19 August it was rolled out to everyone. By then the support team was already working in the new editor and liked it, so the release didn’t need a separate testing task. In the same release I added saving with Ctrl+S: while saving, the editor is locked, so text typed after pressing Ctrl+S isn’t lost.
+
+### The tokenizer tells HTML and Liquid apart in one file
+
+After the first release, I built the main language part: a mixed HTML and Liquid language. Liquid code sits right in the markup: output tags, control tags, comments, `raw` blocks and inSales filters. It can also sit inside an HTML attribute value, on its own or mixed with plain text. In Monaco, highlighting comes from a tokenizer: it splits the text into pieces, and each piece gets the color of its type. A regular VS Code extension can’t be added to the browser version of Monaco, so I registered my own HTML + Liquid language with a tokenizer written in Monarch, Monaco’s built-in way to describe languages.
+
+The hardest part was Liquid inside attributes: after the closing `}}` or `%}`, the tokenizer must go back to reading the attribute value instead of highlighting the rest of the line as Liquid.
+
+Inside `script`, the tokenizer switches to JavaScript or JSON, inside `style` to CSS, and after the closing tag it goes back to HTML. I also set up bracket pairs, auto-closing of brackets and tags, and indentation rules, so a mixed file behaves like one language.
+
+Some problems only show up in the real product: one version of a regular expression completely broke the editor in Safari, so the tokenizer no longer uses it.
+
+### Suggestions depend on the language under the cursor
+
+Inside `script`, users need JavaScript suggestions, not HTML attribute or Liquid suggestions, and inside `style` they need CSS. The first version checked the nearest tags before the cursor with regular expressions and often got the language wrong, especially for `script` with a non-standard `type`. In 2024 I replaced that with Monaco’s own `getLanguageIdAtPosition` method: the document model, an open file together with its language, already knows which nested language is at that position. At the same time, I mapped common `type` values like `application/json` and `application/ld+json` to languages the editor supports, so the editor no longer tries to load a language service that doesn’t exist.
+
+Besides suggestions, the build has three sets of snippets, ready-made pieces of code inserted by a short keyword: 122 for Liquid, 152 for JavaScript and 166 for CSS. I connected Emmet separately for HTML and SCSS, so that Emmet and Liquid suggestions don’t conflict.
 
 ![Full template editor with a file tree and a querySelector suggestion inside a script block in layouts.layout.liquid](/images/work/monaco-editor/template-editor-script-completion.webp)
 
-*JavaScript suggestions inside a `script` block of a Liquid layout file.*
+### The build moved into a separate package
 
-### A three-function browser API
+While the editor worked only in the widget code window, its code was part of the main inSales application, which is written in Ruby on Rails. Monaco was heavy and put a lot of load on the company’s servers, so in December 2022 the infrastructure team suggested moving it to a separate repository and connecting it to the application as a ready-made library. I did this work.
 
-To keep the editor from belonging to one modal, I exposed three functions: one returns the loaded Monaco instance, one creates an editor in a given element with shared defaults, and one registers the Liquid, JavaScript and SCSS configurations for screens that create their own models. Registration checks whether a language already exists, so a page with several entry points does not get duplicate providers. Each product screen still owns its data, saving and preview. On top of it I built the Vue component for the widget workspace with six files: markup, SCSS, JavaScript, translations, settings schema and default values.
+Monaco runs its language analysis in Web Workers, separate background threads in the browser, so one main bundle isn’t enough for a working editor. I set up Webpack to build the bundle and the language workers and packaged them into a Rails Engine and an internal gem, a Ruby package. GitLab CI runs three jobs: build the Webpack bundle, build the gem, publish it to the internal registry. The main application pins a specific package version, and a tokenizer fix or a new snippet reaches the editor with the next package version.
 
-### Workers and packaging are part of the contract
+To let any interface add the editor, I gave the build a three-function API: the first returns the loaded Monaco, the second creates an editor in a given element with shared settings, and the third registers the language configurations for interfaces that create document models themselves. Before registering a language, the build checks whether it’s already registered, so a page with several editors doesn’t get duplicate suggestions. Each interface loads, saves and previews its own content. While I was doing this, my team lead asked me to write down what I learned about Webpack and building in GitLab CI, so it could become training material for all developers.
 
-Monaco runs language analysis in Web Workers, so a working editor needs more than its main bundle. I set up Webpack to produce the bundle plus five language workers, then packaged them as a Rails Engine and internal gem. GitLab CI builds the bundle, builds the gem and publishes a version to the internal package registry. The main app pins a version, and a fix to the tokenizer or a new command ships to every screen from one place.
+### One build works in templates and in messages to buyers
 
-### One build for templates and customer messages
+After the move to a package, in March 2023, the build was connected to the full template editor with a file tree and tabs. In 2025 it was also added to the interfaces a store uses to talk to buyers: order emails, [Abandoned Carts](/work/abandoned-carts/) reminder emails, and Dialogues, a paid feature for order notifications in messengers, SMS and email. In these interfaces, the user edits HTML and Liquid, or text with Liquid variables, and checks the result in a preview with a real order or cart.
 
-After widget code, the same build went into the full template editor with its file tree, then into order emails, [abandoned-cart reminders](/work/abandoned-carts/) and order-status notifications in inSales Dialogues. In those communication screens the merchant edits HTML/Liquid or text with Liquid variables and previews the result on a real order or cart.
+In Abandoned Carts, the email template used to be edited in a WYSIWYG email editor that rewrote HTML tags and could break the Liquid logic. So in February 2025 we decided to replace it with Monaco and a preview. I didn’t have to set up Monaco again, describe Liquid again or configure workers: I connected the ready-made build in three working days, and the interface code only handled the message data and the preview.
 
-![Client letter template editor with the subject, HTML and Liquid source, and a preview by order number](/images/work/monaco-editor/order-email-template.webp)
+![Order email template editor with the subject, HTML and Liquid source, and a preview for a chosen order](/images/work/monaco-editor/order-email-template.webp)
+
+Other developers also improved the shared package: in 2023 colleagues updated the theme and added HTML and Liquid formatting with Prettier. Both changes were made once in the package and appeared in every interface that uses it.
+
+To measure the new editor, our product manager compared the same typical edits in CodeMirror and in Monaco. Each participant got a file with mixed HTML and Liquid, and an edit counted as successful if, without help from anyone, extra documentation or an external IDE, they found the right place, saved the code and saw the expected result in the preview.
 
 ## Results
 
-- One editor build runs in 5 inSales product interfaces: widget code, full storefront templates, order emails, abandoned-cart messages and Dialogues notifications.
-- I was the primary maintainer for more than 3 years, from July 2022 to October 2025.
-- Shared improvements land once and reach every interface: colleagues added Liquid formatting and theme updates in the package without reworking each screen.
-- Merchants and partners get VS Code-like editing in the admin: cursor-aware completion, Emmet, inSales snippets and a Liquid comment shortcut (Ctrl+Shift+/) that works with undo and redo.
+- The share of typical edits that users finished on their own in the browser grew from 64% to 82%.
+- The Monaco build replaced three different code fields: the CodeMirror integration, the WYSIWYG email editor and a plain text field. It runs in 5 inSales product interfaces: widget code, the full template editor, order emails, Abandoned Carts and Dialogues.
+- Connecting the ready-made build to Abandoned Carts took three working days, because the language support and workers didn’t have to be built again.
+- Shared improvements are made once and reach every interface, for example, the formatting and the theme that colleagues added.
