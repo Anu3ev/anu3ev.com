@@ -24,13 +24,13 @@ results:
 
 ## The problem
 
-inSales is a platform where 60,000+ businesses run their online stores. On every store, buyers place orders, sign in, register, and leave reviews and requests through forms. Bots can use the same forms too, and during an attack they create hundreds of orders per second. Stores got a lot of spam through contact forms, so the captcha was made mandatory there, because what buyers send through those forms goes straight to the store’s email. That’s why Google reCAPTCHA bot protection was already enabled for the forms. It came with two problems, and solving them was my job.
+inSales is a platform where 60,000+ businesses run their online stores. On every store, buyers place orders, sign in, register, and leave reviews and requests through forms. Bots can use the same forms too, and during an attack they create hundreds of orders per second. On top of that, stores got a lot of spam through contact forms, so the captcha was made mandatory for those forms. That’s why Google reCAPTCHA bot protection was already enabled for the forms. It came with three problems, and solving them was my job.
 
-The first problem was an extra click. Remember the "I’m not a robot" checkbox you have to click before sending a form? Stores on inSales had it on their forms, so every buyer who filled in a form had to make one more click. Every extra click lowers form conversion, and it hurts most on checkout.
+The first problem was page speed. In 2022 I found that the Google reCAPTCHA script loaded several times on every store page, even on pages with no forms: from 3 to 10 times. The script weighs about 150–200 KB, so every page load could pull in an extra 600 KB or more of scripts, which slowed down clients’ store pages.
 
-The second problem came from Russia’s personal data law. Since July 2025, a website in Russia may not collect personal data of people in Russia using databases abroad, and fines for this can reach millions of rubles. Google reCAPTCHA sends data about every visitor to Google’s servers abroad, so for a Russian online store keeping it became a legal risk. Yandex has a similar service, Yandex SmartCaptcha, that keeps the data in Russia. The idea was to let a store owner switch between the two providers with one setting.
+The second problem was an extra click. Remember the "I’m not a robot" checkbox you have to click before sending a form? Stores on inSales had it on their forms, so every buyer who filled in a form had to make one more click. Every extra click lowers form conversion, and it hurts most on checkout.
 
-But my work on the captcha started earlier, in 2022, with a performance problem.
+The third problem came from Russia’s personal data law. Since July 2025, a website in Russia may not collect personal data of people in Russia using databases abroad, and fines for this can reach millions of rubles. Google reCAPTCHA sends data about every visitor to Google’s servers abroad, so for a Russian online store keeping it became a legal risk. Yandex has a similar service, Yandex SmartCaptcha, that keeps the data in Russia. The idea was to let a store owner switch between the two providers with one setting.
 
 ## My role
 
@@ -42,7 +42,7 @@ I was responsible for the captcha across the whole project, so colleagues often 
 
 ### Lazy loading for the captcha
 
-In 2022 I found that the Google reCAPTCHA script loaded several times on every store page, even on pages with no forms: from 3 to 10 times. The script weighs about 150–200 KB, so every page load could pull in an extra 600 KB or more of scripts, which slowed down clients’ store pages. reCAPTCHA itself caused half of the extra loads, and we caused the other half: both the server-side templates and the storefront JavaScript library added the captcha. I made the captcha load lazily: the script loads once, and in latest-generation templates only when the form appears on screen. For clients this meant faster store pages, which also improved their Google PageSpeed scores.
+Google reCAPTCHA itself caused half of the extra loads, and we caused the other half: both the server-side templates and the storefront JavaScript library added the captcha. I made the captcha load lazily: the script loads once, and in latest-generation templates only when the form appears on screen. For clients this meant faster store pages, which also improved their Google PageSpeed scores.
 
 ### An invisible captcha instead of the checkbox
 
@@ -56,7 +56,7 @@ The captcha in the browser isn’t enough. When the check passes, Google returns
 
 ### The Google badge in the corner of the screen
 
-The invisible captcha has no checkbox, but Google shows a small badge. The manager responsible for the project wanted to remove it. It turned out you couldn’t just hide the badge: with `display: none` the captcha stops working, and other ways of hiding it break Google’s terms. Google allows hiding the badge only if the page has text saying it’s protected by reCAPTCHA, with links to Google’s policies, so the idea came up to add that text to the footers of clients’ sites. I was against it: the footer is part of the client’s site design, and the added text could spoil it or break the layout. A badge in the corner of the screen doesn’t touch the design, so I suggested keeping it. We fixed it in the bottom-left corner, because stores usually have chat and "Back to top" buttons on the right. A page has one badge, however many forms it has.
+The invisible captcha has no checkbox, but Google shows a small badge. The manager responsible for the project wanted to remove it. It turned out you couldn’t just hide the badge: with `display: none` the captcha stops working, and other ways of hiding it break Google’s terms. Google allows hiding the badge only if the page has text saying it’s protected by Google reCAPTCHA, with links to Google’s policies, so the idea came up to add that text to the footers of clients’ sites. I was against it: the footer is part of the client’s site design, and the added text could spoil it or break the layout. A badge in the corner of the screen doesn’t touch the design, so I suggested keeping it. We fixed it in the bottom-left corner, because stores usually have chat and "Back to top" buttons on the right. A page has one badge, however many forms it has.
 
 ### One setting for the store owner
 
