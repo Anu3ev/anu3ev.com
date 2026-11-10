@@ -19,7 +19,7 @@ order: 9
 
 Some inSales merchants sell wholesale from more than one stock source: their own warehouse and a partner’s, shown in one catalogue. A wholesale buyer needs to say "15 units from the main warehouse, 8 from the partner" for the same product, and the cart has to keep those choices apart, each warehouse with its own quantities and subtotal.
 
-The storefront cart was built around a single list of items. Every cart operation in CommonJS, the shared JavaScript library that inSales storefronts use, assumed one cart. Storefronts call it from many places: the product page, the catalogue, the home page, related-product widgets. A change to it affects a lot of stores, including those with one warehouse that never use this feature.
+The storefront cart was built around a single list of items. Every cart operation in [CommonJS](/work/commonjs-storefront-library/), the shared JavaScript library that inSales storefronts use, assumed one cart. Storefronts call it from many places: the product page, the catalogue, the home page, related-product widgets. A change to it affects a lot of stores, including those with one warehouse that never use this feature.
 
 ## My role
 

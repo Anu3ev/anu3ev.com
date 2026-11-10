@@ -54,7 +54,7 @@ One "subscribed" flag was not enough. The server returns trial state and expiry,
 
 ### Three ways to send, one template workflow
 
-Merchants can message one customer, select carts across pages for a bulk email or SMS, or configure automatic reminders per channel. Before a bulk send, the form shows how many selected customers lack the required contact and offers to filter them out. We deliberately left out a "select every cart" action because of the load it could create. Templates are edited in our shared Monaco-based editor, and the preview renders Liquid with the selected cart’s products, quantities and totals.
+Merchants can message one customer, select carts across pages for a bulk email or SMS, or configure automatic reminders per channel. Before a bulk send, the form shows how many selected customers lack the required contact and offers to filter them out. We deliberately left out a "select every cart" action because of the load it could create. Templates are edited in our shared [Monaco-based editor](/work/monaco-editor/), and the preview renders Liquid with the selected cart’s products, quantities and totals.
 
 ![Email preview rendered with the selected cart’s data next to the message form](/images/work/abandoned-carts/email-preview-with-cart-data.webp)
 

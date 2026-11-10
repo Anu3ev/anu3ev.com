@@ -54,7 +54,7 @@ Monaco runs language analysis in Web Workers, so a working editor needs more tha
 
 ### One build for templates and customer messages
 
-After widget code, the same build went into the full template editor with its file tree, then into order emails, abandoned-cart reminders and order-status notifications in inSales Dialogues. In those communication screens the merchant edits HTML/Liquid or text with Liquid variables and previews the result on a real order or cart.
+After widget code, the same build went into the full template editor with its file tree, then into order emails, [abandoned-cart reminders](/work/abandoned-carts/) and order-status notifications in inSales Dialogues. In those communication screens the merchant edits HTML/Liquid or text with Liquid variables and previews the result on a real order or cart.
 
 ![Client letter template editor with the subject, HTML and Liquid source, and a preview by order number](/images/work/monaco-editor/order-email-template.webp)
 
