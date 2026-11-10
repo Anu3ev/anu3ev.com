@@ -7,7 +7,7 @@ published: true
 cover: /images/work/form-protection/invisible-captcha-submit-flow.svg
 coverAlt: "Diagram: the buyer clicks Send, the form checks its fields, Google or Yandex decides whether this is a human, only this form is sent, and the server checks the token"
 category: Storefront platform
-year: Oct 2023 – Jul 2026
+year: Aug 2022 – Jul 2026
 context: inSales
 role: "Owned everything except the server-side token check"
 stack: [JavaScript, Vue, Slim, Liquid, Google reCAPTCHA, Yandex SmartCaptcha]
@@ -24,17 +24,25 @@ results:
 
 ## The problem
 
-inSales is a platform where 60,000+ businesses run their online stores. On every store, buyers place orders, sign in, register, and leave reviews and requests through forms. Bots can use the same forms too, and during an attack they create hundreds of orders per second. That’s why Google reCAPTCHA bot protection was already enabled for the forms. It came with two problems, and solving them was my job.
+inSales is a platform where 60,000+ businesses run their online stores. On every store, buyers place orders, sign in, register, and leave reviews and requests through forms. Bots can use the same forms too, and during an attack they create hundreds of orders per second. Stores got a lot of spam through contact forms, so the captcha was made mandatory there, because what buyers send through those forms goes straight to the store’s email. That’s why Google reCAPTCHA bot protection was already enabled for the forms. It came with two problems, and solving them was my job.
 
 The first problem was an extra click. Remember the "I’m not a robot" checkbox you have to click before sending a form? Stores on inSales had it on their forms, so every buyer who filled in a form had to make one more click. Every extra click lowers form conversion, and it hurts most on checkout.
 
 The second problem came from Russia’s personal data law. Since July 2025, a website in Russia may not collect personal data of people in Russia using databases abroad, and fines for this can reach millions of rubles. Google reCAPTCHA sends data about every visitor to Google’s servers abroad, so for a Russian online store keeping it became a legal risk. Yandex has a similar service, Yandex SmartCaptcha, that keeps the data in Russia. The idea was to let a store owner switch between the two providers with one setting.
 
+But my work on the captcha started earlier, in 2022, with a performance problem.
+
 ## My role
 
-I owned the whole project except the server-side token check, which a backend developer built. I agreed with that developer on what each form sends. My part covered the store and platform forms, the setting for choosing the captcha, the storefront JavaScript library, the widgets, the documentation for store developers, testing with QA and the release. I rolled out the invisible Google captcha in 2023 and the choice between Google and Yandex in August 2025, and maintained the feature until July 2026.
+I owned the whole project except the server-side token check, which a backend developer built. I agreed with that developer on what each form sends. My part covered the store and platform forms, the setting for choosing the captcha, the storefront JavaScript library, the widgets, the documentation for store developers, testing with QA and the release. In 2022 I made the captcha load lazily, in 2023 I rolled out the invisible Google captcha, and the choice between Google and Yandex in August 2025, and maintained the feature until July 2026.
+
+I was responsible for the captcha across the whole project, so colleagues often came to me with questions. When sign-in moved to another team, I still handled the captcha in those forms.
 
 ## What I built
+
+### Lazy loading for the captcha
+
+In 2022 I found that the Google reCAPTCHA script loaded several times on every store page, even on pages with no forms: from 3 to 10 times. The script weighs about 150–200 KB, so every page load could pull in an extra 600 KB or more of scripts, which slowed down clients’ store pages. reCAPTCHA itself caused half of the extra loads, and we caused the other half: both the server-side templates and the storefront JavaScript library added the captcha. I made the captcha load lazily: the script loads once, and in latest-generation templates only when the form appears on screen. For clients this meant faster store pages, which also improved their Google PageSpeed scores.
 
 ### An invisible captcha instead of the checkbox
 
@@ -45,6 +53,10 @@ Google also offers an invisible version of the same captcha: it runs when you cl
 The captcha in the browser isn’t enough. When the check passes, Google returns a token, which is sent to the server together with the form and confirms that the check was passed. The server verifies the token by sending a request to Google and accepts the data only if the token is valid. A bot that skips the page and sends an order straight to the server has no valid token, so the server returns an error. And if the buyer’s actions look suspicious, they get the famous fire hydrant challenge.
 
 ![A buyer clicks Send, Google or Yandex returns a token, the form sends the data and the token, the server verifies the token and accepts the request. A bot skips the page, sends a request without a valid token, and the server returns an error](/images/work/form-protection/server-check.svg)
+
+### The Google badge in the corner of the screen
+
+The invisible captcha has no checkbox, but Google shows a small badge. The manager responsible for the project wanted to remove it. It turned out you couldn’t just hide the badge: with `display: none` the captcha stops working, and other ways of hiding it break Google’s terms. Google allows hiding the badge only if the page has text saying it’s protected by reCAPTCHA, with links to Google’s policies, so the idea came up to add that text to the footers of clients’ sites. I was against it: the footer is part of the client’s site design, and the added text could spoil it or break the layout. A badge in the corner of the screen doesn’t touch the design, so I suggested keeping it. We fixed it in the bottom-left corner, because stores usually have chat and "Back to top" buttons on the right. A page has one badge, however many forms it has.
 
 ### One setting for the store owner
 
@@ -81,12 +93,17 @@ The law applied not only to the stores but to the inSales platform itself, so Ya
 
 **The Safari workaround that broke the checkbox.** I worked around the Safari jump on our side: after a successful pass, the captcha was removed and drawn again. That worked for the invisible captcha, because nobody sees it redraw. But the captcha component I built lets any developer make the captcha visible, with the "I’m not a robot" checkbox. Only a few stores did that, and that’s how we found the problem: the buyer ticked the box, the captcha redrew right away, and the tick disappeared together with the pass. So I kept the redraw only for the invisible captcha. The checkbox captcha now only removes focus from itself, and the tick stays.
 
+### Testing
+
+Because we tested in different browsers, QA ended up with 76 tests, each with a 14-item checklist: customer accounts, three versions of checkout, widgets, Windows, macOS, mobile devices and accounts outside Russia. Two testers ran every form. The testing was worth it: we found and fixed many bugs in forms that at first seemed to work correctly.
+
 ### Documentation for store developers
 
 Many stores have forms written by their own developers. For them I published documentation with examples for adding either captcha through the API of the storefront JavaScript library: [Google reCAPTCHA](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/Google%20reCAPTCHA/recaptcha-common/) and [Yandex SmartCaptcha](https://docs.liquidhub.ru/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B%20%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%8B%20%D1%81%20%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D0%BC%D0%B8%20%D0%BC%D0%B0%D0%B3%D0%B0%D0%B7%D0%B8%D0%BD%D0%B0/Captcha/yandex_captcha/#_2).
 
 ## Results
 
+- Store pages load faster: the captcha script loads once, and only when the form appears on screen.
 - Buyers send forms without the extra "I’m not a robot" click.
 - Store owners choose between Google and Yandex with one setting, and the choice works at once in the system forms, the library’s form components and the system widgets.
 - In the Russian version of the platform, store owners sign in to inSales and recover their access through forms protected by Yandex SmartCaptcha; the versions for Ukraine and Kazakhstan kept Google reCAPTCHA.
