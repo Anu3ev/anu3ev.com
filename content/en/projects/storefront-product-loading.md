@@ -87,11 +87,11 @@ Once product blocks loaded after the main content, there was a risk of layout sh
 
 The update time comes from the widget markup, and old and custom widgets don’t have this attribute. So the update-time check couldn’t be turned on everywhere at once, and I split the rollout into two stages. First, the new library version was released. For markup without an update time, it kept the old check based on the cache period. At this stage we checked that nothing broke in latest-generation templates or in older ones.
 
-Then I added `data-product-updated-at` to the built-in widgets. At the second stage we checked that products still came from the cache after 120 seconds. We also checked that after a price change in the admin panel, the library requested only that product. By March 2024 the attribute was in the built-in widgets of latest-generation templates.
+Then I added `data-product-updated-at` to the built-in widgets. At the second stage we checked that products still came from the cache after 120 seconds. We also checked that after a price change in the admin panel, the library requested only that product. By March 2024 the attribute was in every built-in widget of latest-generation templates except AJAX widgets. The library also caches products from AJAX widgets without a timer, the same way as products with the attribute.
 
 ## Results
 
-- After the switch to update-time checks, there were about 70% fewer product data requests, or roughly 3.3 times fewer.
+- After the switch to update-time checks, there were about 70% fewer product data requests.
 - In typical measurements, pages with many product blocks loaded in 2–3 seconds instead of more than 5.
 - Products with more than 800 variants, which didn’t load at all with the old widgets, now load.
 - Old and custom widgets kept working during the rollout.

@@ -25,7 +25,7 @@ Here is an ordinary piece of a storefront template:
 
 It has HTML, Liquid in the markup, Liquid inside an attribute value, and a `script` block that holds JSON, not JavaScript. In Monaco’s standard HTML mode, the Liquid in the markup is plain text, and the Liquid inside the attribute is colored as an ordinary string. To highlight a file like this and give suggestions in it, the editor has to know which language is in each place.
 
-inSales is an e-commerce platform with more than 60,000 stores. Partner developers, support specialists and technically experienced store owners edit template and widget code right in the admin panel. The old CodeMirror integration didn’t highlight mixed syntax and had no context-aware suggestions and no Emmet, which expands short abbreviations into ready-made markup or CSS. So we decided to move to Monaco Editor, the engine VS Code is built on. I implemented a custom Monaco package for inSales and developed and maintained it from June 2022 to October 2025.
+inSales is an e-commerce platform with more than 60,000 online stores. Partner developers, support specialists and technically experienced store owners edit template and widget code right in the admin panel. The old CodeMirror integration highlighted mixed syntax poorly and had no context-aware suggestions and no Emmet. So we decided to move to Monaco Editor, the engine VS Code is built on. I implemented a custom Monaco package for inSales and developed and maintained it from June 2022 to October 2025.
 
 Monaco provides the editor itself, document models (open files together with their language) and language provider APIs, through which you add highlighting and suggestions. But Monaco knows nothing about the inSales domain, and VS Code extensions don’t work in the browser version of Monaco. So the mixed language had to be described with Monaco’s own tools.
 
@@ -149,7 +149,7 @@ monaco.languages.registerCompletionItemProvider('liquid', {
 })
 ```
 
-The `snippetsFor` function returns the snippets for that language. Snippets are ready-made pieces of code that are inserted by a short keyword. The package has three sets: 122 snippets for Liquid, 152 for JavaScript and 166 for CSS, 440 in total. HTML and Liquid are still one language, so the method separates the markup from embedded JavaScript and CSS, not HTML from Liquid.
+The `snippetsFor` function returns the snippets for that language. The package has three sets: 122 snippets for Liquid, 152 for JavaScript and 166 for CSS, 440 in total. HTML and Liquid are still one language, so `getLanguageIdAtPosition` separates the markup from embedded JavaScript and CSS, not HTML from Liquid.
 
 Now only the tokenizer answers the question of which language is under the cursor. When a bug in an embedded language is fixed in the tokenizer, suggestions in that place become correct too.
 
@@ -159,6 +159,6 @@ At first, the editor worked only in the widget code window. The infrastructure t
 
 ## What I’d suggest when you add your own language to Monaco
 
-- Keep the knowledge of which language is where in the tokenizer. A completion provider then only has to ask the model through `getLanguageIdAtPosition`, and you don’t need regular expressions over the text before the cursor.
+- Let the tokenizer decide the language at each position. A completion provider then only has to ask the model through `getLanguageIdAtPosition`, and you don’t need regular expressions over the text before the cursor.
 - Plan how the tokenizer leaves nested constructs: after an embedded piece, it has to return to the state it entered from. In Monarch, the state stack does this.
 - Map `type` values in embedded blocks to languages explicitly, and set a default language for everything else.

@@ -15,7 +15,7 @@
     </g>
     <rect x="370" y="170" width="460" height="370" rx="16" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>
 
-    <text x="85" y="230" fill="#86adff" font-size="15" letter-spacing="2">СТАНДАРТНЫЕ ШАБЛОНЫ</text>
+    <text x="85" y="230" fill="#86adff" font-size="15" letter-spacing="2">СИСТЕМНЫЕ ШАБЛОНЫ</text>
     <text x="85" y="272" fill="#ecedee" font-size="20">Несколько поколений</text>
     <text x="85" y="302" fill="#a1a3a8" font-size="16">Liquid и data-*-атрибуты</text>
 

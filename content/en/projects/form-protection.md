@@ -26,7 +26,7 @@ results:
 
 ## The problem
 
-inSales is a platform where 60,000+ businesses run their online stores. In every store, buyers order products, sign in to their account, and leave reviews and requests, all through forms. Bots can use the same forms too, and during an attack they create hundreds of orders per second. Stores also got a lot of spam through contact forms, so the captcha was made mandatory there. That’s why the forms were already protected by Google reCAPTCHA.
+inSales is a platform with more than 60,000 online stores. In every store, buyers order products, sign in to their account, and leave reviews and requests, all through forms. Bots can use the same forms too, and during an attack they create hundreds of orders per second. Stores also got a lot of spam through contact forms, so the captcha was made mandatory there. That’s why the forms were already protected by Google reCAPTCHA.
 
 That captcha had three problems, and solving them was my job:
 
@@ -38,7 +38,7 @@ That captcha had three problems, and solving them was my job:
 
 I owned the whole project except the server-side token check, which a backend developer built. I agreed with that developer on what each form sends. My part covered the store and platform forms, the setting for choosing the captcha, the [storefront JavaScript library](/work/commonjs-storefront-library/), the widgets, the documentation for store developers, testing with QA and the release. In 2022 I made the captcha load lazily, in 2023 I rolled out the invisible Google reCAPTCHA, in August 2025 I added the choice between Google reCAPTCHA and Yandex SmartCaptcha, and I maintained the feature until July 2026.
 
-I was responsible for the captcha across the whole project, so colleagues often came to me with questions. A QA engineer used my explanations to write tests for the updated captcha. When sign-in moved to another team, I still handled the captcha in those forms. In June 2026, a developer from the department that builds paid custom features for store owners needed to add Yandex SmartCaptcha to older templates. The team lead brought this to me with the words "Who else could do it?"
+I was responsible for the captcha across the whole project, so colleagues often came to me with questions. A QA engineer used my explanations to write tests for the updated captcha. When sign-in moved to another team, I still handled the captcha in those forms. In June 2026, someone had to explain to a developer from the department that builds paid custom features for store owners how to add Yandex SmartCaptcha to older templates. The team lead brought this to me with the words "Who else could do it?"
 
 ## What I built
 
@@ -46,7 +46,7 @@ I was responsible for the captcha across the whole project, so colleagues often 
 
 In August 2022 I found that the Google reCAPTCHA script loaded several times on every store page, even on pages with no forms. A page without forms loaded it 3 times, a page with a contact form and a one-click order form 8 times, and a page with two form widgets 10 times. The script weighs about 150–200 KB, so every page could download 600 KB or more of extra scripts, which made the stores slower.
 
-There were two causes. About half of the extra loads came from Google reCAPTCHA itself: it runs in several frames, and Google’s bug tracker has had open issues about this since 2019. We caused the other half: the captcha was added both by the server-side page templates and by the storefront JavaScript library, inSales’s shared library with ready-made form components.
+There were two causes. About half of the extra loads came from Google reCAPTCHA itself: it runs in several frames. We caused the other half: the captcha was added both by the server-side page templates and by the storefront JavaScript library, inSales’s shared library with ready-made form components.
 
 I removed the extra loads that we caused. Before adding the script, the library now checks whether it’s already on the page, and if it is, doesn’t load it again.
 
@@ -74,7 +74,7 @@ Also, not every form turned on the captcha the same way. For example, password s
 
 ### The Google badge in the corner of the screen
 
-The invisible Google reCAPTCHA has no "I’m not a robot" checkbox, but a small Google badge appears in the corner of the screen. The manager responsible for the project wanted to remove it completely, because, in his words, the captcha directly affects both conversion and how the site looks.
+The invisible Google reCAPTCHA has no "I’m not a robot" checkbox, but a small Google badge appears in the corner of the screen. The product manager wanted to remove it completely, because, in his words, the captcha directly affects both conversion and how the site looks.
 
 It turned out you couldn’t just hide the badge. With `display: none` the captcha stops working, and hiding it with `visibility: hidden` and zero height breaks Google’s terms: the badge must be visible to visitors. [Google allows hiding it](https://developers.google.com/recaptcha/docs/faq) only if the page has text saying the site is protected by Google reCAPTCHA, with links to Google’s privacy policy and terms of service. So someone suggested adding that text to the footers of store owners’ sites.
 
@@ -103,7 +103,7 @@ Template forms are the contact, review, comment and one-click order forms inside
 - The third generation was built in Vue. It was later removed from the platform for every store.
 - The fourth generation is built from widgets. A store owner adds, say, a contact form widget. System widgets come from inSales, and custom widgets are widgets whose code the store’s developers changed. System widgets updated automatically, and the owner has to update custom widgets.
 
-So I added Yandex SmartCaptcha to the form components of the storefront JavaScript library and to the fourth-generation system widgets. For custom forms, the library already had its own API for adding Google reCAPTCHA, which I had built in 2023. I added the same kind of API for Yandex SmartCaptcha and wrote documentation, so store developers could add either captcha themselves (more on that below). As a result, the owner picks the captcha in one setting, and the choice works right away in the system forms, the library’s form components and the system widgets.
+So I added Yandex SmartCaptcha to the form components of the storefront JavaScript library and to the fourth-generation system widgets. For custom forms, the library already had its own API for adding Google reCAPTCHA, which I had built in 2023. I added the same kind of API for Yandex SmartCaptcha and wrote documentation, so store developers could add either captcha themselves. As a result, the owner picks the captcha in one setting, and the choice works right away in the system forms, the library’s form components and the system widgets.
 
 ![System forms got the choice automatically in every store. To use Yandex SmartCaptcha in first- and second-generation templates, the owner updates the forms in the template code manually; in the second generation it’s easier with the ready-made components or captcha API of the storefront JavaScript library. The third generation was removed from the platform for every store. In the fourth generation, system widgets update automatically, while custom widgets have no captcha at all after switching to Yandex SmartCaptcha until the owner updates their code. Store developers update custom forms using our documentation](/images/work/form-protection/forms-by-template-generation.svg)
 
@@ -125,7 +125,7 @@ The law applied not only to the stores but to the inSales platform itself, so Ya
 
 **A closed challenge no longer blocks the form.** While a request is running, the form blocks a second submission, so the buyer doesn’t click the button twice by accident. But waiting for the captcha isn’t the same as sending the order: if a buyer closed the Yandex SmartCaptcha challenge, the form stayed stuck in "sending". Now, after closing the challenge, the buyer can send the form again, and if the form waits too long, the captcha runs again.
 
-**Bugs in Yandex SmartCaptcha itself.** Two bugs were in Yandex SmartCaptcha, not in our code. In Safari 18.4, after the captcha was passed, `document.activeElement` (the element that has focus) wasn’t reset, so the next click anywhere on the page scrolled it to the top. On some Android phones the keyboard covered the field inside the challenge, and this couldn’t be fixed on our side. I reported both bugs to Yandex Cloud support with a test page and a video, but neither has been fixed.
+**Bugs in Yandex SmartCaptcha itself.** Two bugs were in Yandex SmartCaptcha, not in our code. In Safari 18.4, after the captcha was passed, `document.activeElement` (the element that has focus) wasn’t reset, so the next click anywhere on the page scrolled the page to the top. On some Android phones the keyboard covered the field inside the challenge, and this couldn’t be fixed on our side. I reported both bugs to Yandex Cloud support with a test page and a video, but neither has been fixed.
 
 **The Safari workaround that broke the checkbox.** I worked around this Safari bug on our side: after the buyer passed the captcha, it was removed and redrawn. That worked for the invisible captcha, because nobody sees it redraw. But the captcha component I built lets any developer make the captcha visible, with the "I’m not a robot" checkbox. Only a few stores did that, and that’s how we found the problem: the buyer clicked the checkbox, the captcha redrew right away, and the checkmark disappeared together with the token. So I kept the redraw only for the invisible captcha. The checkbox captcha now only removes focus from the iframe it is rendered in, and the checkmark stays.
 

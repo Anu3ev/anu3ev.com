@@ -53,11 +53,11 @@ The price is recalculated when the buyer changes the variant or the chosen optio
 
 For the cart to tell lines of one variant apart, the chosen options had to be sent together with the variant ID. On 25 October 2023 the backend developer and I agreed on the data format. He suggested two formats. The first was a new `accessoriable_variant_ids` structure that lists, for each variant, its cart lines with the IDs of the chosen options and the quantity. The second was the format that the `/cart_items_with_accessories` method already accepted: an `order_lines` array with a `variant_id` and a list of `accessory_value_ids` for each line.
 
-I chose the first: it’s easier to handle on the backend, and it goes in the same cart request, `/front_api/cart`, as the existing `variant_ids` list. The same day we found that Rails, the framework the inSales backend is built on, didn’t parse the array of option IDs in this request’s parameters. So we started sending option IDs as an object that maps each ID to a quantity: `"accessory_value_ids": { "4097249": 1 }`. This format also makes it possible to send a quantity for each option later.
+I chose the first: it’s easier to handle on the backend, and it goes in the same cart request, `/front_api/cart`, as the existing `variant_ids` list. The same day we found that Rails, the framework the inSales backend is built on, didn’t parse the array of option IDs in this request’s parameters. So we started sending option IDs as an object that maps each ID to a quantity: `"accessory_value_ids": { "4097249": 1 }`. This format also makes it possible to send a separate quantity for each option in the future.
 
 I updated `Cart.add`, `Cart.set`, `Cart.delete` and the cart task queue, which combines pending cart operations into one request. Now they send the chosen options together with the variant ID. Quantity changes and deletion apply to one specific cart line, not to every line with that variant. In the cart widget, each line shows the names of its chosen options.
 
-I tested every backend build on staging and found bugs before the release. For example, a product without options was merged into the cart line of the same product with options. And the limit check compared all chosen values with the minimum and maximum of one group.
+I tested every backend build on staging and found bugs before the release. For example, a product without options was merged into the cart line of the same product with options. And the limit check compared all chosen values with the minimum and maximum quantity of one specific option.
 
 ![Demo-store cart with the Classic bouquet as two lines: standard wrapping for $40, and a gift box with a greeting card for $48, each line with its own options](/images/work/product-options/cart-same-variant-two-lines.webp)
 
@@ -79,9 +79,9 @@ So I wrote a handler for the Checkout button. When the buyer clicks it, the hand
 
 Before the release I wrote a test checklist for regular products and products with options: adding them to the cart, changing the quantity and deleting them. It covered the product page, AJAX-loaded products, previews on category pages, modal windows and old templates.
 
-On 26 December 2023 I added options support to every built-in product page and cart widget in one day. At first, options worked only in stores with the feature flag turned on, and I wrote an announcement for the support team. On 17 January 2024, once the documentation was ready, the flag was removed, and options became available in every store. Latest-generation templates support them by default.
+On 26 December 2023 I added options support to every built-in product page and cart widget in one day. At first, options worked only in stores with the Connect options feature flag turned on, and I wrote an announcement for the support team. On 17 January 2024 the flag was removed, and options became available in every store. Latest-generation templates support them by default.
 
-In February 2025 I worked on the description of the options API in the documentation for store developers who build the product page and cart in their own templates.
+In February 2025 I worked on documenting the options API for store developers who build the product page and cart in their own templates.
 
 ## Results
 
