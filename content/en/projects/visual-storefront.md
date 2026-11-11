@@ -66,7 +66,7 @@ Once each part of the screen had one job, the onboarding tour for the first visi
 
 ### Data loads when the interface needs it
 
-When it opened, the old editor loaded everything the sidebar showed in one request: the design settings, the layouts (the set of widgets for one page type) and every widget list. The backend developer and I split the API to match the new interface: on opening, the editor requests only the data for the top menu, and it requests a widget list when the user opens it. The first response had been only about 5–10 KB, so this didn’t make anything faster. The point was different: the API now matches the new interface and no longer returns data for a sidebar that doesn’t exist.
+When it opened, the old editor loaded everything the sidebar showed in one request: the design settings, the layouts (the sets of widgets for each page type) and every widget list. The backend developer and I split the API to match the new interface: on opening, the editor requests only the data for the top menu, and it requests a widget list when the user opens it. The first response had been only about 5–10 KB, so this didn’t make anything faster. The point was different: the API now matches the new interface and no longer returns data for a sidebar that doesn’t exist.
 
 ### Switching pages updates both the iframe and the editor settings
 
@@ -88,9 +88,9 @@ In recovery mode (the interface calls it "Service mode"), the editor shows the p
 
 ### Recovery mode works in Firefox too
 
-Firefox had two separate problems. First, the editor didn’t learn that the page had failed. In Chrome, the iframe with such a page gets an error right away, but in Firefox the iframe’s load event doesn’t fire in this case, so the editor could wait forever. I added a timeout: if the page doesn’t tell the editor it has loaded within 30 seconds, the editor opens recovery mode. I chose 30 seconds because the server limits a store page request to 25 seconds by default.
+Firefox had two separate problems. First, the editor didn’t learn that the page had failed. In Chrome, the editor sees right away that the expected content didn’t appear on the page, but in Firefox the iframe’s load event doesn’t fire in this case, so the editor could wait forever. I added a timeout: if the page doesn’t tell the editor it has loaded within 30 seconds, the editor opens recovery mode. I chose 30 seconds because the server limits a store page request to 25 seconds by default.
 
-Second, the editor itself stopped responding. When the server couldn’t process the page in time, it returned the status code 408 Request Timeout. With that response, the editor in Firefox froze for 4 minutes on average, while in Chrome it was usable again after a few seconds. Firefox is known to resend a request after a 408 response: [Mozilla bug 907800](https://bugzilla.mozilla.org/show_bug.cgi?id=907800) describes the browser resending such a request about ten times over several minutes. To keep the editor from freezing, we decided to change the status code.
+Second, the editor itself stopped responding. When the server couldn’t process the page in time, it returned the status code 408 Request Timeout. With that response, the editor in Firefox froze for 4 minutes on average, while in Chrome it was usable again after a few seconds. Firefox is known to resend a request after a 408 response: [Mozilla bug 907800](https://bugzilla.mozilla.org/show_bug.cgi?id=907800) describes the browser resending such a request about ten times over several minutes. Firefox 26 limited this behavior, but the browser still resends the request when the 408 arrives on a reused keep-alive connection. To keep the editor from freezing, we decided to change the status code.
 
 Before changing it, I asked in the developers’ channel whether the change would break the integrations with Ozon and Wildberries, two Russian marketplaces. Those integrations also returned 408 in some cases. It turned out that 408 was used only in server request handlers and internal platform tasks, so the change didn’t break anything for stores. The new code had to be non-standard, so these responses would be easy to find in the logs. The first idea was 540, but Shopify already uses it, so we picked the unused code 555. After the change, Firefox stopped freezing.
 
@@ -98,7 +98,7 @@ Before changing it, I asked in the developers’ channel whether the change woul
 
 In November 2024 I shipped an updated version of recovery mode. Now, when a page doesn’t load, the editor first shows a "Site loading problems" window with an "Open the widget list" button. The list itself became a table that shows when each widget was added and changed and which widgets have edited code. This makes it easier to see which change made the page stop loading.
 
-![Recovery mode as a table: widgets by page area with their change dates and widget actions](/images/work/visual-storefront/recovery-mode-widget-table.webp)
+![Recovery mode as a table: widgets by page area with the Code changed, Tuned and Added columns, and an actions menu with Widget code, Widget settings and Remove widget](/images/work/visual-storefront/recovery-mode-widget-table.webp)
 
 ## Results
 

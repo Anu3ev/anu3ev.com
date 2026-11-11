@@ -1,5 +1,5 @@
 ---
-title: A product image editor inside the inSales admin, built in Vue
+title: A Vue infographic editor for product photos in the inSales admin panel
 description: "Marketplaces rejected photos of the wrong size, and merchants paid designers or services for images. I built a Vue infographic editor into the inSales product page: templates, AI background removal, saved projects and one design applied to 10 photos. 3,000+ active clients use it."
 locale: en
 slug: product-image-editor
@@ -30,7 +30,7 @@ On inSales, a merchant has one product page for the website and every marketplac
 
 Merchants also wanted to add infographics to their photos to sell more. Later Ozon saw this too: in December 2025 it launched its own infographics builder.
 
-The inSales product page only had a simple CropperJS cropping tool, which I had also built. It could crop a photo to the right ratio, but it couldn’t make an infographic. So merchants made their images outside inSales. A designer’s research in January 2025 showed how: they kept a separate employee for it, ordered images from freelancers or paid services like MPCard, up to about $110 a month.
+The inSales product page only had a simple CropperJS cropping tool, which I had also built. It could crop a photo to the right ratio, but it couldn’t make an infographic. So merchants made their images outside inSales. A designer’s research in January 2025 showed how: some had a separate employee just for this, others ordered images from freelancers or paid for services like MPCard, up to about $110 a month.
 
 The task came from the inSales marketplace team on 14 January 2025. Merchants needed an editor right on the product page. There they would choose a marketplace format, remove the background, add text and badges from ready-made templates, and save the project. Later they could change the text instead of making the image again. The Wildberries editor can’t do this: once an image is saved there, its changes are final.
 
@@ -48,8 +48,6 @@ The canvas logic, with its objects and undo history, is hard to test inside one 
 
 I implemented the editor from the designer’s mockups. It opens full screen when a merchant clicks the edit button on a photo on the product page. There they can pick a ready-made marketplace size, apply a template, remove the background, and add text, shapes and photos from the Unsplash photo library. Another photo of the same product opens from the bottom panel without closing the editor. If the current photo has unsaved changes, the editor first offers to save them.
 
-![An inSales product page with four sneaker photos in the Media block, the first one designed in the editor, and the Unsaved changes bar with Cancel and Save buttons at the top](/images/work/product-image-editor/product-page-unsaved-changes.webp)
-
 The product team prepares system templates. When a merchant applies one, the product photo goes into the place reserved for it, and the text and badges keep their styles and positions. A merchant can also save their own project as a user template and apply it again. All stores could create user templates from 11 June 2026.
 
 The editor was rolled out in stages: to new stores on 25 December 2025 and to all stores on 13 May 2026. According to product analytics, more than 3,000 active inSales clients use it.
@@ -64,7 +62,7 @@ Since the rollout to all stores, merchants run the AI features 800 or more times
 
 ### Background removal needed ready-made backgrounds
 
-In September 2025 my manager asked what I thought of the AI features in the editor. By then I had shipped fixes for more than 20 bugs, and the editor was ready to show, so I could judge the AI features in practice. I said that quality improvement tended to blur the image, and that background outpainting didn’t work because our models couldn’t do it. Only background removal worked really well, and I suggested focusing on it.
+In September 2025 my manager asked what I thought of the AI features in the editor. By then I had shipped fixes for more than 20 bugs, and the editor was ready to show, so I could judge the AI features in practice. I said that quality improvement tended to blur the image, and that only background removal worked really well.
 
 We agreed that a cut-out product needs ready-made backgrounds, because they give background removal a clear use. I created the task the same day, and the Background panel went to production on 20 September.
 
@@ -78,15 +76,19 @@ A separate AI service handles the AI features’ requests, and its capacity is l
 
 In December 2025, authentication with the AI service stopped working in Safari. It couldn’t be fixed quickly, and there was a suggestion to turn off the whole editor in Safari for a while. But everything else in the editor worked in Safari, so I suggested hiding only the AI features there. That’s what we did.
 
-### I fixed a bug in the undo history the night before the rollout
+### I fixed a bug in the undo history the day before the rollout
 
-The rollout to new stores fell on 25 December 2025, the eve of the New Year code freeze, when nothing new goes to production. An editor demo was planned for the same day. The day before the rollout, I was fixing a bug in the undo history. Undo and redo worked incorrectly, because the history counted technical events, like resizing the browser window, as changes. I changed the history so that it drops such events. The fix went out on 25 December, before the code freeze, so new stores got the editor with working undo and redo.
+The rollout to new stores fell on 25 December 2025, the last day before the New Year code freeze, after which nothing goes to production. An editor demo was planned for the same day. The day before the rollout, I was fixing a bug in the undo history. Undo and redo worked incorrectly, because the history counted technical events, like resizing the browser window, as changes. I changed the history so that it drops such events. The fix went out on 25 December, before the code freeze, so new stores got the editor with working undo and redo. The editor was shown at the demo that day.
 
 ### The project isn’t lost if the merchant doesn’t save the product page
 
-Besides the final image, the editor saves the image’s project: images, text, object positions and styles. Saving has two steps. First the merchant saves the image in the editor. If they close the editor with unsaved changes, a dialog asks whether to save the image. Then the merchant saves the product page itself. An image is product data, like the description or the price, so its changes are confirmed with the main Save button of the product page. If the editor saved the image to the product page right away, unfinished images could end up on the website.
+Besides the final image, the editor saves the image’s project: images, text, object positions and styles. Saving has two steps. First the merchant saves the image in the editor. If they close the editor with unsaved changes, a dialog asks whether to save the image.
 
 ![The editor with the Background panel open and the Save image? dialog: The image contains unsaved changes. Save before leaving? with Do not save and Save buttons](/images/work/product-image-editor/editor-save-image-dialog.webp)
+
+Then the merchant saves the product page itself. An image is product data, like the description or the price, so its changes are confirmed with the main Save button of the product page. If the editor saved the image to the product page right away, unfinished images could end up on the website.
+
+![An inSales product page with four sneaker photos in the Media block, the first one designed in the editor, and the product page’s Unsaved changes bar with Cancel and Save buttons at the top](/images/work/product-image-editor/product-page-unsaved-changes.webp)
 
 This means a merchant can save an image in the editor and then close the product page without confirming the changes. In that case, the draft project must not replace the project of the published image. The first idea was simple: after saving in the editor, unlink the project from the old image. On 30 January 2026 I went through this approach step by step and showed that it could lose the project forever. Instead, I suggested keeping two projects for each image, a confirmed one and a draft. This way an image and its project always match, like a PSD file and the JPG exported from it. My manager and the backend developer agreed.
 
@@ -112,7 +114,7 @@ If the merchant cancels the transfer while a photo is being processed, the edito
 
 ### The same editor works on the product page and in the visual site editor
 
-Each new feature added a large flow to the editor’s root component: AI processing, templates, cropping, saving, bulk transfer and switching photos. The component grew to about 3,500 lines. To separate the connected processes and prepare the interface for several sections of the platform, I moved its logic into 22 composables, one per flow. Bulk transfer made this harder: a hidden editor works next to the visible one, and their state must not mix. So each composable works with one specific editor instance.
+Each new feature added a large flow to the editor’s root component: AI processing, templates, cropping, saving, bulk transfer and switching photos. The component grew to about 3,500 lines. To separate the connected processes and prepare the interface for several sections of the platform, I moved its logic into 22 composables, each responsible for one part of the interface. Bulk transfer made this harder: a hidden editor works next to the visible one, and their state must not mix. So each composable works with one specific editor instance.
 
 At first the image editor was tied to product photos. To let merchants also edit website images in the [visual site editor](/work/visual-storefront/), where they set up how their store looks, I moved the product logic out of the shared component. Now the section of the admin panel that opens the image editor passes it the image, the list of available images, the function that saves the result and the recommended crop ratios.
 

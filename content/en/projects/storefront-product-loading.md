@@ -23,12 +23,12 @@ results:
 ---
 ## The problem
 
-inSales is an e-commerce SaaS platform with more than 60,000 online stores. inSales storefronts run on CommonJS, inSales’s in-house storefront JavaScript library (not the module format). It loads product data, shows prices and runs the cart.
+inSales is an e-commerce SaaS platform with more than 60,000 online stores. inSales storefronts run on CommonJS, inSales’s in-house storefront JavaScript library (the name matches the CommonJS module format, but they are different things). It loads product data, shows prices and runs the cart.
 
 In latest-generation templates, a store owner builds pages from widgets. The owner can add several "Products from a category" blocks to the home page. Together they can show dozens or hundreds of product previews, each with a price and an Add to cart button. Loading these pages had three problems:
 
 1. The server rendered the previews of all these products right into the page HTML with Liquid. So the page took a long time to build on the server and was heavy when it reached the browser. Then the library requested data for the same products again to show prices, variants and the Add to cart button. These pages took more than 5 seconds to load, sometimes about 15.
-2. The library cached product data in the browser for a fixed period, 120 seconds on most pages. If a product changed earlier, the buyer could see old data. If it didn’t change, the library still requested it again once the period ran out.
+2. The library cached product data in the browser for a fixed period, 120 seconds on most pages. If a product changed before the period ran out, the buyer could see old data. If it didn’t change, the library still requested it again once the period ran out.
 3. The library requested products with hundreds of variants, for example one model in dozens of sizes and colors, with all their variants. A request for 20 such products could take 20–30 seconds or fail with a timeout error, and then the widget didn’t load on the storefront at all.
 
 ## My role
@@ -53,25 +53,25 @@ I wrote the documentation for [`ui-ajax-products`](https://www.insales.ru/collec
 
 The third problem was products with hundreds of variants. In October 2023 a client came to us with a product that had 777 variants: to show it in a widget, the library requested it with every variant. But a preview doesn’t need every variant. The price and whether the product can go straight into the cart are enough.
 
-So I wrote a task for a light API response and agreed on the format with the backend developer. With the `without_many_variants` parameter, the server returns a product without the full variant list, only with a flag saying that it has more than one variant. I adapted the library to the new response: it sends this parameter for products whose widget markup has the `data-product-without-many-variants` attribute. If a product has one variant, the Add to cart button adds it right away. If it has several, the buyer goes to the product page or picks a variant in the modal window.
+So I asked the backend developer for a light API response and agreed on its format with him. With the `without_many_variants` parameter, the server returns a product without the full variant list, only with a flag saying that it has more than one variant. I adapted the library to the new response: it sends this parameter for products whose widget markup has the `data-product-without-many-variants` attribute. If a product has one variant, the Add to cart button adds it right away. If it has several, the buyer goes to the product page or picks a variant in the modal window.
 
-The light data made caching harder. One product can be on the page in several places at once: in a preview, in another widget with variant selection, in the modal window and in the cart. If the light response overwrote the full data in the cache, the next widget would lose its variants. And if the library used the cache without checking it, the modal window wouldn’t get enough data. So the library checks whether the cache has enough data for the place where the product is shown, and loads the full data when needed.
+The light data made caching harder. One product can be on the page in several places at once: in a preview, in another widget with variant selection, in the modal window and in the cart. If the light response overwrote the full data in the cache, the next widget would lose its variants. And if the library used the cache without checking it, the modal window wouldn’t get enough data. So a light response keeps the variants already in the cache, and if a place needs more data than the cache has, the library loads the full data.
 
 ![Diagram: a preview in a collection needs the price and a flag for several variants, while a widget or modal window with variant selection needs every variant. The library checks whether the cache has enough data: if it does, the product comes from the cache; if variants are missing, it loads the full data](/images/work/storefront-product-loading/light-and-full-product-data.svg)
 
-In January 2024 a QA engineer tested the changes on 10 products with more than 800 variants each. With the old widgets, products from the category didn’t load at all. With the new version, they did.
-
 ### Adding to the cart requests only the added product
 
-Full variant lists weren’t the only reason why product loading broke completely. The same test found a second one. On page load, the library saved a list of every product on the page. Once the cache period ran out, the library requested every product on that list again whenever a product was added to the cart. Previews in category widgets also sent this request every time they initialized.
+Full variant lists weren’t the only reason why product loading broke completely. A second reason came up while the light responses were being tested. On page load, the library saved a list of every product on the page. Once the cache period ran out, the library requested every product on that list again whenever a product was added to the cart. Previews in category widgets also sent this request every time they initialized.
 
 For products with hundreds of variants, this request didn’t finish in time, and the server returned a timeout error. The library initialized products only when it got every product it had requested, so this one error stopped every product on the page from working. On 30 January 2024 I shipped a fix: adding to the cart now requests only the product being added, and previews no longer send a request when they initialize.
 
 ![Diagram before and after the fix. Before: an Add to cart click or a preview initializing makes the library request every product on the page, the request fails with a timeout error for products with hundreds of variants, and no product initializes. After 30 January 2024: only the added product is requested, and the products on the page initialize](/images/work/storefront-product-loading/cart-request-before-after.svg)
 
+In January 2024 a QA engineer tested the changes on 10 products with more than 800 variants each. With the old widgets, products from the category didn’t load at all. With the new version, they did.
+
 ### The cache checks a product’s update time instead of a fixed period
 
-After the fix, adding to the cart requested only one product, but it still did so every time the cache period ran out. And from a fixed period, the library couldn’t tell whether a product had changed.
+After the fix, adding to the cart requested only one product, but it still did so every time the cache period ran out. And a fixed period told the library nothing about whether a product had changed.
 
 So I built a check based on each product’s real update time. I set up Liquid to output this time in the `data-product-updated-at` attribute. The library saves it with the product data in IndexedDB, the browser database where CommonJS keeps its cache. On the next page load, the library compares the time in the markup with the saved one. Products with a matching time come from the cache, and new and changed products are requested again. Products that haven’t changed are no longer requested just because 120 seconds have passed.
 
@@ -93,7 +93,7 @@ Then I added `data-product-updated-at` to the built-in widgets. At the second st
 
 - After the switch to update-time checks, there were about 70% fewer product data requests, or roughly 3.3 times fewer.
 - In typical measurements, pages with many product blocks loaded in 2–3 seconds instead of more than 5.
-- Products with more than 800 variants, which didn’t load in widgets at all with the old version, now load.
+- Products with more than 800 variants, which didn’t load at all with the old widgets, now load.
 - Old and custom widgets kept working during the rollout.
 
 The library itself, its build and the bundle-size work are in a [separate case about CommonJS](/work/commonjs-storefront-library/).

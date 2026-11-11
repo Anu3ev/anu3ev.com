@@ -15,11 +15,11 @@ tags: [Monaco, Liquid, Tokenizer, Autocomplete]
 Here is an ordinary piece of a storefront template:
 
 ```liquid
-<a class="product-card {% if product.available %}is-available{% endif %}"
+<a class="product-card {% if product.available %}in-stock{% endif %}"
    href="{{ product.url }}">{{ product.title | escape }}</a>
 
 <script type="application/ld+json">
-  { "name": {{ product.title | json }} }
+  { "@context": "https://schema.org", "@type": "Organization" }
 </script>
 ```
 
@@ -64,7 +64,11 @@ monaco.languages.setMonarchTokensProvider('liquid', {
       [/\|\s*[\w-]+/, 'predefined.liquid'],
       [/[\w.]+/, 'variable.liquid'],
     ],
-    // liquidTag, comments and raw follow the same pattern
+    liquidTag: [
+      [/%\}/, { token: 'delimiter.liquid', next: '@pop' }],
+      [/[\w.]+/, 'keyword.liquid'],
+    ],
+    // comments and raw follow the same pattern
   },
 })
 ```
@@ -75,27 +79,31 @@ The same `liquidOutput` state is used in the document body and in attribute valu
 
 In the first version, code inside `<script>` and `<style>` wasn’t highlighted at all. So I added embedded languages to the tokenizer: JavaScript or JSON inside `<script>`, CSS inside `<style>`, and back to HTML after the closing tag. In Monarch, this is the `nextEmbedded` property: after a rule with it, the tokenizer hands the text to the embedded language until it reaches a rule with `nextEmbedded: '@pop'`.
 
-For `script`, the `type` attribute matters: templates use regular JavaScript, `application/json`, `application/ld+json` and other values. If the `type` value is passed to the embedded language as it is, the way Monaco’s standard HTML mode does it, `application/ld+json` points to a language the package doesn’t have. The editor must not try to load a language service that doesn’t exist, so I mapped the common `type` values to supported languages explicitly and chose JavaScript for everything else:
+For `script`, the `type` attribute matters: templates use regular JavaScript, `application/json`, `application/ld+json` and other values. If the tokenizer uses the `type` value as the embedded language name, as Monaco’s standard HTML mode does, `application/ld+json` points to a language the package doesn’t have. The editor must not try to load a language service that doesn’t exist, so I mapped the common `type` values to supported languages explicitly and chose JavaScript for everything else:
 
 ```ts
 // Simplified: only the rules for <script> are shown
 tokenizer: {
   root: [
-    // Until a type attribute is found, the content counts as JavaScript
+    // Before a type attribute, the content counts as JavaScript
     [/<script/, { token: 'tag', next: '@script.javascript' }],
     // other HTML and Liquid rules
   ],
-  // The second part of the state name ($S2) holds the content language
+  // The state name's second part ($S2) holds the content language
   script: [
-    [/type\s*=\s*"application\/(?:ld\+)?json"/, { token: 'attribute', switchTo: '@script.json' }],
-    [/type\s*=\s*"[^"]*"/, { token: 'attribute', switchTo: '@script.javascript' }],
+    [/type\s*=\s*"application\/(?:ld\+)?json"/,
+      { token: 'attribute', switchTo: '@script.json' }],
+    [/type\s*=\s*"[^"]*"/,
+      { token: 'attribute', switchTo: '@script.javascript' }],
     [/[\w-]+(?:\s*=\s*"[^"]*")?|\s+/, 'attribute'],
     [/>/, { token: 'tag', next: '@scriptBody', nextEmbedded: '$S2' }],
     [/<\/script\s*>/, { token: 'tag', next: '@pop' }],
   ],
   scriptBody: [
-    // The closing tag takes the tokenizer out of the embedded language, back to the script state
-    [/<\/script\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+    // The closing tag takes the tokenizer out of the embedded
+    // language, back to the script state
+    [/<\/script\s*>/,
+      { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
   ],
 }
 ```
@@ -109,9 +117,14 @@ Highlighting was only half of the job. When the cursor is inside `<script>`, the
 For this, I registered a completion provider that returns different suggestion sets depending on the language at the cursor position. At first, the language was detected with regular expressions over the text before the cursor:
 
 ```ts
-// Before (simplified): look for an unclosed <script> in the text before the cursor
-const textBefore = model.getValueInRange(new monaco.Range(1, 1, position.lineNumber, position.column))
-const isInsideScript = /<script\b[^>]*>(?:(?!<\/script>)[\s\S])*$/.test(textBefore)
+// Before (simplified): look for an unclosed <script>
+// in the text before the cursor
+const { lineNumber, column } = position
+const textBefore = model.getValueInRange(
+  new monaco.Range(1, 1, lineNumber, column)
+)
+const isInsideScript =
+  /<script\b[^>]*>(?:(?!<\/script>)[\s\S])*$/.test(textBefore)
 ```
 
 This check was fragile, especially for `script` with a non-standard `type`. It sees only tags and doesn’t know that `type="application/ld+json"` means JSON. Every case the tokenizer already handled would need one more regular expression.
@@ -121,10 +134,15 @@ At the end of September 2024, I replaced it with the `model.getLanguageIdAtPosit
 ```ts
 monaco.languages.registerCompletionItemProvider('liquid', {
   provideCompletionItems(model, position) {
+    const { lineNumber, column } = position
     const word = model.getWordUntilPosition(position)
-    const range = new monaco.Range(position.lineNumber, word.startColumn, position.lineNumber, word.endColumn)
-    // For example, 'javascript' inside <script> and 'liquid' in regular markup
-    const languageId = model.getLanguageIdAtPosition(position.lineNumber, position.column)
+    const range = new monaco.Range(
+      lineNumber, word.startColumn, lineNumber, word.endColumn
+    )
+    // For example, 'javascript' inside <script>
+    // and 'liquid' in regular markup
+    const languageId =
+      model.getLanguageIdAtPosition(lineNumber, column)
 
     return { suggestions: snippetsFor(languageId, range) }
   },

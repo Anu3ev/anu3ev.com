@@ -15,11 +15,11 @@ tags: [Monaco, Liquid, Tokenizer, Autocomplete]
 Обычный фрагмент шаблона витрины:
 
 ```liquid
-<a class="product-card {% if product.available %}is-available{% endif %}"
+<a class="product-card {% if product.available %}in-stock{% endif %}"
    href="{{ product.url }}">{{ product.title | escape }}</a>
 
 <script type="application/ld+json">
-  { "name": {{ product.title | json }} }
+  { "@context": "https://schema.org", "@type": "Organization" }
 </script>
 ```
 
@@ -27,11 +27,11 @@ tags: [Monaco, Liquid, Tokenizer, Autocomplete]
 
 На платформе inSales более 60 000 магазинов. Партнёры-разработчики, специалисты техподдержки и технически подготовленные владельцы магазинов правят код шаблонов и виджетов прямо в админке. Старая интеграция CodeMirror не подсвечивала смешанный синтаксис, не давала контекстных подсказок и Emmet, который разворачивает короткие аббревиатуры в готовую разметку или CSS. Поэтому мы решили перейти на Monaco Editor, движок, на котором построен VS Code. Я реализовал кастомную сборку Monaco для inSales и с июня 2022 по октябрь 2025 года развивал и сопровождал её.
 
-Monaco даёт сам редактор, модели документов, открытые файлы вместе с их языком, и API языковых провайдеров, через которые подключаются подсветка и подсказки. Но о предметной области inSales Monaco ничего не знает, а расширения VS Code к браузерному Monaco не подключаются. Поэтому смешанный язык пришлось описать средствами самого Monaco.
+Monaco даёт сам редактор, модели документов (открытые файлы вместе с их языком) и API языковых провайдеров, через которые подключаются подсветка и подсказки. Но о предметной области inSales Monaco ничего не знает, а расширения VS Code к браузерному Monaco не подключаются. Поэтому смешанный язык пришлось описать средствами самого Monaco.
 
 ## После Liquid токенизатор возвращается туда, откуда вошёл
 
-Подсветку в Monaco задаёт токенизатор: он делит текст на токены, и каждый фрагмент окрашивается по типу своего токена. Токенизатор описывается на Monarch, встроенном в Monaco способе описания языков. Описание на Monarch состоит из состояний, и в каждом из них правила находят фрагмент текста, назначают ему тип токена и могут перевести токенизатор в другое состояние.
+Подсветку в Monaco задаёт токенизатор: он делит текст на токены, и каждый фрагмент окрашивается по типу своего токена. Токенизатор пишется на Monarch, встроенном в Monaco декларативном формате. Описание на Monarch состоит из состояний, и в каждом из них правила находят фрагмент текста, назначают ему тип токена и могут перевести токенизатор в другое состояние.
 
 Я зарегистрировал кастомный смешанный язык HTML и Liquid и описал для него токенизатор. Он различает HTML-теги и атрибуты, вывод Liquid через `{{ … }}`, управляющие конструкции через `{% … %}`, Liquid-комментарии и блоки `raw`, переменные, операторы, встроенные фильтры и теги inSales.
 
@@ -64,7 +64,11 @@ monaco.languages.setMonarchTokensProvider('liquid', {
       [/\|\s*[\w-]+/, 'predefined.liquid'],
       [/[\w.]+/, 'variable.liquid'],
     ],
-    // liquidTag, комментарии и raw устроены так же
+    liquidTag: [
+      [/%\}/, { token: 'delimiter.liquid', next: '@pop' }],
+      [/[\w.]+/, 'keyword.liquid'],
+    ],
+    // комментарии и raw устроены так же
   },
 })
 ```
@@ -87,15 +91,19 @@ tokenizer: {
   ],
   // Вторая часть имени состояния ($S2) хранит язык содержимого
   script: [
-    [/type\s*=\s*"application\/(?:ld\+)?json"/, { token: 'attribute', switchTo: '@script.json' }],
-    [/type\s*=\s*"[^"]*"/, { token: 'attribute', switchTo: '@script.javascript' }],
+    [/type\s*=\s*"application\/(?:ld\+)?json"/,
+      { token: 'attribute', switchTo: '@script.json' }],
+    [/type\s*=\s*"[^"]*"/,
+      { token: 'attribute', switchTo: '@script.javascript' }],
     [/[\w-]+(?:\s*=\s*"[^"]*")?|\s+/, 'attribute'],
     [/>/, { token: 'tag', next: '@scriptBody', nextEmbedded: '$S2' }],
     [/<\/script\s*>/, { token: 'tag', next: '@pop' }],
   ],
   scriptBody: [
-    // Закрывающий тег возвращает токенизатор из вложенного языка в состояние script
-    [/<\/script\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+    // Закрывающий тег возвращает токенизатор
+    // из вложенного языка в состояние script
+    [/<\/script\s*>/,
+      { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
   ],
 }
 ```
@@ -110,8 +118,12 @@ tokenizer: {
 
 ```ts
 // Было (упрощено): ищем незакрытый <script> в тексте перед курсором
-const textBefore = model.getValueInRange(new monaco.Range(1, 1, position.lineNumber, position.column))
-const isInsideScript = /<script\b[^>]*>(?:(?!<\/script>)[\s\S])*$/.test(textBefore)
+const { lineNumber, column } = position
+const textBefore = model.getValueInRange(
+  new monaco.Range(1, 1, lineNumber, column)
+)
+const isInsideScript =
+  /<script\b[^>]*>(?:(?!<\/script>)[\s\S])*$/.test(textBefore)
 ```
 
 Такая проверка была хрупкой, особенно для `script` с нестандартным значением `type`. Она видит только теги и не знает, что `type="application/ld+json"` означает JSON. Каждый случай, который уже учёл токенизатор, пришлось бы повторять ещё одним регулярным выражением.
@@ -121,10 +133,15 @@ const isInsideScript = /<script\b[^>]*>(?:(?!<\/script>)[\s\S])*$/.test(textBefo
 ```ts
 monaco.languages.registerCompletionItemProvider('liquid', {
   provideCompletionItems(model, position) {
+    const { lineNumber, column } = position
     const word = model.getWordUntilPosition(position)
-    const range = new monaco.Range(position.lineNumber, word.startColumn, position.lineNumber, word.endColumn)
-    // Например, 'javascript' внутри <script> и 'liquid' в обычной разметке
-    const languageId = model.getLanguageIdAtPosition(position.lineNumber, position.column)
+    const range = new monaco.Range(
+      lineNumber, word.startColumn, lineNumber, word.endColumn
+    )
+    // Например, 'javascript' внутри <script>
+    // и 'liquid' в обычной разметке
+    const languageId =
+      model.getLanguageIdAtPosition(lineNumber, column)
 
     return { suggestions: snippetsFor(languageId, range) }
   },
@@ -137,7 +154,7 @@ monaco.languages.registerCompletionItemProvider('liquid', {
 
 ## Одна сборка для пяти интерфейсов
 
-Сначала редактор работал только в окне кода виджета. По мнению инфраструктурной команды, тяжёлый Monaco сильно нагружал серверы компании, и в декабре 2022 года она предложила вынести его в отдельный репозиторий. Вынос поручили мне. Я оформил сборку в новом репозитории как внутренний gem для Rails-приложения inSales и добавил небольшой API, через который редактор подключают и старые страницы админки, и Vue-интерфейсы. К 2025 году одну сборку подключили к пяти интерфейсам: окну кода виджета, полному редактору шаблона, шаблонам писем по заказам, [«Брошенным корзинам»](/ru/work/abandoned-carts/) и «Диалогам», где магазин настраивает уведомления о заказе для мессенджеров, SMS и email. Исправление токенизатора попадает во все пять с новой версией gem. Подробнее о сборке, воркерах и API рассказано в [кейсе о редакторе кода](/ru/work/monaco-editor/).
+Сначала редактор работал только в окне кода виджета. По мнению инфраструктурной команды, тяжёлый Monaco сильно нагружал серверы компании, и в декабре 2022 года она предложила вынести его в отдельный репозиторий. Эту задачу поручили мне. Я оформил сборку в новом репозитории как внутренний gem для Rails-приложения inSales и добавил небольшой API, через который редактор подключают и старые страницы админки, и Vue-интерфейсы. К 2025 году одну сборку подключили к пяти интерфейсам: окну кода виджета, полному редактору шаблона, шаблонам писем по заказам, [«Брошенным корзинам»](/ru/work/abandoned-carts/) и «Диалогам», где магазин настраивает уведомления о заказе для мессенджеров, SMS и email. Исправление токенизатора попадает во все пять с новой версией gem. Подробнее о сборке, воркерах и API рассказано в [кейсе о редакторе кода](/ru/work/monaco-editor/).
 
 ## Что я бы посоветовал при описании своего языка в Monaco
 

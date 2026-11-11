@@ -37,7 +37,7 @@ The library is published as [`@anu3ev/fabric-image-editor`](https://www.npmjs.co
 
 I’m the author and maintainer of the library. I started it on 25 March 2025 and used AI agents from the start. I designed the architecture and the public API, wrote the code and tests, and set up the build and CI, publishing to npm and GitHub Releases, and deploying the demo to GitHub Pages. After leaving inSales in September 2026, I still maintain the library.
 
-In October 2026 I reworked the release process. Before, the workflow built the package and published it to npm without type checks, the linter or tests. Now all of these checks, browser tests included, run before publishing, so a broken build can’t reach npm. After publishing, a separate job creates the tag and the GitHub Release. npm won’t accept the same version twice, so if that job fails, it can be rerun without publishing the package again.
+In October 2026 I reworked the release process. Before, the workflow built the package and published it to npm without type checks, the linter or tests. Now all of these checks, browser tests included, run before publishing, so a broken build can’t reach npm.
 
 ## What I built
 
@@ -51,11 +51,11 @@ I deliberately kept AI out of the library. The app calls its own AI service and 
 
 ### An object is restored the same way, however it appeared
 
-An object can be created, imported, pasted from the clipboard, grouped, restored from a saved project, added from a template or brought back with undo. On each path, the editor has to restore both the FabricJS properties and the library’s own data: IDs, locking, whether it can be selected, text styles and links between nested objects.
+An object can be created, imported, pasted from the clipboard, grouped, restored from a saved project, added from a template or brought back with undo. In each case, the editor has to restore both the FabricJS properties and the library’s own data: IDs, locking, whether it can be selected, text styles and links between nested objects.
 
-So I built one serialization mechanism: the editor state is saved to JSON and restored from it. Saved projects, the change history, templates and the clipboard all run on it. Temporary states are not serialized: a crop goes into the history only when the user applies the result.
+So I built one serialization mechanism: the editor state is saved to JSON and restored from it. Saved projects, the change history, templates and the clipboard all run on it.
 
-Cropping is a separate temporary mode, and the user can crop either an image or the whole montage area. While the user moves and resizes the frame, the composition doesn’t change. The Apply Crop button saves the result to the history, and after Cancel Crop the composition stays as it was.
+Cropping is a separate temporary mode, and the user can crop either an image or the whole montage area. While the user moves and resizes the frame, the composition doesn’t change. The Apply Crop button saves the result to the history, and after the Cancel Crop button is clicked, the composition stays as it was.
 
 ![Canvas crop mode in the public demo: a frame with a grid over the composition, and the Apply Crop and Cancel Crop buttons in the right panel](/images/work/image-editor/demo-canvas-crop-mode.webp)
 
@@ -65,7 +65,7 @@ The change history follows the user’s actions, not every internal operation. F
 
 ### Coordinates are converted between four systems
 
-FabricJS calls the visible part of the canvas, which changes with zoom and panning, the viewport. The editor works with four coordinate systems at once: canvas coordinates, viewport coordinates, montage area coordinates and the local coordinates of objects inside groups. If they get mixed up, objects shift after a resize, a crop or a project restore. So the library converts coordinates itself when objects are moved, scaled, rotated or cropped and when a state is restored.
+FabricJS calls the visible part of the canvas the viewport. It changes when the user zooms or pans. The editor works with four coordinate systems at once: canvas coordinates, viewport coordinates, montage area coordinates and the local coordinates of objects inside groups. If they get mixed up, objects shift after a resize, a crop or a project restore. So the library converts coordinates itself when objects are moved, scaled, rotated or cropped and when a state is restored.
 
 ![Nested areas: the canvas, the viewport inside it, the montage area inside the viewport and a group of objects inside the montage area. On the right, two notes: when the canvas size changes, only the viewport moves, and if the systems get mixed up, objects shift](/images/work/image-editor/coordinate-systems.svg)
 
@@ -83,7 +83,7 @@ In the infographics editor, merchants get ready-made templates with text, badges
 
 I wanted the editor to help the way Canva does: an object lines up with the edge or center of its neighbor, and you can see the distances between objects. So in November and December 2025 I added snapping and guides to the library. I built them for my own templates, and then merchants started using them too.
 
-An object snaps to the edges and center of the montage area, to the edges and centers of nearby objects, and to positions where the spacing between objects is equal. When an object snaps, the editor shows a guide, and holding Ctrl turns snapping off for the moment. When you hold Alt, the editor shows the distances from the selected object to nearby objects and to the edges of the montage area. All of this is calculated while the object is being dragged and takes the zoom, the viewport and object sizes after transforms into account.
+An object snaps to the edges and center of the montage area, to the edges and centers of nearby objects, and to positions where the spacing between objects is equal. When an object snaps, the editor shows a guide, and snapping turns off while Ctrl is held. When you hold Alt, the editor shows the distances from the selected object to nearby objects and to the edges of the montage area. All of this is calculated while the object is being dragged and takes the zoom, the viewport and object sizes after transforms into account.
 
 ![Two frames from the public demo. On the left, a button is being dragged: it has snapped to the left edge of the illustration, a guide shows the alignment, and two 43 labels show equal spacing between the heading, the illustration and the button. On the right, with Alt held, the editor shows the distances from the button to the edges of the montage area](/images/work/image-editor/demo-snapping-and-measurements.webp)
 
@@ -107,7 +107,7 @@ The copy is rendered without device pixel ratio scaling and ignores browser zoom
 
 ### Tests check intermediate states too
 
-Jest covers the library’s logic, and Playwright checks cropping, selection, zoom, snapping and text editing in a browser. Some bugs appear only in the middle of a drag or a resize, so the tests go through the intermediate states and check the result after the action ends separately.
+Jest covers the library’s logic, and Playwright checks cropping, selection, zoom, snapping and text editing in a browser. Some bugs appear only in the middle of a drag or a resize, so the tests go through the intermediate states and separately check the result after the action ends.
 
 ## Results
 

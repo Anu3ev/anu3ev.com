@@ -27,7 +27,8 @@ But if the buyer’s actions look suspicious, the captcha still shows a challeng
 Storefront forms run on CommonJS, the inSales shared JavaScript library for storefronts. Its components send messages to each other through the `EventBus` event bus. In the early implementation, a form started the captcha and waited for its answer through a shared event on this bus:
 
 ```js
-// Before (simplified): a form waits for any captcha answer on the page
+// Before (simplified): a form waits
+// for any captcha answer on the page
 function waitForCaptchaToken(widgetId) {
   return new Promise(resolve => {
     EventBus.subscribe('recaptcha:response', resolve)
@@ -36,7 +37,7 @@ function waitForCaptchaToken(widgetId) {
 }
 ```
 
-The subscription has no link to the widget that `execute` was called for: the bus doesn’t know which form the buyer is sending and just passes on the captcha answer. The answer went to the form that had started waiting first. So the captcha passed in the review form continued sending the contact form, and the review itself wasn’t sent. Also, the bus could pass the previous captcha answer to a new subscriber. Then, after the captcha was reset, the form got the old answer and wasn’t sent.
+The subscription has no link to the widget that `execute` was called for: the bus doesn’t know which form the buyer is sending and just passes on the captcha answer. So if both forms were waiting for the same event, a captcha passed in the review form could continue sending the contact form. Also, the bus could pass the previous captcha answer to a new subscriber.
 
 When I moved the forms to the invisible captcha, I linked each form to its own captcha instance, token and submit handler. A form continues sending only after its own captcha answers, including on retries.
 
@@ -44,9 +45,13 @@ The public `reCaptchaCommon API` for custom forms written by store developers wo
 
 ```js
 function sendFeedbackForm(form, token) {
-  // Without a token, executeInvisible starts this form's captcha and returns null.
-  // When the captcha answers, the library calls sendFeedbackForm again with this form and its token.
-  token ??= reCaptchaCommon.executeInvisible(form, sendFeedbackForm, 'feedback')
+  // Without a token, executeInvisible starts this
+  // form's captcha and returns null. When the captcha
+  // answers, the library calls sendFeedbackForm again
+  // with this form and its token.
+  token ??= reCaptchaCommon.executeInvisible(
+    form, sendFeedbackForm, 'feedback'
+  )
   if (!token) return
 
   sendForm(form, token)
@@ -57,7 +62,7 @@ The third argument is the form type, and the `sendForm` function sends the form 
 
 ## Waiting for the captcha is not the same as sending
 
-While a request is running, the form blocks a second submission, so the buyer doesn’t click the button twice by accident. But waiting for the captcha answer isn’t the same as a form that has already been sent. If a buyer closed the Yandex SmartCaptcha challenge, the form stayed in the "sending" state, and it couldn’t be sent again.
+While a request is running, the form blocks a second submission, so the buyer doesn’t click the button twice by accident. But waiting for the captcha answer isn’t the same as sending the form. If a buyer closed the Yandex SmartCaptcha challenge, the form stayed in the "sending" state, and it couldn’t be sent again.
 
 I fixed this in July 2025: after the challenge is closed, the form stops waiting, and the buyer can send it again. In August I also changed how Google reCAPTCHA and Yandex SmartCaptcha reset before a new submission, because a token expired if the buyer took a long time to send the form. Now, if the form waits too long, the captcha runs again and the form gets a fresh token.
 

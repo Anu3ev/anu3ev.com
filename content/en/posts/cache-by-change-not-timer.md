@@ -25,7 +25,7 @@ Any fixed time caused two problems at once:
 1. If a product had already changed, the buyer could see the old data until the time ran out.
 2. If the product hadn’t changed, the library still requested it again once the time ran out.
 
-## Products with hundreds of variants and an extra request on add to cart
+## Products with hundreds of variants and an extra request when adding to the cart
 
 A separate problem was products with hundreds of variants, such as one model in dozens of sizes and colors. In October 2023, a client came to us with a product that had 777 variants. To show it in a widget, the library requested its full data with every variant, and a list of 20 such products could take 20–30 seconds to load or fail with a timeout. But a preview, the product card in a collection or slider, doesn’t need every variant: the price and whether the product can go straight into the cart are enough. So I wrote the requirements for a light API response and agreed on them with the backend developer. With the `without_many_variants` parameter, the server returns a product without the full variant list, only a flag saying it has several variants.
 
@@ -75,15 +75,20 @@ Simplified, the decision for one product looks like this:
 /**
  * Decides what to do with one product on page load.
  * cached: the IndexedDB record, or undefined;
- * updatedAt: the value of data-product-updated-at, missing in old templates;
- * needsVariants: whether this place on the page needs the full variant list.
+ * updatedAt: the value of data-product-updated-at,
+ *   missing in old templates;
+ * needsVariants: whether this place on the page
+ *   needs the full variant list.
  */
 function resolveProduct({ cached, updatedAt, needsVariants }) {
   const requestType = needsVariants ? 'request-full' : 'request-light'
   if (!cached) return requestType
 
-  // Old templates don't pass the update time, so they keep the time-based check
-  const isFresh = updatedAt ? cached.originalUpdatedAt === updatedAt : !isExpired(cached)
+  // Old templates don't pass the update time,
+  // so they keep the time-based check
+  const isFresh = updatedAt
+    ? cached.originalUpdatedAt === updatedAt
+    : !isExpired(cached)
   const isComplete = !needsVariants || cached.hasAllVariants
 
   return isFresh && isComplete ? 'cache' : requestType
@@ -100,7 +105,7 @@ So the library uses the saved data for these products. If there is no record in 
 
 ## Old templates kept working
 
-Thousands of stores use the library, and many of them run old templates or custom code. Their markup doesn’t have the `data-product-updated-at` attribute, so the new library version couldn’t require it. The rollout had two stages. First, we released a library version that kept the old time check for markup without an update time: that’s the last row of the table. Then the attribute was added to the system widgets, and by March 2024 it was in every system widget of the latest template generation except AJAX widgets. The library caches products from AJAX widgets without a timer too. So stores didn’t have to update their templates at the same time as the library.
+Thousands of stores use the library, and many of them run old templates or custom code. Their markup doesn’t have the `data-product-updated-at` attribute, so the new library version couldn’t require it. The rollout had two stages. First, we released a library version that kept the old time check for markup without an update time: that’s the last row of the table. So stores didn’t have to update their templates at the same time as the library. Then the attribute was added to the system widgets, and by March 2024 it was in every system widget of the latest template generation except AJAX widgets.
 
 Every store gets a CommonJS update at once, so I prepared the QA test cases with both old and new templates in mind. For the product cache, I described moving between pages, changing a price in the admin panel and opening the page again, opening a page after the old cache time would have run out, and a mix of light and full data. Products in the cart and products shown in several widgets at once were tested separately.
 

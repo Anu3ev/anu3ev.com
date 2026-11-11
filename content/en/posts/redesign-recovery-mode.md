@@ -46,7 +46,7 @@ Recovery mode can also be opened on a page that loaded normally, from the page s
 
 ## The editor waits for the page to report that it has loaded
 
-To open recovery mode, the editor first has to notice that the page didn’t load. In Chrome, the iframe with such a page gets an error right away. In Firefox, the iframe’s `load` event doesn’t fire in this case, and the editor can’t read what is inside the iframe, so it could wait forever.
+To open recovery mode, the editor first has to notice that the page didn’t load. In Chrome, the editor sees right away that the expected content didn’t appear on the page. In Firefox, the iframe’s `load` event doesn’t fire in this case, and the editor can’t read what is inside the iframe, so it could wait forever.
 
 So I added a timeout: if the page doesn’t tell the editor within 30 seconds that it has loaded, the editor opens recovery mode. I chose 30 seconds because the server limits a store page request to 25 seconds by default.
 
@@ -57,8 +57,10 @@ Here is a simplified version of the check. A page that has loaded sends the edit
 const PAGE_READY_TIMEOUT_MS = 30_000
 
 /**
- * Calls onPageBroken if the page in the iframe doesn't report that it has loaded within 30 seconds.
- * The load event can't be used here: in Firefox it doesn't fire for such a page.
+ * Calls onPageBroken if the page in the iframe doesn't report
+ * that it has loaded within 30 seconds.
+ * The load event can't be used here:
+ * in Firefox it doesn't fire for such a page.
  */
 function watchPageReady(iframe, onPageBroken) {
   const timeoutId = setTimeout(() => {
@@ -67,7 +69,9 @@ function watchPageReady(iframe, onPageBroken) {
   }, PAGE_READY_TIMEOUT_MS)
 
   function handleMessage(event) {
-    const isReadyMessage = event.source === iframe.contentWindow && event.data?.type === 'page-ready'
+    const isReadyMessage =
+      event.source === iframe.contentWindow &&
+      event.data?.type === 'page-ready'
     if (!isReadyMessage) return
 
     clearTimeout(timeoutId)
@@ -82,9 +86,9 @@ Only a page that has loaded and run its scripts can send the `page-ready` messag
 
 ## A 408 response froze the editor in Firefox
 
-The second Firefox problem was in the server response itself. When the server couldn’t process the page in time, it returned the status code 408 Request Timeout, and with that response the editor in Firefox froze. In testing, the editor in Chrome was usable again after a few seconds, while in Firefox it took 4 minutes on average. Firefox is known to resend a request after a 408 response: [Mozilla bug 907800](https://bugzilla.mozilla.org/show_bug.cgi?id=907800) describes the browser resending such a request about ten times over several minutes. To keep the editor from freezing, we decided to change the status code.
+The second Firefox problem was in the server response itself. When the server couldn’t process the page in time, it returned the status code 408 Request Timeout, and with that response the editor in Firefox froze. In testing, the editor in Chrome was usable again after a few seconds, while in Firefox it took 4 minutes on average. Firefox is known to resend a request after a 408 response: [Mozilla bug 907800](https://bugzilla.mozilla.org/show_bug.cgi?id=907800) describes the browser resending such a request about ten times over several minutes. Firefox 26 limited this behavior, but the browser still resends the request when the 408 arrives on a reused keep-alive connection. To keep the editor from freezing, we decided to change the status code.
 
-Before changing it, I asked in the developers’ channel whether the change would break the integrations with Ozon and Wildberries, two Russian marketplaces. Those integrations also returned 408 in some cases. The discussion showed that 408 was used only in server request handlers and internal platform tasks, so the change didn’t break anything for stores. The new code had to be non-standard, so these responses would be easy to find in the logs. The first idea was 540, but Shopify already uses it, so we picked the unused code 555. Now the inSales server returns 555 on a timeout, and the editor no longer freezes in Firefox.
+Before changing it, I asked in the developers’ channel whether the change would break the integrations with Ozon and Wildberries, two Russian marketplaces. Those integrations also returned 408 in some cases. The discussion showed that only server request handlers and internal platform tasks relied on 408, so the change didn’t break anything for stores. The new code had to be non-standard, so these responses would be easy to find in the logs. The first idea was 540, but Shopify already uses it, so we picked the unused code 555. Now the inSales server returns 555 on a timeout, and the editor no longer freezes in Firefox.
 
 ## Widgets outside the page content also depended on the sidebar
 

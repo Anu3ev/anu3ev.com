@@ -5,7 +5,7 @@
   <rect x="60" y="150" width="310" height="150" rx="12" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
   <text x="82" y="184" fill="#86adff" font-size="13" font-weight="600" letter-spacing="1.5">SOURCES</text>
   <text x="82" y="220" fill="#ecedee" font-size="18">Job boards, career pages</text>
-  <text x="82" y="246" fill="#ecedee" font-size="18">and ATS boards,</text>
+  <text x="82" y="246" fill="#ecedee" font-size="18">and ATS platforms,</text>
   <text x="82" y="272" fill="#ecedee" font-size="18">22 Telegram channels</text>
   <rect x="445" y="150" width="310" height="150" rx="12" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
   <text x="467" y="184" fill="#86adff" font-size="13" font-weight="600" letter-spacing="1.5">ORIGINAL LISTING</text>
@@ -37,5 +37,5 @@
   <path d="M740 532v38" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
   <rect x="340" y="574" width="800" height="70" rx="12" fill="none" stroke="#a1a3a8" stroke-width="1.5" stroke-dasharray="6 5"/>
   <text x="362" y="603" fill="#ecedee" font-size="16">The budget is used up or the text failed the checks:</text>
-  <text x="362" y="627" fill="#a1a3a8" font-size="16">the listing waits in the queue, and unedited text never goes out</text>
+  <text x="362" y="627" fill="#a1a3a8" font-size="16">the listing waits in the queue, and a template post never goes out</text>
 </svg>
