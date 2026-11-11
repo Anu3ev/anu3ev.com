@@ -1,6 +1,6 @@
 ---
-title: 'Teaching Monaco to read Liquid templates: the hard part is knowing the language under the cursor'
-description: How a custom tokenizer for HTML with Liquid, JavaScript and CSS islands made suggestions follow the cursor, and why the editor shipped as a versioned package with a three-function browser API.
+title: Teaching Monaco to read Liquid templates and find the language under the cursor
+description: A custom Monarch tokenizer for HTML with Liquid and embedded JavaScript, CSS and JSON, and completion that asks the Monaco model which language is at the cursor instead of guessing from the text.
 locale: en
 slug: monaco-liquid-tokenizer
 published: true
@@ -9,10 +9,10 @@ cover: /images/blog/monaco-liquid-tokenizer.svg
 coverAlt: Diagram of one storefront template split into HTML, Liquid, JSON and CSS regions, with the editor asking the model which language is at the cursor
 category: Browser editors
 readingMinutes: 7
-tags: [Monaco, Liquid, Tokenizer, Web workers, Packaging]
+tags: [Monaco, Liquid, Tokenizer, Autocomplete]
 ---
 
-Here is a normal piece of a storefront template:
+Here is an ordinary piece of a storefront template:
 
 ```liquid
 <a class="product-card {% if product.available %}is-available{% endif %}"
@@ -23,19 +23,21 @@ Here is a normal piece of a storefront template:
 </script>
 ```
 
-HTML, Liquid inside the markup, Liquid inside an attribute value, and a script block that contains JSON rather than JavaScript. Open it in Monaco’s stock HTML mode and the Liquid is just text, the colors inside the attribute drift, and nothing knows that the script block holds JSON.
+It has HTML, Liquid in the markup, Liquid inside an attribute value, and a `script` block that holds JSON, not JavaScript. In Monaco’s standard HTML mode, the Liquid in the markup is plain text, and the Liquid inside the attribute is colored as an ordinary string. To highlight a file like this and give suggestions in it, the editor has to know which language is in each place.
 
-Mounting Monaco is the easy part. It’s the editor engine behind VS Code, and it gives you models, commands and language provider APIs. What it doesn’t give you is any idea that a storefront template is several languages at once. VS Code extensions don’t plug into browser Monaco by themselves either. Everything had to be described with Monaco’s own APIs.
+inSales is an e-commerce platform with more than 60,000 stores. Partner developers, support specialists and technically experienced store owners edit template and widget code right in the admin panel. The old CodeMirror integration didn’t highlight mixed syntax and had no context-aware suggestions and no Emmet, which expands short abbreviations into ready-made markup or CSS. So we decided to move to Monaco Editor, the engine VS Code is built on. I implemented a custom Monaco package for inSales and developed and maintained it from June 2022 to October 2025.
 
-At inSales, an e-commerce platform with 60,000+ merchants, partners, support engineers and technically experienced merchants edit templates right in the admin panel. The existing CodeMirror integration gave them a basic field without mixed-language highlighting, context-aware suggestions or Emmet. I built the custom Monaco build that replaced it and stayed its primary maintainer from July 2022 to October 2025.
+Monaco provides the editor itself, document models (open files together with their language) and language provider APIs, through which you add highlighting and suggestions. But Monaco knows nothing about the inSales domain, and VS Code extensions don’t work in the browser version of Monaco. So the mixed language had to be described with Monaco’s own tools.
 
-## A tokenizer is a state machine with a memory
+## After Liquid, the tokenizer goes back to where it came from
 
-Monaco highlights code with Monarch, a declarative tokenizer: a set of states, each with rules that match text and can move to another state. I registered a custom language for HTML with Liquid and wrote its Monarch tokenizer. It tells apart HTML tags and attributes, Liquid output `{{ … }}`, Liquid tags `{% … %}`, comments and `raw` blocks, variables, operators, filters and inSales-specific tags.
+In Monaco, highlighting comes from a tokenizer: it splits the text into tokens, and each piece of code gets the color of its token type. Tokenizers are written in Monarch, Monaco’s built-in declarative format. A Monarch tokenizer is a set of states. In each state, rules match a piece of text, give it a token type and can move the tokenizer to another state.
 
-The tricky case was Liquid inside an attribute value. A value can be one Liquid expression or plain text with several Liquid pieces in it. After the closing `}}` the editor has to return to exactly the state it came from: inside a double-quoted attribute value, not "somewhere in HTML", and not still in Liquid until the end of the line.
+I registered a custom mixed language for HTML and Liquid and wrote its tokenizer. It tells apart HTML tags and attributes, Liquid output in `{{ … }}`, Liquid tags in `{% … %}`, Liquid comments and `raw` blocks, variables, operators, built-in filters and inSales-specific tags.
 
-Monarch’s state stack does this if you let it. Entering Liquid pushes a state, leaving it pops back to whoever pushed it:
+The hardest part was Liquid inside an attribute value. A value can be one Liquid expression, or plain text mixed with several Liquid pieces. After the closing `}}` or `%}`, the tokenizer has to return to the attribute value state, not highlight the rest of the line as Liquid.
+
+Monarch has a state stack for this. A rule with `next: '@liquidOutput'` pushes a new state onto the stack, and a rule with `next: '@pop'` removes it and returns the tokenizer to the previous state:
 
 ```ts
 // Simplified: closing tags, whitespace and several states are omitted
@@ -62,53 +64,66 @@ monaco.languages.setMonarchTokensProvider('liquid', {
       [/\|\s*[\w-]+/, 'predefined.liquid'],
       [/[\w.]+/, 'variable.liquid'],
     ],
-    // liquidTag, comments, raw, script and style follow the same pattern
+    // liquidTag, comments and raw follow the same pattern
   },
 })
 ```
 
-The same `@liquidOutput` state serves the document body and attribute values, and `@pop` decides where to go back. The language configuration around it adds bracket pairs, auto-closing and indentation after an opening tag, so the mixed file behaves like one language instead of a set of colored fragments.
+The same `liquidOutput` state is used in the document body and in attribute values, and the stack decides where to go back after `}}`. In the language configuration, I also set bracket pairs, auto-closing and indentation after an opening HTML tag. So the mixed file behaves like one language, not like a set of colored pieces.
 
-Real products also find things a demo page never does. One version of a regular expression in the tokenizer broke the editor completely in Safari, and the code still carries a note about why it was replaced.
+## Inside script and style, another language starts
 
-## Script and style are other languages
+In the first version, code inside `<script>` and `<style>` wasn’t highlighted at all. So I added embedded languages to the tokenizer: JavaScript or JSON inside `<script>`, CSS inside `<style>`, and back to HTML after the closing tag. In Monarch, this is the `nextEmbedded` property: after a rule with it, the tokenizer hands the text to the embedded language until it reaches a rule with `nextEmbedded: '@pop'`.
 
-Inside `<script>` the user needs JavaScript suggestions, not HTML attributes or Liquid snippets. Inside `<style>` they need CSS and Emmet. The tokenizer switches to an embedded language when it enters these tags and returns to HTML after the closing tag.
-
-For scripts, the `type` attribute matters. Regular JavaScript, `application/json` and `application/ld+json` need different modes, and an unexpected value must not make Monaco try to load a language service that doesn’t exist. Before I handled this, such blocks produced a stream of errors. The fix was an explicit normalization with a safe default:
+For `script`, the `type` attribute matters: templates use regular JavaScript, `application/json`, `application/ld+json` and other values. If the `type` value is passed to the embedded language as it is, the way Monaco’s standard HTML mode does it, `application/ld+json` points to a language the package doesn’t have. The editor must not try to load a language service that doesn’t exist, so I mapped the common `type` values to supported languages explicitly and chose JavaScript for everything else:
 
 ```ts
-const scriptLanguageByType: Record<string, string> = {
-  '': 'javascript',
-  'text/javascript': 'javascript',
-  'application/json': 'json',
-  'application/ld+json': 'json',
-}
-
-function scriptLanguage(type = '') {
-  return scriptLanguageByType[type.trim().toLowerCase()] ?? 'javascript'
+// Simplified: only the rules for <script> are shown
+tokenizer: {
+  root: [
+    // Until a type attribute is found, the content counts as JavaScript
+    [/<script/, { token: 'tag', next: '@script.javascript' }],
+    // other HTML and Liquid rules
+  ],
+  // The second part of the state name ($S2) holds the content language
+  script: [
+    [/type\s*=\s*"application\/(?:ld\+)?json"/, { token: 'attribute', switchTo: '@script.json' }],
+    [/type\s*=\s*"[^"]*"/, { token: 'attribute', switchTo: '@script.javascript' }],
+    [/[\w-]+(?:\s*=\s*"[^"]*")?|\s+/, 'attribute'],
+    [/>/, { token: 'tag', next: '@scriptBody', nextEmbedded: '$S2' }],
+    [/<\/script\s*>/, { token: 'tag', next: '@pop' }],
+  ],
+  scriptBody: [
+    // The closing tag takes the tokenizer out of the embedded language, back to the script state
+    [/<\/script\s*>/, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }],
+  ],
 }
 ```
 
-## Ask the model, not the text
+The `type` attribute comes before `>` in the opening tag, but the content language is needed exactly at `>`. So the language is kept in the second part of the state name. The rule for `type` switches `script.javascript` to `script.json`, and at `>` the value of `$S2` goes into `nextEmbedded`. Any other `type` value keeps JavaScript, so the editor never looks for a language service for an unknown type.
 
-Highlighting was half of the job. Completion had to follow the same boundaries: Liquid snippets shouldn’t crowd out HTML suggestions, and HTML attributes shouldn’t appear while someone is writing JavaScript.
+## Completion asks the model, not the text
 
-My first version decided the context by looking backwards from the cursor for an opening and closing tag:
+Highlighting was only half of the job. When the cursor is inside `<script>`, the user needs JavaScript suggestions, not HTML tags, attributes or Liquid snippets. Inside `<style>`, CSS suggestions and Emmet should work.
+
+For this, I registered a completion provider that returns different suggestion sets depending on the language at the cursor position. At first, the language was detected with regular expressions over the text before the cursor:
 
 ```ts
-// Before: guess the context from the text behind the cursor
+// Before (simplified): look for an unclosed <script> in the text before the cursor
 const textBefore = model.getValueInRange(new monaco.Range(1, 1, position.lineNumber, position.column))
-const isInsideScript = textBefore.lastIndexOf('<script') > textBefore.lastIndexOf('</script')
+const isInsideScript = /<script\b[^>]*>(?:(?!<\/script>)[\s\S])*$/.test(textBefore)
 ```
 
-It worked for the common case and was wrong in principle. It couldn’t tell a JSON script from a JavaScript one, and every edge case the tokenizer already handled would have to be handled a second time with regular expressions. In September 2024 I replaced it with a question the model can answer, because the tokenizer has already done the work:
+This check was fragile, especially for `script` with a non-standard `type`. It sees only tags and doesn’t know that `type="application/ld+json"` means JSON. Every case the tokenizer already handled would need one more regular expression.
+
+At the end of September 2024, I replaced it with the `model.getLanguageIdAtPosition` method. For each line, Monaco keeps the tokens and the language of each token, so it knows which embedded language is at a given position:
 
 ```ts
 monaco.languages.registerCompletionItemProvider('liquid', {
   provideCompletionItems(model, position) {
     const word = model.getWordUntilPosition(position)
     const range = new monaco.Range(position.lineNumber, word.startColumn, position.lineNumber, word.endColumn)
+    // For example, 'javascript' inside <script> and 'liquid' in regular markup
     const languageId = model.getLanguageIdAtPosition(position.lineNumber, position.column)
 
     return { suggestions: snippetsFor(languageId, range) }
@@ -116,44 +131,16 @@ monaco.languages.registerCompletionItemProvider('liquid', {
 })
 ```
 
-Now there’s one source of truth for "which language is this". If the tokenizer gets better, suggestions get better with it. The snippet sets behind `snippetsFor` cover Liquid, JavaScript and CSS (440 entries in total, partly collected from existing sets and adapted for the build), and Emmet is wired separately for HTML and SCSS so it doesn’t fight the Liquid suggestions.
+The `snippetsFor` function returns the snippets for that language. Snippets are ready-made pieces of code that are inserted by a short keyword. The package has three sets: 122 snippets for Liquid, 152 for JavaScript and 166 for CSS, 440 in total. HTML and Liquid are still one language, so the method separates the markup from embedded JavaScript and CSS, not HTML from Liquid.
 
-## Ship the editor, not a component
+Now only the tokenizer answers the question of which language is under the cursor. When a bug in an embedded language is fixed in the tokenizer, suggestions in that place become correct too.
 
-The editor started inside one Vue component: the widget code editor, where six files live in one workspace. Markup with Liquid, SCSS, JavaScript and three JSON files: translations, a settings schema and default values. The three JSON tabs share one language and mean completely different things, so the component chooses the language by file type, not by tab.
+## One package for five interfaces
 
-When the editor was needed in other screens, copying that component wasn’t an option. I moved the build into its own repository. Webpack with `monaco-editor-webpack-plugin` builds one production bundle with seven Monaco language IDs and separate web worker files, inlines the fonts so asset paths can’t lose them, and minifies with Terser. A Rails Engine and a Rake task deliver the bundle and workers to the asset pipeline as a versioned internal gem, and CI runs build, gem and publish to an internal registry.
+At first, the editor worked only in the widget code window. The infrastructure team considered Monaco heavy and said it put a lot of load on the company’s servers, and in December 2022 they suggested moving it into a separate repository. I was asked to do it. In a new repository, I turned the package into an internal gem for the inSales Rails application and added a small API that both old admin pages and Vue interfaces use to connect the editor. By 2025, the same package was connected to five interfaces: the widget code window, the full template editor, order email templates, [Abandoned Carts](/work/abandoned-carts/) and Dialogues, where a store sets up order notifications for messengers, SMS and email. A tokenizer fix reaches all five with the next gem version. The package, workers and API are described in [the code editor case](/work/monaco-editor/).
 
-Workers were the awkward part. Webpack knows the original file names, but the Rails asset pipeline publishes them under hashed URLs, so the editor could open while its language workers failed to start. A colleague wrote the worker routing that resolves the published paths and plugs them into Monaco’s worker lookup.
+## What I’d suggest when you add your own language to Monaco
 
-The contract with the product is three functions on `window`:
-
-```js
-window.getMonacoInstance = () => monaco
-window.monacoCreate = (container, { language, value }) =>
-  monaco.editor.create(container, { ...sharedEditorOptions, language, value })
-window.monacoLanguageRegisterApi = { registerLiquid, registerJavaScript, registerScss }
-
-function registerLiquid() {
-  const isRegistered = monaco.languages.getLanguages().some(({ id }) => id === 'liquid')
-  if (isRegistered) return
-  // register the language, configuration, tokenizer and providers once
-}
-```
-
-A global API isn’t what I’d pick for a modern isolated package. For an existing Rails app with an asset pipeline, it was the right contract: the build loads as an asset, and both old Rails pages and Vue screens can use it. The registration guard matters on pages where the editor is created more than once, otherwise each registration would add another copy of every provider and suggestion.
-
-The boundary is the useful part. The package owns editing: languages, suggestions, Emmet, commands, the theme and the shared defaults (120-character wrap, automatic layout, folding, two-space indent). Each host screen owns its data, saving and preview.
-
-## Five interfaces on one build
-
-That boundary is why the same build ended up in five interfaces: widget code, the full storefront template editor, order email templates, cart-recovery messages and order-status notifications for email, SMS and messengers. For cart-recovery emails we replaced a WYSIWYG editor that re-encoded HTML tags and could damage the Liquid logic inside. In the communication screens, the editor sits next to a preview rendered with data from a real order or cart.
-
-Other engineers improved the package in one place and every screen got the change: colleagues updated the theme colors and added Liquid formatting through Prettier. More details are in [the code editor case](/work/monaco-editor/).
-
-## What I’d tell a team building a custom language in Monaco
-
-- Put all context knowledge into the tokenizer, then ask the model. `getLanguageIdAtPosition` is cheaper to trust than any regular expression you’ll write over raw text.
-- Design the tokenizer around return states. Nested languages are easy to enter; most bugs are in going back to the right place.
-- Map every embedded `type` value explicitly and give unknown values a safe default.
-- Decide early what the package owns and what the host screen owns. That decision, not Monaco itself, is what made the editor reusable.
+- Keep the knowledge of which language is where in the tokenizer. A completion provider then only has to ask the model through `getLanguageIdAtPosition`, and you don’t need regular expressions over the text before the cursor.
+- Plan how the tokenizer leaves nested constructs: after an embedded piece, it has to return to the state it entered from. In Monarch, the state stack does this.
+- Map `type` values in embedded blocks to languages explicitly, and set a default language for everything else.

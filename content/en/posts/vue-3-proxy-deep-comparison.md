@@ -1,176 +1,136 @@
 ---
-title: Vue 3 didn’t make our autocomplete slow. 244,650 comparisons did
-description: After a Vue 3 migration, an autocomplete with 700 domain zones took about 12 seconds to open. The cause was an old quadratic deduplication that became expensive once it read every object through a reactive Proxy.
+title: Why a drawer took 4 seconds to open instead of 1 after the move to Vue 3
+description: "After the inSales admin panel moved to Vue 3, the domain picker drawer took about 4 seconds to open instead of 1. The delay came from a shared autocomplete: it looped over and compared 700 domain zones, and every property read now went through a Proxy."
 locale: en
 slug: vue-3-proxy-deep-comparison
 published: true
 date: '2026-10-21'
 cover: /images/blog/vue-3-proxy-deep-comparison.svg
-coverAlt: Diagram of 700 items producing 244,650 deep comparisons through Vue Proxies, and the two fixes that removed the delay
+coverAlt: 'Diagram: the domain picker drawer opened in about 1 second on Vue 2 and about 4 seconds on Vue 3 because 700 domain zones were read through Proxies, and two ways to take the Proxy out: toRaw and markRaw'
 category: Performance
-readingMinutes: 7
+readingMinutes: 5
 tags: [Vue 3, Performance, Reactivity, Migration]
 ---
 
-After we migrated one of the components in the inSales back office to Vue 3, opening an autocomplete with 700 domain zones started taking about 12 seconds. (inSales is an e-commerce platform with more than 60,000 merchants, and the back office is where they run their stores.) You click the field, you wait, you wait some more, and only then the list appears.
+In the inSales admin panel, merchants manage their products, orders, domains and analytics, and the platform has more than 60,000 stores. In the summer of 2026 the admin panel was moved from Vue 2 to Vue 3, and after the move parts of the interface became much slower. The domain picker drawer, a side panel in the Domains section, took about 4 seconds to open. In production on Vue 2 it took about 1 second.
 
-At first this looked like a Vue 3 performance problem. It wasn’t. Vue 3 didn’t add a single comparison to that component. It made comparisons that had been there for years more expensive, and there were a lot of them.
+Another team ran the migration. I had run into Vue 3 Proxies before: when I moved my infographic editor to Vue 3, they broke part of its interface. I had finished my own tasks by then, so on 7 August 2026 I offered the team my help and took the tasks for the Domains page.
 
-The 12 seconds is what I observed while reproducing the bug, not a benchmark. But nobody needs a benchmark to notice a field that freezes for 12 seconds.
+Vue 3 didn’t add any new work to the drawer. The slow code was there on Vue 2 as well, but after the move every data read in that code became more expensive.
 
-## Where the time went
+## The delay came from a shared autocomplete
 
-The component had two problems, and they only became visible together.
+The drawer contains `ui-autocomplete2`, an input with suggestions from the UI kit, the inSales library of interface components. On every render, about 700 domain zones such as .ru or .com were passed into it. The component looped over them twice, compared them and cached them.
 
-First, on initialization it copied the local list of items into a separate cache. That cache exists for external search, where results arrive from the server in portions and have to be merged. In local mode the full list is already passed in, so the copy wasn’t needed at all.
+On Vue 2 this render was slow too and took about a second, so the problem was less visible. On Vue 3 the same work took about 4 seconds.
 
-Second, while filling the cache it removed duplicates like this:
+## Vue 3 reads properties through a Proxy
 
-```js
-const uniqueItems = uniqWith(items, isEqual)
-```
-
-`uniqWith` keeps a result array and compares every new element with everything already in it. For 700 distinct items that’s:
-
-```text
-item 1:       0 comparisons
-item 2:       1 comparison
-item 3:       2 comparisons
-...
-item 700:   699 comparisons
-
-700 × 699 / 2 = 244,650 deep comparisons
-```
-
-Merging an existing cache with a new batch makes it worse: comparing 700 new items with 700 cached ones is up to 700 × 700 = 490,000 comparisons. And `isEqual` is a deep comparison. It walks every key and every nested object, so hundreds of thousands of calls turn into millions of property reads.
-
-This algorithm was quadratic in Vue 2 as well. It was just cheap enough that nobody noticed.
-
-## What changed in Vue 3
-
-In Vue 2, reactivity was added to the original object itself, with getters and setters. The reactive object and your object were the same thing:
+In Vue 2, reactivity was added to the original object itself: Vue put getters and setters on its properties. The reactive object and the original were the same object:
 
 ```js
-const zone = { value: 'info', text: '.info' }
+const zone = { value: 'ru', text: '.ru' }
 
 Vue.observable(zone) === zone // true
 ```
 
-Vue 3 leaves the original object alone and puts a Proxy in front of it:
+Vue 3 leaves the original object unchanged and creates a Proxy for it, a wrapper object that intercepts every property access:
 
 ```js
 import { reactive, toRaw } from 'vue'
 
-const zone = { value: 'info', text: '.info' }
+const zone = { value: 'ru', text: '.ru' }
 const reactiveZone = reactive(zone)
 
 reactiveZone === zone        // false
 toRaw(reactiveZone) === zone // true
 ```
 
-The data is the same, but these are two different objects. A Proxy doesn’t carry extra fields for `isEqual` to compare, and `isEqual(zone, reactiveZone)` correctly returns `true`. The problem is how it gets there. Every `proxy.value`, `Object.keys(proxy)` and `'value' in proxy` goes through Vue’s handlers, which record what the code depends on. One call costs almost nothing. Millions of them inside a quadratic loop cost seconds.
+Every property read on a Proxy goes through a Vue handler. If the read happens during a render, Vue also records the property as a dependency of the component. One such read costs almost nothing. But code that loops twice over 700 objects and compares them reads their properties thousands of times, and each read now costs more.
 
-So the honest description is this: Vue 3 didn’t create the 244,650 comparisons. It raised the price of each one, and an old algorithm finally became visible to users. Proxy-based reactivity is a good trade for normal UI work. A deep walk over hundreds of objects inside nested loops is not normal UI work.
+## The fix belonged in the UI kit, not on the Domains page
 
-I also checked whether Vue has its own deep equality that unwraps Proxies. Publicly, it doesn’t. Internal helpers like `looseEqual` walk properties too, so they go through the Proxy just the same.
+The slow code was inside `ui-autocomplete2`, so a fix on the Domains page would have made one drawer faster and left every other autocomplete slow. I fixed the component itself instead, in the UI kit’s Vue 3 branch, on the same day I took the task.
 
-## Fix 1: delete the work
-
-The first question wasn’t how to make deduplication faster. It was why local mode deduplicated anything at all.
+In the domain picker drawer, the autocomplete works in local mode: the whole list of zones is already passed to it in `items`, and there is nothing to search on the server. But on initialization the component still copied this list into its cache, which meant looping over and comparing 700 zones through Proxies. The cache is needed only for search through server requests, so in local mode I removed filling it:
 
 ```js
 initCachedItems() {
-  if (!this.isExternalSearch) return
+  // In local mode the list is already in items, so there is nothing to cache.
+  if (!this.externalSearchEnable) return
 
   this.setCachedItems(this.getInitialCachedItems())
 }
 ```
 
-That one early return is what removed the delay. The local list was already in the component, and copying it into a cache just to clean it of duplicates again was pure overhead. After this change the autocomplete with 700 zones opened without the wait.
+This change is what removed the delay when the drawer opened: an operation you don’t need is easier to skip than to speed up. The drawer didn’t become faster than on Vue 2, but it got its old speed back.
 
-If a heavy operation isn’t needed, removing it beats optimizing it. It’s also the easiest fix to review: there’s no new algorithm to trust.
+## Comparing a Proxy with its original object reads every property
 
-## Fix 2: make the remaining comparisons cheap
+Proxies also slowed down the autocomplete cache. In `set-cached-items.js` the autocomplete caches the items it has found and compares them with Lodash’s `isEqual`. There, Proxy objects were compared with the original objects.
 
-External search still needs the cache, so deep comparison stayed there. I only took the Proxy out of the comparison:
+`isEqual` first checks whether both arguments are the same object, and if they are, it returns `true` at once. For this check a Proxy and its original are different objects, so `isEqual` compares them property by property. Their data is the same, so the comparison can’t stop at a first difference and reads every property, and each read on the Proxy goes through a Vue handler:
 
 ```js
 import isEqual from 'lodash/isEqual'
-import uniqWith from 'lodash/uniqWith'
+import { reactive, toRaw } from 'vue'
+
+const zone = { value: 'ru', text: '.ru' }
+const reactiveZone = reactive(zone)
+
+isEqual(reactiveZone, zone)        // true after comparing every property through the Proxy
+isEqual(toRaw(reactiveZone), zone) // true at once: it is the same object
+```
+
+This comparison most likely slowed down every autocomplete that searches through server requests. So I suggested turning Proxy objects into plain ones before the comparison:
+
+```js
+import isEqual from 'lodash/isEqual'
 import { toRaw } from 'vue'
 
-this.cachedItems = uniqWith(
-  this.cachedItems.concat(newItems),
-  (first, second) => isEqual(toRaw(first), toRaw(second))
-)
+/** Compares cached items by their data without reading properties through a Proxy. */
+function isSameItem(first, second) {
+  return isEqual(toRaw(first), toRaw(second))
+}
 ```
 
-A few details matter here.
+`toRaw` returns the original object for a Proxy and the object itself for a plain one, so a separate `isProxy` check isn’t needed. If both arguments lead to the same original object, `isEqual` returns `true` on its very first check.
 
-There’s no `isProxy` check before `toRaw`. `toRaw` returns a plain object unchanged, so the check would only add a branch to the hot loop.
+## Proxies also slowed down checkboxes in the Vuetify fork
 
-The cache still stores the original items. `toRaw` is used only for the duration of one comparison, and the raw reference is dropped right after. Keeping raw references as separate state is a different story: writes through them bypass reactivity, and you end up with two references to the same data that behave differently.
+When I told the migration team about the autocomplete, they gave me another task with a similar problem. In the analytics section, checkboxes in the `ui-path-list` component reacted to a click after about 5 seconds. I found the cause in the Vuetify fork, the inSales copy of the Vuetify component library: Vue 3 created a Proxy for almost everything the fork’s components kept in `data`.
 
-`toRaw` also doesn’t unwrap everything recursively. If someone manually put a Proxy inside a plain object, it stays there. Our items didn’t have that, but it’s worth knowing before copying the trick somewhere else.
-
-## Why I didn’t switch to comparing by id
-
-The textbook fix for quadratic deduplication is a key:
+The fix was to wrap almost everything in `data` with `markRaw`. This function marks an object so that Vue never creates a Proxy for it. Watchers wrote new values into `data`, so those writes had to be wrapped too. Otherwise Vue would create a Proxy for every new value. In outline:
 
 ```js
-const itemsById = new Map(items.map(item => [item.id, item]))
-const uniqueItems = [...itemsById.values()]
+import { markRaw } from 'vue'
+
+export default {
+  data() {
+    return { nodes: markRaw([]) }
+  },
+  watch: {
+    items(newItems) {
+      this.nodes = markRaw(buildNodes(newItems))
+    }
+  }
+}
 ```
 
-That’s O(n) instead of O(n²), and I’d pick it for new code. Here it would have changed the contract. Right now two objects are duplicates only if all their fields match. With an id-based key, two objects with the same id and different fields would silently merge into one. I didn’t know every caller well enough to promise that this never matters, and a performance fix is a bad place to change what "duplicate" means.
+`markRaw` has a cost: Vue doesn’t track changes inside a marked object. The interface updates when `nodes` gets a new array, but it doesn’t notice a change to one item inside it. So `markRaw` fits data that is replaced as a whole.
 
-So I kept the old semantics and removed only the Proxy cost. It’s a less impressive diff and a safer one.
+I described the fix in detail in the task on 10 August 2026, and the migration team added it to the fork the same evening.
 
-## Testing the contract instead of the clock
+## What to check after moving to Vue 3
 
-The tempting test is "opening the list must take less than 1.5 seconds". It depends on the machine, CPU load and whatever else runs in parallel, so it ends up either flaky or so generous it proves nothing.
+Both delays, 4 and 5 seconds, came from shared components, not from single pages. A slow shared component slows down every page that uses it, so the fix belongs in the UI kit or the fork, not on each page separately.
 
-What I actually wanted to verify is that the comparison doesn’t read reactive properties. Vue can tell you that directly with `effect` and `onTrack`:
+After moving to Vue 3, it is worth checking places where:
 
-```js
-import { effect, reactive, stop, toRaw } from 'vue'
-import isEqual from 'lodash/isEqual'
+- code loops over and compares large lists of reactive objects, for example with `isEqual`;
+- a component keeps large structures in `data` that are replaced as a whole and don’t need tracking inside;
+- an instance of a third-party library is kept in reactive state.
 
-const sourceZone = { value: 'info', details: { available: true } }
-const reactiveZone = reactive(sourceZone)
-const trackedKeys = []
+The last case causes bugs rather than delays. It happened in my infographic editor: the interface tracked properties of the editor instance. In Vue 2 this worked because the getters and setters were put on the instance itself. In Vue 3 tracking through the Proxy stopped working, so I started keeping the instance without deep reactivity, and the interface now gets state changes from the editor’s events.
 
-const runner = effect(
-  () => isEqual(toRaw(sourceZone), toRaw(reactiveZone)),
-  { onTrack: ({ key }) => trackedKeys.push(key) }
-)
-stop(runner)
-
-// Without toRaw, Vue tracks 'value', 'details', 'available' and so on
-expect(trackedKeys).toEqual([])
-```
-
-`onTrack` only fires in development builds, which is where tests usually run anyway. The test fails for the right reason: someone put a Proxy back into the hot path. It doesn’t care how fast the CI runner is today.
-
-## What I check after a Vue 3 migration now
-
-This bug changed what I look for when reviewing migrated code. The places worth a second look:
-
-- objects compared with `===`, used as keys in `Map` or `Set`, or searched with `indexOf`;
-- `isEqual`, `uniqWith`, `differenceWith` and similar helpers running over large reactive arrays;
-- reactive objects passed into third-party libraries, especially ones that remember objects by reference;
-- instances of editors, maps, charts or other complex classes wrapped in `ref()` or `reactive()`.
-
-For a quick diagnosis, three values usually tell the whole story:
-
-```js
-import { isProxy, toRaw } from 'vue'
-
-console.log({
-  isProxy: isProxy(item),
-  sameReference: item === originalItem,
-  sameRawReference: toRaw(item) === originalItem
-})
-```
-
-The broader point is about upgrades in general. When something gets slower after one, the upgrade is rarely the whole cause. It changes the cost of operations your code was already doing, and the first thing to find is the old code that was quietly doing too many of them. Our order was: check whether the work is needed at all, keep the contract, and only then remove the extra cost from what remains.
+If the interface becomes slower after the move, compare its speed with production on Vue 2. The domain picker drawer took about a second to open even before the move. The slow code was already there, and with the Proxy it became visible.

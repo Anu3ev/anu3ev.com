@@ -9,7 +9,7 @@
   </defs>
   <rect width="1200" height="630" fill="#101216"/>
 
-  <text x="80" y="92" font-size="40" font-weight="700" fill="#ecedee">One token, two waiting forms</text>
+  <text x="80" y="92" font-size="40" font-weight="700" fill="#ecedee">Two forms waiting for one captcha</text>
 
   <!-- Before: shared event -->
   <rect x="70" y="122" width="510" height="456" rx="16" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
@@ -20,16 +20,16 @@
   <text x="124" y="262" font-size="22" fill="#a1a3a8">challenge closed, still waiting</text>
 
   <rect x="100" y="326" width="450" height="64" rx="12" fill="#101216" stroke="#547bc5" stroke-width="2" stroke-dasharray="8 6"/>
-  <text x="325" y="366" font-size="24" text-anchor="middle" fill="#a9c4f5">shared "token received" event</text>
+  <text x="325" y="366" font-size="24" text-anchor="middle" fill="#a9c4f5">shared "captcha answer" event</text>
 
   <rect x="100" y="436" width="450" height="88" rx="12" fill="#101216" stroke="#2d3139" stroke-width="2"/>
   <text x="124" y="474" font-size="26" font-weight="600" fill="#ecedee">Form B: review</text>
-  <text x="124" y="506" font-size="22" fill="#a1a3a8">check passed</text>
+  <text x="124" y="506" font-size="22" fill="#a1a3a8">captcha passed</text>
 
   <path d="M325 434v-38" stroke="#a1a3a8" stroke-width="3" fill="none" marker-end="url(#arrow-muted)"/>
   <path d="M325 324v-38" stroke="#86adff" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
   <text x="345" y="312" font-size="22" fill="#86adff">submits A</text>
-  <text x="100" y="560" font-size="22" fill="#a1a3a8">The review never sends</text>
+  <text x="100" y="560" font-size="22" fill="#a1a3a8">The contact form is sent instead</text>
 
   <!-- After: bound callback -->
   <rect x="620" y="122" width="510" height="456" rx="16" fill="#181a1f" stroke="#547bc5" stroke-width="2"/>

@@ -41,7 +41,7 @@
   <text x="816" y="306" font-size="26" font-weight="600" fill="#ecedee">Ask the model</text>
   <text x="816" y="344" font-size="22" fill="#a1a3a8">getLanguageIdAtPosition</text>
   <text x="816" y="404" font-size="34" font-weight="700" fill="#86adff">json</text>
-  <text x="816" y="450" font-size="22" fill="#ecedee">JSON suggestions only</text>
+  <text x="816" y="450" font-size="22" fill="#ecedee">no Liquid snippets</text>
 
   <!-- Legend -->
   <g font-size="22" fill="#a1a3a8">

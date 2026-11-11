@@ -1,91 +1,109 @@
 ---
-title: The redesign removed the sidebar, and with it the only way to fix a broken page
-description: A cleaner visual editor moved widget controls into the storefront preview. When custom code breaks that preview, the controls disappear with it. This is how I found that gap and the recovery mode I built for it.
+title: The redesign removed the sidebar, and with it the easy way to fix a broken page
+description: In the redesigned inSales visual editor, the widget buttons live inside the store page. When a widget’s code breaks the page, the buttons are gone too. How I found this case and built a recovery mode that doesn’t depend on the page.
 locale: en
 slug: redesign-recovery-mode
 published: true
 date: '2026-10-21'
 cover: /images/blog/redesign-recovery-mode.svg
-coverAlt: Three diagrams showing the old sidebar, the redesign where a broken preview hides all widget controls, and a recovery mode that lists widgets without the preview
+coverAlt: 'Three diagrams: in the old editor the sidebar still lists widgets when the page breaks, after the redesign the buttons disappear with the page, and recovery mode lists widgets without the iframe'
 category: Product UX
-readingMinutes: 6
+readingMinutes: 7
 tags: [Product UX, Redesign, iframe, Error recovery]
 ---
 
-The inSales visual site editor is where merchants change their store’s design and manage its widgets. inSales is an e-commerce platform with 60,000+ merchants, and this editor is one of its core tools. The storefront page opens in an iframe inside the admin panel, and the editor lets you work with the widgets on that page.
+In the visual site editor, inSales merchants change their store’s design and set up the widgets that store pages are built from. It is one of the platform’s core tools, and the platform has more than 60,000 stores. The store page opens inside an iframe in the editor, and the interface around it controls the widgets and settings.
 
-The old editor had a large permanent sidebar next to the preview, and it was doing four jobs at once: global design settings, page sections, widget lists and the settings of the selected widget. Adding, editing and deleting widgets also worked through buttons inside the preview. So there were two ways to do the same thing, and neither was obviously the main one.
+In 2024 a designer created the mockups of a new editor, and I implemented the frontend of the redesign. Before the redesign, a static sidebar was always open next to the page. It held the global design settings, the widget lists for each page area and the settings of the selected widget.
 
-The redesign I was given fixed that. The top menu took over global settings and page navigation. Widget actions moved into the preview: select a widget, click Edit, and a floating panel opens over the storefront with that widget’s settings. The permanent sidebar was gone. I got the mockups and spent about eight weeks implementing the frontend.
+![The old editor before the redesign: a static sidebar with widget lists by page area on the left, the store page on the right](/images/work/visual-storefront/old-editor-static-sidebar-4th-generation.webp)
 
-It’s a better interface. It also had a hole that no mockup showed, because mockups show pages that work.
+Widgets could be managed in two ways: in the sidebar and with buttons right on the page. The editor needed one clear way to manage them, and the sidebar also took up part of the screen. The new editor has no sidebar. The global settings moved to a menu in the top bar, and a widget is managed with buttons that appear when you hover over it. The Edit button opens a floating panel with the settings of that widget.
 
-## What the sidebar was quietly doing
+During the work I found cases that the mockups didn’t cover. The most serious one was a page broken by a widget’s code: without the sidebar, the user would lose access to that widget.
 
-Merchants and their developers can put their own HTML, CSS, JavaScript and Liquid into widgets. A critical mistake in that code can stop the storefront page from loading or make it return a server error.
+## The sidebar worked even when the page didn’t load
 
-In the old editor that was unpleasant but recoverable. The preview was broken, but the sidebar wasn’t part of the preview. You could open the widget list, find the widget that broke the page, and fix its code or delete it.
+Merchants and their developers add their own HTML, CSS, JavaScript and Liquid code to widgets. If that code has a critical error, the store page inside the iframe may not load or may return a server error.
 
-In the redesign, the main way to reach a widget is the buttons inside the iframe. If the page doesn’t load, those buttons don’t exist. The merchant loses access to exactly the widget that broke the page, and the editor that’s supposed to help shows an error with nothing to click.
+In the old editor, such a page could be fixed without leaving the editor. The sidebar didn’t depend on what was inside the iframe, so the widget list was still there. The user found the broken widget in it and fixed its code or removed the widget.
 
-Without a dedicated path, recovery meant going to another section of the admin panel and looking for the widget there, or downloading the template, editing it and uploading it back. That’s hard enough for someone who knows what went wrong. A merchant who doesn’t know which widget caused the error is stuck. Support has the same problem: they can’t just open the page and fix it from the editor.
+After the redesign, widgets are managed with buttons that appear inside the iframe. If the page doesn’t load, those buttons aren’t there. Without a separate solution, the user would lose access to exactly the widget that broke the page. They would have to look for the widget in another section of the admin panel or upload the template again. This is especially hard for a merchant who doesn’t know which widget caused the error, and the support team would have the same problem.
 
-I found this while implementing the new structure, before any merchant could hit it. The sidebar had never been designed as a recovery tool. It just happened to be one, because it didn’t depend on the page it was editing.
+## The button back to the old editor would go away with the full rollout
 
-## Recovery mode
+While the new editor wasn’t enabled for everyone, store admins still had a button that switched back to the old editor with the sidebar. With it, a broken widget could be removed without workarounds, but the button was going to disappear with the full rollout.
 
-I proposed a technical mode that works without the iframe, and then built it.
+When the team decided on 9 July 2024 to roll out the new editor to all stores, I suggested building recovery mode first, with a widget list for pages that don’t load, and rolling out the editor after that. Fixing such pages was usually my job, and without that list it would have been harder. The team lead agreed.
 
-When the editor opens, it checks whether the page actually loaded and whether the expected content appeared. If the page failed to load or returned an error, the merchant sees a message offering to open the technical mode. The idea, simplified:
+## The recovery mode widget list comes from the server, not from the page
+
+In recovery mode (the interface calls it "Service mode"), the editor shows the page’s widgets grouped by page area: header, content, footer and widgets outside the content. From this list the user can open a widget’s code, fix it or remove the widget.
+
+This list can’t be built from the page itself. Normally the editor finds widgets in the markup of the page loaded in the iframe, but a page that failed to load has no markup. So in recovery mode the editor requests the widget list from the server with a separate request, and the broken page can’t affect it.
+
+Recovery mode can also be opened on a page that loaded normally, from the page settings. Then it simply shows the full list of the page’s widgets.
+
+## The editor waits for the page to report that it has loaded
+
+To open recovery mode, the editor first has to notice that the page didn’t load. In Chrome, the iframe with such a page gets an error right away. In Firefox, the iframe’s `load` event doesn’t fire in this case, and the editor can’t read what is inside the iframe, so it could wait forever.
+
+So I added a timeout: if the page doesn’t tell the editor within 30 seconds that it has loaded, the editor opens recovery mode. I chose 30 seconds because the server limits a store page request to 25 seconds by default.
+
+Here is a simplified version of the check. A page that has loaded sends the editor a message with `postMessage`, and the editor waits for it for no longer than 30 seconds:
 
 ```js
-/** Reports a broken preview when the page never shows the content the editor expects. */
-function watchPreview({ iframe, timeout, onBroken }) {
-  const timer = setTimeout(onBroken, timeout)
+/** 5 seconds more than the server limit for a store page request. */
+const PAGE_READY_TIMEOUT_MS = 30_000
 
-  iframe.addEventListener('load', () => {
-    clearTimeout(timer)
-    if (!hasExpectedContent(iframe.contentDocument)) onBroken()
-  }, { once: true })
+/**
+ * Calls onPageBroken if the page in the iframe doesn't report that it has loaded within 30 seconds.
+ * The load event can't be used here: in Firefox it doesn't fire for such a page.
+ */
+function watchPageReady(iframe, onPageBroken) {
+  const timeoutId = setTimeout(() => {
+    window.removeEventListener('message', handleMessage)
+    onPageBroken()
+  }, PAGE_READY_TIMEOUT_MS)
+
+  function handleMessage(event) {
+    const isReadyMessage = event.source === iframe.contentWindow && event.data?.type === 'page-ready'
+    if (!isReadyMessage) return
+
+    clearTimeout(timeoutId)
+    window.removeEventListener('message', handleMessage)
+  }
+
+  window.addEventListener('message', handleMessage)
 }
 ```
 
-The mode itself is a separate window that lists every widget on the current page with its name, ID and available actions. From there you can open the widget’s settings, go to its code, or delete it. The list doesn’t depend on what’s inside the iframe, so a dead preview can’t take it down.
+Only a page that has loaded and run its scripts can send the `page-ready` message. A page with a server error never sends it, so after 30 seconds the editor opens recovery mode in any browser.
 
-Two decisions mattered more than the code.
+## A 408 response froze the editor in Firefox
 
-First, the mode is also available when the page loads fine. Then it’s simply another way to see the full widget list and jump to the right block. I didn’t want an escape hatch that only shows up during an emergency, because then nobody has seen it before they need it.
+The second Firefox problem was in the server response itself. When the server couldn’t process the page in time, it returned the status code 408 Request Timeout, and with that response the editor in Firefox froze. In testing, the editor in Chrome was usable again after a few seconds, while in Firefox it took 4 minutes on average. Firefox is known to resend a request after a 408 response: [Mozilla bug 907800](https://bugzilla.mozilla.org/show_bug.cgi?id=907800) describes the browser resending such a request about ten times over several minutes. To keep the editor from freezing, we decided to change the status code.
 
-Second, it’s built for support as much as for merchants. When a merchant doesn’t know which widget caused the error, a support engineer can open the page, switch to technical mode, find the problem block, fix or delete its code, and then reopen the page in the normal mode. That’s how it’s used in production.
+Before changing it, I asked in the developers’ channel whether the change would break the integrations with Ozon and Wildberries, two Russian marketplaces. Those integrations also returned 408 in some cases. The discussion showed that 408 was used only in server request handlers and internal platform tasks, so the change didn’t break anything for stores. The new code had to be non-standard, so these responses would be easy to find in the logs. The first idea was 540, but Shopify already uses it, so we picked the unused code 555. Now the inSales server returns 555 on a timeout, and the editor no longer freezes in Firefox.
 
-## The same gap, in a quieter form
+## Widgets outside the page content also depended on the sidebar
 
-The broken page wasn’t the only job the sidebar had been doing silently. Some widgets aren’t visible in the normal page content at all: a pre-order form that appears only after a shopper clicks "Pre-order", a feedback form, panels in the bottom area. In the old editor you reached them through the sidebar. In the new one you can’t hover over something that isn’t on the page yet.
+Besides broken pages, the sidebar was also the way to manage widgets that aren’t visible on the page. Some widgets appear only after a buyer’s action: for example, the pre-order form opens after the buyer clicks the Pre-order button on a product page. Until then, you can’t hover over such a widget to see its buttons, so without the sidebar these widgets would have been out of reach.
 
-So the top menu got a separate section for these widgets, where merchants can still find, add and configure them. Different symptom, same cause. The redesign removed an interface, and everything that interface made possible had to be moved somewhere on purpose.
+For these widgets I added a "Pop-up windows" section to the top menu. There they can be found, added and set up in the same floating panel. On a page that failed to load, this section is hidden, and widgets outside the content are managed in recovery mode.
 
-## What shipped
+## Recovery mode went live a day before the editor rollout
 
-The redesigned editor is the standard version for current-generation inSales templates and is used by more than 90% of stores. The old editor with the permanent sidebar remains only for the template generation from before 2020, with a few hundred users.
+Recovery mode went to production on 31 July 2024, and on 1 August the new editor was turned on for all stores on current templates. Today more than 90% of inSales stores use the new editor. When a merchant doesn’t know which widget caused the error, someone from the support team opens the page, switches to recovery mode, finds the broken widget and fixes or removes its code. After that, the page opens in the normal mode again.
 
-The new structure also made a proper eight-step onboarding tour possible, where each step points to one stable part of the interface instead of a sidebar that keeps switching its contents.
+In November 2024 I shipped an updated version of recovery mode. Now, when a page doesn’t load, the editor first shows a "Site loading problems" window with an "Open the widget list" button. The recovery mode widget list became a table that shows when each widget was added and changed and which widgets have edited code. This makes it easier to see which change made the page stop loading.
 
-These numbers describe the redesign as a whole, not the recovery mode on its own:
+![Recovery mode as a table: widgets by page area with their change dates and a menu of widget actions](/images/work/visual-storefront/recovery-mode-widget-table.webp)
 
-- With the top menu and the settings panel closed, the preview is about 17% wider on a 1920 px screen, because the sidebar no longer takes a fixed slice of it.
-- Among new users, the share who changed a template or widget setting and successfully saved the result on their own during the first session went from 60% to 80%. That’s a change of 20 percentage points (from three in five new users to four in five), not a 20% increase.
+## What to check before removing a panel
 
-The recovery mode doesn’t have a number of its own. Its result is that a broken page became something you fix from the editor, and support uses it for exactly that.
+Mockups usually show pages that work. The sidebar helped fix a broken page because it didn’t depend on that page, and the mockups didn’t show this job. So when a redesign removes a part of the interface, it is worth listing everything people could do through it, including error cases and items that aren’t visible on the page. Each of these cases needs a place in the new interface.
 
-## Before you delete a panel
+The way to recover should also work without the part it helps to fix. In recovery mode the widget list comes from the server, so it opens even when the page in the iframe doesn’t load at all.
 
-This is the checklist I now run whenever a redesign removes or merges a piece of interface:
-
-- List every job the old element does, including the ones nobody drew: error states, empty states, items that stay invisible until some action, and support workflows.
-- For each job, find where it lives in the new design. If the answer is "nowhere", say it out loud before release instead of letting support discover it.
-- Look at the new design in the state where its main surface fails. If the controls live inside the thing being edited, what happens when that thing doesn’t render?
-- Keep the escape hatch reachable during normal work, so people know it exists before they need it.
-
-Design reviews usually look at working pages, which is fair, because that’s what users see most of the time. The engineer implementing the design is the one who keeps running into the broken states, so that’s where these gaps are most likely to be caught.
-
-More about the project is in the [visual editor case](/work/visual-storefront/).
+The other parts of the redesign are described in the [visual editor case](/work/visual-storefront/).

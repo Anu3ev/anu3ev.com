@@ -1,117 +1,116 @@
 ---
-title: Replacing a cache timer with "has this product changed?"
-description: A storefront library cached product data for a fixed time, so pages either showed stale data or re-requested products that hadn’t changed. Comparing each product’s update timestamp cut product-data requests by about 70%.
+title: Caching storefront products by update time instead of a timer
+description: The inSales storefront library kept product data in the browser for a fixed time, so buyers could see old prices while unchanged products were requested again. Checking each product’s update time instead cut product data requests by about 70%.
 locale: en
 slug: cache-by-change-not-timer
 published: true
 date: '2026-10-21'
 cover: /images/blog/cache-by-change-not-timer.svg
-coverAlt: Decision table comparing a time-based cache expiry with a check of each product’s update timestamp
+coverAlt: Decision table comparing a fixed cache time with a check of each product’s update time
 category: Performance
-readingMinutes: 7
+readingMinutes: 8
 tags: [Caching, IndexedDB, Storefront, Liquid, Performance]
 ---
 
-Put a few product collections on a store’s home page and you can easily get 60 to 200 products on one screen. Each of them needs data in the browser: prices, variants, stock, and what happens when a customer clicks "Add to cart". On inSales, an e-commerce platform with 60,000+ merchants, that work is done by [CommonJS](/work/commonjs-storefront-library/), the JavaScript library behind the storefronts. I maintained it for several years.
+inSales is an e-commerce platform with more than 60,000 online stores. On their storefronts, prices, product variants and adding to the cart run through CommonJS, the platform’s shared JavaScript library for storefronts. Despite the name, it has nothing to do with the CommonJS module format. I maintained it for several years.
 
-When I started digging into its caching, product data in the browser lived on a timer: two minutes in the common case, less on product pages, a few seconds in admin mode. It’s the most ordinary cache there is, and it failed in two opposite directions at once:
+To show a product’s price, variants and Buy button, the library requests the product data from the server and stores it in IndexedDB, the browser’s built-in database. In the latest generation of templates, merchants build pages from widgets and can put several "Products from a category" blocks on the home page, which together show dozens or hundreds of products. So the way the library caches products decides how many requests a page sends to the server.
 
-1. If a product had changed, the customer could keep seeing old data until the timer ran out.
-2. If nothing had changed, the timer still expired, and the library downloaded the same data again.
+## A timer can’t tell whether a product has changed
 
-So the cache was too long and too short at the same time. There was also a less obvious cost. After a customer added one item to the cart, the library checked the whole product list it had saved when the page loaded. If the timer had expired by then, one click could re-request data for every product on the page, not just the one the customer touched.
+Product data used to stay in the cache for a fixed time: 120 seconds on most pages and 60 seconds on the product page. For store admins logged in to the admin panel, it was 3–4 seconds, so they could see a new price right after changing it. The checkout page didn’t cache product data at all.
 
-## Asking a different question
+Any fixed time caused two problems at once:
 
-A timer answers "how old is this data?". The storefront doesn’t really care about age. It needs to know "is this still the same product?". The server already had the answer, because every product has an update timestamp. It just never reached the browser.
+1. If a product had already changed, the buyer could see the old data until the time ran out.
+2. If the product hadn’t changed, the library still requested it again once the time ran out.
 
-So I passed it through the template. The Liquid markup puts the timestamp on each product element:
+## Products with hundreds of variants and an extra request on add to cart
+
+A separate problem was products with hundreds of variants, such as one model in dozens of sizes and colors. In October 2023, a client came to us with a product that had 777 variants. To show it in a widget, the library requested its full data with every variant, and a list of 20 such products could take 20–30 seconds to load or fail with a timeout. But a preview, the product card in a collection or slider, doesn’t need every variant: the price and whether the product can go straight into the cart are enough. So I wrote the requirements for a light API response and agreed on them with the backend developer. With the `without_many_variants` parameter, the server returns a product without the full variant list, only a flag saying it has several variants.
+
+In January 2024, a QA engineer tested these changes on 10 products with more than 800 variants each. The test found one more reason why product loading broke completely. If the cache time had already run out when a buyer added a product to the cart, the library requested every product it had saved when the page loaded. With heavy products, the server didn’t answer in time and returned a timeout error, and after that error no product on the page initialized. On January 30, 2024, I shipped a fix: when a product is added to the cart, the library requests only that product.
+
+But even the request for one product was sent every time the cache time ran out. The problem was the timer itself: it can’t tell whether a product has changed. So at the end of January 2024, I started moving the cache to a check of each product’s update time.
+
+## The update time comes with the page markup
+
+Every product on the server has an update time, but it never reached the browser. I passed it through Liquid into the `data-product-updated-at` attribute of the product form:
 
 ```liquid
-<div
-  data-product-id="{{ product.id }}"
-  data-product-updated-at="{{ product.updated_at }}"
->
+<form data-product-id="{{ product.id }}" data-product-updated-at="{{ product.updated_at }}">
+  …
+</form>
 ```
 
-The library stores that value in IndexedDB next to the product data. On the next page load it compares the value from the markup with the one it saved. It’s a client-side cache: the server only provides the timestamp to compare against.
+The library saves this value in IndexedDB together with the product data, in the `originalUpdatedAt` field. On the next page load, it compares the value in the markup with the saved one. If they match, the product hasn’t changed, and its data comes from the cache without a request. If they don’t, the library requests fresh data and updates the record. The cache stays in the browser: the server only has to put the update time into the markup, and it builds that markup from the Liquid template anyway.
 
-The decision for each product became a small table:
+## Fresh data isn’t always complete data
+
+Comparing update times tells the library whether a product has changed. Once light responses appeared, that wasn’t enough, because different parts of a page need different amounts of data about the same product. One product can appear on a page in several places at once:
+
+- in a preview without variant selection;
+- in another widget with full variant selection;
+- in a modal window where the buyer picks a variant;
+- in the cart.
+
+If a light response overwrites full data in the cache, the next widget loses its variants. And if any cached record counts as good enough, the modal window doesn’t get enough data to show the variants. So the library checks a record for two things: whether it is up to date and whether it has enough data for this place on the page. If the data isn’t enough, the library loads the full product.
+
+All the rules fit in one table:
 
 | Product state | What the library does |
 |---|---|
-| In the cache, same timestamp, enough data for this widget | Reuse it without a request |
-| Not in the cache | Fetch and store it |
-| Timestamp changed | Fetch fresh data and update the record |
-| This widget needs variants the cache doesn’t have | Fetch the full product |
-| Old template without the timestamp | Keep the old time-based check |
+| In the cache, same update time, enough data | Takes the data from the cache without a request |
+| Not in the cache | Requests the product and saves it |
+| Update time has changed | Requests fresh data and updates the record |
+| The widget needs variants the cache doesn’t have | Loads the full data |
+| An old template doesn’t pass the update time | Checks the record by time, as before |
 
-Simplified, the rule fits in one function:
+Simplified, the decision for one product looks like this:
 
 ```js
-/** Decides where one product's data comes from on page load. */
-function resolveProductSource({ cached, updatedAt, needsVariants }) {
-  if (!cached) return 'fetch'
+/**
+ * Decides what to do with one product on page load.
+ * cached: the IndexedDB record, or undefined;
+ * updatedAt: the value of data-product-updated-at, missing in old templates;
+ * needsVariants: whether this place on the page needs the full variant list.
+ */
+function resolveProduct({ cached, updatedAt, needsVariants }) {
+  const requestType = needsVariants ? 'request-full' : 'request-light'
+  if (!cached) return requestType
 
-  // Templates that don't pass the timestamp keep the previous timer behaviour
-  if (!updatedAt) return isExpired(cached) ? 'fetch' : 'cache'
+  // Old templates don't pass the update time, so they keep the time-based check
+  const isFresh = updatedAt ? cached.originalUpdatedAt === updatedAt : !isExpired(cached)
+  const isComplete = !needsVariants || cached.hasAllVariants
 
-  if (cached.updatedAt !== updatedAt) return 'refresh'
-  if (needsVariants && !cached.hasAllVariants) return 'fetch-full'
-
-  return 'cache'
+  return isFresh && isComplete ? 'cache' : requestType
 }
 ```
 
-The cart got its own rule. Products that are in the cart but not on the current page no longer trigger a reload of everything visible. Cart-only products reuse their cached data, and if there’s nothing cached, the library requests just the variants it needs. Products that are also on the page go through the normal timestamp check.
+The function returns one of three decisions: take the product from the cache, request the light data for a preview, or request the full data with all variants. A cached record is used only when it is both up to date and complete for this place. So the same product can get different decisions on one page: the preview takes the light record from the cache, and the modal window loads the variants. In the example, the `isExpired` function stands for the old time check, and the `hasAllVariants` field marks a record with the full variant list.
 
-## The hard part: fresh isn’t the same as complete
+## Cart products without extra requests
 
-The timestamp turned out to be the easy half. The harder question was what "the cached product" even means when different parts of a page want different amounts of it.
+Products that are in the cart but not shown on the current page needed their own rule. Before, after the cache time ran out, the library requested them on every page, and if such a product had many variants, the request failed. Yet there is no need to keep requesting fresh data for a product that isn’t on the page.
 
-Some large stores have products with 500 to 1,000 variants. A request for a list of 20 such products could take 20–30 seconds and end in a timeout, while a preview in a slider didn’t need the variant list at all. I wrote up the requirements for a lighter API response for previews, agreed them with the backend team and adapted the library to it. A preview now only learns that a product has several variants and offers to open the product card or a modal. A product with a single variant can still go straight to the cart.
+So the library uses the saved data for these products. If there is no record in the cache, it requests only the needed variants through `products_with_variants.json`, because the cart shows the specific variant the buyer chose, not the whole product.
 
-After that, the same product could sit in one shared cache while being shown in several places:
+## Old templates kept working
 
-- a preview without variant selection;
-- another widget with a full variant selector;
-- a modal where the customer picks a variant;
-- the cart.
+Thousands of stores use the library, and many of them run old templates or custom code. Their markup doesn’t have the `data-product-updated-at` attribute, so the new library version couldn’t require it. The rollout had two stages. First, we released a library version that kept the old time check for markup without an update time: that’s the last row of the table. Then the attribute was added to the system widgets, and by March 2024 it was in every system widget of the latest template generation except AJAX widgets. The library caches products from AJAX widgets without a timer too. So stores didn’t have to update their templates at the same time as the library.
 
-Both naive rules break something. If a light response overwrites a full record, the next widget loses the variants it needs. If any cached record counts as good enough, the modal opens with half the data. So freshness alone wasn’t enough. The cache rules had to take into account what each place on the page actually needs: a lighter response must not remove variants another widget relies on, and a widget that needs more than the record holds asks for the rest. That’s the fourth row of the table.
+Every store gets a CommonJS update at once, so I prepared the QA test cases with both old and new templates in mind. For the product cache, I described moving between pages, changing a price in the admin panel and opening the page again, opening a page after the old cache time would have run out, and a mix of light and full data. Products in the cart and products shown in several widgets at once were tested separately.
 
-Even "fresh" turned out to have more than one dimension. After stock changes, the cache could keep the old order of variants, and a preview showed the price of the first variant even though it was no longer in stock. I worked on updating the variant data and its position in the stored list, not just the timestamp.
+## About 70% fewer product data requests
 
-## Rolling it out to templates I don’t control
+A comparison of product data requests before and after the change showed about 70% fewer of them: where ten requests used to go out, about three go out now. Unchanged products stopped being requested again just because 120 seconds had passed.
 
-The library runs inside templates that merchants and their developers customize. A new version that suddenly required `data-product-updated-at` would have broken every customized template without it.
+Together with loading products after the main page content, this helped pages with many product blocks the most. In typical measurements, they started loading in 2–3 seconds instead of more than 5. I checked this on more than 10 standard templates and on real client pages, including pages with about 60–200 products. Loading products after the main content is described in the [storefront product loading case](/work/storefront-product-loading/).
 
-So the rollout had two stages. First, a library version that understood the timestamp and kept the old timer for markup without it, which is the last row of the table. Then the attribute was added to the widgets' markup. No store ever needed both changes to arrive at the same moment.
+## What you can apply to your own cache
 
-The QA scenarios followed the same table: moving between pages, changing a price in the admin and reopening the page, reopening after the old timer would have expired, mixing full and reduced variant data, products in the cart, and the same product in several widgets.
+If your cache keeps data for a fixed time, ask yourself what you really need to know. Usually it isn’t how many seconds have passed, but whether the data has changed since you saved it. If the server knows an update time or a version of the data, send it to the client with the markup or the response. Then you don’t have to choose between old data and extra requests.
 
-## What changed
+If different parts of a page need different amounts of data about one record, check not only whether the record is up to date, but also whether it has enough data for that place.
 
-When I compared the number of product-data requests before and after the change, there were about 70% fewer of them, roughly 3.3 times fewer. Unchanged products stopped reloading just because two minutes had passed.
-
-Together with moving product blocks to AJAX rendering after the main page content, product-heavy pages got noticeably faster. In representative measurements they went from over 5 seconds to 2–3 seconds. I checked more than 10 standard templates and real client pages, including pages with about 60–200 products. That’s a representative result, and a particular store can differ: it depends on the number of widgets, the device, the network and the cache state. Unusually heavy pages could previously approach 15 seconds.
-
-## After the release
-
-Production found things QA didn’t, and two of those bugs were the same lesson in different clothes.
-
-In December 2024 a product stopped initializing on mobile Safari after a customer moved from the catalog to the product card. It looked like storage hanging on the product page. Step-by-step reproduction showed the problem started earlier: "Load more" in the catalog initialized each loaded product separately, and each run prepared the list again and went back to IndexedDB. The client’s page had two catalog widgets, which doubled the repeated work. I switched to batch initialization, so the loaded products are processed together instead of scanning storage once per card.
-
-In May 2025 an error response for part of the products crashed initialization of the whole library. Even the products whose data had loaded fine stopped working. I changed the error handling so successfully loaded products still initialize.
-
-A shared cache spreads one product’s data across the whole page. Work that runs per item and failures that happen per item need to stay per item, or one card takes the page down with it.
-
-## If your cache runs on a timer
-
-Ask what you actually need to know. Usually it isn’t the age of the data. It’s whether the source has changed since you stored it. If the server already has an update timestamp or a version, getting it to the client is often cheaper than tuning TTLs, because you stop trading stale data against wasted requests.
-
-Before you ship, ask a second question: can two consumers want different shapes of the same record? If they can, completeness belongs in the cache rules next to freshness, and the lighter response must never quietly win.
-
-And if you don’t control every place that renders your markup, ship the reader before the writer: a version that understands the new signal and still works without it.
-
-The full project is in the [storefront product loading case](/work/storefront-product-loading/).
+If other people change the markup your code runs in, first release a version that understands the new attribute and works without it, and only then add the attribute to the markup.
