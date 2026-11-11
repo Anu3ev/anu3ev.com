@@ -28,5 +28,5 @@
 <rect x="688" y="516" width="148" height="46" rx="8" fill="#86adff" stroke="#86adff" stroke-width="0"/>
 <text x="762" y="545" font-size="17" font-weight="600" fill="#101b30" text-anchor="middle">Send</text>
 <text x="304" y="640" font-size="17" font-weight="400" fill="#a1a3a8" text-anchor="middle">Click the checkbox, then click Send</text>
-<text x="896" y="640" font-size="17" font-weight="400" fill="#86adff" text-anchor="middle">Click Send, the captcha runs on its own</text>
+<text x="896" y="640" font-size="17" font-weight="400" fill="#86adff" text-anchor="middle">Click Send, the captcha runs automatically</text>
 </svg>

@@ -34,7 +34,7 @@
 <rect x="508" y="420" width="184" height="118" rx="12" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
 <text x="600.0" y="468.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Sends a request</text>
 <text x="600.0" y="492.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">straight to the server</text>
-<text x="600.0" y="510.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">without a token</text>
+<text x="600.0" y="510.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">without a valid token</text>
 <rect x="730" y="420" width="184" height="118" rx="12" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
 <text x="822.0" y="468.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Server checks</text>
 <text x="822.0" y="492.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">there is no</text>

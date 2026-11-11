@@ -5,11 +5,11 @@ locale: en
 slug: multi-warehouse-carts
 published: true
 cover: /images/work/multi-warehouse-carts/catalogue-quantity-per-warehouse.webp
-coverAlt: "Illustration of a wholesale catalog: a bouquet has separate quantity fields for the main and partner warehouses, 15 and 8 units"
+coverAlt: "Illustration of a wholesale catalog: a bouquet has separate quantity fields for the main and partner warehouses, 15 and 8 units, next to the stock available in each warehouse"
 category: Storefront platform
 year: Aug 2023 – Nov 2023
 context: inSales
-role: "Owned the storefront side: shared library, API agreement, testing, release"
+role: "Owned the storefront side: shared library, API contract, testing, release"
 stack: [JavaScript, AJAX, Liquid]
 featured: false
 order: 9
@@ -17,52 +17,62 @@ order: 9
 
 ## The problem
 
-Some stores on inSales sell wholesale from several warehouses in one catalog, for example their own and a partner’s. Wholesale buyers in these B2B stores order a product from a specific warehouse, for example 15 units from the main warehouse and 8 from the partner’s. Each warehouse needs its own cart with its own quantities and totals.
+Some stores on inSales sell wholesale from several warehouses in one catalog, for example their own and a partner’s. A wholesale buyer in these B2B stores orders each product from a specific warehouse, such as 15 units from the main warehouse and 8 from the partner’s. Each warehouse needs its own cart with its own quantities and totals.
 
-The storefront cart was built for one list of products. Every cart operation in [CommonJS](/work/commonjs-storefront-library/), the shared JavaScript library of inSales storefronts, was tied to a product variant, but in the wholesale case the warehouse matters too: one variant can have different quantities in different warehouse carts.
+![Illustration of a wholesale catalog: a bouquet has separate quantity fields for the main and partner warehouses, 15 and 8 units, next to the stock available in each warehouse](/images/work/multi-warehouse-carts/catalogue-quantity-per-warehouse.webp)
 
-Every storefront loads the library, so a change to it also affects single-warehouse stores that don’t need this feature.
+A [case study published by inSales](https://www.insales.ru/blogs/cases/hited) shows why stores sell partner stock: for one store with a 45,000-SKU catalog, partner warehouses brought 21% of its online sales in 2024.
 
-![Illustration of a wholesale catalog: a bouquet has separate quantity fields for the main and partner warehouses, 15 and 8 units](/images/work/multi-warehouse-carts/catalogue-quantity-per-warehouse.webp)
+The storefront cart was built for one list of products. Every cart operation in [CommonJS](/work/commonjs-storefront-library/), the shared JavaScript library of inSales storefronts, was tied to a product variant. In the wholesale case the warehouse matters too: one variant can have different quantities in different warehouse carts.
+
+Every storefront loads the library, so a change to it also affects single-warehouse stores that don’t need this feature. In those stores the regular cart had to keep working as before.
 
 ## My role
 
-I owned the storefront side, from implementation to release: I worked on the shared library, wrote down the API changes the frontend needed and agreed on the response format with the backend developer who built the server side. I clarified priorities and open product questions with the product manager, and during testing I investigated failures in the warehouse carts. I started in August 2023.
+I owned the storefront side, from implementation to release: I worked on the shared library, wrote down the API changes the frontend needed and agreed on the response format with the backend developer who built the server side. With the product manager I agreed on priorities and edge cases, such as what happens to the regular cart when a store turns on B2B. During testing I investigated failures in the warehouse carts. I started in August 2023.
 
 ## What I built
 
-### The warehouse cart logic stayed in the library
+### Warehouse cart logic in the library, not in a widget
 
-I started with the question of where the warehouse cart logic should live. CommonJS already calculates the price of each cart line and the price for a given quantity, and all of this connects to templates through data attributes that product widgets already rely on. So instead of moving these calculations, quantity changes and removing products into the cart widget, I extended the library’s own components.
+I started with the question of where the warehouse cart logic should go. CommonJS already calculates the price of each cart line and the price for a given quantity, and all of this connects to templates through data attributes that product widgets rely on. So I put the warehouse cart logic in the library, not in the cart widget: I extended the library’s components so that adding a product, changing its quantity and removing it all take the warehouse into account.
 
-For each warehouse, I agreed with the backend developer on the response fields: the total without discounts and the total with discounts. I also asked for the stock of each product inside a warehouse cart, because the old quantity field only showed how many units the buyer ordered. In August 2023 the test version of the library already showed the total price and total weight for each warehouse, and the regular cart worked alongside the warehouse carts.
+For each warehouse, I agreed with the backend developer on the response fields: the total without discounts and the total with discounts. On 17 August 2023 the test version of the library started showing the total price and total weight for each warehouse. I also asked for the stock of each variant in each warehouse, because the old quantity field only showed how many units the buyer had added to the cart. The catalog illustration shows the two separately: stock in the Available column, the cart quantity in the Quantity field.
 
 ### Quantity is calculated from the selected warehouse’s cart
 
-When a buyer enters a new quantity, the library calculates how many units to add or remove. The `Cart.set` method, which sets a product’s quantity, calculated this change from the quantity in the regular cart instead of the cart of the given warehouse. So if a warehouse cart had 15 units and the buyer reduced the quantity to 5, the cart could end up with 19.
+When a buyer enters a new quantity, the library calculates how many units to add or remove. The `Cart.set` method sets a product’s quantity, and before the fix it took the starting quantity from the regular cart instead of the selected warehouse’s cart.
 
-I fixed it so the starting quantity comes from the selected warehouse’s cart, and adding, changing the quantity and removing products apply to that cart. After each operation, the interface shows the state of the cart the operation changed.
+For example, the regular cart had 1 unit of a variant and the main warehouse cart had 15, because the regular cart didn’t know about changes in the warehouse cart. The buyer reduced the quantity to 5, the method calculated 5 − 1 = 4 and added 4 units to the warehouse cart. The warehouse cart ended up with 19 units instead of 5.
 
-![Illustration of the main warehouse cart after the quantity changed from 15 to 5: the warehouse total is $200](/images/work/multi-warehouse-carts/main-warehouse-cart-after-change.webp)
+![Quantity calculation diagram. Before: the starting quantity is taken from the regular cart, 1 unit, the method adds 4 units, and the warehouse cart has 19 units. After: the starting quantity is taken from the main warehouse cart, 15 units, the method removes 10 units, and the warehouse cart has 5 units](/images/work/multi-warehouse-carts/quantity-from-selected-warehouse.svg)
 
-### Responses for different warehouses no longer overwrite each other
+I fixed it so the starting quantity comes from the selected warehouse’s cart, and adding, changing the quantity and removing products apply to that cart. Now, when the buyer goes from 15 to 5, the library removes 10 units from the warehouse cart. After each operation, the interface shows the cart that the operation changed.
 
-On 28 September 2023 I found a race condition between requests. If a buyer quickly added products to different warehouses, the requests went out without waiting for the previous response, and a later response could overwrite an earlier one: a product disappeared from one warehouse’s cart. In the regular cart, CommonJS combines pending operations into one request, but that wasn’t possible for warehouses, because the server accepted only one warehouse per request.
+I also connected warehouse cart updates to the quantity fields on the product page and in the cart: after the server responds, each field gets the quantity of its variant in its warehouse. If the buyer reduces the main warehouse quantity from 15 to 5, only that warehouse’s cart and total change, and the partner warehouse cart keeps its 8 units.
 
-I described the failure and wrote a requirement to send changes for several warehouses in one request, grouped by warehouse. But that needed the server to accept several warehouses per request, which would break compatibility with the old cart. So for warehouse operations I made requests go strictly one after another: each request goes out only after the previous one has finished. On 1 November 2023 I shipped CommonJS with the wholesale carts and this fix.
+![Illustration of the main warehouse cart after the quantity changed from 15 to 5: the warehouse total is $200, and the total for all warehouses is $520](/images/work/multi-warehouse-carts/main-warehouse-cart-after-change.webp)
 
-### The regular cart works as before
+![Illustration of the partner warehouse cart after the same change: still 8 units and a warehouse total of $320, and the total for all warehouses is $520](/images/work/multi-warehouse-carts/partner-warehouse-cart-after-change.webp)
 
-Warehouse carts are visible only to buyers in the right customer group and only in stores with B2B settings turned on, and the library shows them only when both are true. If a widget added a product without a warehouse, the server turned warehouse mode off, and the same product can be added from different widgets on a page. So I checked that the warehouse choices are kept when products are added from the catalog, the home page and related products, and I handled regular cart data separately from warehouse cart data.
+### Changes for different warehouses are no longer lost
 
-![Illustration of the partner warehouse cart: 8 units and a warehouse total of $320](/images/work/multi-warehouse-carts/partner-warehouse-cart.webp)
+On 28 September 2023 I found a race condition between requests. If a buyer quickly added products to different warehouses, the requests went out without waiting for the previous response, and an earlier request could overwrite the cart that a later one had already changed. As a result, a product disappeared from one warehouse’s cart.
+
+In the regular cart, CommonJS combines pending operations into one request. The right approach for warehouses would have been the same: send the changes for all warehouses in one request, with products grouped by warehouse. I described the failure and wrote this requirement, but the server accepted only one warehouse per request, and a new format would have broken compatibility with the old cart. So for warehouse operations I built a queue: each request goes out only after the previous one gets a response. On 1 November 2023 I shipped CommonJS with the warehouse carts and this fix.
+
+### Single-warehouse stores work as before
+
+Warehouse carts are visible only to buyers in the B2B customer group and only in stores where the B2B flag is turned on in the Store profile section of the settings. I took both conditions into account, so all other buyers and stores use the regular cart.
+
+In single-warehouse stores, widgets add products without a warehouse, and the server returns only the regular cart. So I handled the regular cart separately from the warehouse carts: if the response has no warehouse carts, the quantity fields are filled from the regular cart, as before. This way, buyers in single-warehouse stores see the quantity fields they are used to.
 
 ## Results
 
-- On 1 November 2023 the wholesale warehouse carts went to production.
+- On 1 November 2023 the warehouse carts went to production.
 - A wholesale buyer sets quantities separately for each warehouse, and each warehouse has its own cart with its own quantities and totals.
+- The quantity changes in the selected warehouse’s cart, and the fields on the product page and in the cart show the same quantity.
 - Changes for different warehouses are no longer lost: warehouse requests go out one after another.
+- Single-warehouse stores work with the regular cart as before.
 
-A [case study published by inSales](https://www.insales.ru/blogs/cases/hited) shows why partner stock matters: for one store with a 45,000-SKU catalog, partner warehouses brought 21% of its online sales in 2024.
-
-The illustrations were made for the project presentation: the store, products and prices are made up for the example.
+The catalog and cart illustrations were made for the project presentation: the store, products and prices are made up for the example.

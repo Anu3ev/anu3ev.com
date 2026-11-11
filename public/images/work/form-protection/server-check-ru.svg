@@ -19,9 +19,9 @@
 <text x="600.0" y="280.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">и токен</text>
 <path d="M696 249.0L724 249.0M715.2 253.8L724 249.0L715.2 244.2" fill="none" stroke="#86adff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="730" y="190" width="184" height="118" rx="12" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
-<text x="822.0" y="238.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Сервер проверяет</text>
-<text x="822.0" y="262.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">токен у Google</text>
-<text x="822.0" y="280.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">или Яндекса</text>
+<text x="822.0" y="238.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Сервер отправляет</text>
+<text x="822.0" y="262.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">токен на проверку</text>
+<text x="822.0" y="280.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">в Google или Яндекс</text>
 <path d="M918 249.0L946 249.0M937.2 253.8L946 249.0L937.2 244.2" fill="none" stroke="#86adff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="952" y="190" width="184" height="118" rx="12" fill="#1c3324" stroke="#8fd19e" stroke-width="2"/>
 <text x="1044.0" y="238.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Принято</text>
@@ -33,9 +33,9 @@
 <text x="156.0" y="492.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">ни формы,</text>
 <text x="156.0" y="510.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">ни капчи</text>
 <rect x="508" y="420" width="184" height="118" rx="12" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
-<text x="600.0" y="468.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Шлёт запрос</text>
+<text x="600.0" y="468.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Отправляет запрос</text>
 <text x="600.0" y="492.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">прямо на сервер</text>
-<text x="600.0" y="510.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">без токена</text>
+<text x="600.0" y="510.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">без валидного токена</text>
 <rect x="730" y="420" width="184" height="118" rx="12" fill="#181a1f" stroke="#2d3139" stroke-width="2"/>
 <text x="822.0" y="468.0" font-size="16" font-weight="600" fill="#ecedee" text-anchor="middle">Сервер проверяет</text>
 <text x="822.0" y="492.0" font-size="13" font-weight="400" fill="#a1a3a8" text-anchor="middle">валидного</text>
