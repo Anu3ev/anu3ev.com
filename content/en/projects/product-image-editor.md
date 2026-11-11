@@ -16,15 +16,15 @@ order: 1
 results:
   - value: "3,000+"
     label: active inSales clients use the editor, according to product analytics
-  - value: "6 → 800+"
-    label: AI feature runs a day, before and after the editor was rolled out to all stores
+  - value: "800+"
+    label: "AI operations a day in the editor: background removal, quality improvement and text generation"
   - value: "2–3 min"
     label: "to apply one set of edits to 10 product photos with bulk transfer, instead of 5–10 min by hand"
 ---
 
 ## The problem
 
-Marketplaces like Ozon, Wildberries and Yandex Market reject product photos that don’t meet their rules, and in 2025 the large marketplaces were moving to tall photos with a 3:4 ratio. On inSales, a merchant has one product page for the website and every marketplace, so the same photos go everywhere. So merchants got "Incorrect product photo size" errors and paid a designer, a freelancer or a service like MPCard (up to 8,990 rubles a month) to make the images.
+Marketplaces like Ozon, Wildberries and Yandex Market reject product photos that don’t meet their rules, and in 2025 the large marketplaces were moving to tall photos with a 3:4 ratio. On inSales, a merchant has one product page for the website and every marketplace, so the same photos go everywhere. So merchants got "Incorrect product photo size" errors and paid a designer, a freelancer or a service like MPCard (up to about $110 a month) to make the images.
 
 The product page only had a simple CropperJS editor, which I had also built: it could crop a photo to the right ratio, but not make an infographic. Merchants needed an editor right in the product page where they choose a marketplace format, remove the background, add text and badges from ready-made templates, and save the project, so they can change the text later instead of making the image again.
 
@@ -80,7 +80,7 @@ The AI service has limited capacity: it handles about 30,000 images a day. We se
 
 In December 2025, sign-in to the AI service stopped working in Safari, and it couldn’t be fixed quickly. So the team considered turning off the whole editor in Safari for a while. Everything else in the editor worked in Safari, so I suggested hiding only the AI features there, and that’s what we did.
 
-In March 2026, while the editor was available only to new stores, the AI features ran 6 times a day on average. After the rollout to all stores, they run 800 or more times a day.
+Since the rollout to all stores, the AI features in the editor run 800 or more times a day.
 
 ### One photo’s design applied to the product’s other photos
 
@@ -104,7 +104,7 @@ Which features are available depends on where the editor is opened: text generat
 
 - Merchants make marketplace images right in the product page and can come back to the project to change the text instead of making the image again.
 - The editor has been available to all stores since 13 May 2026. According to product analytics, more than 3,000 active inSales clients use it.
-- The AI features run 800 or more times a day, up from 6 before the rollout to all stores.
+- The AI features in the editor run 800 or more times a day.
 - The same edits for 10 photos take 2–3 minutes instead of 5–10.
 - Since 31 August 2026, merchants also edit website images in the visual site editor with the same editor.
 

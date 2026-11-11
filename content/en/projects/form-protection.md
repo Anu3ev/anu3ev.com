@@ -84,7 +84,7 @@ Then we had to choose a corner. Stores usually have chat and "Back to top" butto
 
 ### Yandex SmartCaptcha because of the personal data law
 
-Since 1 July 2025, a website in Russia must not collect personal data of people in Russia using databases abroad, and fines for this can reach millions of rubles. Google reCAPTCHA sends data about every visitor to Google’s servers abroad, so keeping it on a Russian online store became risky. In June 2025 the product team reported that store owners were worried about a foreign service processing personal data.
+Since 1 July 2025, a website in Russia must not collect personal data of people in Russia using databases abroad, and fines for this can reach tens of thousands of dollars. Google reCAPTCHA sends data about every visitor to Google’s servers abroad, so keeping it on a Russian online store became risky. In June 2025 the product team reported that store owners were worried about a foreign service processing personal data.
 
 Yandex has a similar service, Yandex SmartCaptcha, which keeps the data in Russia. It works the same way as Google reCAPTCHA: it checks the visitor and returns a token, which the site sends to the server together with the form data. The idea was to let a store owner switch between the two providers with one setting.
 
