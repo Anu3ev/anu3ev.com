@@ -28,10 +28,10 @@
 <text x="844" y="480" font-size="21" font-weight="400" fill="#ecedee" text-anchor="start">or data missing</text>
 <text x="844" y="514" font-size="16" font-weight="400" fill="#a1a3a8" text-anchor="start">The library requests it</text>
 <text x="844" y="538" font-size="16" font-weight="400" fill="#a1a3a8" text-anchor="start">and updates the record</text>
-<path d="M342 295 L414 295" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
-<path d="M580 396 L580 464" fill="none" stroke="#86adff" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
-<path d="M742 270 L814 250" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
-<path d="M742 330 L814 440" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
-<path d="M818 535 L744 535" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M340 295 L418 295" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M580 392 L580 468" fill="none" stroke="#86adff" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<path d="M740 270.56 L818.07 248.87" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M740 326.94 L818.9 447.49" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
+<path d="M820 535 L742 535" fill="none" stroke="#86adff" stroke-width="2.5" marker-end="url(#arrow)"/>
 <text x="60" y="690" font-size="17" font-weight="400" fill="#a1a3a8" text-anchor="start">Widgets without an update time keep the old check based on the cache period.</text>
 </svg>

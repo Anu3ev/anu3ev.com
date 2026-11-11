@@ -19,9 +19,9 @@ order: 10
 
 inSales is an e-commerce SaaS platform with more than 60,000 online stores. With options, a store owner adds extras and services to a product, such as gift packaging or a greeting card. The buyer chooses options on the product page, and the price updates right away. Options are grouped, and for each group the owner sets the minimum and maximum number of values, so some options are required and others are optional.
 
-The hardest part was the cart. On the storefront, the cart is run by [CommonJS](/work/commonjs-storefront-library/), inSales’s in-house storefront JavaScript library (not the module format). The library identified a cart line by its product variant, for example a bouquet size. With options, that was no longer enough. A Classic bouquet in standard wrapping and the same bouquet in a gift box with a card are two cart lines with different prices. Code that found a cart line by variant ID could change or delete the wrong line. The counters on the product page and the stock check could also show the wrong quantity.
+The hardest part was the cart. On the storefront, the cart is run by [CommonJS](/work/commonjs-storefront-library/), inSales’s in-house storefront JavaScript library (the name matches the CommonJS module format, but they are different things). The library identified a cart line by its product variant, for example a bouquet size. With options, that was no longer enough. A Classic bouquet in standard wrapping and the same bouquet in a gift box with a card are two cart lines with different prices. Code that found a cart line by variant ID could change or delete the wrong line. The counters on the product page and the stock check could also show the wrong quantity.
 
-All examples in this case come from an inSales demo store: the products and prices are made up, and the photos are freely licensed.
+The examples in this case come from a demo store on inSales, and its products and prices are made up.
 
 ## My role
 
@@ -41,23 +41,23 @@ Each group has a minimum and a maximum number of values. In the demo store, the 
 
 The minimum can’t be enforced this way: disabling checkboxes doesn’t make a buyer choose a value. So if too few values are chosen, the server returns an error. I agreed with the backend developer on the error format. The cart’s `errors` include an error for the specific variant, with the variant ID and the product ID, so the library can show the error on the right product.
 
-At first, the plan was to show the error in a pop-up notification. But if a product has many option groups and nothing is chosen in any of them, the notification would cover the whole screen. So I showed the error as text under each option group, and the page scrolls to the first group with an error.
+At first, the plan was to show the error in a pop-up notification. But if a product has many option groups and nothing is chosen in any of them, the notification would cover the whole screen. So I showed the error as text under each option group and made the page scroll to the first group with an error.
 
 ### The price depends on the variant and the options
 
-The price is recalculated when the buyer changes the variant or the chosen options. In the demo store, a gift box (+$5) and a card (+$3) raise the price of the Classic bouquet from $40 to $48. For the Grand size, the same extras raise it from $60 to $68. The price checks had to treat zero as a normal value: a variant can cost 0, and standard wrapping adds $0.
+The price is recalculated when the buyer changes the variant or the chosen options. In the demo store, a gift box (+$5) and a card (+$3) raise the price of the Classic bouquet from $40 to $48. For the Grand size, the same extras raise it from $60 to $68. The price checks had to treat zero as a normal value: a variant can cost $0, and standard wrapping adds $0 too.
 
 ![Demo-store product page for a bouquet with the Classic size, a gift box and a greeting card selected, and the price updated to $48](/images/work/product-options/product-page-gift-box-and-card.webp)
 
 ### A cart line combines the variant and its options
 
-For the cart to tell lines of one variant apart, the chosen options had to be sent together with the variant ID. On 25 October 2023 the backend developer and I agreed on the data format. He suggested two formats. The first was a new `accessoriable_variant_ids` structure that lists, for each variant, its cart lines with the IDs of the chosen options and the quantity. The second was the format of the `/cart_items_with_accessories` method, which takes an `order_lines` array with a `variant_id` and a list of `accessory_value_ids` for each line.
+For the cart to tell lines of one variant apart, the chosen options had to be sent together with the variant ID. On 25 October 2023 the backend developer and I agreed on the data format. He suggested two formats. The first was a new `accessoriable_variant_ids` structure that lists, for each variant, its cart lines with the IDs of the chosen options and the quantity. The second was the format that the `/cart_items_with_accessories` method already accepted: an `order_lines` array with a `variant_id` and a list of `accessory_value_ids` for each line.
 
-I chose the first: it’s easier to handle on the backend, and it goes in the same cart request, `/front_api/cart`, as the existing `variant_ids` list. The same day we found that Rails, the framework of the inSales backend, didn’t parse the array of option IDs in this request’s parameters. So we started sending option IDs as an object that maps each ID to a quantity: `"accessory_value_ids": { "4097249": 1 }`. This format also makes it possible to send a quantity for each option later.
+I chose the first: it’s easier to handle on the backend, and it goes in the same cart request, `/front_api/cart`, as the existing `variant_ids` list. The same day we found that Rails, the framework the inSales backend is built on, didn’t parse the array of option IDs in this request’s parameters. So we started sending option IDs as an object that maps each ID to a quantity: `"accessory_value_ids": { "4097249": 1 }`. This format also makes it possible to send a quantity for each option later.
 
 I updated `Cart.add`, `Cart.set`, `Cart.delete` and the cart task queue, which combines pending cart operations into one request. Now they send the chosen options together with the variant ID. Quantity changes and deletion apply to one specific cart line, not to every line with that variant. In the cart widget, each line shows the names of its chosen options.
 
-I tested every backend build on staging and found bugs before the release. For example, a product without options was added to the line of the same product with options. And the limit check compared all chosen values with the minimum and maximum of one specific option.
+I tested every backend build on staging and found bugs before the release. For example, a product without options was merged into the cart line of the same product with options. And the limit check compared all chosen values with the minimum and maximum of one group.
 
 ![Demo-store cart with the Classic bouquet as two lines: standard wrapping for $40, and a gift box with a greeting card for $48, each line with its own options](/images/work/product-options/cart-same-variant-two-lines.webp)
 
@@ -73,13 +73,13 @@ Stock, on the other hand, belongs to the variant. Both lines contain the same Cl
 
 On 7 December 2023 I noticed that three lines of one product with different options reached the checkout page as a single line. The cart form sent only variant IDs and quantities to checkout, without the options. These fields couldn’t be dropped, because quantity changes, deletion and price recalculation in CommonJS and in every cart widget depend on them.
 
-So I wrote a handler for the Checkout button. When the buyer clicks it, the handler checks whether the form has options and adds fields for them. It also numbers the cart lines, so that each one reaches the checkout page separately, with its own options.
+So I wrote a handler for the Checkout button. When the buyer clicks it, the handler checks whether the form has options and adds fields for them. It also numbers the cart lines, so that each one reaches the checkout page separately, with its own options. I didn’t add these fields directly to the widget code, because the indexes in the markup and in JavaScript could get out of sync.
 
 ### Options were turned on gradually, behind a feature flag
 
 Before the release I wrote a test checklist for regular products and products with options: adding them to the cart, changing the quantity and deleting them. It covered the product page, AJAX-loaded products, previews on category pages, modal windows and old templates.
 
-On 26 December 2023 I ported options support to every product page and cart widget in one day. At first, options worked only in stores with the feature flag turned on, and I wrote an announcement for the support team. On 17 January 2024, once the documentation was ready, the flag was removed, and options became available in every store. Latest-generation templates support them by default.
+On 26 December 2023 I added options support to every built-in product page and cart widget in one day. At first, options worked only in stores with the feature flag turned on, and I wrote an announcement for the support team. On 17 January 2024, once the documentation was ready, the flag was removed, and options became available in every store. Latest-generation templates support them by default.
 
 In February 2025 I worked on the description of the options API in the documentation for store developers who build the product page and cart in their own templates.
 

@@ -39,5 +39,5 @@
   <path d="M740 532v38" fill="none" stroke="#a1a3a8" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrow)"/>
   <rect x="340" y="574" width="800" height="70" rx="12" fill="none" stroke="#a1a3a8" stroke-width="1.5" stroke-dasharray="6 5"/>
   <text x="362" y="603" fill="#ecedee" font-size="16">Бюджет закончился или текст не прошёл проверки:</text>
-  <text x="362" y="627" fill="#a1a3a8" font-size="16">вакансия ждёт в очереди, необработанный текст в канал не уходит</text>
+  <text x="362" y="627" fill="#a1a3a8" font-size="16">вакансия ждёт в очереди, пост по шаблону в канал не уходит</text>
 </svg>

@@ -28,7 +28,7 @@ In the inSales admin panel, partner developers, support specialists and technica
 
 One template or widget file can mix HTML, the Liquid template language, CSS and JavaScript, while settings and translations are stored in JSON. Liquid tags and variables insert store data into the markup. So the editor has to know which language is used where.
 
-Before that, code in the admin panel was edited in a CodeMirror-based editor. It didn’t highlight mixed syntax and had no context-aware suggestions and no Emmet, and errors appeared when users switched tabs or searched. The limit was the integration built at inSales, not CodeMirror itself, which can be extended as a library. But to support mixed HTML and Liquid code, we would have had to design the language configuration and suggestions from scratch.
+Before that, code in the admin panel was edited in a CodeMirror-based editor. It highlighted mixed syntax poorly and had no context-aware suggestions and no Emmet, and errors appeared when users switched tabs or searched. The problem was in the integration inSales had built, not in CodeMirror: as a library, CodeMirror can be extended. But to support mixed HTML and Liquid code, we would have had to design the language configuration and suggestions from scratch.
 
 So we decided to move to Monaco Editor, the engine VS Code is built on. Monaco already includes VS Code’s language services for HTML, CSS, JavaScript and JSON. What remained was Liquid and the parts that exist only in inSales: variables, Liquid tags, filters and snippets. I was asked to implement a custom Monaco package and roll it out.
 
@@ -46,7 +46,7 @@ For the window, I implemented a Vue component. It creates the editor in a contai
 
 ![Widget code window: six file tabs and a Liquid "for" tag suggestion inside HTML markup](/images/work/monaco-editor/widget-code-liquid-autocomplete.webp)
 
-The editor couldn’t be rolled out right away: the assets of the main application failed to build because of an old Webpack version. After I installed the latest versions of Monaco and its webpack plugin, the assets built. On 25–26 July 2022 the editor went to production, but only for inSales staff, so we could test it ourselves first. Clients still had CodeMirror until 18–19 August, when the editor was rolled out to all users.
+On 25–26 July 2022 the editor went to production, but only for inSales staff, so we could test it ourselves first. Clients still had CodeMirror until 18–19 August, when the editor was rolled out to all users.
 
 Emmet for HTML and CSS already worked in this first version. I added it on 6 June 2022, so users could write HTML and CSS quickly right inside a Liquid template. Liquid snippets weren’t there yet. They needed a custom Liquid language, but when it was enabled, regular HTML highlighting and suggestions stopped working. So I finished the mixed HTML and Liquid language after the first release.
 
@@ -58,7 +58,7 @@ The tokenizer recognizes HTML tags and attributes, Liquid output in `{{ ... }}`,
 
 The hardest part was Liquid inside HTML attributes. An attribute value can be a whole Liquid expression or plain text mixed with several Liquid inserts. After the closing `}}` or `%}`, the tokenizer must go back to the HTML attribute state instead of highlighting the rest of the line as Liquid.
 
-The same file can also contain `<script>` and `<style>` blocks. In the first version, code inside them had no highlighting at all. So I added nested-language switching to the tokenizer: JavaScript or JSON inside `<script>`, CSS inside `<style>`, and back to HTML after the closing tag. For `script`, it also reads the `type` attribute: for plain JavaScript, `application/json`, `application/ld+json` and other values, the editor must not try to load a language service that doesn’t exist.
+The same file can also contain `<script>` and `<style>` blocks. In the first version, code inside them had no highlighting at all. So I added nested-language switching to the tokenizer: JavaScript or JSON inside `<script>`, CSS inside `<style>`, and back to HTML after the closing tag. For `script`, the tokenizer reads the `type` attribute and picks JavaScript or JSON.
 
 ![Slide: a template with Liquid inside an HTML attribute and inside a script block, and the tokenizer states: HTML attribute, Liquid expression, back to HTML; script tag, JavaScript or JSON, back to HTML](/images/work/monaco-editor/mixed-language-tokenizer-slide-en.webp)
 
@@ -70,21 +70,21 @@ When the cursor is inside `<script>`, the user needs JavaScript suggestions, not
 
 For this, I registered a completion provider that returns different suggestion sets depending on the language at the cursor position. At first, the language was detected with regular expressions, by the opening and closing tags before the cursor. This check was fragile, especially for `script` with a non-standard `type`. At the end of September 2024, I replaced it with the `model.getLanguageIdAtPosition` method. Monaco already knows which nested language is at a given position, so the provider picks JavaScript, CSS or Liquid snippets from the state of the model.
 
-At the same time, I mapped common `type` values to supported languages and made JavaScript the safe default. After that, JSON, JavaScript and other `script` blocks stopped trying to load an unknown language.
+At the same time, I mapped common `type` values to supported languages, and for unknown values the editor now uses JavaScript. After that, JSON, JavaScript and other `script` blocks stopped trying to load an unknown language.
 
 ![Slide: three screenshots of suggestions in one template: HTML and Liquid suggestions in the markup, JavaScript suggestions inside a script block and CSS suggestions inside a style block](/images/work/monaco-editor/context-aware-autocomplete-slide-en.webp)
 
-The editor package has three sets of snippets: 122 for Liquid, 152 for JavaScript and 166 for CSS, 440 in total. Some of them were taken from existing sets and adapted for the package.
+The provider picks from three sets of snippets: 122 for Liquid, 152 for JavaScript and 166 for CSS, 440 in total. Some of them were taken from existing sets and adapted for the package.
 
 ### The editor package moved into a separate repository and a gem
 
-While the editor worked only in the widget code window, the package code was part of the main inSales application, which is built on Ruby on Rails. The infrastructure team considered Monaco heavy and said it put a lot of load on the company’s servers. In December 2022 they suggested moving it into a separate repository, building it there with Webpack and connecting it to the main application as a ready-made library. I was asked to do the move.
+While the editor worked only in the widget code window, the package code was part of the main inSales application, which is built on Ruby on Rails. Monaco was heavy and put a lot of load on the company’s servers. So in December 2022 the infrastructure team suggested moving it into a separate repository, building it there with Webpack and connecting it to the main application as a ready-made library. I was asked to do the move.
 
 Monaco runs the heavy part of language analysis in Web Workers, so one main bundle isn’t enough for a working editor. The browser also needs separate worker files for the base editor, HTML, CSS and SCSS, JavaScript and TypeScript, and JSON. I set up Webpack and `monaco-editor-webpack-plugin` to produce the main bundle and the worker files.
 
 Worker paths turned out to be a separate problem. The Rails asset pipeline adds a hash to file URLs, but Webpack knows only the original file names. Without the final paths, the editor opened, but some highlighting and suggestions couldn’t start their workers. So a colleague added an adapter: it got the final paths through `asset_path` and returned them from `MonacoEnvironment.getWorkerUrl` instead of the default ones.
 
-The main application gets its frontend assets through the Rails asset pipeline, so the editor package had to ship as a gem. From 24 January to 7 February 2023, I moved the working package on Monaco 0.34.1 into the new `monaco-insales` repository and turned it into a gem. A Rails Engine registers the assets, and a Rake task checks that a production bundle exists and copies it with the workers into `vendor/assets`. GitLab CI runs three jobs in a row: the Webpack bundle, the gem, and publishing to the internal Nexus registry.
+The main application gets its frontend assets through the Rails asset pipeline, so the editor package had to ship as a gem. From 24 January to 7 February 2023, I moved the working package on Monaco 0.34.1 into the new `monaco-insales` repository and turned it into a gem. A Rails Engine registers the assets, and a Rake task checks that a production bundle exists and copies it with the workers into `vendor/assets`. GitLab CI runs three jobs in a row: it builds the bundle with Webpack, builds the gem and publishes it to the internal Nexus registry.
 
 ![Slide: the delivery pipeline from editor source to Webpack build, internal gem and product screens, with the language workers and the GitLab CI release steps](/images/work/monaco-editor/gem-delivery-pipeline-slide-en.webp)
 
@@ -96,7 +96,7 @@ To make the editor usable in different interfaces, I implemented a small API in 
 
 - `getMonacoInstance` returns the API object of the loaded Monaco, so an interface can work with Monaco’s models, commands and types;
 - `monacoCreate` creates an editor in a given HTML element with the required language and returns the editor instance;
-- `monacoLanguageRegisterApi` registers the Liquid and HTML, JavaScript and SCSS configurations for interfaces that create Monaco models themselves.
+- `monacoLanguageRegisterApi` registers the configurations for mixed HTML and Liquid, JavaScript and SCSS for interfaces that create Monaco models themselves.
 
 The functions are exported to `window`. The package is connected to the Rails application as an asset through the asset pipeline, so a global API was the most practical contract: both old admin pages and Vue interfaces use it.
 
@@ -122,7 +122,7 @@ In the standard order email templates, the editor is used for a new-order notifi
 
 ![Customer email template: the subject, HTML and Liquid code in Monaco, the Restore the original template button and a preview by order number](/images/work/monaco-editor/order-email-template.webp)
 
-In [Abandoned Carts](/work/abandoned-carts/), a store sets up automatic reminders to customers who didn’t place an order. The email template there was edited in a WYSIWYG editor. It changed HTML tags, and this could break the Liquid logic in the email. So on 28 February 2025 we decided to replace it with Monaco and a preview. I made the change on 5–6 March: the code editor took the place of the WYSIWYG editor and the plain text field for all sending channels.
+In [Abandoned Carts](/work/abandoned-carts/), a store sets up automatic reminders to customers who didn’t place an order. The email template there was edited in a WYSIWYG editor. It changed and re-encoded HTML tags, and this could break the Liquid logic in the email. So on 28 February 2025 we decided to replace it with Monaco and a preview. I started on 4 March and finished on 6 March: the code editor replaced the WYSIWYG editor in the email template and the plain text field in the SMS and messenger templates.
 
 Liquid and the workers didn’t have to be set up again. I connected the ready package in three working days, and the code of the section only handled loading, saving and previewing the message. As a result, the template can be edited as source code, restored to the default version and checked in a preview with data from a specific cart.
 
