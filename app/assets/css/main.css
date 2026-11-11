@@ -453,10 +453,11 @@ p, li, dd { text-wrap: pretty; }
   .profile-location { gap: var(--space-3); }
   .profile-avatar { width: 78px; height: 78px; border-radius: 22px; }
   .profile-avatar img { border-radius: 16px; }
-  .fact-list { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+  /* Rows share one number column through subgrid, so a long value such as "60% → 80%" doesn't push its own label
+     further right than the labels in the other rows. */
+  .fact-list { grid-template-columns: minmax(104px, max-content) minmax(0, 1fr); gap: var(--space-3); }
   /* Centred, not baseline: on a baseline the large number rises above the label beside it. */
-  .fact-list li { flex-direction: row; align-items: center; gap: var(--space-3); }
-  .fact-list strong { flex: none; min-width: 104px; }
+  .fact-list li { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; align-items: center; }
   .project-image-link { height: 268px; padding: var(--space-3); }
   .project-card-bottom { flex-wrap: wrap; gap: var(--space-3); }
   .project-card-bottom .text-link { margin-left: auto; }

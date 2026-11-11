@@ -87,7 +87,7 @@ Every sent message goes into the communication history and is linked to a specif
 
 ### Access has more than two states
 
-The section is paid, so a store first starts a 7-day trial with 100 messages and then pays 1,000 rubles a month for a subscription. A single "has a subscription" flag wasn’t enough for the interface: the server returns the trial state and end date, overdue payments, invoices, the price and the remaining messages, and the banners, buttons and settings depend on them. When access changes, the interface updates right away: for example, after the trial starts, the settings become available.
+The section is paid, so a store first starts a 7-day trial with 100 messages and then pays about $12 a month for a subscription. A single "has a subscription" flag wasn’t enough for the interface: the server returns the trial state and end date, overdue payments, invoices, the price and the remaining messages, and the banners, buttons and settings depend on them. When access changes, the interface updates right away: for example, after the trial starts, the settings become available.
 
 ### The section went through QA testing before release
 
@@ -100,4 +100,4 @@ The section works on desktop and mobile. For this section, I improved the date p
 - The section went to production on 31 March 2025. In the first week, before any announcement, 11 stores paid for it.
 - By September 2026, the section had more than 200 active paid subscribers.
 - The merchant now sees in one place who left a cart, what was in it and how it changed, and writes to the buyer manually, in bulk or automatically.
-- In a [case study from 20 May 2025](https://www.insales.ru/blogs/cases/hited), inSales reports that abandoned-cart retargeting, meaning follow-up messages to buyers who didn’t place an order, brings the Hited store 100,000–350,000 rubles a month, and 15% of customers come back and complete a purchase.
+- In a [case study from 20 May 2025](https://www.insales.ru/blogs/cases/hited), inSales reports that abandoned-cart retargeting, meaning follow-up messages to buyers who didn’t place an order, brings the Hited store about $1,200–4,400 a month, and 15% of customers come back and complete a purchase.
