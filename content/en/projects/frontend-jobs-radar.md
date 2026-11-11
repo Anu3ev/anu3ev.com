@@ -19,7 +19,7 @@ results:
   - value: "≈$0.00008"
     label: per Jev check of about 2,000 input tokens
   - value: "22"
-    label: Telegram channels in the collector, next to career pages, ATS platforms and job boards
+    label: Telegram channels in the collector, alongside career pages, ATS platforms and job boards
 ---
 
 ## The problem
@@ -46,11 +46,11 @@ Job listings are also posted in Telegram channels. A Telegram bot receives a cha
 
 The same role appears on several boards, often through aggregators, and an aggregator can show an old listing as a new one. So the service looks for the original listing: it follows the apply link to the employer’s page on an ATS platform and checks the publication date, the full description and the requirements there. For example, a listing that looked new on an aggregator had been published on the employer’s page in April 2022. Listings older than 14 days go no further, and the service removes duplicates from different boards.
 
-In my personal feed, such a listing shows that the original was found on an ATS platform and verified, when it was published, and where to open it.
+In my personal feed, such a listing shows that the original was found on an ATS platform and verified. The card also shows the publication date and a link to the original.
 
 ![A job card in the personal feed: (Senior) Frontend Engineer at chargecloud GmbH, Cologne, remote, priority 100, the Official ATS, Verified, Vue.js, Nuxt.js and TypeScript labels, the publication date of 18 September 2026 and a Primary source link to the original](/images/work/frontend-jobs-radar/personal-feed-vacancy-card.webp)
 
-Checking the original is limited too, so listings the service doesn’t reach in one run wait in a queue in D1 until the next run.
+Like the Telegram collector, the service checks only a limited number of originals per run, so the rest wait in a queue in D1 until the next run.
 
 ### Keywords weren’t enough, so Jev checks the listings
 
@@ -66,11 +66,11 @@ Job listings come in different languages, such as Russian, German and Swedish, b
 
 At first, the service published template posts built straight from the listing text. On 22 September I reviewed the latest posts in the channel and found cut-off words, HTML entities, empty lines and companies’ boilerplate about themselves. The same day I added the model, but kept a fallback: if the model went over budget or its text failed the checks, a template post went out instead. On 25 September I removed that fallback. Now a listing without a checked text waits in the queue instead of going out as a template post.
 
-The model that writes posts can spend at most $3 per calendar month. The provider reports the exact cost of a call only after the response, so the service reserves the maximum cost before the call and replaces the reservation with the actual cost after it. If a call is interrupted and it is unclear whether the provider charged for it, the reservation stays, and the request isn’t sent again automatically. When the budget runs out, listings wait in the queue too.
+The model that writes posts has a limit of $3 per calendar month. The provider reports the exact cost of a call only after the response, so the service reserves the maximum cost before the call and replaces the reservation with the actual cost after it. If a call is interrupted and it is unclear whether the provider charged for it, the reservation stays, and the request isn’t sent again automatically. When the budget runs out, listings wait in the queue too.
 
 ### Every listing goes out to the channel once
 
-Every five minutes, the service publishes at most one new post. If a role is closed or a post needs a fix, the bot edits the existing message instead of sending a new one. A post could still go out even if Telegram’s confirmation was lost, so the service doesn’t send it again, and I check such cases against the channel history. This keeps duplicates out of the public channel.
+Every five minutes, the service publishes at most one new post. If a role is closed or a post needs a fix, the bot edits the existing message instead of sending a new one. If Telegram’s confirmation is lost, the post may already be in the channel, so the service doesn’t send it again, and I check such cases against the channel history. This keeps duplicates out of the public channel.
 
 The service uses the publication history in D1 to know which listings have already gone out. So before a database migration, I back up the database and run the migration on a full copy first. This way, a mistake in the migration shows up before it can touch the publication history in the live database.
 

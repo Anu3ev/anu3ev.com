@@ -31,7 +31,7 @@ In March 2025, inSales started building a browser editor for product photos. The
 
 The main difficulty was that the editor has many subsystems that depend on each other: images, text, shapes, layers, change history, templates and snapping. Objects must behave the same way when they are created, copied, grouped, added from a template, loaded from a saved state or brought back with undo.
 
-The library is published as [`@anu3ev/fabric-image-editor`](https://www.npmjs.com/package/@anu3ev/fabric-image-editor) under the MIT license. It powers the [inSales product infographics editor](/work/product-image-editor/), which more than 3,000 active clients use. That case covers the product, its users and the AI features; this one is about the library itself.
+The library is published as [`@anu3ev/fabric-image-editor`](https://www.npmjs.com/package/@anu3ev/fabric-image-editor) under the MIT license. It powers the [inSales product infographics editor](/work/product-image-editor/), where merchants lay text, badges and icons over product photos. More than 3,000 active clients use it. That case covers the product, its users and the AI features; this one is about the library itself.
 
 ## My role
 
@@ -43,7 +43,7 @@ In October 2026 I reworked the release process. Before, the workflow built the p
 
 ### The app controls the editor through the public API
 
-The app gives the library an HTML container, and the library creates an editor in it. The editor has a montage area: it sets the boundaries of the final composition, and only its content goes into the export. Each part of the editor has its own manager class: the canvas, images, text, shapes, the change history, templates and snapping.
+The app gives the library an HTML container, and the library creates an editor in it. The editor has a montage area (what design tools call an artboard): it sets the boundaries of the final composition, and only its content goes into the export. Each part of the editor has its own manager class: the canvas, images, text, shapes, the change history, templates and snapping.
 
 The outside app works with the editor through public methods, settings and events, and it doesn’t need to change FabricJS objects directly. Product rules plug in through extension points, so they don’t have to be built into the library’s internal logic. For example, the app can mark one image as the main one and forbid deleting it. When the user copies that image, the app removes the mark from the copy, so a second main image doesn’t appear.
 
@@ -53,7 +53,9 @@ I deliberately kept AI out of the library. The app calls its own AI service and 
 
 An object can be created, imported, pasted from the clipboard, grouped, restored from a saved project, added from a template or brought back with undo. In each case, the editor has to restore both the FabricJS properties and the library’s own data: IDs, locking, whether it can be selected, text styles and links between nested objects.
 
-So I built one serialization mechanism: the editor state is saved to JSON and restored from it. Saved projects, the change history, templates and the clipboard all run on it.
+So I built a single serialization mechanism: the editor state is saved to JSON and restored from it. Saved projects, the change history, templates and the clipboard all run on it.
+
+### The composition changes only when a crop is applied
 
 Cropping is a separate temporary mode, and the user can crop either an image or the whole montage area. While the user moves and resizes the frame, the composition doesn’t change. The Apply Crop button saves the result to the history, and after the Cancel Crop button is clicked, the composition stays as it was.
 
@@ -81,7 +83,7 @@ Bulk transfer in the infographics editor uses the same mechanism: one photo’s 
 
 In the infographics editor, merchants get ready-made templates with text, badges and shapes already in place, so they don’t have to build a marketplace image from scratch. I built these system templates myself, right in the editor, from the designer’s Figma mockups. While doing it, I noticed that objects could only be placed by eye: you couldn’t see whether the edges of two badges lined up or whether the spacing between them was equal. I couldn’t match the mockup exactly.
 
-I wanted the editor to help the way Canva does: an object lines up with the edge or center of its neighbor, and you can see the distances between objects. So in November and December 2025 I added snapping and guides to the library. I built them for my own templates, and then merchants started using them too.
+I wanted the editor to help the way Canva does: an object snaps to the edge or center of its neighbor, and you can see the distances between objects. So in November and December 2025 I added snapping and guides to the library. I built them for my own templates, and then merchants started using them too.
 
 An object snaps to the edges and center of the montage area, to the edges and centers of nearby objects, and to positions where the spacing between objects is equal. When an object snaps, the editor shows a guide, and snapping turns off while Ctrl is held. When you hold Alt, the editor shows the distances from the selected object to nearby objects and to the edges of the montage area. All of this is calculated while the object is being dragged and takes the zoom, the viewport and object sizes after transforms into account.
 
@@ -93,7 +95,7 @@ A shape with text inside is a compound object in the library: the shape and the 
 
 ### Without base64, images load more than twice as fast
 
-In early versions, large images could be stored inside objects and the change history as base64. The change history works like this: `HistoryManager` keeps a base state and a list of changes relative to it. On every save, the library serializes the whole editor state and compares it with the previous one using `jsondiffpatch`. The base64 strings were part of that state, so saving to the history was slow. Copying and exporting also blocked the interface, because the image was converted to base64 on the browser’s main thread.
+In early versions, large images could be stored inside objects and the change history as base64. Because of this, an image object became large. The change history works like this: `HistoryManager` keeps a base state and a list of changes relative to it. On every save, the library serializes the whole editor state and compares it with the previous one using `jsondiffpatch`. The base64 strings were part of that state, so saving to the history was slow. Copying and exporting also blocked the interface, because the image was converted to base64 on the browser’s main thread.
 
 So I moved images to Blobs and Object URLs: the editor state now keeps a short link instead of the file content. Loaded images are cached as Blobs, so undo and redo don’t load them again. The browser keeps a Blob in memory until its Object URL is revoked, so Object URLs are revoked when an image is replaced or the editor is destroyed. Heavy import and export work now runs in Web Workers.
 

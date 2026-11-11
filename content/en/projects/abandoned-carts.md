@@ -25,15 +25,15 @@ A buyer adds products to an online store’s cart and leaves without placing an 
 
 The new paid Abandoned Carts section in the inSales admin panel had to show the merchant every abandoned cart with its products, total and change history. From the same section, the merchant writes to the buyer by email, SMS, WhatsApp, Telegram or Viber, manually or automatically.
 
-The section works only with carts of registered buyers, because collecting the carts of visitors who aren’t signed in would break the law. Also, a merchant can write to a buyer only if the buyer has the needed contact and the store has set up that channel.
+The section works only with carts of registered buyers, because collecting the carts of visitors who aren’t signed in would break Russian law. Also, a merchant can write to a buyer only if the buyer has the needed contact and the store has set up that channel.
 
 ## My role
 
-I worked with a backend developer, a product manager, a designer and a QA engineer. The backend developer built cart storage, the analytics calculations and the server operations, including scheduled sending. I owned the section’s frontend, from technical requirements and API agreements to testing and release, and I took part in agreeing on the product logic. The main development ran from October 2024 to April 2025, in iterations and alongside other tasks. The section shipped in parts: analytics first, then the table, messaging and paid access.
+I worked with a backend developer, a product manager, a designer and a QA engineer. The backend developer built cart storage, the analytics calculations and the server operations, including scheduled sending. I owned the section’s frontend, from technical requirements and API agreements to testing and release, and I helped settle the product logic. The main development ran from October 2024 to April 2025, in iterations and alongside other tasks. The section shipped in parts: analytics first, then the table, messaging and paid access.
 
 At first, the task was mostly a set of mockups. I turned them into documented technical requirements. I defined the entities and states and worked through unclear scenarios and edge cases. I agreed on the section’s logic with the designer, and on the JSON structure for each block with the backend developer. Then I split the requirements into tasks for analytics, the table, filters, cart details, sending messages and the communication history.
 
-I proposed most of the API structure for the frontend myself, and the backend developer usually built it the way I suggested. For example, in the first version of the API, one request returned both whether the section was enabled for the store and all of the store’s carts, so the cart table couldn’t be moved into a separate component. I suggested checking first whether the section is enabled, and requesting analytics and carts separately. The backend developer made the status a separate request in November 2024.
+I proposed most of the API structure for the frontend myself, and the backend developer usually accepted it. For example, in the first version of the API, one request returned both whether the section was enabled for the store and all of the store’s carts, so the cart table couldn’t be moved into a separate component. I suggested checking first whether the section is enabled, and requesting analytics and carts separately. The backend developer made the status a separate request in November 2024.
 
 I often organized the project meetings: I wrote the agenda, and after each call I sent a summary with the decisions and who was responsible for each one. People who missed a discussion only had to read one message.
 
@@ -41,7 +41,7 @@ I often organized the project meetings: I wrote the agenda, and after each call 
 
 ### Analytics and the table lead the merchant to a specific buyer
 
-The section starts with analytics, which shipped first, on 28 October 2024. The merchant sees the average abandoned cart value, the total value of products in carts without an order (Lost income) and the number of abandoned carts. The analytics also show a chart of abandoned carts and the related orders over time, and the cart-to-order conversion rate. As agreed with the backend developer, the business metrics are calculated on the server, and the frontend requests the needed period and shows the result. While the server side wasn’t ready, I built the interface on mock data.
+The section starts with analytics, which shipped first, on 28 October 2024, and the whole section was released to production on 31 March 2025. The merchant sees the average abandoned cart value, the total value of products in carts without an order (Lost income) and the number of abandoned carts. The analytics also show a chart of abandoned carts and the related orders over time, and the cart-to-order conversion rate. As agreed with the backend developer, the business metrics are calculated on the server, and the frontend requests the needed period and shows the result. While the server side wasn’t ready, I built the interface on mock data.
 
 From the numbers, the merchant moves to the table of carts. It shows the cart number, the buyer and their contacts, the date, status, number of items, total, channel and communication status. Filters cover the cart status, date, total range, whether the buyer has a phone number or email, and the communication type (manual or automatic), status and channel. For example, a merchant can select carts without an order that have an email and no previous messages, and then send them one message in bulk.
 
@@ -53,9 +53,9 @@ The analytics period doesn’t depend on the table filters, so the merchant can 
 
 One of the main tasks was to agree on what counts as one cart. A buyer can leave, come back and change the products. That’s one cart with several saved versions, not two buyers and not two lost sales. A version is saved when the cart stays unchanged for longer than the time after which it counts as abandoned. The merchant sets this time in the settings. Versions of one cart form a chain until the buyer places an order; after the order, a new cart starts a new chain.
 
-I agreed on how this model appears in every part of the section. In the table, the merchant sees one cart with its current version. The cart’s number stays the same when the buyer changes the products, and the earlier versions become the history of that cart.
+I worked out how this model appears in every part of the section. In the table, the merchant sees one cart with its current version. The cart’s number stays the same when the buyer changes the products, and the earlier versions become the history of that cart.
 
-![Change history of cart 5566: the latest version with the Ordered status and five products, and below it an earlier version of the same cart with two products](/images/work/abandoned-carts/cart-version-history.webp)
+![Change history of cart 5566: the latest version with the Ordered status and five products for about $710, and below it an earlier version of the same cart with two products for about $55](/images/work/abandoned-carts/cart-version-history.webp)
 
 The Cart details drawer shows the products, total, status, buyer details, change history and communication history. From here, the merchant can write to the buyer or create an order. The Place an order button passes the cart’s products to the existing order creation page in the admin panel.
 
@@ -81,7 +81,7 @@ Once the merchant has found the right carts, they can write to buyers in three w
 
 The settings for each channel came from a problem I found on 5 December 2024. A merchant could send an email manually from the section. But if the store hadn’t set up sending from its own email domain, the email was never sent, and the interface said nothing about it. At the same time, automatic sending could be turned on only in the separate Dialogues section, not in the new one.
 
-I wrote the agenda, ran a call on 6 December and sent out the decisions, with an owner for design, frontend and backend. We decided that:
+I wrote the agenda, ran a call on 6 December and sent out the decisions, which named an owner for design, frontend and backend. We decided that:
 
 - each channel gets its own automatic sending toggle, turned on by default for email if email sending is set up;
 - the sending delay is set separately for each channel;
@@ -93,11 +93,11 @@ Now each channel has its own settings block: whether it’s set up, the automati
 
 For an automatic reminder, the merchant sets two times: how long before a cart counts as abandoned, and how long after that the message goes out through the channel. For example, a cart can count as abandoned after a few hours, and the reminder can go out right away or after a delay in minutes, hours or days. I built the settings interface and its API requests. The server sends the scheduled messages, so reminders go out even when the merchant doesn’t have the browser tab open.
 
-Which of the five channels a store can use depends on its settings and the account’s region: for example, since April 2025 Viber has been hidden for Russian accounts.
+Which of the five channels a store can use depends on its settings and the account’s region.
 
 ### Bulk sending shows how many buyers won’t get the message
 
-To write to one buyer, the merchant opens the send drawer, chooses a channel and a template, edits the text if needed and checks the preview. The buyer’s and the cart’s details stay visible in the same drawer. For email, the form has subject and body fields, and for SMS and messengers, one template field. It also shows which channels are available, blocks actions that can’t be done and explains why an error happened.
+To write to one buyer, the merchant opens the send form, chooses a channel and a template, edits the text if needed and checks the preview. The buyer’s and the cart’s details stay visible in the same form. For email, the form has subject and body fields, and for SMS and messengers, one template field. The form also shows which channels are available, blocks actions that can’t be done and explains why an error happened.
 
 Bulk sending starts with selecting rows in the table. The merchant sees how many carts are selected and opens one send form for all of them.
 
@@ -158,5 +158,5 @@ I prepared the section for review and wrote test cases for QA: closing the drawe
 - The section went to production on 31 March 2025. In the first week, before the announcement in the inSales Telegram channel on 14 April, 11 stores paid for it.
 - By September 2026, the section had more than 200 active paid subscribers.
 - The merchant sees in one place who left a cart, what was in it and how it changed, and writes to the buyer manually, in bulk or automatically.
-- Before the release, in February 2025, the manager responsible for the product interviewed one of the stores. The store said that reminders clearly help bring a buyer to an order, and said the results were worth the price.
+- Before the release, in February 2025, the product manager interviewed one of the stores. The store said that reminders clearly help bring a buyer to an order, and said the results were worth the price.
 - In a [case study from 20 May 2025](https://www.insales.ru/blogs/cases/hited), inSales reports that retargeting linked to abandoned carts brings the Hited store about $1,250–4,400 a month. It also reports that 15% of customers come back and complete a purchase.

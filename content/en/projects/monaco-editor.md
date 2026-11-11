@@ -24,7 +24,7 @@ results:
 
 ## The problem
 
-In the inSales admin panel, partner developers, support specialists and technically skilled store owners edit template and widget code right in the browser. This way they change the design and behavior of a storefront without downloading the template or opening a separate IDE. The platform has more than 60,000 clients, so there are many such users.
+In the inSales admin panel, partner developers, support specialists and technically skilled store owners edit template and widget code right in the browser. This way they change the design and behavior of a storefront without downloading the template or opening a separate IDE. The platform has more than 60,000 online stores, so there are many such users.
 
 One template or widget file can mix HTML, the Liquid template language, CSS and JavaScript, while settings and translations are stored in JSON. Liquid tags and variables insert store data into the markup. So the editor has to know which language is used where.
 
@@ -40,7 +40,7 @@ From June 2022 to October 2025, I developed and maintained this editor. I implem
 
 ### The editor first appeared in the widget code window
 
-I started on 31 May 2022 with the widget code window in the visual site editor. Monaco is written in plain JavaScript, so it needs an adapter to work inside a Vue component. We decided not to add the ready-made `vue-monaco` and `@guolao/vue-monaco-editor` wrappers as dependencies: they contain little code and are rarely updated. Also, `vue-monaco` used an old Monaco version, which meant the editor’s webpack plugin had to be installed separately. So I moved the adapter code into the project, where the team could change it when needed, and connected the latest Monaco version.
+I started on 31 May 2022 with the widget code window in the visual site editor. Monaco isn’t tied to any framework, so it needs an adapter to work inside a Vue component. We decided not to add the ready-made `vue-monaco` and `@guolao/vue-monaco-editor` wrappers as dependencies: they contain little code and are rarely updated. Also, `vue-monaco` used an old Monaco version, which meant the editor’s webpack plugin had to be installed separately. So I moved the adapter code into the project, where the team could change it when needed, and connected the latest Monaco version.
 
 For the window, I implemented a Vue component. It creates the editor in a container, passes it the content and language of the current file, and switches between the widget’s files. There are six of them, each in its own tab: HTML markup with Liquid, SCSS styles, JavaScript, a JSON translations file, a JSON schema of the settings form and a JSON file with default settings. The last three belong to different parts of the widget but share one format, JSON. So the component picks the language by file format, not by tab. Loading and saving stayed with the parent interface and the server API.
 
@@ -70,7 +70,7 @@ When the cursor is inside `<script>`, the user needs JavaScript suggestions, not
 
 For this, I registered a completion provider that returns different suggestion sets depending on the language at the cursor position. At first, the language was detected with regular expressions, by the opening and closing tags before the cursor. This check was fragile, especially for `script` with a non-standard `type`. At the end of September 2024, I replaced it with the `model.getLanguageIdAtPosition` method. Monaco already knows which nested language is at a given position, so the provider picks JavaScript, CSS or Liquid snippets from the state of the model.
 
-At the same time, I mapped common `type` values to supported languages, and for unknown values the editor now uses JavaScript. After that, JSON, JavaScript and other `script` blocks stopped trying to load an unknown language.
+At the same time, I mapped common `type` values to supported languages, and for unknown values the editor now uses JavaScript. After that, the editor no longer tried to load a language that doesn’t exist for `script` blocks with JavaScript, JSON and other `type` values.
 
 ![Slide: three screenshots of suggestions in one template: HTML and Liquid suggestions in the markup, JavaScript suggestions inside a script block and CSS suggestions inside a style block](/images/work/monaco-editor/context-aware-autocomplete-slide-en.webp)
 
@@ -78,11 +78,11 @@ The provider picks from three sets of snippets: 122 for Liquid, 152 for JavaScri
 
 ### The editor package moved into a separate repository and a gem
 
-While the editor worked only in the widget code window, the package code was part of the main inSales application, which is built on Ruby on Rails. Monaco was heavy and put a lot of load on the company’s servers. So in December 2022 the infrastructure team suggested moving it into a separate repository, building it there with Webpack and connecting it to the main application as a ready-made library. I was asked to do the move.
+While the editor worked only in the widget code window, the package code was part of the main inSales application, which is built on Ruby on Rails. In the infrastructure team’s view, Monaco was heavy and put a lot of load on the company’s servers. So in December 2022 the team suggested moving it into a separate repository, building it there with Webpack and connecting it to the main application as a ready-made library. I was asked to do the move.
 
 Monaco runs the heavy part of language analysis in Web Workers, so one main bundle isn’t enough for a working editor. The browser also needs separate worker files for the base editor, HTML, CSS and SCSS, JavaScript and TypeScript, and JSON. I set up Webpack and `monaco-editor-webpack-plugin` to produce the main bundle and the worker files.
 
-Worker paths turned out to be a separate problem. The Rails asset pipeline adds a hash to file URLs, but Webpack knows only the original file names. Without the final paths, the editor opened, but some highlighting and suggestions couldn’t start their workers. So a colleague added an adapter: it got the final paths through `asset_path` and returned them from `MonacoEnvironment.getWorkerUrl` instead of the default ones.
+Worker paths turned out to be a separate problem. The Rails asset pipeline adds a hash to file URLs, but Webpack knows only the original file names. Without the final paths, the editor opened, but it couldn’t start the workers for some highlighting and suggestions. So a colleague added an adapter that got the final paths through `asset_path` and returned them from `MonacoEnvironment.getWorkerUrl` instead of the default ones.
 
 The main application gets its frontend assets through the Rails asset pipeline, so the editor package had to ship as a gem. From 24 January to 7 February 2023, I moved the working package on Monaco 0.34.1 into the new `monaco-insales` repository and turned it into a gem. A Rails Engine registers the assets, and a Rake task checks that a production bundle exists and copies it with the workers into `vendor/assets`. GitLab CI runs three jobs in a row: it builds the bundle with Webpack, builds the gem and publishes it to the internal Nexus registry.
 
@@ -98,7 +98,7 @@ To make the editor usable in different interfaces, I implemented a small API in 
 - `monacoCreate` creates an editor in a given HTML element with the required language and returns the editor instance;
 - `monacoLanguageRegisterApi` registers the configurations for mixed HTML and Liquid, JavaScript and SCSS for interfaces that create Monaco models themselves.
 
-The functions are exported to `window`. The package is connected to the Rails application as an asset through the asset pipeline, so a global API was the most practical contract: both old admin pages and Vue interfaces use it.
+The functions are exported to `window`. The package is connected to the Rails application as an asset through the asset pipeline, so the simplest option was a global API: both old admin pages and Vue interfaces use it.
 
 `monacoCreate` also sets the shared editor behavior: line wrapping at 120 characters, resizing with the container, code folding, two-space indentation and a custom light inSales theme. Before registering the custom language, the package checks whether it’s already registered. Otherwise, on pages where the editor is created again or that have several entry points, suggestions would appear twice. Each interface handles its own loading, saving and preview.
 
@@ -116,7 +116,7 @@ In autumn 2024 I added the `Ctrl + Shift + /` command, which comments out the se
 
 ### The editor replaced WYSIWYG in emails and messages to customers
 
-In 2025 the package was also added to the interfaces a store uses to communicate with customers. There, the user edits HTML and Liquid, or text with Liquid variables, so one shared set of language features was more useful than several separate editors.
+In 2025 the package was also added to the interfaces a store uses to communicate with customers. There, the user edits HTML and Liquid, or text with Liquid variables, so it was easier to connect the same package than to set up a separate editor in each section.
 
 In the standard order email templates, the editor is used for a new-order notification to the store owner and an email to the customer after checkout. The user can change the subject and the HTML/Liquid code of the email, restore the original version and check the result on a specific order. The server takes the order number, puts real order data into the Liquid variables and shows the finished email.
 

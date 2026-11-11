@@ -14,7 +14,7 @@ tags: [CAPTCHA, Async state, Forms]
 
 A buyer opens the contact form in an online store, types a question and clicks the Send button. The captcha rates the buyer’s actions as suspicious and shows a challenge. The buyer closes it, then writes a product review and passes the captcha there. In the old inSales code, the contact form could be sent at that moment, because both forms waited for the same answer from the captcha.
 
-On inSales, more than 60,000 companies run their online stores, and in every store buyers send messages, reviews and comments through forms. I was responsible for protecting these forms from bots, except for the token check on the server. In 2023 I moved store forms to the invisible Google reCAPTCHA, and in 2025, because of the Russian personal data law, I added Yandex SmartCaptcha and a setting where the store owner chooses the captcha.
+inSales is a platform with more than 60,000 online stores, and in every store buyers send messages, reviews and comments through forms. I was responsible for protecting these forms from bots, except for the token check on the server. In 2023 I moved store forms to the invisible Google reCAPTCHA, and in 2025, because of the Russian personal data law, I added Yandex SmartCaptcha and a setting where the store owner chooses the captcha.
 
 ## An invisible captcha can still show a challenge
 
@@ -24,7 +24,7 @@ But if the buyer’s actions look suspicious, the captcha still shows a challeng
 
 ## Only the form that asked gets the captcha answer
 
-Storefront forms run on CommonJS, the inSales shared JavaScript library for storefronts. Its components send messages to each other through the `EventBus` event bus. In the early implementation, a form started the captcha and waited for its answer through a shared event on this bus:
+Storefront forms run on CommonJS, the inSales shared JavaScript library for storefronts. Its components send messages to each other through the `EventBus` event bus. In the old code, a form started the captcha and waited for its answer through a shared event on this bus:
 
 ```js
 // Before (simplified): a form waits
@@ -37,7 +37,7 @@ function waitForCaptchaToken(widgetId) {
 }
 ```
 
-The subscription has no link to the widget that `execute` was called for: the bus doesn’t know which form the buyer is sending and just passes on the captcha answer. So if both forms were waiting for the same event, a captcha passed in the review form could continue sending the contact form. Also, the bus could pass the previous captcha answer to a new subscriber.
+The subscription has no link to the widget that `execute` was called for: the bus doesn’t know which form the buyer is sending and just passes on the captcha answer. So if both forms were waiting for the same event, a captcha passed in the review form could continue sending the contact form. There was also a second, separate problem: the bus could pass the previous captcha answer to a new subscriber, and then the form wasn’t sent.
 
 When I moved the forms to the invisible captcha, I linked each form to its own captcha instance, token and submit handler. A form continues sending only after its own captcha answers, including on retries.
 
@@ -66,7 +66,7 @@ While a request is running, the form blocks a second submission, so the buyer do
 
 I fixed this in July 2025: after the challenge is closed, the form stops waiting, and the buyer can send it again. In August I also changed how Google reCAPTCHA and Yandex SmartCaptcha reset before a new submission, because a token expired if the buyer took a long time to send the form. Now, if the form waits too long, the captcha runs again and the form gets a fresh token.
 
-I tested this with field validation errors, a reopened modal window and a repeated one-click order: in all these cases the form is sent again. For Yandex SmartCaptcha, I turned on a test mode with a mandatory challenge. That way we could test not only getting the token without the buyer noticing, but also opening, closing and passing the challenge.
+I tested this with field validation errors, a reopened modal window and a new one-click order. In all these cases the form can be sent again. For Yandex SmartCaptcha, I turned on a test mode with a mandatory challenge. That way we could test not only getting the token without the buyer noticing, but also opening, closing and passing the challenge.
 
 ## What I’d check in any form with an invisible captcha
 

@@ -20,11 +20,11 @@ results:
 
 ## The problem
 
-Storefronts on inSales, an e-commerce platform with 60,000+ merchants, load a JavaScript library called CommonJS (Common.js or `common.v2.js` in the docs). It shares its name with the CommonJS module format, but they are different things. The library runs product pages, variant selection, prices, the cart and forms. Its public API is used not only by platform widgets but also by code that merchants, partners and third-party developers wrote for their stores.
+Storefronts on inSales, an e-commerce platform with more than 60,000 online stores, load a JavaScript library called CommonJS (Common.js or `common.v2.js` in the docs). It shares its name with the CommonJS module format, but they are different things. The library runs product pages, variant selection, prices, the cart and forms. Its public API is used not only by platform widgets but also by code that merchants, partners and third-party developers wrote for their stores.
 
 When I started working on the library in 2021, the project was effectively abandoned: it worked, but nobody wanted to study how it was built or make serious changes. Changing the library was risky. Many stores run on old templates or custom code, and a method that looks unused may be used in one of them.
 
-The library had three problems, and solving them was up to me:
+I had to solve three problems in the library:
 
 1. It sent extra requests for product data, and in 2022 the platform’s DDoS protection started blocking large stores because of them.
 2. The compressed bundle that every storefront loads weighed more than 300 KB.
@@ -46,23 +46,23 @@ Any bug in CommonJS could break product selection or the cart on many merchants�
 
 ### The requests that got large stores blocked
 
-In 2022, large stores started getting blocked by the platform’s DDoS protection. It blocks an IP address that sends too many requests in a short time. A large store has about 10 managers processing orders at the same time, usually from one office and one IP address. Their combined requests were enough for the protection to treat them as an attack and block the address.
+In 2022, large stores started getting blocked by the platform’s DDoS protection. It blocks an IP address that sends too many requests in a short time. A large store has about 10 employees processing orders at the same time, usually from one office and one IP address. Their combined requests were enough for the protection to treat them as an attack and block the address.
 
-Those requests came from CommonJS. To show the price, variants and the Buy button, the library requests data for all products on the page from the server, 25 products at a time. The more products the pages show and the more often managers open them, the more requests leave their IP address.
+Those requests came from CommonJS. To show the price, variants and the Buy button, the library requests data for all products on the page from the server, 25 products at a time. The more products the pages show and the more often these employees open them, the more requests leave their IP address.
 
 In January 2022 I started looking for ways to reduce these requests. I organized a meeting about the problem and wrote a summary for the product team in Confluence. One option we discussed was to stop sending requests and put product data right into the page’s HTML. I tested it on a page with 100 products: without the data in the HTML, the page loaded in 800–1000 ms on average, and with it, in 1500–2500 ms, because the HTML became too heavy. So this option didn’t work.
 
-While investigating, I found a case where the library requested data it already had. CommonJS keeps product data in the browser for 120 seconds, but for a user signed in to the admin panel, only for 3–4 seconds, so they see a new price right after changing it. Store managers work while signed in to the admin panel, so for them the data expired constantly. When it did, clicking the Buy button requested data for every product on the page: on a page with 28 products, adding one product to the cart sent a request for all 28, although the library had already loaded them when the page opened. I fixed this later, in January 2024: now the library requests only the product being added to the cart.
+While investigating, I found a case where the library requested data it already had. CommonJS keeps product data in the browser for 120 seconds, but for a user signed in to the admin panel, only for 3–4 seconds, so they see a new price right after changing it. Store staff work while signed in to the admin panel, so for them the data expired constantly. When it did, after a click on the Buy button the library requested data for every product on the page: on a page with 28 products, it sent a request for all 28 to add one product to the cart, although it had already loaded them when the page opened. I fixed this later, in January 2024: now the library requests only the product being added to the cart.
 
-In September 2022 the blocks happened again at a large store, and I used that store to investigate. I checked the checkout page first: the store’s managers work with orders all the time, and on this page product data isn’t stored in the browser and is requested every time the page opens. To test the worst case, I put 500 products in the cart, the cart maximum. For 500 products, 20 requests of 25 would have been enough, but the page sent 80: every request went out 4 times. This happened only for a user signed in to the admin panel, that is, the store’s managers.
+In September 2022 the blocks happened again at a large store, and I used that store to investigate. I checked the checkout page first: the store’s employees work with orders all the time, and on this page product data isn’t stored in the browser and is requested every time the page opens. To test the worst case, I put 500 products in the cart, the cart maximum. For 500 products, 20 requests of 25 would have been enough, but the page sent 80: every request went out 4 times. This happened only for a user signed in to the admin panel, that is, the store’s staff.
 
-The question was whether this page really caused the blocks. I found the blocks themselves in the server logs in Kibana, but the address of the page that sent a request is recorded only in the nginx logs. The nginx logs showed no spikes of requests from the checkout page at any point in August. The blocks came from catalog pages: one of them sent 107 requests of 25 products in 1 second, about 2,675 different products in total. A catalog page shows at most 100 products, so some other code on the page was passing that long list to the library, and that code could be different in every store.
+The question was whether this page really caused the blocks. I found the blocks themselves in the server logs in Kibana, but the address of the page that sent a request is recorded only in the nginx logs. The nginx logs showed no spikes of requests from the checkout page at any point in August. The blocks came from catalog pages: one of them sent 107 requests of 25 products in 1 second, 2,675 products in total. A catalog page shows at most 100 products, so some other code on the page was passing that long list to the library, and that code could be different in every store.
 
 So I protected the library itself instead of looking for that code in every store. All product list requests go through the `getList` method, and I made two changes in it. First, the list of product IDs is now capped at 500. This doesn’t affect normal use, because a cart holds at most 500 products and a page shows at most 100. Second, if the same products are requested again, the library doesn’t send a request to the server and returns the data it already loaded. So identical requests that used to go out several times no longer reach the server.
 
 Store code calls `getList` with `done` and `fail`, as in jQuery. So when the data is already loaded, the method still returns it in an object with `done` and `fail`, and that code works as before.
 
-I released the changes for testing in September 2022, and on 26 September I checked the logs: there were far fewer product data requests, even fewer than we expected.
+I released the changes for testing in September 2022, and on 26 September the server logs showed far fewer product data requests, even fewer than we expected.
 
 ### Storefronts load less code
 
@@ -84,7 +84,7 @@ But CommonJS also made Lodash available to template code, and old and custom tem
 
 Stores use the quick order form in three scenarios: a one-click order for a product, an inquiry without a product (for example, for a service), and an order from the buyer’s cart. All three worked through one mechanism, so the settings of one form affected another.
 
-First, in December 2023 and January 2024, I separated inquiries from one-click orders. A quick order always required a product: its ID had to be passed to the button, but an inquiry about a service has no product. I added a `data-quick-checkout="fake_order"` mode, in which the inquiry form is sent without a product and doesn’t change the buyer’s cart.
+First, in December 2023 and January 2024, I separated inquiries from one-click orders. A one-click order always required a product: its ID had to be passed to the button, but an inquiry about a service has no product. I added a `data-quick-checkout="fake_order"` mode, in which the inquiry form is sent without a product and doesn’t change the buyer’s cart.
 
 The second problem was the one-click order itself. It worked through the buyer’s regular cart: the product was added to it, and the whole cart went into the order. If the buyer had already put other products there, they ended up in the order too. Analytics systems also got, at best, general product data, and at worst whatever was in the cart at that moment.
 

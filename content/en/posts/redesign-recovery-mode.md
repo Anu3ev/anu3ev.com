@@ -12,7 +12,7 @@ readingMinutes: 7
 tags: [Product UX, Redesign, iframe, Error recovery]
 ---
 
-In the visual site editor, inSales merchants change their store’s design and set up the widgets that store pages are built from. It is one of the platform’s core tools, and the platform has more than 60,000 stores. The store page opens inside an iframe in the editor, and the interface around it controls the widgets and settings.
+In the visual site editor, inSales merchants change their store’s design and set up the widgets that store pages are built from. It is one of the platform’s core tools, and the platform has more than 60,000 online stores. The store page opens inside an iframe in the editor, and the interface around it controls the widgets and settings.
 
 In 2024 a designer created the mockups of a new editor, and I implemented the frontend of the redesign. Before the redesign, a static sidebar was always open next to the page. It held the global design settings, the widget lists for each page area and the settings of the selected widget.
 
@@ -32,7 +32,7 @@ After the redesign, widgets are managed with buttons that appear inside the ifra
 
 ## The button back to the old editor would go away with the full rollout
 
-While the new editor wasn’t enabled for everyone, store admins still had a button that switched back to the old editor with the sidebar. With it, a broken widget could be removed without workarounds, but the button was going to disappear with the full rollout.
+While the new editor wasn’t enabled for everyone, merchants still had a button that switched back to the old editor with the sidebar. With it, a broken widget could be removed without workarounds, but the button was going to disappear with the full rollout.
 
 When the team decided on 9 July 2024 to roll out the new editor to all stores, I suggested building recovery mode first, with a widget list for pages that don’t load, and rolling out the editor after that. Fixing such pages was usually my job, and without that list it would have been harder. The team lead agreed.
 
@@ -46,7 +46,7 @@ Recovery mode can also be opened on a page that loaded normally, from the page s
 
 ## The editor waits for the page to report that it has loaded
 
-To open recovery mode, the editor first has to notice that the page didn’t load. In Chrome, the editor sees right away that the expected content didn’t appear on the page. In Firefox, the iframe’s `load` event doesn’t fire in this case, and the editor can’t read what is inside the iframe, so it could wait forever.
+To open recovery mode, the editor first has to notice that the page didn’t load. In Chrome, the editor sees right away that the expected content didn’t appear on the page. In Firefox, the iframe’s `load` event doesn’t fire in this case, and the editor can’t read what is inside the iframe, so it can wait forever.
 
 So I added a timeout: if the page doesn’t tell the editor within 30 seconds that it has loaded, the editor opens recovery mode. I chose 30 seconds because the server limits a store page request to 25 seconds by default.
 
@@ -98,7 +98,7 @@ For these widgets I added a "Pop-up windows" section to the top menu. There they
 
 ## Recovery mode went live a day before the editor rollout
 
-Recovery mode went to production on 31 July 2024, and on 1 August the new editor was turned on for all stores on current templates. Today more than 90% of inSales stores use the new editor. When a merchant doesn’t know which widget caused the error, someone from the support team opens the page, switches to recovery mode, finds the broken widget and fixes or removes its code. After that, the page opens in the normal mode again.
+Recovery mode went to production on 31 July 2024, and on 1 August the new editor was turned on for all stores on current templates. By September 2026, more than 90% of inSales stores used the new editor. When a merchant doesn’t know which widget caused the error, someone from the support team opens the page, switches to recovery mode, finds the broken widget and fixes or removes its code. After that, the page opens in the normal mode again.
 
 In November 2024 I shipped an updated version of recovery mode. Now, when a page doesn’t load, the editor first shows a "Site loading problems" window with an "Open the widget list" button. The recovery mode widget list became a table that shows when each widget was added and changed and which widgets have edited code. This makes it easier to see which change made the page stop loading.
 
@@ -108,6 +108,6 @@ In November 2024 I shipped an updated version of recovery mode. Now, when a page
 
 Mockups usually show pages that work. The sidebar helped fix a broken page because it didn’t depend on that page, and the mockups didn’t show this job. So when a redesign removes a part of the interface, it is worth listing everything people could do through it, including error cases and items that aren’t visible on the page. Each of these cases needs a place in the new interface.
 
-The way to recover should also work without the part it helps to fix. In recovery mode the widget list comes from the server, so it opens even when the page in the iframe doesn’t load at all.
+The way to fix a page also must not depend on the page itself. In recovery mode the widget list comes from the server, so it opens even when the page in the iframe doesn’t load at all.
 
 The other parts of the redesign are described in the [visual editor case](/work/visual-storefront/).

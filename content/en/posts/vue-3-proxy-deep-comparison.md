@@ -1,26 +1,26 @@
 ---
 title: Why a drawer took 4 seconds to open instead of 1 after the move to Vue 3
-description: "After the inSales admin panel moved to Vue 3, the domain picker drawer took about 4 seconds to open instead of 1. The delay came from a shared autocomplete: it looped over and compared 700 domain zones, and every property read now went through a Proxy."
+description: "After the inSales admin panel moved to Vue 3, the domain picker drawer took about 4 seconds to open instead of 1. The delay came from a shared autocomplete: it looped over and compared 700 top-level domains (TLDs), and every property read now went through a Proxy."
 locale: en
 slug: vue-3-proxy-deep-comparison
 published: true
 date: '2026-10-21'
 cover: /images/blog/vue-3-proxy-deep-comparison.svg
-coverAlt: 'Diagram: the domain picker drawer opened in about 1 second on Vue 2 and about 4 seconds on Vue 3 because 700 domain zones were read through Proxies, and two ways to take the Proxy out: toRaw and markRaw'
+coverAlt: 'Diagram: the domain picker drawer opened in about 1 second on Vue 2 and about 4 seconds on Vue 3 because 700 top-level domains (TLDs) were read through Proxies, and two ways to take the Proxy out: toRaw and markRaw'
 category: Performance
 readingMinutes: 5
 tags: [Vue 3, Performance, Reactivity, Migration]
 ---
 
-In the inSales admin panel, merchants manage their products, orders, domains and analytics, and the platform has more than 60,000 stores. In the summer of 2026 the admin panel was moved from Vue 2 to Vue 3, and after the move parts of the interface became much slower. The domain picker drawer, a side panel in the Domains section, took about 4 seconds to open. In production on Vue 2 it took about 1 second.
+In the inSales admin panel, merchants manage their products, orders, domains and analytics, and the platform has more than 60,000 online stores. In the summer of 2026 the admin panel was moved from Vue 2 to Vue 3, and after the move parts of the interface became much slower. The domain picker drawer, a side panel in the Domains section, took about 4 seconds to open. In production on Vue 2 it took about 1 second.
 
-Another team ran the migration. I had run into Vue 3 Proxies before: when I moved my infographic editor to Vue 3, they broke part of its interface. I had finished my own tasks by then, so on 7 August 2026 I offered the team my help and took the tasks for the Domains page.
+Another team ran the migration. I had run into Vue 3 Proxies before: when I moved my infographic editor (text, badges and icons over product photos) to Vue 3, they broke part of its interface. I had finished my own tasks by then, so on 7 August 2026 I offered the team my help and took the tasks for the Domains page.
 
-Vue 3 didn’t add any new work to the drawer. The slow code was there on Vue 2 as well, but after the move every data read in that code became more expensive.
+Vue 3 itself didn’t add slow code to the drawer: this code ran on Vue 2 as well, but after the move every data read in it became more expensive.
 
 ## The delay came from a shared autocomplete
 
-The drawer contains `ui-autocomplete2`, an input with suggestions from the UI kit, the inSales library of interface components. On every render, about 700 domain zones such as .ru or .com were passed into it. The component looped over them twice, compared them and cached them.
+The drawer contains `ui-autocomplete2`, an input with suggestions from the UI kit, the inSales library of interface components. On every render, about 700 top-level domains (TLDs) such as .ru or .com were passed into it. The component looped over them twice, compared them and cached them.
 
 On Vue 2 this render was slow too and took about a second, so the problem was less visible. On Vue 3 the same work took about 4 seconds.
 
@@ -46,13 +46,13 @@ reactiveZone === zone        // false
 toRaw(reactiveZone) === zone // true
 ```
 
-Every property read on a Proxy goes through a Vue handler. If the read happens during a render, Vue also records the property as a dependency of the component. One such read costs almost nothing. But when filling the cache, the autocomplete removed duplicates with `uniqWith` and `isEqual`, comparing each zone with every zone before it. For 700 zones that is 700 × 699 / 2, about 245,000 deep comparisons. Each of them reads several properties, so millions of reads go through the Proxy, and each read now costs more.
+Every property read on a Proxy goes through a Vue handler. If the read happens during a render, Vue also records the property as a dependency of the component. One such read costs almost nothing. But when filling the cache, the autocomplete removed duplicates with `uniqWith` and `isEqual`, comparing each TLD with every TLD before it. For 700 TLDs that is 700 × 699 / 2, about 245,000 deep comparisons. Each of them reads several properties, so millions of reads go through the Proxy, and each read now costs more.
 
 ## The fix belonged in the UI kit, not on the Domains page
 
 The slow code was inside `ui-autocomplete2`, so a fix on the Domains page would have made one drawer faster and left every other autocomplete slow. I fixed the component itself instead, in the UI kit’s Vue 3 branch, on the same day I took the task.
 
-In the domain picker drawer, the autocomplete works in local mode: the whole list of zones is already passed to it in `items`, and there is nothing to search on the server. But on initialization the component still copied this list into its cache, which meant looping over and comparing 700 zones through Proxies. The cache is needed only for search through server requests, so I turned off filling it in local mode:
+In the domain picker drawer, the autocomplete works in local mode: the whole list of TLDs is already passed to it in `items`, and there is nothing to search on the server. But on initialization the component still copied this list into its cache, which meant looping over and comparing 700 TLDs through Proxies. The cache is needed only for search through server requests, so I turned off filling it in local mode:
 
 ```js
 initCachedItems() {
@@ -106,7 +106,7 @@ function isSameItem(first, second) {
 
 When I told the migration team about the autocomplete, they gave me another task with a similar problem. In the analytics section, checkboxes in the `ui-path-list` component reacted to a click after about 5 seconds. I found the cause in the Vuetify fork, the inSales copy of the Vuetify component library: Vue 3 created a Proxy for almost everything the fork’s components kept in `data`.
 
-The fix was to wrap almost everything in `data` with `markRaw`. This function marks an object so that Vue never creates a Proxy for it. Watchers wrote new values into `data`, so those writes had to be wrapped too. Otherwise Vue would create a Proxy for every new value. In outline:
+The fix was to wrap almost everything in `data` with `markRaw`. This function marks an object so that Vue never creates a Proxy for it. Watchers wrote new values into `data`, and these values had to be wrapped in `markRaw` too. Otherwise Vue would create a Proxy for every new value. In outline:
 
 ```js
 import { markRaw } from 'vue'

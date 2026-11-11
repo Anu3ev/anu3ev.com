@@ -24,11 +24,11 @@ results:
 
 ## The problem
 
-Marketplaces like Ozon, Wildberries and Yandex Market reject product photos that don’t meet their rules, and each marketplace has its own size requirements. In 2025 the large marketplaces were moving to tall photos with a 3:4 ratio. Ozon recommends 900×1200 for product photos, and since 30 May 2025 Yandex Market adds white borders to photos with any other ratio.
+Ozon, Wildberries and Yandex Market, Russia’s largest online marketplaces, reject product photos that don’t meet their rules, and each marketplace has its own size requirements. In 2025 the large marketplaces were moving to tall photos with a 3:4 ratio. Ozon recommends 900×1200 for product photos, and since 30 May 2025 Yandex Market adds white borders to photos with any other ratio.
 
-On inSales, a merchant has one product page for the website and every marketplace, so the same photos go to the website and to each marketplace. As a result, merchants got "Incorrect product photo size" errors when they exported products to marketplaces. To make a photo look as intended on a marketplace, they had to prepare images for each marketplace separately.
+On inSales, a merchant has one product page for the website and every marketplace, so the same photos go to the website and to each marketplace. As a result, merchants got "Incorrect product photo size" errors when they exported products to marketplaces. To make a photo look as intended on a marketplace, they had to prepare it for each marketplace separately.
 
-Merchants also wanted to add infographics to their photos to sell more. Later Ozon saw this too: in December 2025 it launched its own infographics builder.
+Merchants also wanted to add infographics (text, badges and icons laid over the product photo) to sell more. Ozon confirmed this demand too: in December 2025 it launched its own infographics builder.
 
 The inSales product page only had a simple CropperJS cropping tool, which I had also built. It could crop a photo to the right ratio, but it couldn’t make an infographic. So merchants made their images outside inSales. A designer’s research in January 2025 showed how: some had a separate employee just for this, others ordered images from freelancers or paid for services like MPCard, up to about $110 a month.
 
@@ -36,7 +36,7 @@ The task came from the inSales marketplace team on 14 January 2025. Merchants ne
 
 ## My role
 
-I owned the product frontend: the Vue app architecture, the interface from the designer’s mockups, saving projects, the AI features, templates, bulk transfer of a design to other photos, Mixpanel analytics, specs and test cases for QA. A backend developer built the server side, and I agreed on the API contracts with him. The team also had my manager, the product manager, a designer and a QA engineer. I ran the weekly editor meeting: I invited the participants, wrote up the decisions and dates after each call, and created tasks for the backend developer.
+I owned the product frontend: the Vue app architecture, the interface from the designer’s mockups, saving projects, the AI features, templates, bulk transfer of a design to other photos, Mixpanel analytics, specs and test cases for QA. A backend developer built the server side, and I worked out the API contracts with him. The team also had my manager, a product manager, a designer and a QA engineer. I ran the weekly editor meeting: I invited the participants, wrote up the decisions and dates after each call, and created tasks for the backend developer.
 
 Much of the editor’s behavior was my own idea rather than something in a task: keyboard shortcuts, Ctrl-click selection and other familiar conventions from tools like Canva. When a decision was unclear, I checked how competitors handled it. For example, we had to decide what happens to the rotation angle when a merchant stretches a rotated photo to fill the whole working area. I checked mpcard.ai, supa.ru, canva.com and the services on the designer’s list. All of them reset the angle, so we did the same.
 
@@ -48,7 +48,7 @@ The canvas logic, with its objects and undo history, is hard to test inside one 
 
 I implemented the editor from the designer’s mockups. It opens full screen when a merchant clicks the edit button on a photo on the product page. There they can pick a ready-made marketplace size, apply a template, remove the background, and add text, shapes and photos from the Unsplash photo library. Another photo of the same product opens from the bottom panel without closing the editor. If the current photo has unsaved changes, the editor first offers to save them.
 
-The product team prepares system templates. When a merchant applies one, the product photo goes into the place reserved for it, and the text and badges keep their styles and positions. A merchant can also save their own project as a user template and apply it again. All stores could create user templates from 11 June 2026.
+I built the system templates right in the editor from the designer’s Figma mockups. When a merchant applies one, the product photo goes into the place reserved for it, and the text and badges keep their styles and positions. A merchant can also save their own project as a user template and apply it again. All stores could create user templates from 11 June 2026.
 
 The editor was rolled out in stages: to new stores on 25 December 2025 and to all stores on 13 May 2026. According to product analytics, more than 3,000 active inSales clients use it.
 
@@ -70,7 +70,7 @@ We agreed that a cut-out product needs ready-made backgrounds, because they give
 
 ### We set the AI request limit based on the service’s capacity
 
-A separate AI service handles the AI features’ requests, and its capacity is limited. That’s why at a meeting on 16 December 2025 we agreed on a limit of 50 requests a day per account. Text generation and image processing share this limit. After each operation the editor updates the number of requests left. Running background removal again on a photo that has already been processed doesn’t use the limit.
+A separate AI service handles the AI features’ requests, and its capacity is limited. That’s why at a meeting on 16 December 2025 we set a limit of 50 requests a day per account. Text generation and image processing share this limit. After each operation the editor updates the number of requests left. Running background removal again on a photo that has already been processed doesn’t use the limit.
 
 ### We hid only the AI features in Safari
 

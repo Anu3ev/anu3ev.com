@@ -18,7 +18,7 @@ To show a product’s price, variants and Buy button, the library requests the p
 
 ## A timer can’t tell whether a product has changed
 
-Product data used to stay in the cache for a fixed time: 120 seconds on most pages and 60 seconds on the product page. For store admins logged in to the admin panel, it was 3–4 seconds, so they could see a new price right after changing it. The checkout page didn’t cache product data at all.
+Product data used to stay in the cache for a fixed time: 120 seconds on most pages and 60 seconds on the product page. For merchants logged in to the admin panel, it was 3–4 seconds, so they could see a new price right after changing it. The checkout page didn’t cache product data at all.
 
 Any fixed time caused two problems at once:
 
@@ -29,7 +29,7 @@ Any fixed time caused two problems at once:
 
 A separate problem was products with hundreds of variants, such as one model in dozens of sizes and colors. In October 2023, a client came to us with a product that had 777 variants. To show it in a widget, the library requested its full data with every variant, and a list of 20 such products could take 20–30 seconds to load or fail with a timeout. But a preview, the product card in a collection or slider, doesn’t need every variant: the price and whether the product can go straight into the cart are enough. So I wrote the requirements for a light API response and agreed on them with the backend developer. With the `without_many_variants` parameter, the server returns a product without the full variant list, only a flag saying it has several variants.
 
-In January 2024, a QA engineer tested these changes on 10 products with more than 800 variants each. The test found one more reason why product loading broke completely. If the cache time had already run out when a buyer added a product to the cart, the library requested every product it had saved when the page loaded. With heavy products, the server didn’t answer in time and returned a timeout error, and after that error no product on the page initialized. On January 30, 2024, I shipped a fix: when a product is added to the cart, the library requests only that product.
+In January 2024, a QA engineer tested these changes on 10 products with more than 800 variants each. The test found one more reason why product loading broke completely. If the cache time had already run out when a buyer added a product to the cart, the library requested every product it had saved when the page loaded. With heavy products, the server didn’t answer in time and returned a timeout error, and after that error no product on the page initialized. On 30 January 2024, I shipped a fix: when a product is added to the cart, the library requests only that product.
 
 But even the request for one product was sent every time the cache time ran out. The problem was the timer itself: it can’t tell whether a product has changed. So at the end of January 2024, I started moving the cache to a check of each product’s update time.
 
@@ -105,7 +105,7 @@ So the library uses the saved data for these products. If there is no record in 
 
 ## Old templates kept working
 
-Thousands of stores use the library, and many of them run old templates or custom code. Their markup doesn’t have the `data-product-updated-at` attribute, so the new library version couldn’t require it. The rollout had two stages. First, we released a library version that kept the old time check for markup without an update time: that’s the last row of the table. So stores didn’t have to update their templates at the same time as the library. Then the attribute was added to the system widgets, and by March 2024 it was in every system widget of the latest template generation except AJAX widgets.
+Thousands of stores use the library, and many of them run old templates or custom code. Their markup doesn’t have the `data-product-updated-at` attribute, so the new library version couldn’t require it. The rollout had two stages. First, we released a library version that kept the old time check for markup without an update time: that’s the last row of the table. So stores didn’t have to update their templates at the same time as the library. Then the attribute was added to the built-in widgets, and by March 2024 it was in every built-in widget of the latest template generation except AJAX widgets. The library also caches products from AJAX widgets without a timer, the same way as products with the attribute.
 
 Every store gets a CommonJS update at once, so I prepared the QA test cases with both old and new templates in mind. For the product cache, I described moving between pages, changing a price in the admin panel and opening the page again, opening a page after the old cache time would have run out, and a mix of light and full data. Products in the cart and products shown in several widgets at once were tested separately.
 
@@ -113,7 +113,7 @@ Every store gets a CommonJS update at once, so I prepared the QA test cases with
 
 A comparison of product data requests before and after the change showed about 70% fewer of them: where ten requests used to go out, about three go out now. Unchanged products stopped being requested again just because 120 seconds had passed.
 
-Together with loading products after the main page content, this helped pages with many product blocks the most. In typical measurements, they started loading in 2–3 seconds instead of more than 5. I checked this on more than 10 standard templates and on real client pages, including pages with about 60–200 products. Loading products after the main content is described in the [storefront product loading case](/work/storefront-product-loading/).
+I also moved product loading to after the main page content, as described in the [storefront product loading case](/work/storefront-product-loading/). Together, these two changes helped pages with many product blocks the most. In typical measurements, they started loading in 2–3 seconds instead of more than 5. I checked this on more than 10 standard templates and on real client pages, including pages with about 60–200 products.
 
 ## What you can apply to your own cache
 

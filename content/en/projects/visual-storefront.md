@@ -82,13 +82,13 @@ Some widgets appear only after a buyer’s action: for example, the pre-order fo
 
 Merchants and their developers add their own HTML, CSS, JavaScript and Liquid code to widgets. A critical error in that code can stop the store page from loading. In the old editor, the broken widget could still be found in the sidebar. In the new editor, the widget buttons appear inside the page, so if the page doesn’t load, the buttons aren’t there either: the user would lose access to exactly the widget that broke the page. They would have to look for it in another section of the admin panel or upload the template again, and the support team would have the same problem.
 
-While the new editor wasn’t enabled for everyone, store admins still had a button that switched back to the old editor. It was the only way to remove a broken widget without workarounds, and it was going to disappear with the full rollout. So when the team decided in July 2024 to roll out the new editor, I suggested implementing recovery mode first and rolling out the editor after that. The team lead agreed.
+While the new editor wasn’t enabled for everyone, merchants still had a button that switched back to the old editor. It was the only way to remove a broken widget without workarounds, and it was going to disappear with the full rollout. So when the team decided in July 2024 to roll out the new editor, I suggested implementing recovery mode first and rolling out the editor after that. The team lead agreed.
 
 In recovery mode (the interface calls it "Service mode"), the editor shows the page’s widgets grouped by page area: header, content, footer and widgets outside the content. From this list the user can open a widget’s code, fix it or remove the widget. Normally the editor finds widgets in the markup of the loaded page, but when the page fails to load, there is no markup, so the list comes from the server with a separate request. Recovery mode went to production on 31 July 2024, a day before the new editor rollout.
 
 ### Recovery mode works in Firefox too
 
-Firefox had two separate problems. First, the editor didn’t learn that the page had failed. In Chrome, the editor sees right away that the expected content didn’t appear on the page, but in Firefox the iframe’s load event doesn’t fire in this case, so the editor could wait forever. I added a timeout: if the page doesn’t tell the editor it has loaded within 30 seconds, the editor opens recovery mode. I chose 30 seconds because the server limits a store page request to 25 seconds by default.
+Firefox had two separate problems. First, the editor didn’t learn that the page had failed. In Chrome, the editor sees right away that the expected content didn’t appear on the page, but in Firefox the iframe’s load event doesn’t fire in this case, so the editor can wait forever. I added a timeout: if the page doesn’t tell the editor it has loaded within 30 seconds, the editor opens recovery mode. I chose 30 seconds because the server limits a store page request to 25 seconds by default.
 
 Second, the editor itself stopped responding. When the server couldn’t process the page in time, it returned the status code 408 Request Timeout. With that response, the editor in Firefox froze for 4 minutes on average, while in Chrome it was usable again after a few seconds. Firefox is known to resend a request after a 408 response: [Mozilla bug 907800](https://bugzilla.mozilla.org/show_bug.cgi?id=907800) describes the browser resending such a request about ten times over several minutes. Firefox 26 limited this behavior, but the browser still resends the request when the 408 arrives on a reused keep-alive connection. To keep the editor from freezing, we decided to change the status code.
 
@@ -102,7 +102,7 @@ In November 2024 I shipped an updated version of recovery mode. Now, when a page
 
 ## Results
 
-- The new editor was turned on for all stores on current templates on 1 August 2024. More than 90% of inSales stores use it; the old one remains only for templates made before 2020, and a few hundred users still work in it.
+- The new editor was turned on for all stores on current templates on 1 August 2024. By September 2026, more than 90% of inSales stores used it; the old one remained only for templates made before 2020, and a few hundred users still worked in it.
 - After the redesign, the share of new users who changed and saved a template or widget setting on their own in the first session grew from 60% to 80%.
 - With the panels closed, the site preview on a 1920 px screen is about 17% wider.
 - If a widget’s code breaks a page, the merchant or the support team finds and fixes that widget right in the editor, in Firefox too.
