@@ -38,7 +38,10 @@ But even the request for one product was sent every time the cache time ran out.
 Every product on the server has an update time, but it never reached the browser. I passed it through Liquid into the `data-product-updated-at` attribute of the product form:
 
 ```liquid
-<form data-product-id="{{ product.id }}" data-product-updated-at="{{ product.updated_at }}">
+<form
+  data-product-id="{{ product.id }}"
+  data-product-updated-at="{{ product.updated_at }}"
+>
   …
 </form>
 ```

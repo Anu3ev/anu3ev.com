@@ -38,7 +38,10 @@ tags: [Caching, IndexedDB, Storefront, Liquid, Performance]
 У каждого товара на сервере есть дата изменения, но до браузера она не доходила. Я настроил передачу этой даты через Liquid в атрибут `data-product-updated-at` на форме товара:
 
 ```liquid
-<form data-product-id="{{ product.id }}" data-product-updated-at="{{ product.updated_at }}">
+<form
+  data-product-id="{{ product.id }}"
+  data-product-updated-at="{{ product.updated_at }}"
+>
   …
 </form>
 ```
