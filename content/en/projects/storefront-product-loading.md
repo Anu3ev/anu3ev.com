@@ -41,8 +41,6 @@ I built AJAX components that load and render products with separate requests aft
 
 Category pages were slowed down by the catalog filters: the server also built them together with the page, and in large catalogs they have hundreds of values. So I also built AJAX loading for filters, which gets their data after the page has loaded.
 
-![The ui-ajax-products page in the inSales developer documentation](/images/work/storefront-product-loading/ui-ajax-products-docs.webp)
-
 I wrote the documentation for `ui-ajax-products` and `ui-ajax-product` myself, and after it was published in May 2023, developers used it to move widgets to AJAX.
 
 ### Previews load without the full list of variants

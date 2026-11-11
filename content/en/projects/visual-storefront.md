@@ -28,6 +28,8 @@ In the visual site editor, inSales merchants change their store’s design and s
 
 Before the redesign, a static sidebar was always open next to the page. It held the global design settings, the page areas with their widget lists and the settings of the selected widget, all at once.
 
+![The old editor before the redesign: a static sidebar with widget lists by page area on the left, the store page on the right](/images/work/visual-storefront/old-editor-static-sidebar-4th-generation.webp)
+
 This caused three problems:
 
 1. Widgets could be managed in two ways: in the sidebar and with buttons right on the page. The editor needed one clear way to manage them.
