@@ -10,7 +10,7 @@ const publicImage = z.string().regex(/^\/images\/[^?#]+\.(?:webp|png|jpe?g|svg)$
 /** Shared content boundary for both Nuxt's collections and the command-line publishing checks. */
 const editorialSchema = z.object({
   title: z.string().min(5).max(120),
-  description: z.string().min(20).max(280),
+  description: z.string().min(20).max(450),
   locale: z.enum(['en', 'ru']),
   slug: slugSchema,
   published: z.boolean().default(false),
