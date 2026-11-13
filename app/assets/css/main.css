@@ -87,8 +87,7 @@ h3, .recommendation-card h2, .certificates-subtitle, .empty-state h2, .wordmark,
 .button, .text-link, .feed-more, .language-link, .topic-filter, .tags li, .mini-tag, .availability, .sidebar-social, .site-footer, .profile-location, .card-meta, .card-results, .cover-statement, .eyebrow, .post-card-top time, .post-card-bottom > span, .article-meta, .case-facts dt, .table-of-contents, .timeline-item time, .approach-number, .certificate-meta, .certificate-issuer, .certificate-list-text span, .case-mentions-by, .recommendation-note, .recommendation-card-author span, .recommendation-card-author time, .recommendation-card-bottom, .recommendation-person p, .contact-options small, .email-note, .fact-list span, .pagination a, .pagination > span, .author-line p, .prose pre { font-size: var(--text-small); line-height: 1.45; letter-spacing: -.006em; }
 strong, th, .button-primary, .topic-filter[aria-pressed='true'] { font-weight: 600; }
 .email-card strong, .contact-options strong, .certificate-list strong { font-weight: 400; }
-h1, h2, h3 { text-wrap: balance; }
-p, li, dd { text-wrap: pretty; }
+h1, h2, h3, p, li, dd { text-wrap: pretty; }
 .site-layout { display: grid; grid-template-columns: 220px minmax(0, 760px); justify-content: center; gap: var(--space-8); max-width: 1076px; padding-inline: var(--space-8); margin-inline: auto; align-items: start; }
 .main-column { min-width: 0; min-height: 100vh; border-inline: 1px solid var(--line); }
 .container { width: 100%; padding-inline: var(--gutter); }
