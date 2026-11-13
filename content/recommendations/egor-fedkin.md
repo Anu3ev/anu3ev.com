@@ -8,7 +8,7 @@ profile: https://www.linkedin.com/in/egor-fedkin-a80a961ab/
 highlight: "He is also very precise when implementing designs: he consistently delivers pixel-accurate interfaces while at the same time suggesting thoughtful and meaningful improvements."
 mentions:
   - project: product-image-editor
-    quote: Today, the tool is actively used by around 3,000 users.
+    quote: "Visual Infographic Editor: a full-featured graphic editor in the browser, comparable in functionality to Canva or Figma."
   - project: abandoned-carts
     quote: It has already generated approximately twice the revenue needed to cover its development costs.
 featured: 1

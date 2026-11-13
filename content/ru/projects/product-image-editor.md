@@ -4,8 +4,8 @@ description: "У селлера на inSales одни и те же фото то
 locale: ru
 slug: product-image-editor
 published: true
-cover: /images/work/product-image-editor/user-template-created.webp
-coverAlt: "Редактор изображений inSales: в панели «Templates» открыта вкладка «My templates», на рабочей области инфографика с кроссовками, внизу уведомление «Template created»"
+cover: /images/work/product-image-editor/background-panel.webp
+coverAlt: "Редактор изображений inSales: открыта панель «Background» с готовыми фонами в разделах «Color», «Gradient», «Space» и «Texture», на рабочей области выделено фото кроссовок на голубом фоне"
 category: Браузерные редакторы
 year: Март 2025 – сентябрь 2026
 context: inSales

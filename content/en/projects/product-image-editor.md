@@ -4,8 +4,8 @@ description: "An inSales merchant’s product photos are shown both on their web
 locale: en
 slug: product-image-editor
 published: true
-cover: /images/work/product-image-editor/user-template-created.webp
-coverAlt: The inSales image editor with the My templates tab open in the Templates panel, a sneaker infographic in the working area and a Template created message
+cover: /images/work/product-image-editor/background-panel.webp
+coverAlt: "The inSales image editor with the Background panel open: ready-made backgrounds in the Color, Gradient, Space and Texture sections, and a selected sneaker photo on a blue background in the working area"
 category: Browser editors
 year: Mar 2025 – Sep 2026
 context: inSales
@@ -24,19 +24,19 @@ results:
 
 ## The problem
 
-On the inSales platform, a merchant can run their own online store and export products to marketplaces such as Ozon, Wildberries and Yandex Market, the largest online marketplaces in Russia. The merchant has one product page for all sales channels, so the same product photos are shown on the website and on every marketplace.
+On inSales, an e-commerce platform, a merchant can run their own online store and export products to marketplaces such as Ozon, Wildberries and Yandex Market, the largest online marketplaces in Russia. The merchant has one product page for all sales channels, so the same product photos are shown on the website and on every marketplace.
 
 But each marketplace has its own requirements for product photos, and it rejects a photo that doesn’t meet them. A typical case looked like this: a merchant imported products from Wildberries into inSales, exported them to another marketplace and got the error "Incorrect product photo size". In 2025 the requirements were also changing: the large marketplaces were moving to tall photos with a 3:4 ratio. Ozon recommends 900×1200 for product photos, and since 30 May 2025 Yandex Market itself adds white borders to photos with any other ratio.
 
 Size wasn’t the only problem. To sell more, merchants add infographics to their photos: text and shapes with information about the product. Ozon later confirmed the demand for infographics too: in December 2025 it launched its own infographics builder.
 
-inSales had no real tool for preparing such images. The product page only had a simple CropperJS cropping tool, which I had also built earlier. It could crop a photo to the right ratio, but it couldn’t add text or a shape. So merchants prepared marketplace images on their own. In January 2025 our designer found out how they did it: some had a separate employee for this, others ordered images from freelancers, and still others paid for services like MPCard, up to about $110 a month.
+inSales had no real tool for preparing such images. The product page only had a simple CropperJS cropping tool, which I had also built earlier. It could crop a photo to the right ratio, but it couldn’t add text or a shape. So merchants prepared marketplace images on their own. In January 2025 our designer found out how they did it: some had a separate employee for this, others ordered images from freelancers, and still others paid for services like MPCard, an online infographic builder for marketplace sellers, up to about $110 a month.
 
 On 14 January 2025 the inSales team that works on marketplaces sent us a task: merchants need an editor right on the product page. In it, a merchant should be able to choose the image size for a marketplace, remove the background, add text and shapes from ready-made templates, and save the result.
 
 ## My role
 
-At inSales I owned the editor as a product, from the first prototype to the rollout to all stores. I wrote from scratch the [open-source library in TypeScript and FabricJS](/work/image-editor/) that the editor runs on, and I built the Vue app itself: its architecture, the interface from the designer’s mockups, saving images, the AI features, templates, bulk transfer of changes and usage analytics. A backend developer wrote the server side, and we agreed on the API together. The team also included my manager, a product manager, a designer and a QA engineer. I wrote the test cases for the QA engineer.
+At inSales I owned the editor as a product, from the first prototype to the rollout to all stores. I wrote from scratch the [open-source library in TypeScript and FabricJS](/work/image-editor/) that the editor runs on, and I built the Vue app itself: its architecture, the interface from the designer’s mockups, saving images, the AI features, templates, bulk transfer of changes and usage analytics. I agreed the API with the backend developer who wrote the server side. The team also included my manager, a product manager, a designer and a QA engineer. I wrote the test cases for the QA engineer.
 
 Every week I ran a meeting about the editor: I invited the participants, and after the call I wrote up the decisions and dates and created tasks for the backend developer.
 
@@ -88,7 +88,7 @@ In December 2025, authentication with the AI service broke in the Safari browser
 
 ### I fixed a bug in undo and redo the day before the rollout
 
-On 25 December 2025 the editor was to be rolled out to all new stores. Stores that were already on inSales got it later. It was the last day before the New Year code freeze, after which nothing goes to production, and a presentation of the editor inside the company was planned for the same day.
+On 25 December 2025 the editor was to be rolled out in every newly created store. Stores that were already on inSales got it later. It was the last day before the New Year code freeze (in Russia the main winter holidays start on 1 January), after which nothing goes to production, and a presentation of the editor inside the company was planned for the same day.
 
 The day before, I was fixing a difficult bug in the undo/redo logic. Technical events, such as resizing the browser window, were recorded in the change history, and because of this undo and redo worked incorrectly. I fixed the history recording so that such events are no longer recorded. We managed to release the fix on 25 December, before the code freeze. New stores got the editor with working undo and redo, and that same day we presented it to our colleagues.
 
@@ -144,7 +144,7 @@ The second change: I removed the editor’s dependency on the product as an enti
 
 ![The visual site editor with the Promo Slider (PS2-1) block selected and the slide panel on the right, with Link, Image and Description fields and the banner in the Image field](/images/work/product-image-editor/visual-site-editor-slide-panel.webp)
 
-The set of features also depends on the section: for example, text generation from product data exists only on the product page. When a merchant saves a website image, the editor creates a new file and doesn’t change the original. The visual site editor can have different widgets with different image fields, but there is only one image editor instance. The image selected in a widget’s field is passed to this instance. This way the page doesn’t create several editors, and we avoid performance problems.
+The set of features also depends on the section: for example, text generation from product data exists only on the product page. When a merchant saves a website image, the editor creates a new file and doesn’t change the original. The visual site editor can have different widgets (page blocks such as a slider or a banner) with different image fields, but there is only one image editor instance. The image selected in a widget’s field is passed to this instance. This way the page doesn’t create several editors, and we avoid performance problems.
 
 I released the image editor in the visual site editor on 31 August 2026, my last working day at the company.
 

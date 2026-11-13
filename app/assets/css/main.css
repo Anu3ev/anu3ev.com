@@ -298,7 +298,7 @@ p, li, dd { text-wrap: pretty; }
 .recommendation-card p { margin-top: var(--space-3); }
 .recommendation-card-bottom { display: flex; align-items: center; gap: var(--space-3); margin-top: var(--space-2); color: var(--muted); }
 .recommendation-card-bottom .text-link { margin-left: auto; }
-.case-cover { width: 100%; aspect-ratio: 16 / 9; object-fit: contain; border-radius: 7px; border: 1px solid var(--line); margin-block: var(--block-gap) var(--section-space); }
+.case-cover { width: 100%; height: auto; border-radius: 7px; border: 1px solid var(--line); margin-block: var(--block-gap) var(--section-space); }
 .reading-layout { min-width: 0; }
 .table-of-contents { margin-bottom: var(--space-8); }
 .table-of-contents summary { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-2); list-style: none; cursor: default; }
