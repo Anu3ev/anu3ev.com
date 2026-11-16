@@ -9,7 +9,7 @@ coverAlt: 'Дровер «Детали корзины» в админ-панел
 category: Инструменты для продавцов
 year: Октябрь 2024 – апрель 2025
 context: inSales
-role: "Frontend-разработчик: требования, согласование API с бэкенд-разработчиком, разработка, релиз"
+role: "Product Engineer: требования, согласование API, разработка, релиз"
 stack: [Vue.js, JavaScript, Vue Router, ApexCharts, Monaco Editor, REST API]
 featured: false
 order: 5
