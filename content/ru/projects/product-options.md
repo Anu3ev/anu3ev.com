@@ -9,7 +9,7 @@ coverAlt: "Карточка букета в демо-магазине: выбр�
 category: Платформа витрин
 year: Октябрь 2023 – январь 2024
 context: inSales
-role: "Frontend-разработка в JavaScript-библиотеке витрин: ui-accessories, цены, API корзины, выкатка"
+role: "JavaScript-библиотека витрин: ui-accessories, цены, API корзины, выкатка"
 stack: [JavaScript, Liquid, AJAX]
 featured: false
 order: 10

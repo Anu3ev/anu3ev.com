@@ -9,7 +9,7 @@ coverAlt: Redesigned inSales visual editor with a floating settings panel for th
 category: Browser editors
 year: Apr 2024 – Nov 2024
 context: inSales
-role: "Implemented the redesign frontend and recovery mode; owned the release"
+role: "Implemented the redesign and recovery mode; owned the release"
 stack: [Vue.js, TypeScript, JavaScript, SCSS, Vuetify]
 featured: false
 order: 2

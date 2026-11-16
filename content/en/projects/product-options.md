@@ -9,7 +9,7 @@ coverAlt: "Demo-store product page for a bouquet with the Classic size, a gift b
 category: Storefront platform
 year: Oct 2023 – Jan 2024
 context: inSales
-role: "Frontend in the storefront JavaScript library: ui-accessories, prices, cart API, release"
+role: "Storefront JavaScript library: ui-accessories, prices, cart API, release"
 stack: [JavaScript, Liquid, AJAX]
 featured: false
 order: 10

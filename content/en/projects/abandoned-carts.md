@@ -9,7 +9,7 @@ coverAlt: Cart details drawer in the inSales admin panel listing three products,
 category: Merchant tools
 year: Oct 2024 – Apr 2025
 context: inSales
-role: "Frontend developer: requirements, API agreements with the backend developer, implementation, release"
+role: "Product engineer: requirements, API contract, implementation, release"
 stack: [Vue.js, JavaScript, Vue Router, ApexCharts, Monaco Editor, REST API]
 featured: false
 order: 5
