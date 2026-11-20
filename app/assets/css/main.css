@@ -310,8 +310,6 @@ h1, h2, h3, p, li, dd { text-wrap: pretty; }
 .table-of-contents a::before { content: counter(toc, decimal-leading-zero); flex: none; color: var(--accent); font: var(--text-small) ui-monospace, monospace; }
 @media (hover: hover) { .table-of-contents a:hover { color: var(--accent); } }
 .prose { overflow-wrap: anywhere; }
-/* The reading measure applies to text; code and images keep the full column. */
-.prose > :is(p, ul, ol, h2, h3, h4, blockquote) { max-width: 60ch; }
 .prose > * + * { margin-top: var(--space-5); }
 .prose h2 { padding-top: var(--space-3); margin-top: var(--space-8); }
 .prose h3 { padding-top: var(--space-2); }
