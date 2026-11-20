@@ -2,7 +2,7 @@
   "en": {
     "home": {
       "seoTitle": "{{headline_en}} · Vue & TypeScript",
-      "pinnedTitle": "Hard frontend problems, shipped and maintained.",
+      "pinnedTitle": "Complex product features, shipped and maintained.",
       "pinnedBody": "Case studies of the editors, AI features, storefront performance work and merchant tools I built at inSales, and the decisions behind them.",
       "highlights": [
         {
@@ -20,10 +20,10 @@
       ]
     },
     "about": {
-      "title": "Five years of frontend work at inSales.",
+      "title": "Five years of product development at inSales.",
       "intro": "I care about what happens after the happy path.",
       "body": "I’m Alexander Anufriev, an {{headline_sentence_en}} based in Georgia. I build complex browser interfaces with Vue and TypeScript: image editors with AI tools, code editors, merchant analytics, and the workflows around them. I’ve used AI coding tools on every project since 2022, now Claude Code and Codex daily under my own code standard, and I stay responsible for architecture and review.",
-      "story": "Before moving into frontend development, I worked in technical support. Debugging real stores and talking to merchants taught me to start with the problem, understand the constraints, and take responsibility for what reaches production.",
+      "story": "Before moving into engineering, I worked in technical support. Debugging real stores and talking to merchants taught me to start with the problem, understand the constraints, and take responsibility for what reaches production.",
       "technologies": [
         "Vue 3",
         "Nuxt",
@@ -79,7 +79,7 @@
       "intro": "Editors, AI features, merchant tools and storefront work, from the first requirements to the details that make an interface easy to use."
     },
     "blog": {
-      "title": "Notes from real frontend work.",
+      "title": "Notes from real product work.",
       "intro": "Practical ideas about Vue, TypeScript, browser editors, and the decisions behind product interfaces."
     },
     "contact": {
@@ -111,8 +111,8 @@
   "ru": {
     "home": {
       "seoTitle": "{{headline_ru}} · Vue и TypeScript",
-      "pinnedTitle": "Сложный фронтенд, доведённый до продакшена.",
-      "pinnedBody": "Разборы редакторов, AI-функций, ускорения витрин и инструментов для продавцов, которые я делал в inSales, и решения, которые за ними стоят.",
+      "pinnedTitle": "Сложные продуктовые функции, доведённые до продакшена.",
+      "pinnedBody": "Разборы редакторов, AI-функций, ускорения витрин и инструментов для селлеров, которые я делал в inSales, и решения, которые за ними стоят.",
       "highlights": [
         {
           "value": "3 000+",
@@ -129,10 +129,10 @@
       ]
     },
     "about": {
-      "title": "Пять лет писал фронтенд в inSales.",
+      "title": "Пять лет занимался продуктовой разработкой в inSales.",
       "intro": "Мне важно, что происходит, когда что-то идёт не по плану.",
       "body": "Я Александр Ануфриев, {{headline_ru}}, живу в Грузии. Делаю сложные интерфейсы на Vue и TypeScript: редакторы изображений с AI-инструментами, редакторы кода, аналитику для магазинов и всё, что вокруг них. С 2022 года делаю все проекты с AI-агентами, сейчас каждый день с Claude Code и Codex по своему стандарту кода. За архитектуру и ревью отвечаю сам.",
-      "story": "До фронтенда я работал в техподдержке: разбирался в сломанных магазинах и общался с их владельцами. Там привык начинать с проблемы, выяснять ограничения и отвечать за то, что уходит в продакшен.",
+      "story": "До разработки я работал в техподдержке: разбирался в сломанных магазинах и общался с селлерами. Там привык начинать с проблемы, выяснять ограничения и отвечать за то, что уходит в продакшен.",
       "technologies": [
         "Vue 3",
         "Nuxt",
@@ -158,7 +158,7 @@
           "end": "2026-09",
           "company": "inSales",
           "role": "{{headline_ru}}",
-          "description": "За 2025 год оборот магазинов — 407 млрд ₽, выручка компании — 1,069 млрд ₽. Руководил frontend-разработкой 100+ продуктовых функций и улучшений: браузерные редакторы, аналитика, AI-инструменты, checkout и общие Vue-компоненты — от требований и API-контрактов до тестов и проверки в production."
+          "description": "За 2025 год оборот магазинов — 407 млрд ₽, выручка компании — 1,069 млрд ₽. Самостоятельно вёл 100+ продуктовых функций и улучшений: браузерные редакторы, аналитика, AI-инструменты, checkout и общие Vue-компоненты — от требований и API-контрактов до тестов и проверки в production."
         },
         {
           "start": "2019-10",

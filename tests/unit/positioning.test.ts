@@ -17,7 +17,7 @@ describe('the positioning title', () => {
   })
 
   it('names the social card after the title, so a new title gets a new URL', () => {
-    expect(defaultSocialImagePath('AI-native Senior Frontend Engineer')).toBe('/images/og/ai-native-senior-frontend-engineer.png')
+    expect(defaultSocialImagePath('AI-Native Senior Product Engineer')).toBe('/images/og/ai-native-senior-product-engineer.png')
     expect(defaultSocialImagePath('Staff Engineer')).toBe('/images/og/staff-engineer.png')
   })
 

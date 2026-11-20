@@ -16,7 +16,7 @@ beforeEach(() => {
   mkdirSync(join(root, 'public/images'), { recursive: true })
   copyFileSync('content/settings/profile.json', join(root, 'content/settings/profile.json'))
   mkdirSync(join(root, 'public/images/og'), { recursive: true })
-  copyFileSync('public/images/og/ai-native-senior-frontend-engineer.png', join(root, 'public/images/og/ai-native-senior-frontend-engineer.png'))
+  copyFileSync('public/images/og/ai-native-senior-product-engineer.png', join(root, 'public/images/og/ai-native-senior-product-engineer.png'))
   copyFileSync('content/settings/pages.json', join(root, 'content/settings/pages.json'))
   copyFileSync('content/settings/certificates.json', join(root, 'content/settings/certificates.json'))
   mkdirSync(join(root, 'public/images/certificates'), { recursive: true })
@@ -110,7 +110,7 @@ describe('public content inventory', () => {
       if (!withCards) continue
 
       mkdirSync(join(root, 'public/images/og/work', locale), { recursive: true })
-      copyFileSync('public/images/og/ai-native-senior-frontend-engineer.png', join(root, 'public/images/og/work', locale, 'editor-case.png'))
+      copyFileSync('public/images/og/ai-native-senior-product-engineer.png', join(root, 'public/images/og/work', locale, 'editor-case.png'))
     }
   }
 
