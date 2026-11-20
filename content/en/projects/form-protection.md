@@ -44,7 +44,7 @@ I was responsible for the captcha across the whole project, so colleagues often 
 
 ### Lazy loading for the captcha
 
-In August 2022 I found that the Google reCAPTCHA script loaded several times on every store page, even on pages with no forms. A page without forms loaded it 3 times, a page with a contact form and a one-click order form 8 times, and a page with two form widgets 10 times. The script weighs about 150–200 KB, so every page could download at least 600 KB of extra scripts, which made the stores slower.
+In August 2022 I found that the Google reCAPTCHA script loaded several times on every store page, even on pages with no forms. A page without forms loaded it 3 times, a page with a contact form and a one-click order form 8 times, and a page with two form widgets 10 times. The script weighs about 150–200 KB, so every page could download at least 450 KB of extra scripts, which made the stores slower.
 
 There were two causes. About half of the extra loads came from Google reCAPTCHA itself: it runs in several frames, and [an issue about this](https://github.com/google/recaptcha/issues/331) was opened in Google’s bug tracker back in 2019 and still has no solution. We caused the other half: the captcha was added both by the server-side page templates and by the storefront JavaScript library, inSales’s shared library with ready-made form components.
 
